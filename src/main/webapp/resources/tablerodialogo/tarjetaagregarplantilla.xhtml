@@ -1,0 +1,113 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:tablero="http://xmlns.jcp.org/jsf/composite/tablero"
+      xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades"
+      xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+      >
+
+    <composite:interface >
+        <composite:attribute name="pendiente" default="false"/>
+        <composite:attribute name="progreso" default="false"/>
+        <composite:attribute name="finalizado" default="false"/>
+        <composite:attribute name="id" default=""/> 
+    </composite:interface>
+
+    <composite:implementation >
+
+
+
+
+
+
+
+
+
+        <p:dialog header="#{msg['dialog.tarjetaagregarplantilla']}" widgetVar="overlayPanelTarjetaAgregarPlantilla"  
+                    width="50vw" 
+                 responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true"
+                  >
+            <p:ajax event="close" update=":form:growl" listener="#{tableroFaces.handleCloseDialogRefresh}" />
+
+            <p:outputPanel id="#{cc.attrs.id}" style="text-align:center;">
+                <jmoordbcorejsf:overlayPanelTarjetaHeader iconoheader="pi-clone" 
+                                                   titulo="#{msg['dialog.tarjetaagregarplantilla']}"
+                                                   entity="#{tableroFaces.tarjetaAgregarPlantillaSelected}"
+                                                   icono="#{tableroFaces.tarjetaAgregarPlantillaSelected.icono}"/>
+
+                <c:if test="${tableroFaces.fueCambiadoPorOtroUsuario == true}">
+
+
+                    <utilidades:sincronizacionrequeridacontroller onclick="PF('overlayPanelTarjetaAgregarPlantilla').hide()"
+                                                                  message="#{tableroFaces.message}"
+                                                                  controller="#{tableroFaces}"
+
+                                                                  />
+                </c:if>
+                <c:if test="${tableroFaces.fueCambiadoPorOtroUsuario == false}">
+                    
+
+                        <div class="grid ui-fluid mt-3 floatlabel-demo">
+                            <div class="col-12 md:col-12">
+                                <div class="field">
+                                    <span class="ui-float-label">
+                                        <p:inputTextarea value="#{tableroFaces.inputTextPlantillaNombre}" 
+                                                         rows="3" autoResize="false"/>
+                                        <p:outputLabel for="@previous" value="#{msg['field.nombreplantilla']}" />
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-12">
+                                <div class="field">
+                                    <span class="ui-float-label">
+                                        <p:inputTextarea value="#{tableroFaces.inputTextPlantillaDescripcion}" 
+                                                         rows="3" autoResize="false"/>
+                                        <p:outputLabel for="@previous" value="#{msg['field.descripcion']}" />
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex align-items-center ">
+                            <div class=" border-top-1 surface-border col-6 flex">
+                                <p:commandButton  title="#{msg['button.agregarplantilla']}" icon="pi pi-save"
+                                                  action="#{tableroFaces.agregarPlantilla(tableroFaces.tarjetaAgregarPlantillaSelected)}"
+                                                  update=":form:growl"
+                                                  styleClass="w-6 ml-2"/>
+
+                            </div>                
+                            <div class=" border-top-1 surface-border col-6 flex">
+                           
+                                <p:commandButton 
+                                    title="#{core['button.cancel']}" 
+                                    icon="pi pi-times" 
+                                    oncomplete="PF('overlayPanelTarjetaAgregarPlantilla').hide()"
+                                    action="#{tableroFaces.refreshCache(tableroFaces.tarjetaAgregarPlantillaSelected,'agregar plantilla')}"
+                                    update=":form:growl,:form"
+                                    styleClass="ui-button-raised ui-button-secondary"
+                                    />
+
+
+                            </div>
+                        </div>
+
+                </c:if>
+
+            </p:outputPanel>
+
+        </p:dialog>
+
+
+
+    </composite:implementation>
+</html>

@@ -1,0 +1,165 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f = "http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:dialogo="http://xmlns.jcp.org/jsf/composite/dialogo"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <composite:interface >
+        <composite:attribute name="id" default=""/> 
+
+    </composite:interface>
+
+    <composite:implementation>
+
+
+
+        <p:dialog header="#{msg['dialog.proyectoarchivar']}" widgetVar="overlayPanelProyectoArchivar" 
+                  
+                width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true"
+                  >
+            <p:ajax event="close" update=":form:growl" listener="#{dashboardFaces.handleCloseDialogRefresh}" />
+                <p:outputPanel id="#{cc.attrs.id}" style="text-align:center;">
+
+                    <p:tabView id="tabViewArchivar">
+                        <p:tab title="#{msg['tab.proyecto']}">
+                            <div class="grid ui-fluid mt-3 floatlabel-demo">
+
+                                <div class="col-12 md:col12">
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:inputTextarea value="#{dashboardFaces.proyectoArchivarSelected.proyecto}"
+                                                             rows="2" autoResize="false" disabled="true">
+
+                                            </p:inputTextarea>
+                                            <p:outputLabel for="@previous" value="#{msg['field.proyecto']}" />
+
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-12 md:col-12">
+                                    <div class="field">
+
+                                        <span class="ui-inputgroup-addon"> 
+                                            <i class="#{dashboardFaces.proyectoArchivarSelected.icono.icono}" jsf:id="iconeditar"/>
+
+                                        </span>
+
+                                        <span class="ui-float-label"> 
+
+                                            <p:inputText disabled="true" value="#{dashboardFaces.proyectoArchivarSelected.prefijo}"/>
+                                            <p:outputLabel for="@previous" value="#{msg['field.prefijo']}" />
+
+                                        </span>
+
+                                    </div>
+                                </div>
+                                <div class="col-12 md:col-12">
+
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:inputTextarea value="#{dashboardFaces.proyectoArchivarSelected.descripcion}" disabled="true"/>
+                                            <p:outputLabel for="@previous" value="#{msg['field.descripcion']}" />
+
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 md:col-12">
+
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:inputText value="#{dashboardFaces.totalOpenParaArchivarProyecto}" disabled="true" />
+                                            <p:outputLabel  value="#{msg['label.totalsprintabiertos']}" />
+
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-12 md:col-6">
+
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:inputText value="#{dashboardFaces.totalColumnaPendienteParaArchivarProyecto}" disabled="true"/>
+                                            <p:outputLabel for="@previous" value="#{msg['label.tarejetaspendientes']}" />
+
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-12 md:col-6">
+
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:inputText value="#{dashboardFaces.totalColumnaProgresoArchivarProyecto}" disabled="true"/>
+                                            <p:outputLabel for="@previous" value="#{msg['label.tarjetasprogreso']}" />
+
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+
+
+                        </p:tab>
+
+
+
+
+
+
+
+
+
+                    </p:tabView>
+
+
+
+                    <div class="flex align-items-center ">
+                        <div class=" border-top-1 surface-border pt-3 flex">
+
+                            <p:commandButton  value="#{msg['button.archivarproyecto']}" icon="pi pi-database"
+                                              action="#{dashboardFaces.archivar(dashboardFaces.proyectoArchivarSelected)}"
+                                              update=":form:growl"
+                                              process="#{cc.attrs.id}"
+                                              styleClass="w-6 ml-2 ui-button-danger">
+                                <p:confirm type="popup" header="#{core['confirmdialog.header']}" message="#{msg['confirmdialog.archivarproyecto']}" icon="pi pi-info-circle"/>
+                            </p:commandButton>
+
+
+                            <p:commandButton value="#{core['button.cancel']}" icon="pi pi-times" 
+                                             onclick="PF('overlayPanelProyectoArchivar').hide()"
+                                             update=":form"
+                                             styleClass="ui-button-outlined w-6 mr-2"/>
+
+
+                        </div>
+                    </div>
+                </p:outputPanel>
+        
+        </p:dialog>
+
+        <p:confirmPopup global="true">
+            <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+            <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+        </p:confirmPopup>
+
+
+    </composite:implementation>
+</html>

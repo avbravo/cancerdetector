@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      lang="en"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:dialogo="http://xmlns.jcp.org/jsf/composite/dialogo"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      >
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes"/>
+            <meta name="referrer" content="no-referrer"/>
+            <meta name="referrer" content="strict-origin-when-cross-origin"/>
+
+            <link href="#{resource['primeblocks-app:images/favicon-32x32.png']}" rel="icon" type="image/png" sizes="32x32"/>
+            <link href="#{resource['primeblocks-app:images/favicon-16x16.png']}" rel="icon" type="image/png" sizes="16x16"/>
+
+
+            <f:view locale="#{jmoordbLanguajes.locale !=null?jmoordbLanguajes.locale:'es'}">
+            </f:view>
+            <f:loadBundle basename="com.properties.messages" var="msg" />
+            <f:loadBundle basename="com.properties.configuration" var="conf" />
+            <f:loadBundle basename="com.jmoordbutilfaces.properties.core" var="core" />
+
+
+
+        </f:facet>
+        <title><ui:insert name="title">PrimeBlocks</ui:insert></title>
+        <h:outputScript name="js/layout.js" library="primeblocks-app"/>
+        <h:outputScript name="js/primeblocks.js" library="primeblocks-app"/>
+        <h:outputScript name="js/prism.js" library="primeblocks-app"/>
+
+
+        <ui:insert name="head"/>
+        <script>
+            function handleDrop(event, ui) {
+                $(event.target).addClass("ui-state-highlight").find("p").html("Dropped!");
+            }
+        </script>
+
+        <script>
+            function handleMessageAllChannel(message, channelName, event) {
+                var messageText = message.toString();
+                var eventText = event.toString();
+                var channelText = channelName.toString();
+                remoteCommandWebSocketAll(
+                        [
+                            {name: 'event', value: eventText},
+                            {name: 'channel', value: channelText},
+                            {name: 'message', value: messageText}
+                        ]);
+            }
+            function handleMessageProyectoChannel(message, channelName, event) {
+                var messageText = message.toString();
+                var eventText = event.toString();
+                var channelText = channelName.toString();
+                remoteCommandWebSocketProyecto(
+                        [
+                            {name: 'event', value: eventText},
+                            {name: 'channel', value: channelText},
+                            {name: 'message', value: messageText}
+                        ]);
+
+            }
+
+            function handleMessageTableroChannel(message, channelName, event) {
+                var messageText = message.toString();
+                var eventText = event.toString();
+                var channelText = channelName.toString();
+
+                remoteCommandWebSocketTablero(
+                        [
+                            {name: 'event', value: eventText},
+                            {name: 'channel', value: channelText},
+                            {name: 'message', value: messageText}
+                        ]
+                        );
+
+            }
+            function handleMessageSprintChannel(message, channelName, event) {
+                var messageText = message.toString();
+                var eventText = event.toString();
+                var channelText = channelName.toString();
+                remoteCommandWebSocketSprint(
+                        [
+                            {name: 'event', value: eventText},
+                            {name: 'channel', value: channelText},
+                            {name: 'message', value: messageText}
+                        ]);
+            }
+            function handleMessageBacklogChannel(message, channelName, event) {
+                var messageText = message.toString();
+                var eventText = event.toString();
+                var channelText = channelName.toString();
+                remoteCommandWebSocketBacklog(
+                        [
+                            {name: 'event', value: eventText},
+                            {name: 'channel', value: channelText},
+                            {name: 'message', value: messageText}
+                        ]);
+            }
+            function handleMessagePapeleraReciclajeChannel(message, channelName, event) {
+                var messageText = message.toString();
+                var eventText = event.toString();
+                var channelText = channelName.toString();
+                remoteCommandWebSocketPapeleraReciclaje(
+                        [
+                            {name: 'event', value: eventText},
+                            {name: 'channel', value: channelText},
+                            {name: 'message', value: messageText}
+                        ]);
+            }
+            function handleMessagePanelTrabajoChannel(message, channelName, event) {
+                var messageText = message.toString();
+                var eventText = event.toString();
+                var channelText = channelName.toString();
+                remoteCommandWebSocketPanelTrabajo(
+                        [
+                            {name: 'event', value: eventText},
+                            {name: 'channel', value: channelText},
+                            {name: 'message', value: messageText}
+                        ]);
+            }
+
+
+            function errorListener(code, channel, event) {
+                if (code == 1001) {
+                    //  alert('error 1001 Server shutdwon');
+                    
+                } else if (code == 1006) {
+                    //alert('error 1006 ');
+                    // Server is not reachable anymore. I.e. it's not anymore listening on TCP/IP requests.
+                } else {
+                    // alert('otro ');
+                    // Any other reason which is usually not -1, 1000 or 1008, as the onclose will be invoked instead.
+                }
+          
+            }
+        </script>
+
+
+
+        <style>
+            .ui-analog-clock {
+                width: 50px;
+            }
+        </style>
+
+    </h:head>
+
+    <h:body styleClass="#{app.inputStyleClass}"  >
+        <script >
+            var res =window.screen.availWidth;
+//                alert('resolution is'+res);
+            if(800>res){
+              window.parent.document.body.style.zoom = '#{loginFaces.getResolutionMobile()}'
+//                 alert('template:screen.resolutionMobile');
+          }
+          else if (1899> res ){
+                window.parent.document.body.style.zoom = '#{loginFaces.screenResolution.get()}'
+//                alert('template:screen.resolution');
+            }
+            else{
+//                alert('template:screen.resolutionScreenHigth');
+             window.parent.document.body.style.zoom = '#{loginFaces.screenResolutionScreenHigth.get()}'
+    
+    }    
+    //1920
+
+                    
+        </script>
+
+        <p:ajaxStatus onsuccess="limpiartiempo()" />  
+
+        <p:tooltip globalSelector=".block-action-copy" showEvent="focus" hideEvent="blur" position="bottom"/>
+
+        <div class="layout-wrapper #{app.darkMode ? 'layout-wrapper-dark' : ''}" >
+
+            <c:if test="#{loginFaces.showTopBarInTemplate.get() eq true}">
+                <ui:include src="./topbar.xhtml" />
+                <p:log/>
+            </c:if>
+            <h:form>        
+
+                <f:websocket channel="allChannel"  user="user" onmessage="handleMessageAllChannel" />
+
+                <f:websocket channel="tableroChannel" scope="session"  user="#{loginFaces.userLogged.iduser}" onmessage="handleMessageTableroChannel"
+                             onerror="errorListener"/>
+
+                <f:websocket channel="sprintChannel" scope="session"  user="#{loginFaces.userLogged.iduser}" onmessage="handleMessageSprintChannel"
+                             onerror="errorListener"/>
+
+                <f:websocket channel="backlogChannel" scope="session"  user="#{loginFaces.userLogged.iduser}" onmessage="handleMessageBacklogChannel" 
+                             onerror="errorListener"/>
+
+                <f:websocket channel="papeleraReciclajeChannel" scope="session"  user="#{loginFaces.userLogged.iduser}" onmessage="handleMessagePapeleraReciclajeChannel" 
+                             onerror="errorListener"/>
+
+                <f:websocket channel="panelTrabajoChannel" scope="session"  user="#{loginFaces.userLogged.iduser}" onmessage="handleMessagePanelTrabajoChannel" 
+                             onerror="errorListener"/>
+
+                <f:websocket channel="proyectoChannel" scope="session"  user="#{loginFaces.userLogged.iduser}" onmessage="handleMessageProyectoChannel" 
+                             onerror="errorListener"/>
+              
+                <p:remoteCommand name="remoteCommandWebSocketAll" action="#{loginFaces.webSocketListenerMethod}" 
+                                 update="template_growl_timesession" onerror="errorListener"/>
+
+
+                <p:remoteCommand name="ejecutarbean" action="#{loginFaces.inicializa()}" oncomplete="redireccionar()" />
+                <p:growl id="template_growl_timesession"/>
+                <div  jsf:id="testPoolMaster">
+
+                    <c:if test="${loginFaces.isShowDialogSessionTimeOut eq false}" >
+
+                        <p:poll interval="#{loginFaces.intervalForPoll}" listener="#{loginFaces.calculateExpired(facesContext.externalContext.sessionMaxInactiveInterval)}" 
+                                id="pollMaster" 
+
+                                update="template_growl_timesession,outputLabelTiempoFinalSesionText, testPoolMaster, testPoolSecond"/>
+                    </c:if>
+                </div>
+                <div  jsf:id="testPoolSecond">
+
+                    <c:if test="${loginFaces.isShowDialogSessionTimeOut eq true}" >
+
+                        <p:poll interval="60" listener="#{loginFaces.calculateExpiredTwo(facesContext.externalContext.sessionMaxInactiveInterval)}" 
+                                id="pollSecond" 
+
+                                update="template_growl_timesession,outputLabelTiempoFinalSesionText,testPoolMaster, testPoolSecond"/>
+
+                    </c:if>
+                </div>
+                <p:toolbar class="jmoordbcore-toolbar-mainmenu">
+                    <p:toolbarGroup>
+                        <c:if test="#{loginFaces.showTopBarInTemplate.get() eq false}">
+                            <p:graphicImage name="images/logo-primeblocks#{app.darkMode ? '-dark.svg' : '.svg'}"
+                                            library="primeblocks-app"  alt="Logo"
+                                            height="30"/>
+                        </c:if>
+                        <p:commandLink action="#{loginFaces.logout()}" rendered="#{loginFaces.isLogged eq false}" title="#{core['button.login']}" >                                
+                            <i class="pi pi-user" />
+                        </p:commandLink>                            
+                        <p:commandLink action="dashboard" rendered="#{loginFaces.isLogged eq true}" title="#{core['button.home']}">
+                            <i class="pi pi-home mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-2xl" style="font-size: 1.5rem"/>
+                        </p:commandLink>
+
+
+                        <!--<i class="pi pi-bars px-2"/>-->
+
+                        <c:if test="#{loginFaces.isLogged eq true}">
+                            <i class="pi pi-angle-right"></i>
+                        </c:if>
+
+                        <ui:insert name="breadcrumb"/>
+                    </p:toolbarGroup>
+
+                    <p:toolbarGroup align="right">
+
+
+
+     
+                        <p:outputLabel
+                            value=""
+                            title="#{label.horafinalizacionsesiondelservidor}"
+                            style="color:#{loginFaces.isShowDialogSessionTimeOut eq true ?'red':'white'}"
+
+                            id="outputLabelTiempoFinalSesionText"
+                            />
+                        <p:commandButton icon="pi pi-stopwatch" 
+                                         styleClass="rounded-button ui-button-flat #{loginFaces.timeForExpiredColor}" 
+                                         title="#{core['label.fechaexpiracion']} #{loginFaces.showHour(loginFaces.timeForExpired,'hh:mm:ss')}"
+                                         oncomplete="PF('overlayPanelTimerExpired').show('#{component.clientId}')"
+                                         id="commandButtonStopWatch"
+                                         />
+
+
+
+
+                        <p:commandLink action="notificaciones" title="#{core['top.notification']}" class="jmoordbcore-space-rigth jmoordbcore-space-top"
+                                       rendered="#{loginFaces.isLogged eq true}">
+                            <i class="pi pi-bell"  />
+                        </p:commandLink>
+
+
+                        <p:commandLink action="timelineproyectos" title="#{core['top.timelineproyectos']}" class="jmoordbcore-space-rigth jmoordbcore-space-top" rendered="#{loginFaces.isLogged eq true}">
+                            <p:graphicImage name="images/icons/timeline32x32.png" height="24" library="jmoordbcoreimages" />
+                        </p:commandLink>
+
+
+
+                        <p:menuButton title="#{core['button.themes']}" icon="pi pi-palette" style="font-size: 1.5rem"
+
+                                      buttonStyleClass="ui-button-raised ui-button-flat"
+                                      >
+                            <p:menuitem actionListener="#{app.changeTheme('saga', false)}" 
+                                        title="#{core['menuitem.saga']}"
+                                        process="@this"
+                                        onstart="App.beforeResourceChange()" 
+                                        rendered="#{loginFaces.showTopBarInTemplate.get() eq true}"
+                                        oncomplete="App.changeTheme('saga')" 
+                                        update=":topbar-logo :content-panel">
+                                <p:graphicImage name="images/themes/saga32x32.png" class="mr-2 lg:mr-0 mb-0 sm:mb-2 text-base sm:text-2xl" library="primeblocks-app" alt="Saga"/>
+                            </p:menuitem>
+
+                            <p:menuitem actionListener="#{app.changeTheme('saga', false)}" 
+                                        title="#{core['menuitem.saga']}"
+                                        process="@this"
+                                        onstart="App.beforeResourceChange()" 
+                                        rendered="#{loginFaces.showTopBarInTemplate.get() eq false}"
+                                        oncomplete="App.changeTheme('saga')"
+                                        update=":content-panel">
+                                <p:graphicImage name="images/themes/saga32x32.png" class="mr-2 lg:mr-0 mb-0 sm:mb-2 text-base sm:text-2xl" library="primeblocks-app" alt="Saga"/>
+                            </p:menuitem>
+
+
+                            <p:menuitem actionListener="#{app.changeTheme('vela', true)}" process="@this"
+                                        onstart="App.beforeResourceChange()" 
+                                        title="#{core['menuitem.vela']}"
+                                        rendered="#{loginFaces.showTopBarInTemplate.get() eq true}"
+                                        oncomplete="App.changeTheme('vela', true)" 
+                                        update=":topbar-logo :content-panel">
+                                <p:graphicImage name="images/themes/vela332x32.png" library="primeblocks-app" alt="Vela"/>
+                            </p:menuitem>
+                            <p:menuitem actionListener="#{app.changeTheme('vela', true)}" process="@this"
+                                        onstart="App.beforeResourceChange()" 
+                                        title="#{core['menuitem.vela']}"
+                                        rendered="#{loginFaces.showTopBarInTemplate.get() eq false}"
+                                        oncomplete="App.changeTheme('vela', true)"
+                                        update=" :content-panel">
+                                <p:graphicImage name="images/themes/vela32x32.png" library="primeblocks-app" alt="Vela"/>
+                            </p:menuitem>
+                            <p:menuitem actionListener="#{app.changeTheme('arya', true)}" process="@this"
+                                        onstart="App.beforeResourceChange()" 
+                                        title="#{core['menuitem.arya']}"
+                                        rendered="#{loginFaces.showTopBarInTemplate.get() eq true}"
+                                        oncomplete="App.changeTheme('arya', true)"
+                                        update=":topbar-logo :content-panel">
+                                <p:graphicImage name="images/themes/arya32x32.png"  library="primeblocks-app" alt="Arya"/>
+                            </p:menuitem>
+
+                            <p:menuitem actionListener="#{app.changeTheme('arya', true)}" process="@this"
+                                        onstart="App.beforeResourceChange()" 
+                                        title="#{core['menuitem.arya']}"
+                                        rendered="#{loginFaces.showTopBarInTemplate.get() eq false}"
+                                        oncomplete="App.changeTheme('arya', true)" 
+                                        update="content-panel">
+                                <p:graphicImage name="images/themes/arya32x32.png"  library="primeblocks-app" alt="Arya"/>
+                            </p:menuitem>
+
+                            <p:separator/>
+
+                            <p:menuitem action="informacion" title="#{core['topbar.informacion']}">
+                                <i class="pi pi-question" />
+                            </p:menuitem>
+
+                            <p:menuitem action="documentation"  title="#{core['topbar.documentation']}">
+                                <i class="pi pi-book" />
+                            </p:menuitem>
+
+                        </p:menuButton>
+                        <p:spacer width="17"></p:spacer>
+                        <p:commandLink action="#{loginFaces.logout()}" title="#{core['button.logout']}" class="jmoordbcore-space-top" rendered="#{loginFaces.isLogged eq true}">                                
+                            <i class="pi pi-power-off"  />
+                            <p:confirm type="popup" header="#{core['confirmdialog.header']}" message="#{core['confirmdialog.logut']}" icon="pi pi-info-circle"/>
+                        </p:commandLink>
+
+
+
+                        <p:confirmPopup global="true">
+                            <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                            <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+                        </p:confirmPopup>
+
+                    </p:toolbarGroup>
+                </p:toolbar>
+            </h:form>
+
+
+
+            <div class="layout-content">
+                <p:commandButton 
+                    rendered="false"
+                    id="sendMessageAll" 
+                    action="#{webSocketController.sendMessageAll('all','user')}" value="sendMessageAll">
+                    <f:ajax />
+                </p:commandButton>
+                <p:commandButton 
+                    rendered ="false"
+                    id="sendMessageProyecto" 
+                    styleClass="ui-button-help"
+                    action="#{webSocketController.sendMessageProyecto('proyecto ',loginFaces.userLogged)}" value="sendMessageProyecto">
+                    <f:ajax />
+                </p:commandButton>
+
+
+
+
+                <p:outputPanel id="content-panel">
+                    <ui:insert name="content"/>
+                </p:outputPanel>
+            </div>
+
+            <ui:include src="./config.xhtml" />
+
+            <p:ajaxStatus style="width:32px;height:32px;position:fixed;right:7px;bottom:7px">
+                <f:facet name="start">
+                    <i class="pi pi-spin pi-spinner layout-ajax-loader-icon" aria-hidden="true"/>
+                </f:facet>
+
+                <f:facet name="complete">
+                    <h:outputText value=""/>
+                </f:facet>
+            </p:ajaxStatus>
+        </div>
+
+        <p:overlayPanel widgetVar="overlayPanelTimerExpired" dismissable="false" modal="true" showCloseIcon="true" dynamic="true" 
+                        style="width:220px">
+            <p:outputPanel id="outputPanelTimerExpired" style="text-align:center;">
+                <!--                <div class="flex align-items-center ">
+                                    <div class="mr-4 mt-2">
+                                        <span class="font-bold my-3 text-500">#{core['label.fechaexpiracion']}</span>
+                                        <div class="text-500 mt-2">
+                
+                                            <p:outputLabel value="#{loginFaces.showHour(loginFaces.timeForExpired,'hh:mm:ss')}"
+                                                           title="#{label.horafinalizacionsesiondelservidor}"
+                                                           />
+                
+                
+                                        </div>
+                                    </div>
+                                </div>-->
+                <p:divider/>
+                <div class="flex align-items-center ">
+                    <div class="mr-4 mt-2">
+                        <span class="font-medium my-3 text-500">#{core['label.relojserver']}</span>
+                        <p:clock pattern="HH:mm:ss" mode="server" />
+                    </div>
+                </div>
+
+
+
+
+            </p:outputPanel>
+        </p:overlayPanel>
+
+
+        <h:outputStylesheet name="jmoordbcore.css" library="css"/>
+         <h:outputStylesheet name="icons.css" library="css"/>
+        <h:outputStylesheet name="css/prism/prism.css" library="primeblocks-app"/>
+        <h:outputStylesheet name="css/app/layout.css" library="primeblocks-app"/>
+        <h:outputStylesheet name="css/demo/flags.css" library="primeblocks-app"/>
+        <h:outputStylesheet name="css/primeicons/primeicons.css" library="primeblocks-app"/>
+        <h:outputStylesheet name="css/primeflex/primeflex.css" library="primeblocks-app"/>
+        <h:outputStylesheet name="css/primeflex/themes/#{app.theme}.css" library="primeblocks-app"/>
+
+
+        <p:dialog header="#{msg['dialog.expiracionsesion']}" widgetVar="dialogTemplateExpiracionSesion" styleClass="jmoordbcore-dialog-responsive40x540"  showEffect="fade" modal="true" closable="true">
+
+            <p:outputPanel  id="outPanelTemplateExpiracionSesion"  style="text-align:center;">
+
+
+                <p:outputLabel value="#{core['label.fechaexpiracion']} #{loginFaces.showHour(loginFaces.timeForExpired,'hh:mm:ss')}"
+                               title="#{label.horafinalizacionsesiondelservidor}"
+                               />
+
+                <dialogo:centrardialogo oncomplete="PF('dialogTemplateExpiracionSesion').hide()"/>
+
+
+            </p:outputPanel>
+        </p:dialog>
+
+        <script>
+            var redirectToExpired = function () {
+//                var today = new Date();
+//                var tiempo = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+//                console.log("redireccionandojs " + tiempo);
+                window.redirectOnExpire = null;
+                ejecutarbean();
+            };
+            var expireTimeMillis = #{facesContext.externalContext.sessionMaxInactiveInterval} * 1000 - 15000;
+
+            if (!window.redirectOnExpire) {
+                window.redirectOnExpire = setTimeout(redirectToExpired, expireTimeMillis);
+            }
+
+            function limpiartiempo() {
+                clearTimeout(window.redirectOnExpire);
+                window.redirectOnExpire = setTimeout(redirectToExpired, expireTimeMillis);
+            }
+            ;
+
+            function redireccionar() {
+                window.location = '#{request.contextPath}/#{loginFaces.expired()}';
+                    }
+                    ;
+
+//               
+
+        </script>
+    </h:body>
+
+</html>

@@ -1,0 +1,108 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:papelerareciclajedialogo="http://xmlns.jcp.org/jsf/composite/papelerareciclajedialogo"
+                xmlns:papelerareciclaje="jakarta.faces.composite/papelerareciclaje"
+                xmlns:jsf="jakarta.faces">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+        <c:if test="${papeleraReciclajeFaces.callerLevel0 eq 'dashboard'}">
+            <p:commandLink action="dashboard" value="#{msg['breadcrumb.dashboard']}">
+            </p:commandLink>
+        </c:if>
+
+        <c:if test="${papeleraReciclajeFaces.callerLevel0 eq 'proyecto'}">
+            <p:commandLink action="misproyecto" value="#{msg['breadcrumb.misproyecto']}">
+            </p:commandLink>
+        </c:if>
+
+
+        <c:if test="${papeleraReciclajeFaces.callerLevel0 eq 'reportedepartamental'}">
+            <p:commandLink action="reportedepartamental" value ="#{msg['breadcrumb.reportedepartamental']}">
+            </p:commandLink>
+
+        </c:if>
+        <c:if test="${papeleraReciclajeFaces.callerLevel0 eq 'reportecolaboradordepartamental'}">
+
+            <p:commandLink action="reportecolaboradordepartamental"
+                           value="#{msg['breadcrumb.reportecolaboradordepartamental']}">
+            </p:commandLink>
+
+        </c:if>
+
+        <i class="pi pi-angle-right"></i>
+        <p:commandLink action="papelerareciclaje" value="#{msg['breadcrumb.papelerareciclaje']}">
+        </p:commandLink>
+
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+
+
+            <p:remoteCommand name="remoteCommandWebSocketPapeleraReciclaje" 
+                             action="#{papeleraReciclajeFaces.refreshFromWebsocket()}"
+                             update="#{papeleraReciclajeFaces.updateForRemoteWebsocket()}"
+                             oncomplete="#{papeleraReciclajeFaces.onCompleteWebSocket()}"
+                             />
+            <style>
+                .cheap {
+                    background-color: #54a90a !important;
+                    background-image: none !important;
+                    color: #ffffff !important;
+                }
+            </style>
+            <!--<jmoordbcorejsf:ajaxStatus/>-->
+            <p:growl id="growl"/>
+
+        <!--<div class="block-category-title">#{msg['form.papelerareciclaje']}</div>-->
+
+
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+                <div class="min-h-screen flex flex-column relative flex-auto">
+                    <!--                <dashboard:top/>-->
+                    <div class="flex flex-column flex-auto">
+                        <papelerareciclaje:profile/>
+
+  <div class="surface-ground" jsf:id="scrollPanelColumnaPapeleraReciclaje">
+                            <div class="grid">
+
+                                 <ui:repeat  rendered="#{papeleraReciclajeFaces.showColumnaPendiente}" value="#{papeleraReciclajeFaces.tarjetaPendienteList}" var="tarjeta" >
+                                            <papelerareciclaje:detalletarjeta pendiente="true"/>
+
+                                        </ui:repeat>
+
+                            </div>
+                        </div>
+
+
+        
+
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+            <papelerareciclajedialogo:tarjetaview id="outputPanelTarjetaView" />
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,245 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:paneltrabajo="http://xmlns.jcp.org/jsf/composite/paneltrabajo" 
+      xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades"
+          xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf">
+
+    <composite:interface >
+        <composite:attribute name="pendiente" default="false"/>
+        <composite:attribute name="progreso" default="false"/>
+        <composite:attribute name="finalizado" default="false"/>
+        <composite:attribute name="id" default=""/> 
+    </composite:interface>
+
+    <composite:implementation >
+
+
+
+        <p:dialog header="#{msg['dialog.tarjetaeditar']}" widgetVar="overlayPanelTarjetaEditar" 
+                      width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true"
+                  >
+     <p:ajax event="close" update=":form:growl" listener="#{panelTrabajoFaces.handleCloseDialogEditar}" />
+
+
+            <p:outputPanel id="#{cc.attrs.id}" style="text-align:center;">
+
+                <c:if test="${panelTrabajoFaces.fueCambiadoPorOtroUsuario == true}">
+
+                    <jmoordbcorejsf:overlayPanelTarjetaHeader iconoheader="pi-file-edit" titulo="#{msg['dialog.tarjetaeditar']}"
+                                                            entity="#{panelTrabajoFaces.tarjetaEditarSelected}"
+                                                            icono="#{panelTrabajoFaces.tarjetaEditarSelected.icono}"/>
+
+
+                    <utilidades:sincronizacionrequeridacontroller onclick="PF('overlayPanelTarjetaEditar').hide()"
+                                                                  message="#{panelTrabajoFaces.message}"
+                                                                  update=":form"                                                        
+                                                                  controller="#{panelTrabajoFaces}"/>
+
+                </c:if>
+
+                <c:if test="${panelTrabajoFaces.fueCambiadoPorOtroUsuario == false}">
+                    
+                        <p:tabView >
+                            <p:tab title="#{msg['tab.general']}">
+
+                                <div class="grid ui-fluid mt-3 floatlabel-demo">
+                                    <div class="col-12 md:col-12">
+                                        <div class="field">
+                                            <span class="ui-float-label">
+
+                                                <p:inputTextarea value="#{panelTrabajoFaces.tarjetaEditarSelected.tarjeta}"  rows="3" autoResize="false"/>
+                                                <p:outputLabel for="@previous" value="#{msg['field.tarjeta']}" />
+                                                <p:message for="@previous" />
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 md:col-12">
+                                        <div class="field">
+                                            <span class="ui-float-label ui-input-icon-left">
+                                                <i class="pi pi-pencil" />
+                                                <p:inputTextarea value="#{panelTrabajoFaces.tarjetaEditarSelected.descripcion}" rows="3" autoResize="false"/>
+                                                <p:outputLabel for="@previous" value="#{msg['field.descripcion']}" styleClass="ml-4" />
+                                                <p:message for="@previous" />
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 md:col-8">
+                                        <div class="field">
+                                            <span class="ui-float-label">
+
+                                                <p:selectOneMenu value="#{panelTrabajoFaces.tarjetaEditarSelected.prioridad}" 
+                                                                 autoWidth="false"
+                                                                 filter="true" filterMatchMode="startsWith">
+
+                                                    <f:selectItem itemLabel="#{msg['selectonemenu.prioridadalta']}" itemValue="#{msg['selectonemenu.prioridadaltaValue']}"/>
+                                                    <f:selectItem itemLabel="#{msg['selectonemenu.prioridadmedia']}" itemValue="#{msg['selectonemenu.prioridadmediaValue']}"/>
+                                                    <f:selectItem itemLabel="#{msg['selectonemenu.prioridadbaja']}" itemValue="#{msg['selectonemenu.prioridadbajaValue']}"/>
+                                                    <f:selectItem itemLabel="#{msg['selectonemenu.prioridadurgente']}" itemValue="#{msg['selectonemenu.prioridadurgenteValue']}"/>
+
+
+                                                </p:selectOneMenu>
+
+                                                <p:outputLabel for="@previous" value="#{msg['field.prioridad']}" />
+                                                <p:message for="@previous" />
+                                            </span>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-12 md:col-4">
+                                        <div class="field">
+                                            <span class="ui-float-label">
+
+                                                <p:selectOneMenu  value="#{panelTrabajoFaces.tarjetaEditarSelected.icono}" var="item"
+                                                                  autoWidth="false"
+                                                                  >
+                                                    <f:selectItems value="#{iconoConverterServices.iconos}"  var="item" 
+                                                                   itemLabel=""
+                                                                   itemValue="#{item}" />
+                                                    <p:column>
+                                                        <i class="#{item.icono}" />  </p:column>
+
+                                                    <p:ajax update="@parent:@parent:icon" />
+                                                </p:selectOneMenu>
+
+                                                <p:outputLabel for="@previous" id="icon" value="#{msg['field.icono']}" >
+                                                    <i class="#{panelTrabajoFaces.tarjetaEditarSelected.icono.icono} text-blue-500 text-xl mr-2"/>
+                                                </p:outputLabel>
+                                                <p:message for="@previous" />
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 md:col-12">
+                                        <div class="field">
+                                            <span class="ui-float-label">
+                                                <p:selectOneMenu  value="#{panelTrabajoFaces.tarjetaEditarSelected.tipotarjeta}"
+                                                                  var="item" autoWidth="false">
+                                                    <f:selectItems value="#{tipoTarjetaConverterServices.tipotarjetas}"  var="item" 
+                                                                   itemLabel="#{item.tipotarjeta}"
+                                                                   itemValue="#{item}" />
+                                                    <p:column><i class="#{item.tipotarjeta}" /> #{item.tipotarjeta} 
+                                                    </p:column>
+
+
+                                                </p:selectOneMenu>
+
+                                                <p:outputLabel for="@previous" value="#{msg['field.tipotarjeta']}" />
+                                                <p:message for="@previous" />
+                                            </span>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </p:tab>
+                            <p:tab title="#{msg['tab.calendario']}">    
+                                <c:if test="#{panelTrabajoFaces.isProyectoForaneo eq false}">
+                                    <div class="col-12 md:col-12">
+
+                                        <div class="field">
+                                            <div class="ui-inputgroup">
+                                                <span class="ui-inputgroup-addon"> <i class="pi pi-clock" />
+                                                </span> <span class="ui-float-label" style="width: 100%">
+
+                                                    <p:inputText  value="#{panelTrabajoFaces.tarjetaEditarSelected.estimacion}" 
+                                                                  title="#{msg['inputmask.formatoestimacion']}"/>
+                                                    <p:outputLabel for="@previous" value="#{msg['field.estimacion']}" />
+                                                    <p:message for="@previous" />
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 md:col-12">
+                                        <div class="field">
+                                            <span class="ui-float-label">
+                                                <p:datePicker id="tarjetaAddfechainicial" value="#{panelTrabajoFaces.tarjetaEditarSelected.fechainicial}" showIcon="true"
+                                                              maxdate="#{panelTrabajoFaces.sprintSelected.fechafinal}" 
+                                                              mindate="#{panelTrabajoFaces.proyectoSelected.fechainicial}"
+                                                              monthNavigator="true" yearNavigator="true"
+                                                              pattern="dd/MM/yyyy HH:mm a"
+                                                              timeInput="true"
+                                                              hourFormat="12"
+                                                              showTime="true"
+                                                              locale="es"                                                     
+                                                              />
+                                                <p:outputLabel for="@previous" value="#{msg['field.fechainicial']}"  />
+                                                <p:message for="@previous" />
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 md:col-12">
+                                        <div class="field">
+                                            <span class="ui-float-label">
+                                                <p:datePicker id="tarjetaAddfechafinal" value="#{panelTrabajoFaces.tarjetaEditarSelected.fechafinal}" showIcon="true"
+                                                              maxdate="#{panelTrabajoFaces.sprintSelected.fechafinal}" 
+                                                              mindate="#{panelTrabajoFaces.sprintSelected.fechainicial}"
+                                                              monthNavigator="true" yearNavigator="true"
+                                                              pattern="dd/MM/yyyy HH:mm a"
+                                                              timeInput="true"
+                                                              hourFormat="12"
+                                                              showTime="true"
+                                                              locale="es"
+                                                              />
+                                                <p:outputLabel for="@previous" value="#{msg['field.fechafinal']}"  />
+                                                <p:message for="@previous" />
+                                            </span>
+                                        </div>
+                                    </div>
+                                </c:if>
+
+
+                            </p:tab>
+                        </p:tabView>
+
+
+                        <div class="flex align-items-center ">
+                            <div class=" border-top-1 surface-border col-6 flex">
+                                <p:commandButton  title="#{core['button.save']}" icon="pi pi-save"
+                                                  action="#{panelTrabajoFaces.editar(panelTrabajoFaces.tarjetaEditarSelected)}"
+                                                  update=":form:growl"
+                                                  process="#{cc.attrs.id}"
+                                                styleClass="ui-button-raised ui-button-secondary"/>
+                            </div>
+                            <div class=" border-top-1 surface-border col-6 flex">
+                            
+
+                                <p:commandButton 
+                                    title="#{core['button.cancel']}" 
+                                    icon="pi pi-times" 
+                                    oncomplete="PF('overlayPanelTarjetaEditar').hide()"
+
+                                    action="#{panelTrabajoFaces.refreshCache(panelTrabajoFaces.tarjetaEditarSelected,'editar')}"
+                                    update=":form:growl,:form"
+                                styleClass="ui-button-raised ui-button-secondary"
+                                    />
+                            </div>
+
+                        </div>
+                  
+                </c:if>
+            </p:outputPanel>
+        </p:dialog>
+
+
+
+
+
+
+
+
+    </composite:implementation>
+</html>

@@ -1,0 +1,498 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades"
+                xmlns:user="http://xmlns.jcp.org/jsf/composite/user"
+                xmlns:primeblocks="http://xmlns.jcp.org/jsf/composite/primeblocks"
+                xmlns:perfil="http://xmlns.jcp.org/jsf/composite/perfil">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+
+        <c:if test="${perfilFaces.callerLevel0 eq 'dashboard'}">
+            <p:commandLink action="dashboard" value="#{msg['breadcrumb.dashboard']}">
+            </p:commandLink>
+        </c:if>
+        <i class="pi pi-angle-right"></i>
+        <p:commandLink action="perfil" value="#{msg['breadcrumb.perfil']}">
+        </p:commandLink>
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD,DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+
+            <p:growl id="growl"/>
+            <script type="text/javascript">
+                function setDataTableWithPageStart() {
+
+                    widgetVardataTable.getPaginator().setPage(0);
+                }
+            </script>
+<!--            <div class="block-category-title">#{msg['form.perfil']}</div>-->
+
+            <!--<pb:blockViewerCore header="Sidebar" >-->
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+                <div class="min-h-screen flex flex-column relative flex-auto">
+                    <!--                    <dashboard:top/>-->
+                    <div class="surface-section">
+
+                        <c:if test="${perfilFaces.fueCambiadoPorOtroUsuario == false}">
+
+                            <div  class="flex align-items-start p-4 bg-orange-100 border-round border-1 border-orange-300">
+                                <i class="pi pi-info-circle text-orange-900 text-2xl mr-3"/>
+                                <div class="mr-3">
+                                    <div class="text-blue-900 font-medium bold text-xl mb-2 line-height-1">#{core['warning.warning']}</div>
+                                    <p:divider/>
+                                    <p class="m-0 p-0 text-black-alpha-90 mb-3 line-height-4">
+                                        #{perfilFaces.message}
+
+                                    </p>
+
+
+
+                                </div>
+                                <div class="ml-auto">
+                                    <a class="inline-flex align-items-center justify-content-center ml-auto border-circle hover:bg-orange-50 no-underline cursor-pointer transition-colors transition-duration-150"
+                                       style="width:1.5rem;height:1.5rem">
+
+
+                                    </a>
+                                </div>
+                            </div>
+
+
+                        </c:if>
+                        <c:if test="${perfilFaces.fueCambiadoPorOtroUsuario == true}">
+                            <p:tabView  style="max-width: 670px;">
+
+                                <p:tab title="#{msg['tab.general']}">
+                                    <div class="grid ui-fluid mt-3 floatlabel-demo">
+                                        <div class="col-12 md:col-6">
+                                            <p:outputLabel  value=" #{msg['field.username']}"  rendered="#{perfilFaces.buttonNewPressed eq false}"/>
+                                            <div class="field">
+                                                <span class="ui-float-label">
+                                                    <p:inputText  value="#{perfilFaces.userSelected.username}"  rendered="#{perfilFaces.buttonNewPressed}">
+                                                        <p:ajax event="keyup" listener="#{perfilFaces.sugerirEmail}"
+                                                                update="email"/>
+                                                    </p:inputText>
+                                                    <p:outputLabel for="@previous" value="#{msg['field.username']}"  rendered="#{perfilFaces.buttonNewPressed}"/>
+
+
+                                                    <p:outputLabel  value="#{perfilFaces.userSelected.username}"  rendered="#{perfilFaces.buttonNewPressed eq false}"/>
+                                                    <p:message for="@previous" />
+                                                </span>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-12 md:col-6">
+                                            <div class="field">
+                                                <span class="ui-float-label">
+                                                    <p:inputText id="email" value="#{perfilFaces.userSelected.email}" />
+                                                    <p:outputLabel for="@previous" value="#{msg['field.email']}" />
+                                                    <p:message for="@previous" />
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="grid ui-fluid mt-3 floatlabel-demo">
+                                        <div class="col-12 md:col-6">
+                                            <div class="field">
+                                                <span class="ui-float-label">
+                                                    <p:inputText  value="#{perfilFaces.userSelected.name}" />
+                                                    <p:outputLabel for="@previous" value="#{msg['field.name']}" />
+                                                    <p:message for="@previous" />
+                                                </span>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-12 md:col-6">
+                                            <div class="field">
+                                                <span class="ui-float-label">
+                                                    <p:datePicker  value="#{perfilFaces.userSelected.dateofbirth}" showIcon="true"
+
+                                                                   monthNavigator="true" yearNavigator="true"/>
+                                                    <p:outputLabel for="@previous" value="#{msg['field.dateofbirth']}" />
+                                                    <p:message for="@previous" />
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="grid ui-fluid mt-3 floatlabel-demo">
+                                        <div class="col-12 md:col-6">
+                                            <div class="field">
+                                                <span class="ui-float-label">
+                                                    <p:inputText  value="#{perfilFaces.userSelected.identificationcard}" />
+                                                    <p:outputLabel for="@previous" value="#{msg['field.identificationcard']}" />
+                                                    <p:message for="@previous" />
+                                                </span>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-12 md:col-6">
+                                            <div class="field">
+                                                <span class="ui-float-label">
+                                                    <p:inputText value="#{perfilFaces.userSelected.socialsecuritynumber}" />
+                                                    <p:outputLabel for="@previous" value="#{msg['field.socialsecuritynumber']}" />
+                                                    <p:message for="@previous" />
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="grid ui-fluid mt-12 floatlabel-demo">                                      
+                                        <div class="col-12 md:col-12">
+                                            <div class="field">
+                                                <span class="ui-float-label">
+                                                    <i class="pi pi-stopwatch"></i>
+                                                    <p:outputLabel  value="#{msg['label.recibirResumen']}" />
+
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid ui-fluid mt-12 floatlabel-demo">
+                                        <div class="col-12 md:col-12">
+                                            <div class="field">
+                                                <span class="ui-float-label">
+                                                    <p:selectBooleanButton value="#{perfilFaces.userSelected.recibirNotificacion}"
+                                                                           onLabel="#{core['button.yes']}" 
+                                                                           offLabel="#{core['button.no']}"
+                                                                           onIcon="pi pi-check" offIcon="pi pi-times" style="width:6rem" 
+                                                                           />
+
+                                                    <p:message for="@previous" />
+                                                </span>
+                                            </div>
+                                        </div>                                      
+                                    </div>
+
+
+
+
+
+
+                                </p:tab>
+                                <p:tab title="#{msg['tab.personal']}">
+                                    <div class="grid ui-fluid mt-3 floatlabel-demo">
+                                        <div class="col-12 md:col-6">
+                                            <div class="field">
+                                                <span class="ui-float-label">
+                                                    <p:inputText  value="#{perfilFaces.userSelected.cellphone}" />
+                                                    <p:outputLabel for="@previous" value="#{msg['field.cellphone']}" />
+                                                    <p:message for="@previous" />
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-12 md:col-6">
+                                            <div class="field">
+                                                <span class="ui-float-label">
+
+
+                                                    <p:selectOneMenu value="#{perfilFaces.userSelected.sex}" filter="true" filterMatchMode="startsWith">
+
+                                        <!--<f:selectItem itemLabel="#{core['selectonemenu.none']}" itemValue=""/>-->
+                                                        <f:selectItem itemLabel="#{msg['selectonemenu.femenino']}" itemValue="#{msg['selectonemenu.femenino']}"/>
+                                                        <f:selectItem itemLabel="#{msg['selectonemenu.masculino']}" itemValue="#{msg['selectonemenu.masculino']}"/>
+
+
+
+                                                    </p:selectOneMenu>
+
+                                                    <p:outputLabel for="@previous" value="#{msg['field.sex']}" />
+                                                    <p:message for="@previous" />
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="grid ui-fluid mt-3 floatlabel-demo">
+
+                                        <div class="col-12 md:col-6">
+                                            <div class="field">
+                                                <span class="ui-float-label">
+
+
+                                                    <p:selectOneMenu value="#{perfilFaces.userSelected.theme}" filter="true" filterMatchMode="startsWith">
+
+                                        <!--<f:selectItem itemLabel="#{core['selectonemenu.none']}" itemValue=""/>-->
+                                                        <f:selectItem itemLabel="#{msg['selectonemenu.saga']}" itemValue="#{msg['selectonemenuvalue.saga']}"/>
+                                                        <f:selectItem itemLabel="#{msg['selectonemenu.vela']}" itemValue="#{msg['selectonemenuvalue.vela']}"/>
+                                                        <f:selectItem itemLabel="#{msg['selectonemenu.arya']}" itemValue="#{msg['selectonemenuvalue.arya']}"/>
+
+
+
+
+                                                    </p:selectOneMenu>
+
+                                                    <p:outputLabel for="@previous" value="#{msg['field.theme']}" />
+                                                    <p:message for="@previous" />
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-12 md:col-6">
+                                            <div class="field">
+                                                <!--<span class="ui-float-label">-->
+                                                <p:outputLabel value="#{msg['field.central']} " />
+                                                <p:inputText value="#{perfilFaces.userSelected.centralView.central}" 
+                                                             disabled="true"/>
+
+
+
+                                                <!--</span>-->
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="grid ui-fluid mt-3 floatlabel-demo">
+                                        <div class="col-12 md:col-6">
+
+                                            <p:fileUpload listener="#{perfilFaces.fileUploadListener}"
+
+                                                          skinSimple="true"
+                                                          mode="simple"
+                                                          uploadIcon="pi pi-fw pi-upload"
+                                                          label="#{msg['button.foto']}"
+                                                          uploadLabel="#{core['button.pupload']}"
+                                                          cancelLabel="#{core['button.uploadcancell']}"
+                                                          sizeLimit="12800000"
+                                                          allowTypes="/(\.|\/)(gif|jpe?g|png|docx?|pdf|txt|json|xml)$/"
+                                                          validateContentType="true"
+                                                          invalidFileMessage="#{core['fileupload.filetypeinvalido']}"
+                                                          invalidSizeMessage="#{core['fileupload.tamanoinvalido']}"
+                                                          auto="true"
+                                                          update=":form:growl, photo"/>
+                                        </div>
+                                        <div class="col-12 md:col-6">
+
+
+
+                                            <p:avatar size="medium" shape="circle">
+
+                                                <p:graphicImage id="photo"
+
+                                                                stream="false" cache="false"
+                                                                rendered="#{perfilFaces.jmoordbCoreMediaManager.isImageAndExists(perfilFaces.repairPathOfFile(perfilFaces.userSelected.photo))}"
+                                                                value="#{perfilFaces.jmoordbCoreMediaManager.generate(perfilFaces.repairPathOfFile(perfilFaces.userSelected.photo),'')}" 
+                                                                />
+                                            </p:avatar>
+
+
+
+
+                                        </div>
+                                    </div>
+                                </p:tab>
+                                <p:tab title="#{msg['tab.seguridad']}">
+
+                                    <div class="grid ui-fluid mt-3 floatlabel-demo">
+
+                                        <div class="col-12 md:col-6">
+                                            <div class="field">
+                                                <span class="ui-float-label">
+                                                    <p:password value="#{perfilFaces.userSelected.password}" toggleMask="true" redisplay="true"
+                                                                feedback="true" inline="true"
+                                                                promptLabel="#{msg['prompt.password']}"
+                                                                weakLabel="#{msg['password.debil']}"
+                                                                goodLabel="#{msg['password.bueno']}" strongLabel="#{msg['password.fuerte']}"
+                                                                >
+                                                        <p:ajax event="keyup" listener="#{perfilFaces.verificarPassword}"
+                                                                update="passwordsize,passwordminuscula,passwordmayuscula,passwordnumero,passwordcaracter"/>
+                                                    </p:password>
+                                                    <p:outputLabel for="@previous" value="#{msg['field.password']}" />
+                                                    <p:message for="@previous" />
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-12 md:col-6">
+
+                                            <div class="field">
+                                                <span class="ui-float-label">
+
+
+                                                    <p:password id="passwordRepetido" value="#{perfilFaces.passwordRepetido}" toggleMask="true" redisplay="true"
+                                                                feedback="true" inline="true"
+                                                                promptLabel="#{msg['prompt.password']}"
+                                                                weakLabel="#{msg['password.debil']}"
+                                                                goodLabel="#{msg['password.bueno']}" strongLabel="#{msg['password.fuerte']}"
+                                                                >
+
+                                                    </p:password>
+                                                    <p:outputLabel for="@previous" value="#{msg['field.repetirpassword']}" />
+                                                    <p:message for="@previous" />
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="grid ui-fluid mt-3 floatlabel-demo">
+                                        <div class="col-12 md:col-4">
+                                            <p:badge value="#{msg['formato.passwordsize']}" id="passwordsize"
+                                                     severity="#{perfilFaces.alMenos9Caracteres eq true ?'success' :'danger'}"
+                                                     >
+
+                                            </p:badge>
+
+                                        </div>
+                                        <div class="col-12 md:col-4">
+
+                                            <p:badge value="#{msg['formato.passwordminusculahave']}" id="passwordminuscula"
+                                                     severity="#{perfilFaces.alMenosLetraMinuscula eq true ?'success' :'danger'}"
+                                                     >
+
+                                            </p:badge>
+                                        </div>
+                                        <div class="col-12 md:col-4">
+                                            <p:badge value="#{msg['formato.passwordmayusculahave']}" id="passwordmayuscula"
+                                                     severity="#{perfilFaces.alMenosLetraMayuscula eq true ?'success' :'danger'}">
+                                            </p:badge>
+                                        </div>
+                                        <div class="col-12 md:col-4">
+                                            <p:badge  value="#{msg['formato.passwordnumero']}" id="passwordnumero"
+                                                      severity="#{perfilFaces.alMenosUnNumero eq true ?'success' :'danger'}">                                         
+                                            </p:badge>
+                                        </div>
+                                        <div class="col-12 md:col-4">
+                                            <p:badge  value="#{msg['formato.passwordcaracter']}" id="passwordcaracter"
+                                                      severity="#{perfilFaces.alMenosCaracterEspecial eq true ?'success' :'danger'}">      
+
+                                            </p:badge>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                </p:tab>
+                                <p:tab title="#{msg['tab.profile']}">
+                                    <div class="flex justify-content-between">
+
+                                    </div>
+                                    <p:dataTable
+                                        value="#{perfilFaces.profileList}" var="profile" 
+                                        rowKey="#{profile.id}"
+                                        editable="true"
+                                        paginator="false"
+                                        editMode="cell"
+                                        id="dataTableProfile"
+                                        widgetVar="dataTableProfile"
+                                        scrollable="true" scrollHeight="250"
+                                        resizableColumns="true" liveResize="true"
+                                        >
+
+
+                                        <p:column class="column10" width="4px" headerText="#{msg['label.departament']}">
+                                            <p:outputLabel value="#{profile.departamentView.departament}" style="float:left"/> 
+                                        </p:column>
+                                        <p:column class="column10" width="4px" headerText="#{msg['label.role']}">
+                                            <p:outputLabel value="#{profile.role.role}" style="float:left"/> 
+                                        </p:column>
+
+
+
+
+
+                                    </p:dataTable>
+
+
+                                </p:tab>
+                            </p:tabView>
+
+                            <div class="flex align-items-center " style="max-width: 370px;">
+                                <div class=" border-top-1 surface-border col-6 flex">
+                                    <p:commandButton  title="#{core['button.save']}" icon="pi pi-save"
+                                                      action="#{perfilFaces.saveUser(perfilFaces.userSelected)}"
+                                                      update=":form:growl"
+                                                      rendered="#{perfilFaces.buttonNewPressed}"
+                                                      styleClass="w-6 ml-2"/>
+                                    <p:commandButton  title="#{core['button.update']}" 
+                                                      icon="pi pi-save" 
+                                                      rendered="#{perfilFaces.buttonNewPressed eq false}"
+                                                      action="#{perfilFaces.editUser(perfilFaces.userSelected)}"
+                                                      update=":form:growl"
+                                                      styleClass="w-6 ml-2"/>
+                                </div>
+
+                                <!--                                <div class=" border-top-1 surface-border col-6 flex">
+                                                                    <p:commandButton 
+                                                                        title="#{core['button.cancel']}" 
+                                                                        icon="pi pi-times" 
+                                                                        onclick="PF('overlayPanelUser').hide()"
+                                                                        update=":form:growl"
+                                                                        styleClass="ui-button-outlined w-6 mr-2 ui-button-danger"
+                                                                        />
+                                
+                                                                </div>
+                                                                <div class=" border-top-1 surface-border col-6 flex">
+                                
+                                                                    <p:commandButton  title="#{msg['button.refresh']}" icon="pi pi-refresh"    
+                                                                                      styleClass="ui-button-outlined w-6 mr-2 ui-button-help"
+                                                                                      action="#{perfilFaces.refresh()}"
+                                                                                      process="@this"
+                                                                                      update=":form"/>
+                                
+                                                                </div>-->
+                            </div>
+
+
+                        </c:if>
+
+
+
+
+
+
+
+
+
+
+                    </div> 
+
+                </div>
+            </div>
+
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+            </p:confirmPopup>
+
+
+
+
+
+
+
+
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD,DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

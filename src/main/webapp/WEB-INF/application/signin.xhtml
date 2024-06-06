@@ -1,0 +1,253 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:pb="http://xmlns.jcp.org/jsf/composite/primeblocks"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">PrimeBlocks</ui:define>
+
+    <style type="text/css">
+        .product-item .product-item-content {
+            border: 1px solid var(--surface-d);
+            border-radius: 3px;
+            margin: .3rem;
+            text-align: center;
+            padding: 2rem 0;
+        }
+    
+        .product-item .product-image {
+            width: 50%;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+        }
+    </style>
+
+    <ui:define name="breadcrumb">
+        <li>
+            <div class="chevron">/</div>
+            <h:link outcome="/application">Application</h:link>
+        </li>
+        <li>
+            <div class="chevron">/</div>
+            <h:link outcome="/application/signin">Sign-in</h:link>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="block-category-title">Sign-In Form</div>
+
+        <pb:blockViewer header="Simple in Card" code="#{signInView.block1}" free="true"
+                        containerClass="px-4 py-8 md:px-6 lg:px-8">
+            <div class="flex align-items-center justify-content-center">
+                <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
+                    <div class="text-center mb-5">
+                        <p:graphicImage name="images/blocks/logos/hyper.svg" library="primeblocks-app" alt="Image"
+                                        height="50" styleClass="mb-3"/>
+                        <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
+                        <span class="text-600 font-medium line-height-3">Don't have an account?</span>
+                        <a class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Create today!</a>
+                    </div>
+
+                    <div>
+                        <label for="email1" class="block text-900 font-medium mb-2">Email</label>
+                        <p:inputText id="email1" styleClass="w-full mb-3"/>
+
+                        <label for="password1" class="block text-900 font-medium mb-2">Password</label>
+                        <p:inputText id="password1" type="password" styleClass="w-full mb-3"/>
+
+                        <div class="flex align-items-center justify-content-between mb-6">
+                            <div class="flex align-items-center">
+                                <p:selectBooleanCheckbox id="rememberme" styleClass="mr-2"/>
+                                <label for="rememberme">Remember me</label>
+                            </div>
+                            <a class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">Forgot your password?</a>
+                        </div>
+
+                        <p:commandButton type="button" value="Sign In" icon="pi pi-user" styleClass="w-full"/>
+                    </div>
+                </div>
+            </div>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="Split Screen" code="#{signInView.block2}">
+            <div class="flex">
+                <div class="surface-section w-full md:w-6 p-6 md:p-8">
+                    <div class="mb-5">
+                        <p:graphicImage name="images/blocks/logos/hyper.svg" library="primeblocks-app" alt="Image"
+                                        height="50" styleClass="mb-3"/>
+                        <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
+                        <span class="text-600 font-medium mr-2">Don't have an account?</span>
+                        <a class="font-medium no-underline text-blue-500 cursor-pointer">Create today!</a>
+                    </div>
+                    <div>
+                        <label for="email2" class="block text-900 font-medium mb-2">Email</label>
+                        <p:inputText id="email2" styleClass="w-full mb-3"/>
+
+                        <label for="password2" class="block text-900 font-medium mb-2">Password</label>
+                        <p:inputText id="password2" type="password" styleClass="w-full mb-3"/>
+
+                        <div class="flex align-items-center justify-content-between mb-6">
+                            <div class="flex align-items-center">
+                                <p:selectBooleanCheckbox id="rememberme2" styleClass="mr-2"/>
+                                <label for="rememberme2">Remember me</label>
+                            </div>
+                            <a class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">Forgot your password?</a>
+                        </div>
+
+                        <p:commandButton type="button" value="Sign In" icon="pi pi-user" styleClass="w-full"/>
+                    </div>
+                </div>
+                <div class="hidden md:block w-6 bg-no-repeat bg-cover"
+                     style="background: url(#{resource['primeblocks-app:images/blocks/signin/signin.jpg']})"></div>
+            </div>
+        </pb:blockViewer>
+        
+        <pb:blockViewer header="With Feature List" code="#{signInView.block3}" newFeature="true">
+            <div style="background: url(#{resource['primeblocks-app:images/blocks/signin/signin-2.jpg']}) no-repeat; background-size: cover" class="px-4 py-8 md:px-6 lg:px-8">
+                <div class="flex flex-wrap">
+                    <div class="w-full lg:w-6 p-4 lg:p-7" style="background-color: rgba(255,255,255,.7)">
+                        <p:graphicImage name="images/blocks/logos/bastion-purple.svg" library="primeblocks-app" alt="Image"
+                                        height="50" styleClass="mb-6"/>
+                        <div class="text-xl text-gray-900 font-500 mb-3">Welcome to Bastion</div>
+                        <p class="text-gray-600 line-height-3 mt-0 mb-6">Quis vel eros donec ac odio tempor orci dapibus. In hac habitasse platea dictumst quisque.</p>
+                        <ul class="list-none p-0 m-0">
+                            <li class="flex align-items-start mb-4">
+                                <div>
+                                    <span class="flex align-items-center justify-content-center bg-purple-400" style="width:38px;height:38px;border-radius:10px">
+                                        <i class="text-xl text-white pi pi-inbox"></i>
+                                    </span>
+                                </div>
+                                <div class="ml-3">
+                                    <span class="font-medium text-gray-900">Unlimited Inbox</span>
+                                    <p class="mt-2 mb-0 text-gray-600 line-height-3">Tincidunt nunc pulvinar sapien et. Vitae purus faucibus ornare suspendisse sed nisi lacus sed viverra. </p>
+                                </div>
+                            </li>
+                            <li class="flex align-items-start mb-4">
+                                <div>
+                                    <span class="flex align-items-center justify-content-center bg-purple-400" style="width:38px;height:38px;border-radius:10px">
+                                        <i class="text-xl text-white pi pi-shield"></i>
+                                    </span>
+                                </div>
+                                <div class="ml-3">
+                                    <span class="font-medium text-gray-900">Premium Security</span>
+                                    <p class="mt-2 mb-0 text-gray-600 line-height-3">Scelerisque purus semper eget duis at tellus at urna. Sed risus pretium quam vulputate.</p>
+                                </div>
+                            </li>
+                            <li class="flex align-items-start">
+                                <div>
+                                    <span class="flex align-items-center justify-content-center bg-purple-400" style="width:38px;height:38px;border-radius:10px">
+                                        <i class="text-xl text-white pi pi-globe"></i>
+                                    </span>
+                                </div>
+                                <div class="ml-3">
+                                    <span class="font-medium text-gray-900">Cloud Backups Inbox</span>
+                                    <p class="mt-2 mb-0 text-gray-600 line-height-3">Egestas sed tempus urna et. Auctor elit sed vulputate mi sit amet mauris commodo.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="w-full lg:w-6 p-4 lg:p-7 surface-card">
+                        <div class="text-900 text-2xl font-medium mb-6">Login</div>
+                        <label for="email3" class="block text-900 font-medium mb-2">Email</label>
+                        <p:inputText id="email3" styleClass="w-full mb-4"/>
+                        <label for="password3" class="block text-900 font-medium mb-2">Password</label>
+                        <p:password id="password3" styleClass="w-full mb-4"/>
+                        <div class="flex align-items-center justify-content-between mb-6">
+                            <div class="flex align-items-center">
+                                <p:selectBooleanCheckbox styleClass="mr-2"/>
+                                <label for="rememberme3">Remember me</label>
+                            </div>
+                            <a class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">Forgot password?</a>
+                        </div>
+            
+                        <p:commandButton type="button" value="Login" icon="pi pi-user" styleClass="w-full"/>
+
+                        <div class="flex w-full relative align-items-center justify-content-center my-6 px-4">
+                            <div class="border-top-1 border-300 top-50 left-0 absolute w-full"></div>
+                            <div class="px-2 z-1 surface-0 flex align-items-center justify-content-center">
+                                <span class="text-600 font-normal text-sm">OR</span>
+                            </div>
+                        </div>
+                        
+                        <p:commandButton type="button" value="Sign In with GitHub" icon="pi pi-github" styleClass="w-full ui-button-secondary"/>
+        
+                        <div class="mt-6 text-center text-600">
+                            Don't have an account? <a tabindex="0" class="font-medium text-blue-500">Sign up</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="With Carousel" code="#{signInView.block4}" newFeature="true">
+            <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
+                <div class="flex flex-wrap shadow-2">
+                    <div class="w-full lg:w-6 p-4 lg:p-7 bg-blue-50">
+                        <div class="product-item">
+                            <div class="product-item-content">
+                                <p:graphicImage name="images/blocks/logos/bastion-700.svg" library="primeblocks-app" alt="Image" height="35" styleClass="mb-6"/>
+                                <p:carousel value="#{signInView.featureList}" var="feature" numVisible="1" numScroll="1">
+                                    <div class="text-center mb-8">
+                                        <p:graphicImage name="images/blocks/illustration/#{feature.image}" library="primeblocks-app" alt="Image" styleClass="mb-6 w-6"/>
+                                        <div class="mx-auto font-medium text-xl mb-4 text-blue-900">#{feature.title}</div>
+                                        <p class="m-0 text-blue-700 line-height-3">#{feature.text}</p>
+                                    </div>
+                                </p:carousel>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full lg:w-6 p-4 lg:p-7 surface-card">
+                        <div class="flex align-items-center justify-content-between mb-7">
+                            <span class="text-2xl font-medium text-900">Login to Bastion</span>
+                            <a tabindex="0" class="font-medium text-blue-500 hover:text-blue-700 cursor-pointer transition-colors transition-duration-150">Sign up</a>
+                        </div>
+                        <div class="flex justify-content-between">
+                            <p:commandButton type="button" value="Sign in With Facebook" icon="pi pi-facebook text-indigo-400"
+                                styleClass="mr-2 w-6 font-medium border-1 surface-border surface-100 py-3 px-2 p-component hover:surface-200 active:surface-300 text-900 cursor-pointer transition-colors transition-duration-150 inline-flex align-items-center justify-content-center">
+                            </p:commandButton>
+                            
+                            <p:commandButton type="button" value="Sign in With Google" icon="pi pi-google text-pink-400 mr-2"
+                            styleClass="mr-2 w-6 font-medium border-1 surface-border surface-100 py-1 px-2 p-component hover:surface-200 active:surface-300 text-900 cursor-pointer transition-colors transition-duration-150 inline-flex align-items-center justify-content-center">
+                            </p:commandButton>
+                        </div>
+
+                        <div class="flex w-full relative align-items-center justify-content-center my-6 px-4">
+                            <div class="border-top-1 border-300 top-50 left-0 absolute w-full"></div>
+                            <div class="px-2 z-1 surface-0 flex align-items-center justify-content-center">
+                                <span class="text-600 font-normal text-sm">OR</span>
+                            </div>
+                        </div>
+        
+                        <label for="email4" class="block text-900 font-medium mb-2">Email</label>
+                        <p:inputText id="email4" styleClass="w-full mb-3 p-3" />
+                        <label for="password4" class="block text-900 font-medium mb-2">Password</label>
+                        <p:password id="password4" styleClass="w-full mb-3 p-3"/>
+            
+                        <div class="flex align-items-center justify-content-between mb-6">
+                            <div class="flex align-items-center">
+                                <p:selectBooleanCheckbox id="rememberme4" styleClass="mr-2"/>
+                                <label for="rememberme4">Remember me</label>
+                            </div>
+                            <a class="font-medium text-blue-500 hover:text-blue-700 cursor-pointer transition-colors transition-duration-150">Forgot password?</a>
+                        </div>
+                        <p:commandButton type="button" value="Sign in" icon="pi pi-google" styleClass="w-full py-3 font-medium"/> 
+                    </div>
+                </div>
+            </div>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="Glass" code="#{signInView.block5}" newFeature="true">
+            <div class="px-4 py-8 md:px-6 lg:px-8 flex align-items-center justify-content-center" style="background:linear-gradient(-225deg,#ac32e4,#7918f2 48%,#4801ff)">
+                <div class="p-6 shadow-2 text-center lg:w-30rem" style="border-radius: 12px;background-color: rgba(255,255,255,.1);color: rgba(255,255,255,.8)">
+                    <div class="text-4xl font-medium mb-6">Welcome</div>
+                    <p:inputText styleClass="appearance-none border-none p-3 w-full outline-none text-xl block mb-4 bg-white-alpha-10 text-white-alpha-60" value="Email" style="border-radius: 30px"/>
+                    <p:inputText type="password" styleClass="appearance-none border-none p-3 w-full outline-none text-xl mb-4 bg-white-alpha-10 text-white-alpha-60" value="Password" style="border-radius: 30px" />
+                    <p:commandButton type="button" value="Sign In" styleClass="appearance-none border-none p-2 w-full outline-none text-xl mb-4 font-normal w-12rem bg-white-alpha-30 hover:bg-white-alpha-40 active:bg-white-alpha-20 text-white-alpha-80 cursor-pointer transition-colors transition-duration-150" style="border-radius: 30px"/>
+                    <a class="cursor-pointer font-medium block text-center">Forgot Password?</a>
+                </div>
+            </div>
+
+        </pb:blockViewer>
+    </ui:define>
+
+</ui:composition>

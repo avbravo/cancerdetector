@@ -1,0 +1,118 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades"
+                xmlns:user="http://xmlns.jcp.org/jsf/composite/user"
+                xmlns:primeblocks="http://xmlns.jcp.org/jsf/composite/primeblocks">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+
+        <c:if test="${userFaces.callerLevel0 eq 'dashboard'}">
+            <p:commandLink action="dashboard" value="#{msg['breadcrumb.dashboard']}">
+            </p:commandLink>
+        </c:if>
+        <i class="pi pi-angle-right"></i>
+        <p:commandLink action="sesioncontrol" value="#{msg['breadcrumb.setup']}">
+        </p:commandLink>
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('DEVELOPERS,SUPER-USER')}">
+
+            <p:growl id="growl"/>
+            <script type="text/javascript">
+                function setDataTableWithPageStart() {
+
+                    widgetVardataTable.getPaginator().setPage(0);
+                }
+            </script>
+<!--            <div class="block-category-title">#{msg['form.user']}</div>-->
+
+            <!--<pb:blockViewerCore header="Sidebar" >-->
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+                <div class="min-h-screen flex flex-column relative flex-auto">
+                    <!--                    <dashboard:top/>-->
+                    <div class="surface-section , jmoordbcore-max-width2000">
+                        <div class="grid">
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+                                        <label  class="font-bold">#{msg['label.setup']}</label>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+
+
+                                    </div>
+                                </div>
+
+                                <div class="field mb-4 col-4">
+                                    <div class="field">
+                                        <p:commandButton   value="version 1.0.b-40" icon="pi pi-times"
+                                                           update=":form:growl"
+                                                           disabled="false"
+                                                           action="#{setupFaces.version1_0_b_40()}"
+                                                           styleClass="ui-button-help w-6 ml-2">
+
+                                        </p:commandButton>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-10 lg:col-10">
+
+                                <div class="flex justify-content-between">
+
+
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div> 
+
+                </div>
+            </div>
+
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+            </p:confirmPopup>
+
+
+
+
+
+
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('DEVELOPERS,SUPER-USER')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

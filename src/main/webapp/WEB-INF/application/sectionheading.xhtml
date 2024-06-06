@@ -1,0 +1,126 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pb="http://xmlns.jcp.org/jsf/composite/primeblocks"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">PrimeBlocks</ui:define>
+
+    <ui:define name="breadcrumb">
+        <li>
+            <div class="chevron">/</div>
+            <h:link outcome="/application">Application</h:link>
+        </li>
+        <li>
+            <div class="chevron">/</div>
+            <h:link outcome="/application/sectionheading">Section Heading</h:link>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="block-category-title">Section Heading</div>
+
+        <pb:blockViewer header="Icon And Actions" code="#{sectionHeadingView.block1}"
+                        containerClass="surface-section px-4 py-5 md:px-6 lg:px-8">
+            <div class="surface-section">
+                <div class="flex md:align-items-center md:justify-content-between flex-column md:flex-row pb-4 border-bottom-1 surface-border">
+                    <div class="flex align-items-center">
+                        <i class="pi pi-inbox text-2xl mr-3 text-500"/>
+                        <span class="text-3xl font-medium text-900">Messages</span>
+                    </div>
+                    <div class="mt-3 md:mt-0">
+                        <p:commandButton type="button" value="Settings" styleClass="ui-button-outlined mr-3"
+                                         icon="pi pi-cog"/>
+                        <p:commandButton type="button" value="Compose" icon="pi pi-plus"/>
+                    </div>
+                </div>
+            </div>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="Subtitle and Search" code="#{sectionHeadingView.block2}"
+                        containerClass="surface-section px-4 py-5 md:px-6 lg:px-8">
+            <div class="surface-section">
+                <div class="flex md:align-items-center md:justify-content-between flex-column md:flex-row pb-4 border-bottom-1 surface-border">
+                    <div class="mb-3 lg:mb-0">
+                        <div class="text-3xl font-medium text-900 mb-3">Messages</div>
+                        <div class="text-500 mr-0 md:mr-3">Vivamus id nisl interdum, blandit augue sit amet, eleifend mi.</div>
+                    </div>
+                    <span class="ui-input-icon-left w-full md:w-auto">
+                        <i class="pi pi-search"/>
+                        <p:inputText placeholder="Search" styleClass="w-full md:w-auto"/>
+                    </span>
+                </div>
+            </div>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="With Tabs" code="#{sectionHeadingView.block3}"
+                        containerClass="surface-section px-4 py-5 md:px-6 lg:px-8">
+            <div class="surface-section">
+                <div class="text-3xl font-medium text-900 mb-4">Application</div>
+                <p:tabMenu activeIndex="#{param.i}">
+                    <p:menuitem value="Overview" icon="pi pi-home" ajax="false">
+                        <f:param name="i" value="0"/>
+                    </p:menuitem>
+                    <p:menuitem value="Members" icon="pi pi-users" ajax="false">
+                        <f:param name="i" value="1"/>
+                    </p:menuitem>
+                    <p:menuitem value="Sales" icon="pi pi-shopping-cart" ajax="false">
+                        <f:param name="i" value="2"/>
+                    </p:menuitem>
+                    <p:menuitem value="Profile" icon="pi pi-user" ajax="false">
+                        <f:param name="i" value="3"/>
+                    </p:menuitem>
+                    <p:menuitem value="Settings" icon="pi pi-cog" ajax="false">
+                        <f:param name="i" value="4"/>
+                    </p:menuitem>
+                </p:tabMenu>
+            </div>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="Inline Tabs" code="#{sectionHeadingView.block4}"
+                        containerClass="surface-section px-4 py-5 md:px-6 lg:px-8">
+            <div class="surface-section">
+                <div class="flex lg:align-items-center flex-column lg:flex-row">
+                    <div class="text-3xl font-medium text-900 mr-0 lg:mr-4 mb-4 lg:mb-0">Application</div>
+                    <p:tabMenu activeIndex="#{param.j}" styleClass="flex-grow-1">
+                        <p:menuitem value="Overview" icon="pi pi-home" ajax="false">
+                            <f:param name="j" value="0"/>
+                        </p:menuitem>
+                        <p:menuitem value="Members" icon="pi pi-users" ajax="false">
+                            <f:param name="j" value="1"/>
+                        </p:menuitem>
+                        <p:menuitem value="Sales" icon="pi pi-shopping-cart" ajax="false">
+                            <f:param name="j" value="2"/>
+                        </p:menuitem>
+                        <p:menuitem value="Profile" icon="pi pi-user" ajax="false">
+                            <f:param name="j" value="3"/>
+                        </p:menuitem>
+                        <p:menuitem value="Settings" icon="pi pi-cog" ajax="false">
+                            <f:param name="j" value="4"/>
+                        </p:menuitem>
+                    </p:tabMenu>
+                </div>
+            </div>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="Simple" code="#{sectionHeadingView.block5}" newFeature="true"
+            containerClass="surface-section px-4 py-5 md:px-6 lg:px-8">
+            <div class="surface-section">
+                <div class="border-bottom-1 surface-border">
+                    <span class="block text-3xl font-medium text-900 mb-4">Messages</span>
+                </div>
+            </div>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="With Label" code="#{sectionHeadingView.block6}" newFeature="true"
+            containerClass="surface-section px-4 py-5 md:px-6 lg:px-8">
+            <div class="surface-section">
+                <div class="border-bottom-1 surface-border">
+                    <div class="text-3xl font-medium text-900 mb-4 flex align-items-center">Messages <span class="text-base font-normal ml-3 text-600">79 Unread</span></div>
+                </div>
+            </div>
+        </pb:blockViewer>
+    </ui:define>
+</ui:composition>

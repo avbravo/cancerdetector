@@ -1,0 +1,590 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui" xmlns:pb="http://xmlns.jcp.org/jsf/composite/primeblocks"
+    template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">PrimeBlocks</ui:define>
+    <ui:define name="breadcrumb">
+        <li>
+            <div class="chevron">/</div>
+            <h:link outcome="/ecommerce">E-commerce</h:link>
+        </li>
+        <li>
+            <div class="chevron">/</div>
+            <h:link outcome="/ecommerce/productoverview">Product Overview</h:link>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="block-category-title">Product Overview</div>
+
+        <pb:blockViewer header="Image Grid" code="#{productOverviewView.block1}">
+            <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
+                <div class="grid">
+                    <div class="col-12 lg:col-6">
+                        <div class="flex">
+                            <div>
+                                <p:graphicImage name="/images/blocks/ecommerce/productoverview/product-overview-1-1.png"
+                                    library="primeblocks-app" class="w-full" />
+                            </div>
+                            <div class="flex flex-column px-3">
+                                <p:graphicImage name="images/blocks/ecommerce/productoverview/product-overview-1-2.png"
+                                    library="primeblocks-app" class="mb-3 w-full" />
+                                <p:graphicImage name="images/blocks/ecommerce/productoverview/product-overview-1-3.png"
+                                    library="primeblocks-app" class="w-full" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 lg:col-6 py-5 lg:py-3 lg:pl-5">
+                        <ol
+                            class="flex list-none m-0 pt-0 px-0 pb-3 align-items-center text-sm text-600 mb-3 overflow-x-auto">
+                            <li class="mr-2">Category</li>
+                            <li class="mr-2 inline-flex align-items-center"><i class="pi pi-angle-right text-sm"></i>
+                            </li>
+                            <li class="mr-2">Category</li>
+                            <li class="mr-2 inline-flex align-items-center"><i class="pi pi-angle-right text-sm"></i>
+                            </li>
+                            <li class="mr-2 inline-flex align-items-center">Category</li>
+                            <li class="mr-2"><i class="pi pi-angle-right text-sm"></i></li>
+                            <li>Category</li>
+                        </ol>
+                        <div class="flex align-items-center justify-content-between mb-4">
+                            <span class="text-xl font-medium text-900">Product Title Placeholder</span>
+                            <span class="text-xl font-medium text-900">$123</span>
+                        </div>
+                        <div class="flex align-items-center justify-content-between lg:justify-content-start mb-5">
+                            <span class="mr-3">
+                                <i class="pi pi-star-fill text-yellow-500 mr-1"></i>
+                                <i class="pi pi-star-fill text-yellow-500 mr-1"></i>
+                                <i class="pi pi-star-fill text-yellow-500 mr-1"></i>
+                                <i class="pi pi-star-fill text-yellow-500 mr-1"></i>
+                                <i class="pi pi-star-fill text-yellow-500 mr-1"></i>
+                            </span>
+                            <span class="text-500">5.00 | <b>20</b> reviews</span>
+                        </div>
+                        <p class="p-0 mt-0 mb-5 line-height-3 text-700">
+                            Dolor purus non enim praesent.
+                            At quis risus sed vulputate odio ut. Quis risus sed vulputate odio ut enim blandit volutpat.
+                            Ornare arcu odio ut sem nulla pharetra diam sit. Augue neque gravida in fermentum et
+                            sollicitudin ac orci
+                            phasellus.
+                        </p>
+                        <div class="font-bold text-900 mb-3">Color</div>
+                        <p:outputPanel id="colors-panel" styleClass="flex align-items-center mb-5">
+                            <h:commandButton type="button"
+                                styleClass="p-lik w-2rem h-2rem flex-shrink-0 border-circle bg-cyan-500 hover:border-cyan-500 mr-3 cursor-pointer border-2 surface-border transition-all transition-duration-300"
+                                style="box-shadow: #{productOverviewView.color1 eq 'Cyan' ? '0 0 0 0.2rem var(--cyan-500)': ''}">
+                                <p:ajax event="click" update="colors-panel"
+                                    listener="#{productOverviewView.setColor1('Cyan')}" />
+                            </h:commandButton>
+                            <h:commandButton type="button"
+                                styleClass="p-lik w-2rem h-2rem flex-shrink-0 border-circle bg-purple-500 hover:border-purple-500 mr-3 cursor-pointer border-2 surface-border transition-all transition-duration-300"
+                                style="box-shadow: #{productOverviewView.color1 eq 'Purple' ? '0 0 0 0.2rem var(--purple-500)': ''}">
+                                <p:ajax event="click" update="colors-panel"
+                                    listener="#{productOverviewView.setColor1('Purple')}" />
+                            </h:commandButton>
+                            <h:commandButton type="button"
+                                styleClass="p-lik w-2rem h-2rem flex-shrink-0 border-circle bg-indigo-500 hover:border-indigo-500 mr-3 cursor-pointer border-2 surface-border transition-all transition-duration-300"
+                                style="box-shadow: #{productOverviewView.color1 eq 'Indigo' ? '0 0 0 0.2rem var(--indigo-500)': ''}">
+                                <p:ajax event="click" update="colors-panel"
+                                    listener="#{productOverviewView.setColor1('Indigo')}" />
+                            </h:commandButton>
+                        </p:outputPanel>
+                        <div class="mb-3 flex align-items-center justify-content-between">
+                            <span class="font-bold text-900">Size</span>
+                            <a tabindex="0"
+                                class="cursor-pointer text-600 hover:text-900 transition-colors transition-duration-300 text-sm flex align-items-center">Size
+                                Guide <i class="ml-1 pi pi-angle-right"></i></a>
+                        </div>
+                        <p:outputPanel id="box-color" styleClass="flex align-items-center mb-5">
+                            <h:commandButton
+                                class="h-2rem w-2rem sm:h-3rem sm:w-3rem border-1 border-300 text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round bg-white mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors #{productOverviewView.size1 eq 'XS' ? 'border-blue-500 border-2 text-blue-500' : ''}"
+                                value="XS">
+                                <p:ajax event="click" update="box-color"
+                                    listener="#{productOverviewView.setSize1('XS')}" />
+                            </h:commandButton>
+                            <h:commandButton
+                                class="h-2rem w-2rem sm:h-3rem sm:w-3rem border-1 border-300 text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round  bg-white mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors #{productOverviewView.size1 eq 'S' ? 'border-blue-500 border-2 text-blue-500' : ''}"
+                                value="S">
+                                <p:ajax event="click" update="box-color"
+                                    listener="#{productOverviewView.setSize1('S')}" />
+                            </h:commandButton>
+                            <h:commandButton
+                                class="h-2rem w-2rem sm:h-3rem sm:w-3rem border-1 border-300 text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round bg-white mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors #{productOverviewView.size1 eq 'M' ? 'border-blue-500 border-2 text-blue-500' : ''}"
+                                value="M">
+                                <p:ajax event="click" update="box-color"
+                                    listener="#{productOverviewView.setSize1('M')}" />
+                            </h:commandButton>
+                            <h:commandButton
+                                class="h-2rem w-2rem sm:h-3rem sm:w-3rem border-1 border-300 text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round  bg-white mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors #{productOverviewView.size1 eq 'L' ? 'border-blue-500 border-2 text-blue-500' : ''}"
+                                value="L">
+                                <p:ajax event="click" update="box-color"
+                                    listener="#{productOverviewView.setSize1('L')}" />
+                            </h:commandButton>
+                            <h:commandButton
+                                class="h-2rem w-2rem sm:h-3rem sm:w-3rem border-1 border-300 text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round bg-white mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors #{productOverviewView.size1 eq 'XL' ? 'border-blue-500 border-2 text-blue-500' : ''}"
+                                value="XL">
+                                <p:ajax event="click" update="box-color"
+                                    listener="#{productOverviewView.setSize1('XL')}" />
+                            </h:commandButton>
+                        </p:outputPanel>
+                        <div
+                            class="bg-yellow-200 text-yellow-900 text-sm inline-flex align-items-center px-2 py-1 font-medium mb-5">
+                            <i class="pi pi-exclamation"></i>
+                            <span>Only a few left!</span>
+                        </div>
+                        <p:commandButton type="button" icon="pi pi-shopping-cart" styleClass="w-full mb-5 "
+                            value="Add to Cart">
+                        </p:commandButton>
+                        <ul class="list-none p-0 m-0 text-sm text-600">
+                            <li class="flex align-items-center mb-3">
+                                <i class="pi pi-credit-card mr-2"></i>
+                                <span>Pay in 21 days</span>
+                            </li>
+                            <li class="flex align-items-center mb-3">
+                                <i class="pi pi-send mr-2"></i>
+                                <span>Free Shipping</span>
+                            </li>
+                            <li class="flex align-items-center">
+                                <i class="pi pi-refresh mr-2"></i>
+                                <span>30 Days Return Policy</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="Thumbnails" code="#{productOverviewView.block2}">
+            <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
+                <ol
+                    class="flex list-none m-0 p-0 align-items-center text-sm text-600 mb-5 border-top-1 border-bottom-1 surface-border py-2 overflow-x-auto">
+                    <li class="mr-2">Category</li>
+                    <li class="mr-2 inline-flex align-items-center"><i class="pi pi-angle-right text-sm"></i></li>
+                    <li class="mr-2">Category</li>
+                    <li class="mr-2 inline-flex align-items-center"><i class="pi pi-angle-right text-sm"></i></li>
+                    <li class="mr-2">Category</li>
+                    <li class="mr-2 inline-flex align-items-center"><i class="pi pi-angle-right text-sm"></i></li>
+                    <li>Category</li>
+                </ol>
+                <div class="grid">
+                    <div class="col-12 lg:col-6">
+                        <p:outputPanel id="image-list">
+                            <p:graphicImage
+                                name="images/blocks/ecommerce/productoverview/#{productOverviewView.images1[productOverviewView.selectedImageIndex1]}"
+                                library="primeblocks-app" styleClass="mb-3 w-full" />
+                            <div class="grid">
+                                <ui:repeat value="#{productOverviewView.images1}" var="image" varStatus="varStatus">
+                                    <div class="col-3">
+                                        <p:commandLink
+                                            actionListener="#{productOverviewView.setSelectedImageIndex1(varStatus.index)}"
+                                            update="@parent:@parent">
+                                            <p:graphicImage name="images/blocks/ecommerce/productoverview/#{image}"
+                                                library="primeblocks-app"
+                                                styleClass="w-full cursor-pointer border-2 border-round border-transparent transition-colors transition-duration-150 #{productOverviewView.selectedImageIndex1 == varStatus.index ? 'border-primary': ''}" />
+                                        </p:commandLink>
+                                    </div>
+                                </ui:repeat>
+                            </div>
+                        </p:outputPanel>
+                    </div>
+                    <div class="col-12 lg:col-6 py-3 lg:pl-6">
+                        <div class="flex align-items-center text-xl font-medium text-900 mb-4">
+                            <span>Product Title Placeholder</span>
+                            <p:commandButton icon="pi #{productOverviewView.liked1 ? 'pi-heart-fill': 'pi-heart'}"
+                                styleClass="rounded-button ui-button-secondary ui-button-flat #{productOverviewView.liked1 ?'text-orange-500' : 'text-600'} "
+                                actionListener="#{productOverviewView.changeLiked1}" update="@this" />
+                        </div>
+                        <span class="text-900 font-medium text-3xl block mb-5">$120</span>
+                        <div class="font-bold text-900 mb-3">Color</div>
+                        <p:outputPanel id="color-panel2" class="flex align-items-center mb-5">
+                            <h:commandButton type="button"
+                                styleClass="p-lik w-2rem h-2rem flex-shrink-0 border-circle bg-pink-500 hover:border-pink-500 mr-3 cursor-pointer border-2 surface-border transition-all transition-duration-300"
+                                style="box-shadow: #{productOverviewView.color2 eq 'Pink' ? '0 0 0 0.2rem var(--pink-500)': ''}">
+                                <p:ajax event="click" update="color-panel2"
+                                    listener="#{productOverviewView.setColor2('Pink')}" />
+                            </h:commandButton>
+                            <h:commandButton type="button"
+                                styleClass="p-lik w-2rem h-2rem flex-shrink-0 border-circle bg-orange-500 hover:border-orange-500 mr-3 cursor-pointer border-2 surface-border transition-all transition-duration-300"
+                                style="box-shadow: #{productOverviewView.color2 eq 'Orange' ? '0 0 0 0.2rem var(--orange-500)': ''}">
+                                <p:ajax event="click" update="color-panel2"
+                                    listener="#{productOverviewView.setColor2('Orange')}" />
+                            </h:commandButton>
+                            <h:commandButton type="button"
+                                styleClass="p-lik w-2rem h-2rem flex-shrink-0 border-circle bg-indigo-500 hover:border-indigo-500 mr-3 cursor-pointer border-2 surface-border transition-all transition-duration-300"
+                                style="box-shadow: #{productOverviewView.color2 eq 'Indigo' ? '0 0 0 0.2rem var(--indigo-500)': ''}">
+                                <p:ajax event="click" update="color-panel2"
+                                    listener="#{productOverviewView.setColor2('Indigo')}" />
+                            </h:commandButton>
+                        </p:outputPanel>
+                        <label class="font-bold text-900 mb-3">Size</label>
+                        <p:outputPanel class="field w-full sm:w-10rem p-fluid mb-3">
+                            <p:selectOneMenu id="sizeLists" class="mt-2" value="#{productOverviewView.sizeList}">
+                                <p:ajax update="@this" process="@this" />
+                                <f:selectItem itemLabel="Select Size" itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItem itemLabel="Small" itemValue="Small" />
+                                <f:selectItem itemLabel="Medium" itemValue="Medium" />
+                                <f:selectItem itemLabel="Large" itemValue="Large" />
+                            </p:selectOneMenu>
+                        </p:outputPanel>
+                        <div class="flex align-items-center mb-5">
+                            <i class="pi pi-question-circle text-600 mr-3"></i>
+                            <span class="mr-3">Need help about size?</span>
+                            <a tabindex="0"
+                                class="text-900 font-medium inline-flex align-items-center hover:text-primary cursor-pointer transition-colors transition-duration-150">Size
+                                Guide <i class="ml-1 pi pi-angle-right"></i></a>
+                        </div>
+                        <p:commandButton icon="pi pi-shopping-cart" class="w-full mb-5" value="Add to Cart">
+                        </p:commandButton>
+                        <div class="flex align-items-center justify-content-center text-900 mb-5">
+                            <i class="pi pi-users mr-3"></i>
+                            <span><b>12 people</b> are looking at this right now.</span>
+                        </div>
+                        <ol class="list-none p-0 m-0 surface-100 text-center text-900">
+                            <li class="line-height-3 p-3 font-bold border-bottom-1 border-300">Product Highlights</li>
+                            <li class="line-height-3 p-3 border-bottom-1 border-300">Sed tempus urna et pharetra. Metus
+                                vulputate eu scelerisque felis imperdiet proin fermentum.</li>
+                            <li class="line-height-3 p-3 border-bottom-1 border-300">Purus gravida quis blandit turpis
+                                cursus in hac habitasse platea.</li>
+                            <li class="line-height-3 p-3">Nisi quis eleifend quam adipiscing vitae proin sagittis.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="Tabs" code="#{productOverviewView.block3}">
+            <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
+                <div class="grid mb-7">
+                    <div class="col-12 lg:col-6">
+                        <p:outputPanel styleClass="flex">
+                            <div class="flex flex-column w-2 justify-content-between">
+                                <ui:repeat value="#{productOverviewView.images2}" var="image2" varStatus="varStatus">
+                                    <p:commandLink
+                                        actionListener="#{productOverviewView.setSelectedImageIndex2(varStatus.index)}"
+                                        update="@parent:@parent">
+                                        <p:graphicImage name="images/blocks/ecommerce/productoverview/#{image2}"
+                                            library="primeblocks-app"
+                                            styleClass="w-full cursor-pointer border-2 border-round border-transparent transition-colors transition-duration-150 #{productOverviewView.selectedImageIndex2 == varStatus.index ? 'border-primary': ''}" />
+                                    </p:commandLink>
+                                </ui:repeat>
+                            </div>
+                            <div class="pl-3 w-10">
+                                <p:graphicImage
+                                    name="images/blocks/ecommerce/productoverview/#{productOverviewView.images2[productOverviewView.selectedImageIndex2]}"
+                                    library="primeblocks-app" styleClass=" w-full border-round " />
+                            </div>
+                        </p:outputPanel>
+                    </div>
+                    <div class="col-12 lg:col-6 py-3 lg:pl-6">
+                        <div class="flex align-items-center text-xl font-medium text-900 mb-4">Product Title Placeholder
+                        </div>
+                        <div class="flex align-items-center justify-content-between mb-5">
+                            <span class="text-900 font-medium text-3xl block">$120</span>
+                            <div class="flex align-items-center">
+                                <span class="mr-3">
+                                    <i class="pi pi-star-fill text-yellow-500 mr-1"></i>
+                                    <i class="pi pi-star-fill text-yellow-500 mr-1"></i>
+                                    <i class="pi pi-star-fill text-yellow-500 mr-1"></i>
+                                    <i class="pi pi-star-fill text-yellow-500 mr-1"></i>
+                                    <i class="pi pi-star text-700 mr-1"></i>
+                                </span>
+                                <span class="text-sm"><b class="text-900 mr-1">24</b> <span
+                                        class="text-500"></span>reviews</span>
+                            </div>
+                        </div>
+                        <div class="font-bold text-900 mb-3">Color</div>
+                        <p:outputPanel id="color-panel3" class="flex align-items-center mb-5">
+                            <h:commandButton type="button"
+                                styleClass="p-lik w-2rem h-2rem flex-shrink-0 border-circle bg-bluegray-500 hover:border-bluegray-500 mr-3 cursor-pointer border-2 surface-border transition-all transition-duration-300"
+                                style="box-shadow: #{productOverviewView.color3 eq 'Bluegray' ? '0 0 0 0.2rem var(--bluegray-500)': ''}">
+                                <p:ajax event="click" update="color-panel3"
+                                    listener="#{productOverviewView.setColor3('Bluegray')}" />
+                            </h:commandButton>
+                            <h:commandButton type="button"
+                                styleClass="p-lik w-2rem h-2rem flex-shrink-0 border-circle bg-green-500 hover:border-green-500 mr-3 cursor-pointer border-2 surface-border transition-all transition-duration-300"
+                                style="box-shadow: #{productOverviewView.color3 eq 'Green' ? '0 0 0 0.2rem var(--green-500)': ''}">
+                                <p:ajax event="click" update="color-panel3"
+                                    listener="#{productOverviewView.setColor3('Green')}" />
+                            </h:commandButton>
+                            <h:commandButton type="button"
+                                styleClass="p-lik w-2rem h-2rem flex-shrink-0 border-circle bg-indigo-500 hover:border-indigo-500 mr-3 cursor-pointer border-2 surface-border transition-all transition-duration-300"
+                                style="box-shadow: #{productOverviewView.color3 eq 'Indigo' ? '0 0 0 0.2rem var(--indigo-500)': ''}">
+                                <p:ajax event="click" update="color-panel3"
+                                    listener="#{productOverviewView.setColor3('Indigo')}" />
+                            </h:commandButton>
+                        </p:outputPanel>
+                        <div class="mb-3 flex align-items-center justify-content-between">
+                            <span class="font-bold text-900">Size</span>
+                            <a tabindex="0" class="cursor-pointer text-600 text-sm flex align-items-center">Size Guide
+                                <i class="ml-1 pi pi-angle-right"></i></a>
+                        </div>
+                        <p:outputPanel id="box-color2" styleClass="grid grid-nogutter align-items-center mb-5">
+                            <h:commandButton
+                                class="col h-3rem border-1 border-300 text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round bg-white mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors #{productOverviewView.size3 eq 'XS' ? 'border-blue-500 border-2 text-blue-500' : ''}"
+                                value="XS">
+                                <p:ajax event="click" update="box-color2"
+                                    listener="#{productOverviewView.setSize3('XS')}" />
+                            </h:commandButton>
+                            <h:commandButton
+                                class="col h-3rem border-1 border-300 text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round bg-white mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors #{productOverviewView.size3 eq 'S' ? 'border-blue-500 border-2 text-blue-500' : ''}"
+                                value="S">
+                                <p:ajax event="click" update="box-color2"
+                                    listener="#{productOverviewView.setSize3('S')}" />
+                            </h:commandButton>
+                            <h:commandButton
+                                class="col h-3rem border-1 border-300 text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round bg-white mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors #{productOverviewView.size3 eq 'M' ? 'border-blue-500 border-2 text-blue-500' : ''}"
+                                value="M">
+                                <p:ajax event="click" update="box-color2"
+                                    listener="#{productOverviewView.setSize3('M')}" />
+                            </h:commandButton>
+                            <h:commandButton
+                                class="col h-3rem border-1 border-300 text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round bg-white mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors #{productOverviewView.size3 eq 'L' ? 'border-blue-500 border-2 text-blue-500' : ''}"
+                                value="L">
+                                <p:ajax event="click" update="box-color2"
+                                    listener="#{productOverviewView.setSize3('L')}" />
+                            </h:commandButton>
+                            <h:commandButton
+                                class="col h-3rem border-1 border-300 text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round bg-white mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors #{productOverviewView.size3 eq 'XL' ? 'border-blue-500 border-2 text-blue-500' : ''}"
+                                value="XL">
+                                <p:ajax event="click" update="box-color2"
+                                    listener="#{productOverviewView.setSize3('XL')}" />
+                            </h:commandButton>
+                        </p:outputPanel>
+                        <div class="font-bold text-900 mb-3">Quantity</div>
+                        <div class="flex flex-column sm:flex-row sm:align-items-center sm:justify-content-between">
+                            <div class="flex flex-column sm:flex-row sm:align-items-center sm:justify-content-between">
+                                <p:commandButton type="button" class="ui-button-flat" icon="pi pi-minus"
+                                    action="#{productOverviewView.number}">
+                                    <p:ajax event="click" update="number" listener="#{productOverviewView.decrement}" />
+                                </p:commandButton>
+                                <p:inputNumber id="number" value="#{productOverviewView.number}" minValue="0"
+                                    decimalPlaces="0" inputStyleClass="w-3rem text-center" />
+                                <p:commandButton type="button" class="ui-button-flat" icon="pi pi-plus"
+                                    action="#{productOverviewView.number}">
+                                    <p:ajax event="click" update="number" listener="#{productOverviewView.increment}" />
+                                </p:commandButton>
+                            </div>
+                            <div class="flex align-items-center flex-1 mt-3 sm:mt-0 ml-0 sm:ml-5">
+                                <p:commandButton type="button" value="Add to Cart" class="flex-1 mr-5">
+                                </p:commandButton>
+                                <p:commandButton icon="pi #{productOverviewView.liked1 ? 'pi-heart-fill': 'pi-heart'}"
+                                    styleClass="rounded-button ui-button-secondary ui-button-flat #{productOverviewView.liked1 ?'text-orange-500' : 'text-600'} "
+                                    actionListener="#{productOverviewView.changeLiked1}" update="@this" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p:tabView>
+                    <p:tab title="Details">
+                        <div class="text-900 font-medium text-3xl mb-4 mt-2">Product Details</div>
+                        <p class="line-height-3 text-700 p-0 mx-0 mt-0 mb-4">Volutpat maecenas volutpat blandit aliquam
+                            etiam erat velit scelerisque in. Duis ultricies lacus sed turpis tincidunt id. Sed tempus
+                            urna et pharetra.
+                            Metus vulputate eu scelerisque felis imperdiet proin fermentum. Venenatis urna cursus eget
+                            nunc scelerisque viverra mauris in.
+                            Viverra justo nec ultrices dui sapien eget mi proin. Laoreet suspendisse interdum
+                            consectetur libero id faucibus.</p>
+                        <div class="grid">
+                            <div class="col-12 lg:col-4">
+                                <span class="text-900 block font-medium mb-3">Highlights</span>
+                                <ul class="py-0 pl-3 m-0 text-700 mb-3">
+                                    <li class="mb-2">Vulputate sapien nec.</li>
+                                    <li class="mb-2">Purus gravida quis blandit.</li>
+                                    <li class="mb-2">Nisi quis eleifend quam adipiscing.</li>
+                                    <li>Imperdiet proin fermentum.</li>
+                                </ul>
+                            </div>
+                            <div class="col-12 lg:col-4">
+                                <span class="text-900 block font-medium mb-3">Size and Fit</span>
+                                <ul class="list-none p-0 m-0 text-700 mb-4">
+                                    <li class="mb-3"><span class="font-medium">Leo vel:</span> Egestas congue.</li>
+                                    <li class="mb-3"><span class="font-medium">Sociis natoque:</span> Parturient montes
+                                        nascetur.</li>
+                                    <li><span class="font-medium">Suspendisse in:</span> Purus sit amet volutpat.</li>
+                                </ul>
+                            </div>
+                            <div class="col-12 lg:col-4">
+                                <span class="text-900 block font-medium mb-3">Material - Care</span>
+                                <ul class="p-0 m-0 text-700 flex flex-wrap flex-column xl:flex-row">
+                                    <li class="flex align-items-center white-space-nowrap w-10rem block mr-2 mb-3">
+                                        <i class="pi pi-sun mr-2"></i>
+                                        <span>Not dryer safe</span>
+                                    </li>
+                                    <li class="flex align-items-center white-space-nowrap w-10rem block mb-3">
+                                        <i class="pi pi-times-circle mr-2"></i>
+                                        <span>No chemical wash</span>
+                                    </li>
+                                    <li class="flex align-items-center white-space-nowrap w-10rem block mb-3 mr-2">
+                                        <i class="pi pi-sliders-h mr-2"></i>
+                                        <span>Iron medium heat</span>
+                                    </li>
+                                    <li class="flex align-items-center white-space-nowrap w-10rem block mb-3">
+                                        <i class="pi pi-minus-circle mr-2"></i>
+                                        <span>Dry flat</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </p:tab>
+                    <p:tab title="Reviews">
+                        <div class="text-900 font-medium text-3xl mb-4 mt-2">Customer Reviews</div>
+                        <ul class="list-none p-0 m-0">
+                            <li class="pb-5 border-bottom-1 surface-border">
+                                <span>
+                                    <i class="pi pi-star-fill text-yellow-500 mr-1"></i>
+                                    <i class="pi pi-star-fill text-yellow-500 mr-1"></i>
+                                    <i class="pi pi-star-fill text-yellow-500 mr-1"></i>
+                                    <i class="pi pi-star-fill text-yellow-500 mr-1"></i>
+                                    <i class="pi pi-star-fill text-gray-500"></i>
+                                </span>
+                                <div class="text-900 font-medium text-xl my-3">Absolute Perfection!</div>
+                                <p class="mx-0 mt-0 mb-3 text-700 line-height-3">Blandit libero volutpat sed cras ornare
+                                    arcu dui vivamus. Arcu dictum varius duis at consectetur lorem donec massa.
+                                    Imperdiet proin fermentum leo vel orci porta non. Porttitor rhoncus dolor purus non.
+                                </p>
+                                <span class="text-600 font-medium">Darlene Robertson, 2 days ago</span>
+                            </li>
+                            <li class="py-5 border-bottom-1 surface-border">
+                                <span>
+                                    <i class="pi pi-star-fill text-yellow-500 mr-1"></i>
+                                    <i class="pi pi-star-fill text-yellow-500 mr-1"></i>
+                                    <i class="pi pi-star-fill text-yellow-500 mr-1"></i>
+                                    <i class="pi pi-star-fill text-yellow-500 mr-1"></i>
+                                    <i class="pi pi-star-fill text-yellow-500"></i>
+                                </span>
+                                <div class="text-900 font-medium text-xl my-3">Classy</div>
+                                <p class="mx-0 mt-0 mb-3 text-700 line-height-3">Venenatis cras sed felis eget. Proin
+                                    nibh nisl condimentum id venenatis a condimentum.</p>
+                                <span class="text-600 font-medium">Kristin Watson, 2 days ago</span>
+                            </li>
+                        </ul>
+                    </p:tab>
+                    <p:tab title="Shipping">
+                        <div class="text-900 font-medium text-3xl mb-4 mt-2">Shipping Placeholder</div>
+                        <p class="line-height-3 text-700 p-0 mx-0 mt-0 mb-4">Mattis aliquam faucibus purus in massa
+                            tempor nec feugiat nisl. Justo donec enim diam vulputate ut pharetra. Tempus egestas sed sed
+                            risus.
+                            Feugiat sed lectus vestibulum mattis. Tristique nulla aliquet enim tortor at auctor urna
+                            nunc. Habitant morbi tristique senectus et. Facilisi nullam vehicula ipsum.</p>
+                        <div class="grid">
+                            <div class="col-12 md:col-6">
+                                <span class="text-900 block font-medium mb-3">Shipping Costs</span>
+                                <ul class="py-0 pl-3 m-0 text-700 mb-3">
+                                    <li class="mb-2">Japan - JPY 2,500.</li>
+                                    <li class="mb-2">Europe – EUR 10</li>
+                                    <li class="mb-2">Switzerland – CHF 10</li>
+                                    <li class="mb-2">Canada – CAD 25</li>
+                                    <li class="mb-2">USA – USD 20</li>
+                                    <li class="mb-2">Australia – AUD 30</li>
+                                    <li class="mb-2">United Kingdom – GBP 10</li>
+                                </ul>
+                            </div>
+                            <div class="col-12 md:col-6">
+                                <span class="text-900 block font-medium mb-3">Return Policy</span>
+                                <p class="line-height-3 text-700 p-0 m-0">Pharetra et ultrices neque ornare aenean
+                                    euismod elementum nisi. Diam phasellus vestibulum lorem sed. Mattis molestie a
+                                    iaculis at. </p>
+                            </div>
+                        </div>
+                    </p:tab>
+                </p:tabView>
+            </div>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="Galleria and Accordion" code="#{productOverviewView.block4}">
+            <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
+                <div class="grid">
+                    <div class="col-12 lg:col-6 flex justify-content-center">
+                        <p:galleria value="#{productOverviewView.images3}" var="image" numVisible="2"
+                            showThumbnails="false" showIndicators="true" style="max-width: 640px;">
+                            <div class="w-full h-full overflow-hidden">
+                                <p:graphicImage name="images/blocks/ecommerce/productoverview/#{image}"
+                                    library="primeblocks-app" styleClass="w-full block " />
+                            </div>
+                        </p:galleria>
+                    </div>
+                    <div class="col-12 lg:col-6 lg:col-6 py-3 lg:pl-5">
+                        <div class="flex align-items-center justify-content-between mb-4">
+                            <span class="text-900 text-4xl font">Product Title</span>
+                            <span class="inline-flex align-items-center">
+                                <i class="pi pi-star-fill text-yellow-500 mr-2"></i>
+                                <span class="font-bold text-900">5.0</span>
+                            </span>
+                        </div>
+                        <div class="text-700 text-3xl mb-5">$56.00</div>
+                        <div class="font-medium text-900 mb-3 text-xl">Color
+                        </div>
+                        <p:outputPanel id="color-panel4" class="flex align-items-center mb-5">
+                            <h:commandButton type="button"
+                                styleClass="p-lik w-2rem h-2rem flex-shrink-0 border-circle bg-blue-500 hover:border-blue-500 mr-3 cursor-pointer border-2 surface-border transition-all transition-duration-300"
+                                style="box-shadow: #{productOverviewView.color4 eq 'Blue' ? '0 0 0 0.2rem var(--blue-500)': ''}">
+                                <p:ajax event="click" update="color-panel4"
+                                    listener="#{productOverviewView.setColor4('Blue')}" />
+                            </h:commandButton>
+                            <h:commandButton type="button"
+                                styleClass="p-lik w-2rem h-2rem flex-shrink-0 border-circle bg-purple-500 hover:border-purple-500 mr-3 cursor-pointer border-2 surface-border transition-all transition-duration-300"
+                                style="box-shadow: #{productOverviewView.color4 eq 'Purple' ? '0 0 0 0.2rem var(--purple-500)': ''}">
+                                <p:ajax event="click" update="color-panel4"
+                                    listener="#{productOverviewView.setColor4('Purple')}" />
+                            </h:commandButton>
+                            <h:commandButton type="button"
+                                styleClass="p-lik w-2rem h-2rem flex-shrink-0 border-circle bg-pink-500 hover:border-pink-500 mr-3 cursor-pointer border-2 surface-border transition-all transition-duration-300"
+                                style="box-shadow: #{productOverviewView.color4 eq 'Pink' ? '0 0 0 0.2rem var(--pink-500)': ''}">
+                                <p:ajax event="click" update="color-panel4"
+                                    listener="#{productOverviewView.setColor4('Pink')}" />
+                            </h:commandButton>
+                        </p:outputPanel>
+                        <div class="border-round p-2 border-1 surface-border inline-flex mb-5">
+                            <p:commandButton type="button" class="rounded-button ui-button-secondary ui-button-flat"
+                                icon="pi pi-minus" action="#{productOverviewView.number}">
+                                <p:ajax event="click" update="number" listener="#{productOverviewView.decrement}" />
+                            </p:commandButton>
+                            <p:inputNumber id="number" value="#{productOverviewView.number}" minValue="0"
+                                decimalPlaces="0" inputStyleClass="w-3rem text-center border-none" />
+                            <p:commandButton type="button" class="rounded-button ui-button-secondary ui-button-flat"
+                                icon="pi pi-plus" action="#{productOverviewViewnumber}">
+                                <p:ajax event="click" update="number" listener="#{productOverviewView.increment}" />
+                            </p:commandButton>
+                        </div>
+                        <div class="flex mb-5">
+                            <p:commandButton value="Add to Cart" class="ui-button-outlined  w-6 mr-1"></p:commandButton>
+                            <p:commandButton value="Buy Now" class="w-6 ml-1"></p:commandButton>
+                        </div>
+                        <div class="surface-50 border-round p-3 mb-5">
+                            <div class="text-900 text-xl mb-4">Goes with</div>
+                            <div class="flex align-items-center">
+                                <p:graphicImage name="images/blocks/ecommerce/productoverview/product-suggestion.png"
+                                    class="w-5rem h-5rem flex-shrink-0" library="primeblocks-app" />
+                                <div class="pl-3">
+                                    <span class="text-900 text-xl font-medium">Product Title</span>
+                                    <p class="mb-0 mt-2 p-0 text-600 font-medium">$24.00</p>
+                                </div>
+                                <p:button class="ml-auto border-circle rounded-button ui-button-outlined"
+                                    icon="pi pi-plus"></p:button>
+                            </div>
+                        </div>
+                        <p:accordionPanel>
+                            <p:tab title="About Product">
+                                <div class="line-height-3">Ut enim ad minim veniam, quis nostrud exercitation
+                                    ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </div>
+                            </p:tab>
+                            <p:tab title="Shipping">
+                                <div class="line-height-3">Ut enim ad minim veniam, quis nostrud exercitation
+                                    ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </div>
+                            </p:tab>
+                            <p:tab title="Environment">
+                                <div class="line-height-3">Ut enim ad minim veniam, quis nostrud exercitation
+                                    ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </div>
+                            </p:tab>
+                        </p:accordionPanel>
+                    </div>
+                </div>
+            </div>
+        </pb:blockViewer>
+
+    </ui:define>
+</ui:composition>

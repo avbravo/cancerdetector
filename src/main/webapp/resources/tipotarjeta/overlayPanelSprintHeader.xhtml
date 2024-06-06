@@ -1,0 +1,30 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite">
+
+    <composite:interface >
+
+        <composite:attribute name="titulo" default=""/> 
+
+    </composite:interface>
+
+    <composite:implementation >
+
+        <div class="flex flex-column align-items-center my-4">
+            <span class="flex align-items-center justify-content-center bg-cyan-100 text-cyan-800 mr-3 border-circle mb-3"
+                  style="width:46px;height:46px">
+                <i class="pi pi pi-fw pi pi-fw pi-book text-2xl"/>
+
+            </span>
+            <div class="font-medium text-2xl text-900">#{cc.attrs.titulo}</div>
+        </div>
+
+
+
+
+    </composite:implementation>
+</html>

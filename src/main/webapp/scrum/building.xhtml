@@ -1,0 +1,345 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:building="http://xmlns.jcp.org/jsf/composite/building"
+                xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+
+        <p:commandLink action="building" value="#{msg['breadcrumb.building']}">
+        </p:commandLink>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('DEVELOPERS,SUPER-USER,DIRECTOR')}">
+            <p:growl id="growl"/>
+            <script type="text/javascript">
+                function setDataTableWithPageStart() {
+
+                    widgetVardataTable.getPaginator().setPage(0);
+                }
+            </script>
+<!--            <div class="block-category-title">#{msg['form.building']}</div>-->
+
+            <!--<pb:blockViewerCore header="Sidebar" >-->
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+                <div class="min-h-screen flex flex-column relative flex-auto">
+                    <!--                    <dashboard:top/>-->
+                    <div class="surface-section , jmoordbcore-max-width2000">
+                        <div class="grid">
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+                                        <label  class="font-bold">#{msg['label.building']}</label>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+
+
+                                    </div>
+                                </div>
+                                <div class="field mb-4 col-8">
+                                    <div class="field">
+                                        <p:outputLabel  value="#{msg['field.building']}" />
+                                        <!--<span class="ui-float-label">-->
+                                        <p:autoComplete id="building" multiple="false" value="#{buildingFaces.buildingSelectedAutocomplete}"
+                                                        completeMethod="#{buildingFaces.completeBuilding}"
+                                                        var="building" itemLabel="#{building.building}" 
+                                                        itemValue="#{building}"
+                                                        forceSelection="true"
+                                                        title="#{msg['autocomplete.minimo3caracteres']}"
+                                                        dropdown="true"
+                                                        minQueryLength="3"
+                                                        scrollHeight="250"
+
+                                                        converter="#{buildingConverter}"
+                                                        >
+                                            <p:column>
+                                                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{building.building} - #{building.central.central}"/>
+                                            </p:column>
+                                            <p:ajax event="itemSelect"   listener="#{buildingFaces.autocompleteSelectedEvent}"  update=":form:growl, building, dataTable" />  
+                                            <p:ajax event="itemUnselect"  process="@this" listener="#{buildingFaces.autocompleteUnselectListener}" update=":form:growl, building, dataTable" />
+                                        </p:autoComplete>
+
+                                        <p:message for="@previous" />
+
+
+                                        <!--</span>-->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 lg:col-12">
+                                <p:dataTable style="border-style: none" var="item" value="#{buildingFaces.buildingLazyDataModel}"
+                                             binding="#{buildingFaces.dataTable}"
+                                             id="dataTable"
+                                             widgetVar="widgetVardataTable"
+                                             lazy="true"
+                                             paginator="true"
+                                             rows="#{buildingFaces.rowPageSmall.get()}"
+                                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                             paginatorPosition="both"
+                                             resizableColumns="true" liveResize="true"
+
+                                             rowKey="#{item.idbuilding}"
+                                             selection="#{buildingFaces.buildingSelected}"
+                                             rowSelectMode="add"
+                                             >
+
+
+                                    <p:column class="column10" headerText="#{msg['field.idbuilding']}" >
+                                        <p:outputLabel value="#{item.idbuilding}" style="float:left"/>
+
+                                    </p:column>
+
+
+                                    <p:column class="column10" headerText="#{msg['field.building']}" >
+                                        <p:outputLabel value="#{item.building}" style="float:left"/>
+
+                                    </p:column>
+                                    <p:column class="column10" headerText="#{msg['field.shortname']}" >
+                                        <p:outputLabel value="#{item.shortname}" style="float:left"/>
+
+                                    </p:column>
+                                    <p:column class="column10" headerText="#{msg['field.central']}" >
+                                        <p:outputLabel value="#{item.central.central}" style="float:left"/>
+
+                                    </p:column>
+                                    <p:column class="column3" headerText="#{msg['field.active']}" >                                     
+                                        <p:selectBooleanCheckbox value="#{item.active}" disabled="true" style="float:left"/> 
+                                    </p:column>
+
+
+                                    <p:column class="column2" exportable="false">
+                                        <p:menuButton  icon="pi pi-ellipsis-v" buttonStyleClass="ui-button-flat ui-button-plain rounded-button" >
+
+                                            <p:menuitem 
+                                                icon="pi pi-pencil" 
+
+                                                value="#{core['button.update']}"
+                                                update=":form:growl, outputPanelBuilding"
+                                                oncomplete="PF('overlayPanelBuilding').show('#{component.clientId}')"
+                                                action="#{buildingFaces.prepareBuilding(item)}"
+                                                styleClass="edit-button rounded-button ui-button-success" process="@this"/>       
+
+
+
+
+                                        </p:menuButton>
+                                    </p:column>
+
+
+
+
+
+                                    <f:facet name="header">
+                                        <div class="grid mt-12">
+                                            <div class="col-2">
+                                                <p:commandButton 
+                                                    title="#{core['button.add']}" 
+                                                    rendered="#{buildingFaces.isEditable}"
+                                                    update=":form:growl, outputPanelBuilding"
+                                                    icon="pi pi-plus-circle" styleClass="rounded-button mr-2 ui-button-summary"
+                                                    oncomplete="PF('overlayPanelBuilding').show('#{component.clientId}')"
+                                                    action="#{buildingFaces.agregarRowBuilding()}" />
+
+                                            </div>
+                                            <div class="col-2">
+                                                <p:commandButton title="#{core['button.print']}"
+                                                                 icon="pi pi-print"
+                                                                 id="buttonPrint"
+                                                                 process="buttonPrint"
+                                                                 ajax="false"
+                                                                 immediate="true"
+                                                                 onclick="this.form.target = '_blank'"
+                                                                 action="#{buildingFaces.printAll()}"
+                                                                 update=":form:growl"
+                                                                 styleClass="rounded-button ui-button-secondary" 
+                                                                 style="margin-right: .5rem">
+
+                                                </p:commandButton>
+                                            </div>
+                                            <div class="col-2">
+
+
+                                                <p:commandButton  title="#{msg['button.refresh']}" icon="pi pi-refresh" styleClass="rounded-button ui-button-help mr-2"
+                                                                  action="#{buildingFaces.refresh()}"
+                                                                  process="@this"
+                                                                  update=":form:growl, dataTable"/>
+                                            </div>
+                                        </div>
+                                    </f:facet>
+
+                                </p:dataTable>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div> 
+
+                </div>
+            </div>
+
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+            </p:confirmPopup>
+
+
+
+            
+            <p:dialog header="#{msg['dialog.building']}" widgetVar="overlayPanelBuilding" 
+                       width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true"
+                  >
+            <p:ajax event="close" update=":form:growl" listener="#{buildingFaces.handleCloseDialogRefresh}" />
+                <p:outputPanel id="outputPanelBuilding" style="text-align:center;"  >
+                    <c:if test="${buildingFaces.showDialogContent == false}">
+
+
+                        <utilidades:sincronizacionrequeridacontroller onclick="PF('overlayPanelBuilding').hide()"
+                                                                      message="#{buildingFaces.message}"
+                                                                      controller="#{buildingFaces}"
+                                                                      />
+                    </c:if>
+                    <c:if test="${buildingFaces.showDialogContent == true}">
+                        
+                        <!--<p:outputLabel  value="#{msg['field.idbuilding']}: #{buildingFaces.buildingSelected.idbuilding}" />-->                           
+                            <div class="grid ui-fluid mt-3 floatlabel-demo">
+                                <div class="col-12 md:col-12">
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:selectOneMenu  value="#{buildingFaces.buildingSelected.central}"
+                                                              var="item" autoWidth="false">
+                                                <f:selectItems value="#{centralConverterServices.centrals}"  var="item" 
+                                                               itemLabel="#{item.central}"
+                                                               itemValue="#{item}" />
+                                                <p:column><i class="#{item.central}" /> #{item.central} 
+                                                </p:column>
+
+
+                                            </p:selectOneMenu>
+
+                                            <p:outputLabel for="@previous" value="#{msg['field.central']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+
+
+
+
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:inputText value="#{buildingFaces.buildingSelected.building}"  />
+                                            <p:outputLabel for="@previous" value="#{msg['field.building']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:inputText value="#{buildingFaces.buildingSelected.shortname}"  />
+                                            <p:outputLabel for="@previous" value="#{msg['field.shortname']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+                                    <div class="field">
+                                        <span class="ui-float-label" jsf:rendered="#{buildingFaces.buttonNewPressed eq false}">
+
+                                            <p:selectBooleanCheckbox value="#{buildingFaces.buildingSelected.active}"/> 
+                                            <p:outputLabel for="@previous" value="#{msg['field.active']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+
+
+
+
+                            <div class="flex align-items-center ">
+                                <div class=" border-top-1 surface-border col-6 flex">
+                                    <p:commandButton  title="#{core['button.save']}" icon="pi pi-save"
+                                                      action="#{buildingFaces.save(buildingFaces.buildingSelected)}"
+                                                      update=":form:growl, dataTable"
+                                                      rendered="#{buildingFaces.buttonNewPressed}"
+                                                      process="outputPanelBuilding"
+                                                      styleClass="w-6 ml-2"/>
+                                    
+                                    <p:commandButton  title="#{core['button.update']}" 
+                                                      icon="pi pi-pencil" 
+                                                      rendered="#{buildingFaces.buttonNewPressed eq false}"
+                                                      action="#{buildingFaces.edit(buildingFaces.buildingSelected)}"
+                                                      update=":form:growl, dataTable"
+                                                      process="outputPanelBuilding"
+                                                      styleClass="w-6 ml-2"/>
+                                </div>
+
+                                <div class=" border-top-1 surface-border col-6 flex">
+                                    <p:commandButton 
+                                        title="#{core['button.cancel']}" 
+                                        icon="pi pi-times" 
+                                        onclick="PF('overlayPanelBuilding').hide()"
+                                        update=":form:growl, dataTable"
+                                        styleClass="ui-button-outlined w-6 mr-2 ui-button-danger"
+                                        />
+
+                                </div>
+                            </div>
+
+                    </c:if>
+
+                </p:outputPanel>
+                <!--</p:overlayPanel>-->
+            </p:dialog>
+
+
+
+
+
+
+
+
+
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('DEVELOPERS,SUPER-USER')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

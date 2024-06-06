@@ -1,0 +1,342 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:township="http://xmlns.jcp.org/jsf/composite/township"
+                xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+
+        <p:commandLink action="township" value="#{msg['breadcrumb.township']}">
+        </p:commandLink>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('DEVELOPERS,SUPER-USER,DIRECTOR')}">
+            <p:growl id="growl"/>
+            <script type="text/javascript">
+                function setDataTableWithPageStart() {
+
+                    widgetVardataTable.getPaginator().setPage(0);
+                }
+            </script>
+<!--            <div class="block-category-title">#{msg['form.township']}</div>-->
+
+            <!--<pb:blockViewerCore header="Sidebar" >-->
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+                <div class="min-h-screen flex flex-column relative flex-auto">
+                    <!--                    <dashboard:top/>-->
+                    <div class="surface-section , jmoordbcore-max-width2000">
+                        <div class="grid">
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+                                        <label  class="font-bold">#{msg['label.township']}</label>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+
+
+                                    </div>
+                                </div>
+                                <div class="field mb-4 col-8">
+                                    <div class="field">
+                                        <p:outputLabel  value="#{msg['field.township']}" />
+                                        <!--<span class="ui-float-label">-->
+                                        <p:autoComplete id="township" multiple="false" value="#{townshipFaces.townshipSelectedAutocomplete}"
+                                                        completeMethod="#{townshipFaces.completeTownship}"
+                                                        var="township"
+                                                        itemLabel="#{township.township} - #{township.district.district}" 
+                                                        itemValue="#{township}"
+                                                        forceSelection="true"
+                                                        title="#{msg['autocomplete.minimo3caracteres']}"
+                                                        dropdown="true"
+                                                        minQueryLength="3"
+                                                        scrollHeight="250"
+
+                                                        converter="#{townshipConverter}"
+                                                        >
+                                            <p:column>
+                                                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{township.township} - #{township.district.district}"/>
+                                            </p:column>
+                                            <p:ajax event="itemSelect"   listener="#{townshipFaces.autocompleteSelectedEvent}"  update=":form:growl, township, dataTable" />  
+                                            <p:ajax event="itemUnselect"  process="@this" listener="#{townshipFaces.autocompleteUnselectListener}" update=":form:growl, township, dataTable" />
+                                        </p:autoComplete>
+
+                                        <p:message for="@previous" />
+
+
+                                        <!--</span>-->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 lg:col-12">
+                                <p:dataTable style="border-style: none" var="item" value="#{townshipFaces.townshipLazyDataModel}"
+                                             binding="#{townshipFaces.dataTable}"
+                                             id="dataTable"
+                                             widgetVar="widgetVardataTable"
+                                             lazy="true"
+                                             paginator="true"
+                                             rows="#{townshipFaces.rowPageSmall.get()}"
+                                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                             paginatorPosition="both"
+                                             resizableColumns="true" liveResize="true"
+
+                                             rowKey="#{item.idtownship}"
+                                             selection="#{townshipFaces.townshipSelected}"
+                                             rowSelectMode="add"
+                                             >
+
+
+                                    <p:column class="column10" headerText="#{msg['field.idtownship']}" >
+                                        <p:outputLabel value="#{item.idtownship}" style="float:left"/>
+
+                                    </p:column>
+
+
+                                    <p:column class="column10" headerText="#{msg['field.township']}" >
+                                        <p:outputLabel value="#{item.township}" style="float:left"/>
+
+                                    </p:column>
+                                    <p:column class="column10" headerText="#{msg['field.district']}" >
+                                        <p:outputLabel value="#{item.district.district}" style="float:left"/>
+
+                                    </p:column>
+                                    <p:column class="column3" headerText="#{msg['field.active']}" >                                     
+                                        <p:selectBooleanCheckbox value="#{item.active}" disabled="true" style="float:left"/> 
+                                    </p:column>
+
+
+                                    <p:column class="column2" exportable="false">
+                                        <p:menuButton  icon="pi pi-ellipsis-v" buttonStyleClass="ui-button-flat ui-button-plain rounded-button" >
+
+                                            <p:menuitem 
+                                                icon="pi pi-pencil" 
+
+                                                value="#{core['button.update']}"
+                                                update=":form:growl, outputPanelTownship"
+                                                oncomplete="PF('overlayPanelTownship').show('#{component.clientId}')"
+                                                action="#{townshipFaces.prepareTownship(item)}"
+                                                styleClass="edit-button rounded-button ui-button-success" process="@this"/>       
+
+
+
+
+                                        </p:menuButton>
+                                    </p:column>
+
+
+
+
+
+                                    <f:facet name="header">
+                                        <div class="grid mt-12">
+                                            <div class="col-2">
+                                                <p:commandButton 
+                                                    title="#{core['button.add']}" 
+                                                    rendered="#{townshipFaces.isEditable}"
+                                                    update=":form:growl, outputPanelTownship"
+                                                    icon="pi pi-plus-circle" styleClass="rounded-button mr-2 ui-button-summary"
+                                                    oncomplete="PF('overlayPanelTownship').show('#{component.clientId}')"
+                                                    action="#{townshipFaces.agregarRowTownship()}" />
+
+                                            </div>
+                                            <div class="col-2">
+                                                <p:commandButton title="#{core['button.print']}"
+                                                                 icon="pi pi-print"
+                                                                 id="buttonPrint"
+                                                                 process="buttonPrint"
+                                                                 ajax="false"
+                                                                 immediate="true"
+                                                                 onclick="this.form.target = '_blank'"
+                                                                 action="#{townshipFaces.printAll()}"
+                                                                 update=":form:growl"
+                                                                 styleClass="rounded-button ui-button-secondary" 
+                                                                 style="margin-right: .5rem">
+
+                                                </p:commandButton>
+                                            </div>
+                                            <div class="col-2">
+
+
+                                                <p:commandButton  title="#{msg['button.refresh']}" icon="pi pi-refresh" styleClass="rounded-button ui-button-help mr-2"
+                                                                  action="#{townshipFaces.refresh()}"
+                                                                  process="@this"
+                                                                  update=":form:growl, dataTable"/>
+                                            </div>
+                                        </div>
+                                    </f:facet>
+
+                                </p:dataTable>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div> 
+
+                </div>
+            </div>
+
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+            </p:confirmPopup>
+
+
+
+            
+            <p:dialog header="#{msg['dialog.township']}" widgetVar="overlayPanelTownship" 
+                       width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true"
+                  >
+            <p:ajax event="close" update=":form:growl" listener="#{townshipFaces.handleCloseDialogRefresh}" />
+                <p:outputPanel id="outputPanelTownship" style="text-align:center;"  >
+                    <c:if test="${townshipFaces.showDialogContent == false}">
+
+
+                        <utilidades:sincronizacionrequeridacontroller onclick="PF('overlayPanelTownship').hide()"
+                                                                      message="#{townshipFaces.message}"
+                                                                      controller="#{townshipFaces}"
+                                                                      />
+                    </c:if>
+                    <c:if test="${townshipFaces.showDialogContent == true}">
+                        
+                        <!--<p:outputLabel  value="#{msg['field.idtownship']}: #{townshipFaces.townshipSelected.idtownship}" />-->                           
+                            <div class="grid ui-fluid mt-3 floatlabel-demo">
+                                <div class="col-12 md:col-12">
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:selectOneMenu  value="#{townshipFaces.townshipSelected.district}"
+                                                              var="item" autoWidth="false"
+                                                              filter="false">
+                                                <f:selectItems value="#{districtConverterServices.districts}"  var="item" 
+                                                               itemLabel="#{item.district} - #{item.province.province}"
+                                                               itemValue="#{item}" />
+                                                <p:column>#{item.district} - #{item.province.province}
+                                                </p:column>
+
+
+                                            </p:selectOneMenu>
+
+                                            <p:outputLabel for="@previous" value="#{msg['field.district']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+
+
+
+
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:outputLabel value="#{townshipFaces.townshipSelected.idtownship}"  />
+                                            <p:outputLabel for="@previous" value="#{msg['field.idtownship']}" />
+
+                                        </span>
+                                    </div>
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:inputText value="#{townshipFaces.townshipSelected.township}"  />
+                                            <p:outputLabel for="@previous" value="#{msg['field.township']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+                                    <div class="field">
+                                        <span class="ui-float-label" jsf:rendered="#{townshipFaces.buttonNewPressed eq false}">
+
+                                            <p:selectBooleanCheckbox value="#{townshipFaces.townshipSelected.active}"/> 
+                                            <p:outputLabel for="@previous" value="#{msg['field.active']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+
+
+
+
+                            <div class="flex align-items-center ">
+                                <div class=" border-top-1 surface-border col-6 flex">
+                                    <p:commandButton  title="#{core['button.save']}" icon="pi pi-save"
+                                                      action="#{townshipFaces.save(townshipFaces.townshipSelected)}"
+                                                      update=":form:growl, dataTable"
+                                                      rendered="#{townshipFaces.buttonNewPressed}"
+                                                      process="outputPanelTownship"
+                                                      styleClass="w-6 ml-2"/>
+
+                                    <p:commandButton  title="#{core['button.update']}" 
+                                                      icon="pi pi-pencil" 
+                                                      rendered="#{townshipFaces.buttonNewPressed eq false}"
+                                                      action="#{townshipFaces.edit(townshipFaces.townshipSelected)}"
+                                                      update=":form:growl, dataTable"
+                                                      process="outputPanelTownship"
+                                                      styleClass="w-6 ml-2"/>
+                                </div>
+
+                                <div class=" border-top-1 surface-border col-6 flex">
+                                    <p:commandButton 
+                                        title="#{core['button.cancel']}" 
+                                        icon="pi pi-times" 
+                                        onclick="PF('overlayPanelTownship').hide()"
+                                        update=":form:growl, dataTable"
+                                        styleClass="ui-button-outlined w-6 mr-2 ui-button-danger"
+                                        />
+
+                                </div>
+                            </div>
+                        
+                    </c:if>
+
+                </p:outputPanel>
+                <!--</p:overlayPanel>-->
+            </p:dialog>
+
+
+
+
+
+
+
+
+
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('DEVELOPERS,SUPER-USER')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

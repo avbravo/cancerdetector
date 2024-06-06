@@ -1,0 +1,209 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:paneltrabajo="http://xmlns.jcp.org/jsf/composite/paneltrabajo" 
+      xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades" 
+      xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf">
+
+    <composite:interface >
+        <composite:attribute name="pendiente" default="false"/>
+        <composite:attribute name="progreso" default="false"/>
+        <composite:attribute name="finalizado" default="false"/>
+        <composite:attribute name="id" default=""/> 
+    </composite:interface>
+
+    <composite:implementation >
+
+
+        <p:dialog header="#{msg['dialog.tarjetaimpedimento']}" widgetVar="overlayPanelTarjetaImpedimento"  
+                  width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true"
+                  >
+            <p:ajax event="close" update=":form:growl" listener="#{panelTrabajoFaces.handleCloseDialogImpedimento}" />
+
+            <p:outputPanel id="#{cc.attrs.id}" style="text-align:center;">
+
+                <jmoordbcorejsf:overlayPanelTarjetaHeader iconoheader="pi-megaphone" 
+                                                          titulo="#{msg['dialog.tarjetaimpedimento']}"
+                                                          entity="#{panelTrabajoFaces.tarjetaImpedimentoSelected}"
+                                                          icono="#{panelTrabajoFaces.tarjetaImpedimentoSelected.icono}"/>
+
+
+
+                <c:if test="${panelTrabajoFaces.fueCambiadoPorOtroUsuario == true}">
+
+
+                    <utilidades:sincronizacionrequeridacontroller onclick="PF('overlayPanelTarjetaImpedimento').hide()"
+                                                                  message="#{panelTrabajoFaces.message}"
+                                                                  controller="#{panelTrabajoFaces}"
+
+                                                                  />
+
+                </c:if>
+
+                <c:if test="${panelTrabajoFaces.fueCambiadoPorOtroUsuario == false}">
+                    <p:remoteCommand     update=":form:growl, dataTableImpedimento, inputTextImpedimento"
+                                         name="remoteCommandInputTextAreaImpedimento"
+                                         action="#{panelTrabajoFaces.agregarRowImpedimento()}"/>
+
+
+                    <div class="grid ui-fluid mt-3 floatlabel-demo">
+                        <div class="col-12 md:col-10">
+                            <div class="flex align-items-center ">
+                                <p:inputTextarea id="inputTextImpedimento" value ="#{panelTrabajoFaces.inputTextImpedimento}" 
+                                                 placeholder="#{msg['label.ingreseimpedimento']}" 
+                                                 rendered="#{panelTrabajoFaces.isEditable}"
+                                                 rows="2"
+
+                                                 autoResize="false"
+                                                 onkeypress="if (event.keyCode == 13) {
+                                                                 remoteCommandInputTextAreaImpedimento();
+                                                                 return false;
+                                                             }"
+                                                 />
+                            </div>
+
+                        </div>
+                        <div class="col-12 md:col-2">
+                            <div class="flex align-items-center ">
+                                <p:commandButton 
+                                    title="#{core['button.add']}"
+                                    rendered="#{panelTrabajoFaces.isEditable}"
+                                    update=":form:growl, dataTableImpedimento, inputTextImpedimento"
+                                    icon="pi pi-plus-circle"
+                                    styleClass="ui-button-raised ui-button-secondary"
+                                    action="#{panelTrabajoFaces.agregarRowImpedimento()}" />
+                            </div>
+
+                        </div>
+                    </div>
+                    <p:dataTable style="border-style: none" value="#{panelTrabajoFaces.tarjetaImpedimentoSelected.impedimento}"
+                                 var="item"
+                                 paginator="true"
+                                 editMode="cell"
+                                 resizableColumns="true" liveResize="true"
+                                 id="dataTableImpedimento"
+                                 widgetVar="dataTableImpedimento"
+                                 editable="true"
+                             rows="#{panelTrabajoFaces.rowPageDialog.get()}"
+                                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                                 draggableRows="true"
+                                 >
+                        <p:ajax event="cellEdit" listener="#{panelTrabajoFaces.onCellEditImpedimento}" update=":form:growl, dataTableImpedimento"/>
+
+  <p:column class="column3">
+                            <p:cellEditor >
+                                <f:facet name="output">
+                                    <p:toggleSwitch value="#{item.completado}" onIcon="pi pi-check" offIcon="pi pi-times" disabled="true" />
+                                </f:facet>
+
+                                <f:facet name="input" >
+
+
+                                    <p:selectOneMenu value="#{item.completado}" 
+                                                     autoWidth="false"
+                                                     filter="no" filterMatchMode="startsWith">
+
+                                        <f:selectItem itemLabel="#{core['button.yes']}" itemValue="true"/>
+                                        <f:selectItem itemLabel="#{core['button.no']}" itemValue="no"/>
+
+
+                                    </p:selectOneMenu>
+
+                                </f:facet>
+                            </p:cellEditor>
+
+                        </p:column>
+
+                        <p:column class="columnInputTextArea43" headerText="#{msg['field.impedimento']}" >
+
+
+                            <p:cellEditor >
+                                <f:facet name="output">
+                                  <p:inputTextarea  rows="#{item.impedimento.length() le 70?1:(item.impedimento.length()/70)+1}" style="width: 100% !important; float:left;text-decoration: line-through" autoResize="false" readonly="true" value="#{item.impedimento}"  rendered="#{item.completado eq true}"/>
+                                  <p:inputTextarea  rows="#{item.impedimento.length() le 70?1:(item.impedimento.length()/70)+1}" style="width: 100% !important;" autoResize="false" readonly="true" value="#{item.impedimento}" rendered="#{item.completado eq false}" />
+
+                                </f:facet>
+                                <f:facet name="input" >
+                                     <p:inputTextarea  rows="2" style="width: 100% !important;" autoResize="false"  value="#{item.impedimento}"  />
+                                </f:facet>
+                            </p:cellEditor>
+
+                        </p:column>
+
+                        <p:column class="column2" headerText="#{msg['field.por']}" >
+                            <p:avatar shape="circle"
+                                      title="#{item.userView.name}"
+                                      label="#{item.userView.name}" styleClass="mr-2" size="small" />
+
+                        </p:column>
+                        <p:column class="columnDate11" headerText="#{msg['field.fecha']}">
+                            <div class="text-700 mt-2">#{panelTrabajoFaces.showDateWithHour(item.fecha)}</div>
+
+                        </p:column>
+
+
+                        <p:column class="column6">
+                            <p:commandButton styleClass="ui-button-raised ui-button-secondary"
+                                             icon="pi pi-trash"
+                                             process="@this"
+                                             rendered="#{panelTrabajoFaces.isEditable}"
+                                             update=":form:growl, dataTableImpedimento"
+                                             action="#{panelTrabajoFaces.deleteImpedimento(item)}"
+                                             >
+                                <p:confirm type="popup" header="#{core['confirmdialog.header']}" message="#{core['confirmdialog.message']}" icon="pi pi-info-circle"/>
+                            </p:commandButton>
+                        </p:column>
+
+
+                        <f:facet name="footer">
+                            <div class="flex align-items-center ">
+                                <div class=" border-top-1 surface-border col-4 flex">
+
+                                    <p:commandButton  
+                                        title="#{core['button.close']}" icon="pi pi-times"
+                                        rendered="#{panelTrabajoFaces.isEditable}"
+                                        update=":form:growl"
+                                        action="#{panelTrabajoFaces.addImpedimento(panelTrabajoFaces.tarjetaImpedimentoSelected)}" 
+                                        styleClass="ui-button-raised ui-button-secondary"/>
+
+                                    <p:commandButton  
+                                        title="#{core['button.close']}" icon="pi pi-times"
+                                        rendered="#{panelTrabajoFaces.isEditable eq false}"
+                                        update=":form:growl"
+                                        action="#{panelTrabajoFaces.closeAddImpedimento(panelTrabajoFaces.tarjetaImpedimentoSelected)}" 
+                                        styleClass="ui-button-raised ui-button-secondary"/>
+
+                                </div>
+
+
+                            </div>
+                        </f:facet>
+                    </p:dataTable>
+
+                </c:if>
+
+
+            </p:outputPanel>
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+            </p:confirmPopup>
+
+        </p:dialog>
+
+
+    </composite:implementation>
+</html>

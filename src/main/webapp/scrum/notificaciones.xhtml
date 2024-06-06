@@ -1,0 +1,79 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:scrum="http://xmlns.jcp.org/jsf/composite/scrum">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+
+        <!--<i class="pi pi-angle-right"></i>-->
+        <p:commandLink action="notificaciones" value="#{core['breadcrumb.notificacion']}" >
+
+        </p:commandLink>
+
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+            <!--<h:form id="form" enctype="multipart/form-data" prependId="false"  >-->
+            <p:growl id="growl"/>
+            <!--<div class="block-category-title">#{msg['form.dashboard']}</div>-->
+            <!--<div class="jmoordbcore-block-category-title">#{msg['form.dashboard']} 1</div>-->
+
+            <!--<pb:blockViewerCore header="Sidebar" >-->
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+
+                <div class="min-h-screen flex flex-column relative flex-auto">
+<!--                    <dashboard:top/>-->
+                    <div class="flex flex-column flex-auto">
+                        <scrum:profile/>
+
+
+
+                        <div class="col-12 xl:col-6">
+                            <div class="surface-card shadow-2 border-round p-4" >
+                                <div class="text-xl text-900 font-medium mb-5"><i class="pi pi-bell"></i> #{core['dashboard.notificacionesproyecto']}</div>
+                                <ul class="list-none p-0 m-0">
+                                    <ui:repeat value="#{notificacionesFaces.notificacionProyectoList}" var="notificacionProyecto" >
+                                        <li class="pb-3 border-bottom-1 surface-border">
+                                            <div class="font-medium text-900 mb-2">#{notificacionProyecto.titulo}</div>
+                                            <div class="line-height-3 text-600"
+                                                 style="max-width: 30rem">#{notificacionProyecto.notificacion}
+                                            </div>
+                                        </li>
+                                    </ui:repeat>    
+
+
+
+                                </ul>
+                                <!--                <div class="flex justify-content-between pt-3">
+                                                    <p:commandButton type="button" value="Clear All"
+                                                                     styleClass="ui-button-outlined ui-button-secondary w-6 mr-2"/>
+                                                    <p:commandButton type="button" value="New Entry"
+                                                                     styleClass="ui-button-outlined w-6 ml-2"/>
+                                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,439 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:scrum="http://xmlns.jcp.org/jsf/composite/scrum"
+                xmlns:pb="http://xmlns.jcp.org/jsf/composite/primeblocks"
+                xmlns:jsf="jakarta.faces"
+                xmlns:scrumdialogo="jakarta.faces.composite/scrumdialogo"
+                xmlns:f="jakarta.faces.core">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+
+        <!--<i class="pi pi-angle-right"></i>-->
+        <p:commandLink action="dashboard" value="#{msg['breadcrumb.dashboard']}" >
+
+        </p:commandLink>
+
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+            <!--<h:form id="form" enctype="multipart/form-data" prependId="false"  >-->
+            <p:growl id="growl"/>
+            <p:remoteCommand name="remoteCommandWebSocketProyecto" action="#{dashboardFaces.refreshFromWebsocket()}"
+                             update="#{dashboardFaces.updateForRemoteWebsocket()}" 
+                             oncomplete="#{dashboardFaces.onCompleteWebSocket()}" 
+
+                             />
+
+
+            <!--<div class="block-category-title">#{msg['form.dashboard']}</div>-->
+            <!--<div class="jmoordbcore-block-category-title">#{msg['form.dashboard']} 1</div>-->
+
+            <!--<pb:blockViewerCore header="Sidebar" >-->
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+
+                <div class="min-h-screen flex flex-column relative flex-auto">
+                    <!--<dashboard:top/>-->
+                    <div class="flex flex-column flex-auto">
+                        <scrum:profile/>
+
+<!--                        <div class="col-12 md:col-4" jsf:rendered="#{dashboardFaces.contadorNotificacionesWebsocket gt 0}">
+                            <p:staticMessage severity="warn" summary="#{core['warning.warning']}" detail="#{msg['warning.haynuevoscambiosactualiceformulario']}" style="width: 100%"/>
+                        </div>-->
+
+
+                        <div class="p-5 flex flex-column flex-auto">
+                            <div class="grid">
+                                <div class="col-12">
+                                    <div class="grid">
+                                        <div class="col-12 md:col-6 lg:col-3 p-3">
+                                            <div class="p-3 text-center bg-blue-500" style="border-radius: 12px">
+                                                <span class="inline-flex justify-content-center align-items-center bg-blue-600 border-circle mb-3" style="width:49px; height: 49px">
+                                                    <i class="pi pi-bookmark text-xl text-white"></i>
+                                                </span>
+
+                                                <div>
+                                                    <p:commandLink class="text-2xl font-medium text-white mb-2"
+                                                                   value="#{dashboardFaces.totalesTarjetasEstadistica.totalTarjetasPendiente}" 
+                                                                   oncomplete="PF('overlayPanelTarjetaView').show('#{component.clientId}')"
+                                                                   update=":form, ouputPanelTarjetaView"
+                                                                   action="#{dashboardFaces.showTarjetas('pendiente')}"
+                                                                   />
+
+
+                                                </div>
+                                                <span class="text-blue-100 font-medium">#{msg['label.pendiente']}</span>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-12 md:col-6 lg:col-3 p-3">
+                                            <div class="p-3 text-center bg-purple-500" style="border-radius: 12px">
+                                                <span class="inline-flex justify-content-center align-items-center bg-purple-600 border-circle mb-3" style="width:49px; height: 49px">
+                                                    <i class="pi pi-truck text-xl text-white"></i>
+                                                </span>
+
+
+                                                <div>
+                                                    <p:commandLink class="text-2xl font-medium text-white mb-2"
+                                                                   value="#{dashboardFaces.totalesTarjetasEstadistica.totalTarjetasProgreso}" 
+                                                                   oncomplete="PF('overlayPanelTarjetaView').show('#{component.clientId}')"
+                                                                   update=":form, ouputPanelTarjetaView"
+                                                                   action="#{dashboardFaces.showTarjetas('progreso')}"
+                                                                   />
+
+
+                                                </div>
+                                                <span class="text-purple-100 font-medium">#{msg['label.progreso']}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 md:col-6 lg:col-3 p-3">
+                                            <div class="p-3 text-center bg-indigo-500" style="border-radius: 12px">
+                                                <span class="inline-flex justify-content-center align-items-center bg-indigo-600 border-circle mb-3" style="width:49px; height: 49px">
+                                                    <i class="pi pi-compass text-xl text-white"></i>
+                                                </span>
+
+
+                                                <div>
+                                                    <p:commandLink class="text-2xl font-medium text-white mb-2"
+                                                                   value="#{dashboardFaces.totalesTarjetasEstadistica.totalTarjetasFinalizado}" 
+                                                                   oncomplete="PF('overlayPanelTarjetaView').show('#{component.clientId}')"
+                                                                   update=":form, ouputPanelTarjetaView"
+                                                                   action="#{dashboardFaces.showTarjetas('finalizado')}"
+                                                                   />
+
+
+                                                </div>
+
+
+                                                <span class="text-indigo-100 font-medium">#{msg['label.finalizado']}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 md:col-6 lg:col-3 p-3">
+                                            <div class="p-3 text-center bg-orange-500" style="border-radius: 12px">
+                                                <span class="inline-flex justify-content-center align-items-center bg-orange-600 border-circle mb-3" style="width:49px; height: 49px">
+                                                    <i class="pi pi-fw pi-server text-xl text-white"></i>
+                                                </span>
+
+
+
+                                                <div>
+                                                    <p:commandLink class="text-2xl font-medium text-white mb-2"
+                                                                   value="#{dashboardFaces.totalesTarjetasEstadistica.totalTarjetasBacklog}" 
+                                                                   oncomplete="PF('overlayPanelTarjetaView').show('#{component.clientId}')"
+                                                                   update=":form, ouputPanelTarjetaView"
+                                                                   action="#{dashboardFaces.showTarjetas('backlog')}"
+                                                                   />
+
+
+                                                </div>
+
+                                                <span class="text-orange-100 font-medium">#{msg['label.backlog']}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>  
+
+
+
+
+                        <pb:blockViewer header="#{msg['blockviewer.iavaginal']}" containerClass="px-4 py-8 md:px-6 lg:px-8">
+                            <div>
+                                <div class="text-900 font-medium text-xl mb-3">Profile</div>
+                                <p class="m-0 mb-4 p-0 text-600 line-height-3 mr-3">Odio euismod lacinia at quis risus sed vulputate odio. Non nisi est sit amet.
+                                    Egestas integer eget aliquet nibh praesent tristique magna.</p>
+                                <div class="surface-card p-4 shadow-2 border-round">
+                                    <div class="grid formgrid ui-fluid">
+                                        <div class="field mb-4 col-6">
+                                            <label for="nickname2" class="font-medium">Fecha</label>
+                                            <p:inputText id="nickname2"/>
+                                        </div>
+                                        <div class="field mb-4 col-6">
+                                            <label for="nickname2" class="font-medium">NHC*</label>
+                                            <p:inputText id="nickname22"/>
+                                        </div>
+                                        <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+                                        <div class="field mb-4 col-12 md:col-6">
+                                            <label for="bio2" class="font-medium">Número de muestra</label>
+                                            <p:inputTextarea id="bio2" rows="5" autoResize="true"/>
+                                        </div>
+                                        <div class="field mb-4 col-12 md:col-6">
+                                            <label class="font-medium">Edad</label>
+                                            <div class="flex align-items-center">
+                                                <p:graphicImage name="images/blocks/avatars/circle/avatar-f-4.png"
+                                                                library="primeblocks-app" alt="Image"
+                                                                styleClass="mr-4"/>
+                                                <p:fileUpload mode="simple" skinSimple="true" label="Upload Image" auto="true"
+                                                              process="@this"/>
+                                            </div>
+                                        </div>
+                                        <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+                                        <div class="field mb-4 col-12 md:col-6">
+                                            <label for="email2" class="font-medium">Motivo de petición</label>
+                                            <p:inputText id="email2"/>
+                                        </div>
+                                        <div class="field mb-4 col-12 md:col-6">
+                                            <label class="font-medium">Country</label>
+                                            <p:selectOneMenu filter="true" filterMatchMode="startsWith">
+                                                <f:selectItem itemLabel="Select a Country" itemValue=""/>
+                                                <f:selectItem itemLabel="Australia" itemValue="Australia"/>
+                                                <f:selectItem itemLabel="Brazil" itemValue="Brazil"/>
+                                                <f:selectItem itemLabel="China" itemValue="China"/>
+                                                <f:selectItem itemLabel="Egypt" itemValue="Egypt"/>
+                                                <f:selectItem itemLabel="France" itemValue="France"/>
+                                                <f:selectItem itemLabel="Germany" itemValue="Germany"/>
+                                                <f:selectItem itemLabel="India" itemValue="India"/>
+                                                <f:selectItem itemLabel="Japan" itemValue="Japan"/>
+                                                <f:selectItem itemLabel="Spain" itemValue="Spain"/>
+                                                <f:selectItem itemLabel="United States" itemValue="United States"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                        <div class="field mb-4 col-12 md:col-6">
+                                            <label for="city2" class="font-medium">City</label>
+                                            <p:inputText id="city2"/>
+                                        </div>
+                                        <div class="field mb-4 col-12 md:col-6">
+                                            <label for="state2" class="font-medium">State</label>
+                                            <p:inputText id="state2"/>
+                                        </div>
+                                        <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+                                        <div class="field mb-4 col-12">
+                                            <label for="website2" class="font-medium">Website</label>
+                                            <div class="ui-inputgroup">
+                                                <span class="ui-inputgroup-addon">www</span>
+                                                <p:inputText id="website2"/>
+                                            </div>
+                                        </div>
+                                        <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+                                        <div class="field mb-4 col-12">
+                                            <label class="font-medium">Privacy</label>
+                                            <div class="flex align-items-center">
+                                                <p:toggleSwitch/>
+                                                <span class="ml-2">Share my data with contacts</span>
+                                            </div>
+                                        </div>
+                                        <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+                                        <div class="col-12">
+                                            <p:commandButton type="button" value="Save Changes" styleClass="w-auto mt-3"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </pb:blockViewer>
+
+
+
+                        <!--                        <scrum:proyectosprivados/>
+
+                        <scrum:proyectosforeanos/>-->
+
+                        <scrum:teammenberstimeline/>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <p:overlayPanel widgetVar="overlayPanelResumen" dismissable="false" modal="true" showCloseIcon="true" dynamic="true" 
+                            style="width:270px">
+                <p:outputPanel id="outputPanelResumen" style="text-align:center;">
+                    <div class="flex align-items-center ">
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium my-3 text-500">#{msg['label.resumenproyecto']}</span>
+
+                        </div>
+                    </div>
+                    <p:divider/>
+                    <div class="flex align-items-center ">
+                        <div class="mr-4 mt-2">
+
+                            <span class="font-bold my-3 text-500">#{msg['label.sprints']}: #{dashboardFaces.proyectoEstadisticaResumen.totalSprint}</span>
+                        </div>
+                    </div>
+
+
+                    <div class="flex align-items-center ">
+
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium text-500">#{msg['label.pendiente']}</span>
+                            <div class="text-500 mt-2">#{dashboardFaces.proyectoEstadisticaResumen.totalTarjetasPendiente}</div>
+                        </div>
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium text-500">#{msg['label.progreso']}</span>
+                            <div class="text-500 mt-2">#{dashboardFaces.proyectoEstadisticaResumen.totalTarjetasProgreso}</div>
+                        </div>
+                    </div>
+                    <div class="flex align-items-center ">
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium text-500">#{msg['label.finalizado']}</span>
+                            <div class="text-500 mt-2">#{dashboardFaces.proyectoEstadisticaResumen.totalTarjetasFinalizado}</div>
+                        </div>
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium text-500">#{msg['label.backlog']}</span>
+                            <div class="text-500 mt-2">#{dashboardFaces.proyectoEstadisticaResumen.totalTarjetasBacklog}</div>
+                        </div>
+                    </div>
+                </p:outputPanel>
+            </p:overlayPanel>
+            <p:overlayPanel widgetVar="overlayPanelMyResumen" dismissable="false" modal="true" showCloseIcon="true" dynamic="true" 
+                            style="width:270px">
+                <p:outputPanel id="outputPanelMyResumen" style="text-align:center;">
+                    <div class="flex align-items-center ">
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium my-3 text-500">#{msg['label.miresumen']}</span>
+                        </div>
+                    </div>
+                    <p:divider/>
+                    <div class="flex align-items-center ">
+                        <div class="mr-4 mt-2">
+
+                            <span class="font-bold my-3 text-500">#{msg['label.sprints']}: #{dashboardFaces.proyectoEstadisticaResumen.totalSprint}</span>
+                        </div>
+                    </div>
+
+
+                    <div class="flex align-items-center ">
+
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium text-500">#{msg['label.pendiente']}</span>
+                            <div class="text-500 mt-2">#{dashboardFaces.proyectoEstadisticaResumen.totalTarjetasPendiente}</div>
+                        </div>
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium text-500">#{msg['label.progreso']}</span>
+                            <div class="text-500 mt-2">#{dashboardFaces.proyectoEstadisticaResumen.totalTarjetasProgreso}</div>
+                        </div>
+                    </div>
+                    <div class="flex align-items-center ">
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium text-500">#{msg['label.finalizado']}</span>
+                            <div class="text-500 mt-2">#{dashboardFaces.proyectoEstadisticaResumen.totalTarjetasFinalizado}</div>
+                        </div>
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium text-500">#{msg['label.backlog']}</span>
+                            <div class="text-500 mt-2">#{dashboardFaces.proyectoEstadisticaResumen.totalTarjetasBacklog}</div>
+                        </div>
+                    </div>
+                </p:outputPanel>
+            </p:overlayPanel>
+
+
+            <p:overlayPanel widgetVar="overlayPanelSprintOpen" dismissable="false" modal="true" showCloseIcon="true" dynamic="true" 
+                            style="width:270px">
+                <p:outputPanel id="outputPanelSprintOpen" style="text-align:center;">
+                    <div class="flex align-items-center ">
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium my-3 text-500">#{msg['button.sprintopen']}: #{dashboardFaces.sprintOpenSelected.sprint}</span>
+                        </div>
+                    </div>
+                    <p:divider/>
+                    <div class="flex align-items-left">
+
+                        <div class="mr-4 mt-4">
+                            <span class="font-medium text-500">#{msg['field.fechainicial']}</span>
+                            <div class="text-500 mt-2">#{dashboardFaces.showDateWithHour(dashboardFaces.sprintOpenSelected.fechainicial)}</div>
+                        </div>
+
+                    </div>
+
+                    <div class="flex align-items-left">
+
+                        <div class="mr-4 mt-4">
+                            <span class="font-medium text-500">#{msg['field.fechafinal']}</span>
+                            <div class="text-500 mt-2">#{dashboardFaces.showDateWithHour(dashboardFaces.sprintOpenSelected.fechafinal)}</div>
+                        </div>
+                    </div>
+
+                </p:outputPanel>
+            </p:overlayPanel>
+            <scrumdialogo:proyectoeditar id="outputPanelProyectoEditar" />
+            <scrumdialogo:proyectoclonar id="outputPanelProyectoClonar" />
+            <scrumdialogo:proyectoarchivar id="outputPanelProyectoArchivar"/>
+            <scrumdialogo:proyectoeliminar id="outputPanelProyectoEliminar"/>
+
+            <p:dialog header="#{msg['dialog.tarjeta']}" widgetVar="overlayPanelTarjetaView"  
+                      width="50vw" 
+                      responsive="true"
+                      showEffect="fade" 
+                      modal="true" 
+                      closable="true"
+                      resizable="true"
+                      maximizable="true"
+                      minimizable="true"
+                      >
+                <p:ajax event="close" update=":form:growl" listener="#{dashboardFaces.handleCloseDialogRefresh}" />
+                <p:outputPanel id="ouputPanelTarjetaView" style="text-align:center;">
+
+                    <p:dataTable style="border-style: none" var="item" value="#{dashboardFaces.tarjetaLazyDataModel}"
+                                 binding="#{dashboardFaces.dataTable}"
+                                 id="dataTable"
+                                 widgetVar="widgetVardataTable"
+                                 lazy="true"
+                                 paginator="true"
+                                 rows="#{dashboardFaces.rowPageSmall.get()}"
+                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                 paginatorPosition="both"
+                                 resizableColumns="true" liveResize="true"
+                                 rowKey="#{item.idtarjeta}"
+                                 selection="#{dashboardFaces.tarjetaSelected}"
+                                 rowSelectMode="add"
+
+                                 >
+
+
+                        <p:column class="column8" headerText="#{msg['field.idtarjeta']}">
+                            <p:outputLabel value="#{item.idtarjeta}" style="float:left"/>
+                        </p:column>
+                        <p:column class="column25" headerText="#{msg['field.tarjeta']}">
+
+                            <p:inputTextarea  rows="#{item.tarjeta.length() le 70?1:(item.tarjeta.length()/70)+1}" style="width: 100% !important;" autoResize="false" readonly="true" value="#{item.tarjeta}"  
+
+
+                                              />
+                        </p:column>
+
+                    </p:dataTable>
+
+
+
+                    <div class="flex align-items-center ">
+                        <div class=" border-top-1 surface-border pt-6 flex">
+
+
+
+                            <p:commandButton title="#{core['button.cancel']}" icon="pi pi-times" 
+                                             onclick="PF('overlayPanelTarjetaView').hide()"
+                                             update=":form"
+                                             styleClass="ui-button-outlined w-6 mr-2"/>
+
+
+                        </div>
+                    </div>
+                </p:outputPanel>
+
+            </p:dialog>
+
+
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

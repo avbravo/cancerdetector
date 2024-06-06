@@ -1,0 +1,41 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:dialogo="http://xmlns.jcp.org/jsf/composite/dialogo">
+
+    <composite:interface >
+       <composite:attribute name="onclick" default=""/> 
+      
+    </composite:interface>
+
+    <composite:implementation >
+
+        <div  class="flex align-items-start p-4 bg-orange-100 border-round border-1 border-orange-300">
+            <i class="pi pi-info-circle text-orange-900 text-2xl mr-3"/>
+            <div class="mr-3">
+                <div class="text-orange-900 font-medium text-xl mb-2 line-height-1">#{core['warning.warning']}</div>
+                 <p class="m-0 p-0 text-black-alpha-90 mb-3 line-height-4">
+                    #{tipotarjetaFaces.message}
+                </p>
+                <dialogo:centrardialogo oncomplete="#{cc.attrs.onclick}"/>
+            </div>
+            <div class="ml-auto">
+                <a class="inline-flex align-items-center justify-content-center ml-auto border-circle hover:bg-orange-50 no-underline cursor-pointer transition-colors transition-duration-150"
+                   style="width:1.5rem;height:1.5rem">
+                    <p:commandButton 
+                        title="#{core['button.cancel']}" icon="pi pi-times" 
+                         onclick="#{cc.attrs.onclick}"
+            
+                        update=":form:growl"
+                        styleClass="ui-button-outlined w-6 mr-2 ui-button-danger"/>
+
+                </a>
+            </div>
+        </div>
+
+    </composite:implementation>
+</html>

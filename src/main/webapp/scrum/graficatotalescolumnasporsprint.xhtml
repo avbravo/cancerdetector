@@ -1,0 +1,154 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:tablero="http://xmlns.jcp.org/jsf/composite/tablero"
+                xmlns:sprint="http://xmlns.jcp.org/jsf/composite/sprint"
+                xmlns:dialogo="http://xmlns.jcp.org/jsf/composite/dialogo">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+        <c:if test="${graficaTotalesColumnasPorSprint.callerLevel0 eq 'dashboard'}">
+            <p:commandLink action="dashboard" value="#{msg['breadcrumb.dashboard']}">
+            </p:commandLink>
+        </c:if>
+        <c:if test="${graficaTotalesColumnasPorSprint.callerLevel0 eq 'proyecto'}">
+            <p:commandLink action="misproyecto" value="#{msg['breadcrumb.misproyecto']}">
+            </p:commandLink>
+        </c:if>
+
+        <c:if test="${graficaTotalesColumnasPorSprint.callerLevel0 eq 'reportedepartamental'}">
+            <p:commandLink action="reportedepartamental" value="#{msg['breadcrumb.reportedepartamental']}">
+            </p:commandLink>
+        </c:if>
+        <c:if test="${graficaTotalesColumnasPorSprint.callerLevel0 eq 'reportecolaboradordepartamental'}">
+            <p:commandLink action="reportecolaboradordepartamental" value="#{msg['breadcrumb.reportecolaboradordepartamental']}">
+            </p:commandLink>
+        </c:if>
+        <c:if test="${graficaTotalesColumnasPorSprint.callerLevel1 eq 'tablero'}">
+                <i class="pi pi-angle-right"></i>
+            <p:commandLink action="tablero" value="#{core['breadcrumb.tablero']}">
+            </p:commandLink>
+        </c:if>
+
+
+
+
+        <c:if test="${graficaTotalesColumnasPorSprint.callerLevel1 eq 'sprint'}">
+                <i class="pi pi-angle-right"></i>
+            <p:commandLink action="sprint" value="#{msg['breadcrumb.sprint']}">
+            </p:commandLink>
+
+        </c:if>
+    <i class="pi pi-angle-right"></i>
+        <p:commandLink action="graficatotalescolumnasporsprint" value="#{msg['breadcrumb.grafica']}">
+        </p:commandLink>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+            <p:growl id="growl"/>
+            <script type="text/javascript">
+                function setDataTableWithPageStart() {
+
+                    widgetVardataTable.getPaginator().setPage(0);
+                }
+            </script>
+<!--            <div class="block-category-title">#{msg['form.tarjetas']}</div>-->
+
+            <!--<pb:blockViewerCore header="Sidebar" >-->
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+                <div class="min-h-screen flex flex-column relative flex-auto">
+<!--                    <dashboard:top/>-->
+                    <div class="surface-section jmoordbcore-max-width2000">
+                        <div class="grid">
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+                                        <label  class="font-bold">#{msg['label.tarjetas']}</label>
+
+                                    </div>
+                                    <div class="field mb-4 col-8">
+                                        <label for="proyecto" class="font-medium">#{msg['field.proyecto']}: #{graficaTotalesColumnasPorSprint.proyectoSelected.proyecto}</label>
+
+                                    </div>
+
+                                    <div class="field mb-4 col-6">
+                                        <label  class="font-medium">#{msg['field.fechainicial']}: #{graficaTotalesColumnasPorSprint.showDateWithHour(graficaTotalesColumnasPorSprint.proyectoSelected.fechainicial)}</label>
+                                    </div>
+                                    <div class="field mb-4 col-6">
+                                        <label  class="font-medium">#{msg['field.fechafinal']}: #{graficaTotalesColumnasPorSprint.showDateWithHour(graficaTotalesColumnasPorSprint.proyectoSelected.fechafinal)}</label>
+                                    </div>
+                                </div>
+                                <div class="flex align-items-center flex-wrap text-sm" jsf:rendered="#{graficaTotalesColumnasPorSprint.isEditable}">
+                                    <div class="mr-5 mt-3">
+                                        <span class="font-medium text-500">#{msg['field.sprint']}</span>
+                                        <div class="text-700 mt-2">#{graficaTotalesColumnasPorSprint.sprintSelected.sprint}</div>
+                                    </div>
+                                    <div class="mr-5 mt-3">
+                                        <span class="font-medium text-500">#{msg['field.fechainicial']}</span>
+                                        <div class="text-700 mt-2">#{graficaTotalesColumnasPorSprint.showDateWithHour(graficaTotalesColumnasPorSprint.sprintSelected.fechainicial)}</div>
+                                    </div>
+                                    <div class="mr-5 mt-3">
+                                        <span class="font-medium text-500">#{msg['field.fechafinal']}</span>
+                                        <div class="text-700 mt-2">#{graficaTotalesColumnasPorSprint.showDateWithHour(graficaTotalesColumnasPorSprint.sprintSelected.fechafinal)}</div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <!--<div class="col-10 lg:col-10">-->
+                            <!--<div class="card" >-->
+
+                            <p:barChart model="#{graficaTotalesColumnasPorSprint.barModelTarjetas}" 
+                                        style="width: 75%; height: 350px;"/>
+                            <!--</div>-->
+
+
+                        </div>
+                        <!--</div>-->
+
+
+
+
+
+                    </div> 
+
+                </div>
+            </div>
+
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+            </p:confirmPopup>
+
+
+
+
+
+
+
+
+
+
+
+
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

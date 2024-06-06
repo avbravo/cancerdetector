@@ -1,0 +1,295 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:icono="http://xmlns.jcp.org/jsf/composite/icono"
+                xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+
+        <p:commandLink action="icono" value="#{msg['breadcrumb.icono']}">
+        </p:commandLink>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('DEVELOPERS,SUPER-USER')}">
+            <p:growl id="growl"/>
+            <script type="text/javascript">
+                function setDataTableWithPageStart() {
+
+                    widgetVardataTable.getPaginator().setPage(0);
+                }
+            </script>
+<!--            <div class="block-category-title">#{msg['form.icono']}</div>-->
+
+            <!--<pb:blockViewerCore header="Sidebar" >-->
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+                <div class="min-h-screen flex flex-column relative flex-auto">
+                    <!--                    <dashboard:top/>-->
+                    <div class="surface-section , jmoordbcore-max-width2000">
+                        <div class="grid">
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+                                        <label  class="font-bold">#{msg['title.icono']}</label>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="field mb-4 col-4">
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:autoComplete id="icono" multiple="false" value="#{iconoFaces.iconoSelectedAutocomplete}"
+                                                            completeMethod="#{iconoFaces.completeIcono}"
+                                                            var="icono" itemLabel="#{icono.icono}" 
+                                                            itemValue="#{icono}"
+                                                            forceSelection="true"
+                                                            title="#{msg['autocomplete.minimo3caracteres']}"
+                                                            dropdown="true"
+                                                            minQueryLength="3"
+                                                            scrollHeight="250"
+                                                            converter="#{iconoConverter}"
+                                                            >
+                                                <p:column>
+                                                    <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{icono.icono}"/>
+
+                                                    <i class="#{icono.icono}"></i>
+                                                </p:column>
+                                                <p:ajax event="itemSelect"   listener="#{iconoFaces.autocompleteSelectedEvent}"  update=":form:growl, icono, dataTable" />  
+                                                <p:ajax event="itemUnselect"  process="@this" listener="#{iconoFaces.autocompleteUnselectListener}" update=":form:growl, icono, dataTable" />
+                                            </p:autoComplete>
+
+                                            <p:message for="@previous" />
+
+                                            <p:outputLabel  value="#{msg['field.icono']}" />
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 lg:col-12">
+                                <p:dataTable style="border-style: none" var="item" value="#{iconoFaces.iconoLazyDataModel}"
+                                             binding="#{iconoFaces.dataTable}"
+                                             id="dataTable"
+                                             widgetVar="widgetVardataTable"
+                                             lazy="true"
+                                             paginator="true"
+                                             rows="#{iconoFaces.rowPageSmall.get()}"
+                                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                             paginatorPosition="both"
+                                             resizableColumns="true" liveResize="true"
+                                             rowKey="#{item.idicono}"
+                                             selection="#{iconoFaces.iconoSelected}"
+                                             rowSelectMode="add"
+                                             >
+
+                                    <p:column class="column10" headerText="#{msg['field.icono']}" sortable="true" sortBy="#{item.icono}">
+                                        <p:outputLabel value="#{item.icono}" style="float:left"/>
+                                        <i class="#{item.icono}"></i>
+                                    </p:column>
+                                    <p:column class="column10" headerText="#{msg['field.idicono']}" sortable="true" sortBy="#{item.idicono}">
+                                        <p:outputLabel value="#{item.idicono}" style="float:left"/>
+
+                                    </p:column>
+
+
+                                    <p:column class="column2" exportable="false">
+                                        <p:menuButton  icon="pi pi-ellipsis-v" buttonStyleClass="ui-button-flat ui-button-plain rounded-button" >
+
+                                            <p:menuitem 
+                                                icon="pi pi-pencil" 
+
+                                                value="#{core['button.update']}"
+                                                update=":form:growl, outputPanelIcono"
+                                                oncomplete="PF('overlayPanelIcono').show('#{component.clientId}')"
+                                                action="#{iconoFaces.prepareIcono(item)}"
+                                                styleClass="edit-button rounded-button ui-button-success" process="@this"/>       
+
+
+
+
+                                        </p:menuButton>
+                                    </p:column>
+
+
+
+
+
+                                    <f:facet name="header">
+                                        <div class="grid mt-12">
+                                            <div class="col-2">
+                                                <p:commandButton 
+                                                    title="#{core['button.add']}" 
+                                                    rendered="#{iconoFaces.isEditable}"
+                                                    update=":form:growl, outputPanelIcono"
+                                                    icon="pi pi-plus-circle" styleClass="rounded-button mr-2 ui-button-summary"
+                                                    oncomplete="PF('overlayPanelIcono').show('#{component.clientId}')"
+                                                    action="#{iconoFaces.agregarRowIcono()}" />
+
+                                            </div>
+                                            <div class="col-2">
+                                                <p:commandButton title="#{core['button.print']}"
+                                                                 icon="pi pi-print"
+                                                                 id="buttonPrint"
+                                                                 process="buttonPrint"
+                                                                 ajax="false"
+                                                                 immediate="true"
+                                                                 onclick="this.form.target = '_blank'"
+                                                                 action="#{iconoFaces.printAll()}"
+                                                                 update=":form:growl"
+                                                                 styleClass="rounded-button ui-button-secondary" 
+                                                                 style="margin-right: .5rem">
+
+                                                </p:commandButton>
+                                            </div>
+                                            <div class="col-2">
+
+
+                                                <p:commandButton  title="#{msg['button.refresh']}" icon="pi pi-refresh" styleClass="rounded-button ui-button-help mr-2"
+                                                                  action="#{iconoFaces.refresh()}"
+                                                                  process="@this"
+                                                                  update=":form:growl, dataTable"
+                                                                  />
+                                            </div>
+                                        </div>
+                                    </f:facet>
+
+                                </p:dataTable>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div> 
+
+                </div>
+            </div>
+
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+            </p:confirmPopup>
+
+
+
+            <p:dialog header="#{msg['dialog.icono']}" widgetVar="overlayPanelIcono"
+                      
+                       width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true"
+                  >
+            <p:ajax event="close" update=":form:growl" listener="#{iconoFaces.handleCloseDialogRefresh}" />
+          
+                <p:outputPanel id="outputPanelIcono" style="text-align:center;"  >
+                    <c:if test="${iconoFaces.showDialogContent == false}">
+
+
+                        <utilidades:sincronizacionrequeridacontroller onclick="PF('overlayPanelIcono').hide()"
+                                                                      message="#{iconoFaces.message}"
+                                                                      controller="#{iconoFaces}"
+                                                                      />
+                    </c:if>
+                    <c:if test="${iconoFaces.showDialogContent == true}">
+                       
+                        <!--<p:outputLabel  value="#{msg['field.idicono']}: #{iconoFaces.iconoSelected.idicono}" />-->                           
+                            <div class="grid ui-fluid mt-12 floatlabel-demo">
+                                <div class="col-12 md:col-12">
+                                    <!--                                <div class="field">
+                                                                        <p:outputLabel  value="#{msg['field.icono']}: #{iconoFaces.iconoSelected.icono}" />                           
+                                    
+                                                                    </div>-->
+                                    <!--<p:divider/>-->
+                                    <c:if test="${iconoFaces.buttonNewPressed eq false}">
+
+                                        <i class="#{iconoFaces.iconoSelected.icono}"></i>
+                                    </c:if>
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:inputTextarea placeholder="#{msg['field.icono']}" value="#{iconoFaces.iconoSelected.icono}" rows="3" autoResize="false" />
+                                            <p:outputLabel for="@previous" value="#{msg['field.icono']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+
+
+
+
+
+                            <div class="flex align-items-center ">
+                                <div class=" border-top-1 surface-border col-6 flex">
+                                    <p:commandButton  title="#{core['button.save']}" icon="pi pi-save"
+                                                      action="#{iconoFaces.save(iconoFaces.iconoSelected)}"
+                                                      update=":form:growl, dataTable"
+                                                      process="outputPanelIcono"
+                                                      rendered="#{iconoFaces.buttonNewPressed}"
+                                                      styleClass="w-6 ml-2"/>
+                                    <p:commandButton  title="#{core['button.update']}" 
+                                                      icon="pi pi-pencil" 
+                                                      process="outputPanelIcono"
+                                                      rendered="#{iconoFaces.buttonNewPressed eq false}"
+                                                      action="#{iconoFaces.edit(iconoFaces.iconoSelected)}"
+                                                      update=":form:growl, dataTable"
+                                                      styleClass="w-6 ml-2"/>
+                                </div>
+
+                                <div class=" border-top-1 surface-border col-6 flex">
+                                    <p:commandButton 
+                                        title="#{core['button.cancel']}" 
+                                        icon="pi pi-times" 
+                                        onclick="PF('overlayPanelIcono').hide()"
+                                        update=":form:growl, dataTable"
+                                        styleClass="ui-button-outlined w-6 mr-2 ui-button-danger"
+                                        />
+
+                                </div>
+                            </div>
+
+                    </c:if>
+
+                </p:outputPanel>
+                <!--</p:overlayPanel>-->
+            </p:dialog>
+
+
+
+
+
+
+
+
+
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('DEVELOPERS,SUPER-USER')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

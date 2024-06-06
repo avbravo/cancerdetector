@@ -1,0 +1,125 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <composite:interface >
+
+    </composite:interface>
+
+    <composite:implementation>
+
+<!--  <h:panelGroup id="panelDialogTarjetaAdd">-->
+
+
+<p:dialog widgetVar="widgetVarDialogTarjetaAdd" modal="true" width="40vw" 
+          responsive="true" closable="false" showHeader="false"
+       style="margin:0 auto"
+         position="top center" 
+         onShow="PF('widgetVarDialogTarjetaAdd').initPosition()"
+          
+          >
+    <p:outputPanel id="manage-add-content" class="ui-fluid">
+        
+   
+                <div class="flex flex-column align-items-center my-4">
+                    <span class="flex align-items-center justify-content-center bg-cyan-100 text-cyan-800 mr-3 border-circle mb-3"
+                          style="width:64px;height:64px">
+                        <i class="pi pi-check text-5xl"/>
+                    </span>
+                    <div class="font-medium text-2xl text-900">#{msg['dialog.tarjetaadd']}</div>
+                </div>
+
+<!--                <p class="line-height-3 p-0 m-0">
+                    Sagittis eu volutpat odio facilisis mauris sit amet. Sed velit dignissim sodales ut eu sem integer.
+                    Sed risus pretium quam vulputate. At tellus at urna condimentum mattis pellentesque.
+                </p>-->
+        <!--<div class="surface-ground px-4 py-8 md:px-12 lg:px-8">-->
+              <div class="surface-card p-8 shadow-2 border-round ui-fluid">
+                    <div class="grid formgrid ui-fluid">
+                        <div class="field mb-4 col-12 md:col-6">
+                            <label for="company_name" class="font-medium text-900">Tarjeta</label>
+                            <p:inputText id="company_name"/>
+                        </div>
+                        <div class="field mb-4 col-12 md:col-6">
+                            <label for="invoice_id" class="font-medium text-900">Invoice Id</label>
+                            <p:inputText id="invoice_id"/>
+                        </div>
+                        <div class="field mb-4 col-12 md:col-6">
+                            <label for="customer_name" class="font-medium text-900">Customer Name</label>
+                            <p:inputText id="customer_name"/>
+                        </div>
+                        <div class="field mb-4 col-12 md:col-6">
+                            <label for="customer_email" class="font-medium text-900">Customer Email</label>
+                            <p:inputText id="customer_email"/>
+                        </div>
+                        <div class="field mb-4 col-12 md:col-6">
+                            <label for="invoice_date" class="font-medium text-900">Invoice Date</label>
+                            <p:calendar id="invoice_date" showOn="button"/>
+                        </div>
+                        <div class="field mb-4 col-12 md:col-6">
+                            <label for="due_date" class="font-medium text-900">Due Date</label>
+                            <p:calendar id="due_date" showOn="button"/>
+                        </div>
+                        <div class="surface-border border-top-1 opacity-50 mb-4 col-12"></div>
+                        <div class="field mb-4 col-12 md:col-6">
+                            <label for="item" class="font-medium text-900">Item</label>
+                            <p:inputText id="item"/>
+                        </div>
+                        <div class="field mb-4 col-6 md:col-3">
+                            <label for="quantity" class="font-medium text-900">Quantity</label>
+                            <p:inputText id="quantity"/>
+                        </div>
+                        <div class="field mb-4 col-6 md:col-3">
+                            <label for="price" class="font-medium text-900">Price</label>
+                            <div class="flex align-content-center">
+                                <p:inputNumber id="price" symbol=" USD" symbolPosition="s" decimalSeparator="," thousandSeparator="." styleClass="flex-1"/>
+                                <p:commandButton type="button" icon="pi pi-trash" styleClass="ui-button-flat ui-button-plain rounded-button ui-button-danger ml-2"/>
+                            </div>
+                        </div>
+                        <div class="field mb-4 col-12 md:col-6">
+                            <p:commandButton type="button" value="Add Item" icon="pi pi-plus" styleClass="ui-button-secondary ui-button-outlined w-auto"/>
+                        </div>
+                        <div class="field mb-4 col-12 md:col-6 text-right">
+                            <span class="text-xl text-600 font-medium mr-2">Total</span>
+                            <span class="text-xl text-900 font-medium">$59</span>
+                        </div>
+                        <div class="field mb-4 col-12 flex align-items-center">
+                            <p:selectBooleanCheckbox/>
+                            <span class="ml-2 text-900">Taxable (VAT 18%)</span>
+                        </div>
+                        <div class="surface-border border-top-1 opacity-50 mb-4 col-12"></div>
+                        <div class="field mb-4 col-12">
+                            <label for="notes" class="font-medium text-900">Notes</label>
+                            <p:inputTextarea rows="5" cols="33"/>
+                        </div>
+                        <div class="surface-border border-top-1 opacity-50 mb-4 col-12"></div>
+                    </div>
+                    <p:commandButton type="button" value="Create Invoice" icon="pi pi-file" styleClass="w-auto"/>
+                     <p:commandButton type="button" value="Cancel" icon="pi pi-times" onclick="PF('widgetVarDialogTarjetaAdd').hide()"
+                                         styleClass="ui-button-outlined w-6 mr-2"/>
+                        <p:commandButton type="button" value="Save" icon="pi pi-check" onclick="PF('widgetVarDialogTarjetaAdd').hide()"
+                                         styleClass="w-6 ml-2"/>
+                </div>
+        <!--</div>-->
+
+                <f:facet name="footer">
+                    <div class=" border-top-1 surface-border pt-3 flex">
+                        <p:commandButton type="button" value="Cancel" icon="pi pi-times" onclick="PF('widgetVarDialogTarjetaAdd').hide()"
+                                         styleClass="ui-button-outlined w-6 mr-2"/>
+                        <p:commandButton type="button" value="Save" icon="pi pi-check" onclick="PF('widgetVarDialogTarjetaAdd').hide()"
+                                         styleClass="w-6 ml-2"/>
+                    </div>
+                </f:facet>
+    
+    
+        </p:outputPanel>
+            </p:dialog>
+        <!--</h:panelGroup>-->
+    </composite:implementation>
+</html>

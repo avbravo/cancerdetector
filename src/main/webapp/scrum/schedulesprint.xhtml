@@ -1,0 +1,184 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:schedule="http://xmlns.jcp.org/jsf/composite/schedule"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+
+        <p:commandLink action="dashboard" value="#{msg['breadcrumb.dashboard']}">
+        </p:commandLink>
+        <i class="pi pi-angle-right"></i>
+        <p:commandLink action="scheduledashboard" value="#{msg['breadcrumb.scheduledashboard']}">
+        </p:commandLink>
+    </ui:define>
+
+    <ui:define name="content">
+
+
+
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+            <p:growl id="growl"/>
+
+<!--            <div class="block-category-title">#{msg['form.schedulesprint']}</div>-->
+
+
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+                <div class="min-h-screen flex flex-column relative flex-auto">
+                    <!--                    <dashboard:top/>-->
+                    <div class="flex flex-column flex-auto">
+                        <schedule:scheduledashboardprofile/>
+
+
+
+
+
+
+
+
+
+                        <!--                        <div id="contact-page" class="card">
+                                                    <div class="card-image waves-effect waves-block waves-light">-->
+                        <div class="card text-secondary">
+                            <p:ajaxStatus styleClass="block mb-4">
+                                <f:facet name="default">
+                                    <h:outputText value="Status: StandBy" />
+                                </f:facet>
+
+                                <f:facet name="start">
+                                    <i class="pi pi-spin pi-spinner loading-icon" aria-hidden="true"></i>
+                                </f:facet>
+
+                                <f:facet name="complete">
+                                    <!--<h:outputText value="Status: Completed" />-->
+                                </f:facet>
+                            </p:ajaxStatus>
+
+                            <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
+
+                            <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                                <div class="text-center">
+                                    <i class="pi pi-spin pi-spinner loading-icon" aria-hidden="true"></i>
+                                </div>
+                            </p:dialog>
+
+
+                            <p:commandButton value="#{msg['button.scheduleshow']}" 
+                                             styleClass="ui-button-outlined ui-button-warning" 
+                                             icon="pi pi-calendar-times"
+                                             action="#{scheduleSprintFaces.actionCommandButton()}"
+                                             update="schedule,:form"/>
+
+                        </div>
+                        <div class="card">
+
+                            <p:schedule id="schedule" 
+                                        rendered="#{scheduleSprintFaces.showSchedule}"
+                                        value="#{scheduleSprintFaces.lazyEventModel}"
+                                        widgetVar="schedule" timeZone="GMT-5" locale="es"
+                                        >
+
+                                <p:ajax event="eventSelect" listener="#{scheduleSprintFaces.onEventSelect}" update="eventDetails"
+                                        oncomplete="PF('eventDialog').show();"/>
+                            </p:schedule>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <p:dialog widgetVar="eventDialog" header="#{msg['dialog.schedulesprinttitle']}" 
+                      width="50vw" 
+                      responsive="true"
+                      showEffect="fade" 
+                      modal="true" 
+                      closable="true"
+                      resizable="true"
+                      maximizable="true"
+                      minimizable="true"
+                      >
+                <p:ajax event="close" update=":form:growl" listener="#{scheduleSprintFaces.handleCloseDialogRefresh}" />
+                <p:outputPanel id="eventDetails" style="text-align:left;"  >
+                    <div class="grid ui-fluid mt-3 floatlabel-demo">
+                        <div class="col-12 md:col-12">
+                            <div class="field">
+                                <label for="sprint" class="font-medium">#{msg['field.sprint']}:</label>
+                                <p:outputLabel id="sprint" value="  #{scheduleSprintFaces.sprintSelected.idsprint}" />
+
+                            </div>
+
+                        </div>
+                        <div class="col-12 md:col-6">
+                            <div class="field">
+                                <label for="from" class="font-medium">#{msg['field.fechainicial']}</label>
+                                <p:datePicker id="from" value="#{scheduleSprintFaces.event.startDate}" pattern="dd/MM/yyyy"
+                                              showTime="true" appendTo="@(body)" disabled="true"/>
+
+                            </div>
+
+                        </div>
+                        <div class="col-12 md:col-6">
+                            <div class="field">
+                                <label for="to" class="font-medium">#{msg['field.fechafinal']}</label>
+                                <p:datePicker id="to" value="#{scheduleSprintFaces.event.endDate}" pattern="dd/MM/yyyy"
+                                              showTime="true" appendTo="@(body)"
+                                              disabled="true"
+                                              />
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-12 md:col-12">
+                        <div class="field">
+                            <label for="descripcion" class="font-medium">#{msg['field.descripcion']}: </label>
+                            <p:inputTextarea id="descripcion" rows="#{scheduleSprintFaces.sprintSelected.descripcion.length() le 70?1:(scheduleSprintFaces.sprintSelected.descripcion.length()/70)+1}" style="width: 100% !important;" autoResize="false" readonly="true" value="#{scheduleSprintFaces.sprintSelected.descripcion}"  />
+                            
+                        </div>
+
+                    </div>
+                    <div class="col-12 md:col-12">
+                        <div class="field">
+                            <label for="descripcion" class="font-medium">#{msg['field.open']}</label>
+                            <p:toggleSwitch id="open" value="#{scheduleSprintFaces.sprintSelected.open}" disabled="true" onIcon="pi pi-check" offIcon="pi pi-times" rendered="#{scheduleSprintFaces.sprintSelected.open}"/>
+
+                        </div>
+
+                    </div>
+
+                </p:outputPanel>
+
+
+
+                <div class="flex justify-content-between mt-3">
+                    <p:commandButton  value="#{core['button.close']}" styleClass="font-bold ui-button-outlined"
+                                      onclick="PF(eventDialog).hide()"/>
+
+                </div>
+
+            </p:dialog>
+
+            <!--<tablero:tarjetaaddoverlaypanel/>-->
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

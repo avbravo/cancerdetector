@@ -1,0 +1,378 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:zone="http://xmlns.jcp.org/jsf/composite/zone"
+                xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+
+        <p:commandLink action="zone" value="#{msg['breadcrumb.zone']}">
+        </p:commandLink>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('DEVELOPERS,SUPER-USER,DIRECTOR')}">
+            <p:growl id="growl"/>
+            <script type="text/javascript">
+                function setDataTableWithPageStart() {
+
+                    widgetVardataTable.getPaginator().setPage(0);
+                }
+            </script>
+            <div class="block-category-title">#{msg['form.zone']}</div>
+
+            <!--<pb:blockViewerCore header="Sidebar" >-->
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+                <div class="min-h-screen flex flex-column relative flex-auto">
+                    <!--                    <dashboard:top/>-->
+                    <div class="surface-section , jmoordbcore-max-width2000">
+                        <div class="grid">
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+                                        <label  class="font-bold">#{msg['label.zone']}</label>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+
+
+                                    </div>
+                                </div>
+                                <div class="field mb-4 col-8">
+                                    <div class="field">
+                                        <p:outputLabel  value="#{msg['field.zone']}" />
+                                        <!--<span class="ui-float-label">-->
+                                        <p:autoComplete id="zone" multiple="false" value="#{zoneFaces.zoneSelectedAutocomplete}"
+                                                        completeMethod="#{zoneFaces.completeZone}"
+                                                        var="zone"
+                                                        itemLabel="#{zone.zone}" 
+                                                        itemValue="#{zone}"
+                                                        forceSelection="true"
+                                                        title="#{msg['autocomplete.minimo3caracteres']}"
+                                                        dropdown="true"
+                                                        minQueryLength="3"
+                                                        scrollHeight="250"
+
+                                                        converter="#{zoneConverter}"
+                                                        >
+                                            <p:column>
+                                                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{zone.zone} - #{zone.building.building}"/>
+                                            </p:column>
+                                            <p:ajax event="itemSelect"   listener="#{zoneFaces.autocompleteSelectedEvent}"  update=":form:growl, zone, dataTable" />  
+                                            <p:ajax event="itemUnselect"  process="@this" listener="#{zoneFaces.autocompleteUnselectListener}" update=":form:growl, zone, dataTable" />
+                                        </p:autoComplete>
+
+                                        <p:message for="@previous" />
+
+
+                                        <!--</span>-->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 lg:col-12">
+                                <p:dataTable style="border-style: none" var="item" value="#{zoneFaces.zoneLazyDataModel}"
+                                             binding="#{zoneFaces.dataTable}"
+                                             id="dataTable"
+                                             widgetVar="widgetVardataTable"
+                                             lazy="true"
+                                             paginator="true"
+                                             rows="#{zoneFaces.rowPageSmall.get()}"
+                                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                             paginatorPosition="both"
+                                             resizableColumns="true" liveResize="true"
+
+                                             rowKey="#{item.idzone}"
+                                             selection="#{zoneFaces.zoneSelected}"
+                                             rowSelectMode="add"
+                                             >
+
+
+                                    <p:column class="column10" headerText="#{msg['field.idzone']}" >
+                                        <p:outputLabel value="#{item.idzone}" style="float:left"/>
+
+                                    </p:column>
+
+
+                                    <p:column class="column10" headerText="#{msg['field.zone']}" >
+                                        <p:outputLabel value="#{item.zone}" style="float:left"/>
+
+                                    </p:column>
+                                    <p:column class="column10" headerText="#{msg['field.descripcion']}" >
+                                        <p:outputLabel value="#{item.descripcion}" style="float:left"/>
+
+                                    </p:column>
+                                    <p:column class="column10" headerText="#{msg['field.building']}" >
+                                        <p:outputLabel value="#{item.building.building}" style="float:left"/>
+
+                                    </p:column>
+                                    <p:column class="column1" headerText="#{msg['field.icono']}">
+                                        <i class="#{item.icono.icono}"></i>
+                                    </p:column>
+                                    <p:column class="column3" headerText="#{msg['field.active']}" >                                     
+                                        <p:selectBooleanCheckbox value="#{item.active}" disabled="true" style="float:left"/> 
+                                    </p:column>
+
+
+                                    <p:column class="column2" exportable="false">
+                                        <p:menuButton  icon="pi pi-ellipsis-v" buttonStyleClass="ui-button-flat ui-button-plain rounded-button" >
+
+                                            <p:menuitem 
+                                                icon="pi pi-pencil" 
+
+                                                value="#{core['button.update']}"
+                                                update=":form:growl, outputPanelZone"
+                                                oncomplete="PF('overlayPanelZone').show('#{component.clientId}')"
+                                                action="#{zoneFaces.prepareZone(item)}"
+                                                styleClass="edit-button rounded-button ui-button-success" process="@this"/>       
+
+
+
+
+                                        </p:menuButton>
+                                    </p:column>
+
+
+
+
+
+                                    <f:facet name="header">
+                                        <div class="grid mt-12">
+                                            <div class="col-2">
+                                                <p:commandButton 
+                                                    title="#{core['button.add']}" 
+                                                    rendered="#{zoneFaces.isEditable}"
+                                                    update=":form:growl, outputPanelZone"
+                                                    icon="pi pi-plus-circle" styleClass="rounded-button mr-2 ui-button-summary"
+                                                    oncomplete="PF('overlayPanelZone').show('#{component.clientId}')"
+                                                    action="#{zoneFaces.agregarRowZone()}" />
+
+                                            </div>
+                                            <div class="col-2">
+                                                <p:commandButton title="#{core['button.print']}"
+                                                                 icon="pi pi-print"
+                                                                 id="buttonPrint"
+                                                                 process="buttonPrint"
+                                                                 ajax="false"
+                                                                 immediate="true"
+                                                                 onclick="this.form.target = '_blank'"
+                                                                 action="#{zoneFaces.printAll()}"
+                                                                 update=":form:growl"
+                                                                 styleClass="rounded-button ui-button-secondary" 
+                                                                 style="margin-right: .5rem">
+
+                                                </p:commandButton>
+                                            </div>
+                                            <div class="col-2">
+
+
+                                                <p:commandButton  title="#{msg['button.refresh']}" icon="pi pi-refresh" styleClass="rounded-button ui-button-help mr-2"
+                                                                  action="#{zoneFaces.refresh()}"
+                                                                  process="@this"
+                                                                  update=":form:growl, dataTable"/>
+                                            </div>
+                                        </div>
+                                    </f:facet>
+
+                                </p:dataTable>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div> 
+
+                </div>
+            </div>
+
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+            </p:confirmPopup>
+
+
+
+
+            <p:dialog header="#{msg['dialog.zone']}" widgetVar="overlayPanelZone" 
+                       width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true"
+                  >
+            <p:ajax event="close" update=":form:growl" listener="#{zoneFaces.handleCloseDialogRefresh}" />
+                <p:outputPanel id="outputPanelZone" style="text-align:center;"  >
+                    <c:if test="${zoneFaces.showDialogContent == false}">
+
+
+                        <utilidades:sincronizacionrequeridacontroller onclick="PF('overlayPanelZone').hide()"
+                                                                      message="#{zoneFaces.message}"
+                                                                      controller="#{zoneFaces}"
+                                                                      />
+                    </c:if>
+                    <c:if test="${zoneFaces.showDialogContent == true}">
+                        
+                        <!--<p:outputLabel  value="#{msg['field.idzone']}: #{zoneFaces.zoneSelected.idzone}" />-->                           
+                            <div class="grid ui-fluid mt-3 floatlabel-demo">
+                                <div class="col-12 md:col-12">
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:selectOneMenu  value="#{zoneFaces.zoneSelected.building}"
+                                                              var="item" autoWidth="false">
+                                                <f:selectItems value="#{buildingConverterServices.buildings}"  var="item" 
+                                                               itemLabel="#{item.building}"
+                                                               itemValue="#{item}" />
+                                                <p:column>#{item.building} 
+                                                </p:column>
+
+
+                                            </p:selectOneMenu>
+
+                                            <p:outputLabel for="@previous" value="#{msg['field.building']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:selectOneMenu  value="#{zoneFaces.zoneSelected.icono}" var="item"
+                                                              autoWidth="false"
+
+                                                              >
+                                                <f:selectItems value="#{iconoConverterServices.iconos}"  var="item" 
+                                                               itemLabel=""
+                                                               itemValue="#{item}" />
+                                                <p:column>
+                                                    <i class="#{item.icono}" />  </p:column>
+
+                                                <p:ajax update="@parent:@parent:icon" />
+                                            </p:selectOneMenu>
+                                            <p:outputLabel for="@previous" id="icon" value="#{msg['field.icono']}" >
+                                                <i class="#{zoneFaces.zoneSelected.icono.icono} text-blue-500 text-xl mr-2"/>
+                                            </p:outputLabel>
+
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+
+
+
+
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:outputLabel value="#{zoneFaces.zoneSelected.idzone}"  />
+                                            <p:outputLabel for="@previous" value="#{msg['field.idzone']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:inputText value="#{zoneFaces.zoneSelected.zone}"  />
+                                            <p:outputLabel for="@previous" value="#{msg['field.zone']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:inputText value="#{zoneFaces.zoneSelected.descripcion}"  />
+                                            <p:outputLabel for="@previous" value="#{msg['field.descripcion']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+
+
+                                    <div class="field">
+                                        <span class="ui-float-label" jsf:rendered="#{zoneFaces.buttonNewPressed eq false}">
+
+                                            <p:selectBooleanCheckbox value="#{zoneFaces.zoneSelected.active}"/> 
+                                            <p:outputLabel for="@previous" value="#{msg['field.active']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+
+
+
+
+                            <div class="flex align-items-center ">
+                                <div class=" border-top-1 surface-border col-6 flex">
+                                    <p:commandButton  title="#{core['button.save']}" icon="pi pi-save"
+                                                      action="#{zoneFaces.save(zoneFaces.zoneSelected)}"
+                                                      update=":form:growl, dataTable"
+                                                      rendered="#{zoneFaces.buttonNewPressed}"
+                                                      process="outputPanelZone"
+                                                      styleClass="w-6 ml-2"/>
+
+                                    <p:commandButton  title="#{core['button.update']}" 
+                                                      icon="pi pi-pencil" 
+                                                      rendered="#{zoneFaces.buttonNewPressed eq false}"
+                                                      action="#{zoneFaces.edit(zoneFaces.zoneSelected)}"
+                                                      update=":form:growl, dataTable"
+                                                      process="outputPanelZone"
+                                                      styleClass="w-6 ml-2"/>
+                                </div>
+
+                                <div class=" border-top-1 surface-border col-6 flex">
+                                    <p:commandButton 
+                                        title="#{core['button.cancel']}" 
+                                        icon="pi pi-times" 
+                                        onclick="PF('overlayPanelZone').hide()"
+                                        update=":form:growl, dataTable"
+                                        styleClass="ui-button-outlined w-6 mr-2 ui-button-danger"
+                                        />
+
+                                </div>
+                            </div>
+
+                    </c:if>
+
+                </p:outputPanel>
+                <!--</p:overlayPanel>-->
+            </p:dialog>
+
+
+
+
+
+
+
+
+
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('DEVELOPERS,SUPER-USER')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

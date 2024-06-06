@@ -1,0 +1,87 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+        xmlns:papelerareciclaje="http://xmlns.jcp.org/jsf/composite/papelerareciclaje"
+      xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades"
+          xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf">
+
+    <composite:interface >
+        <composite:attribute name="pendiente" default="false"/>
+        <composite:attribute name="progreso" default="false"/>
+        <composite:attribute name="finalizado" default="false"/>
+         <composite:attribute name="id" default=""/> 
+    </composite:interface>
+
+    <composite:implementation >
+
+
+
+               <p:dialog header="#{msg['dialog.tarjetaclonar']}" widgetVar="overlayPanelTarjetaClonar"  
+                   width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true"
+                  >
+            <p:ajax event="close" update=":form:growl" listener="#{papeleraReciclajeFaces.handleCloseDialogRefresh}" />
+
+            <p:outputPanel id="#{cc.attrs.id}" style="text-align:center;">
+                <jmoordbcorejsf:overlayPanelTarjetaHeader iconoheader="pi-clone" 
+                                                   titulo="#{msg['dialog.tarjetaclonar']}"
+                                                   entity="#{papeleraReciclajeFaces.tarjetaClonarSelected}"
+                                                   icono="#{papeleraReciclajeFaces.tarjetaClonarSelected.icono}"/>
+
+                <c:if test="${papeleraReciclajeFaces.fueCambiadoPorOtroUsuario == true}">
+                    
+                    
+                    <utilidades:sincronizacionrequeridacontroller onclick="PF('overlayPanelTarjetaClonar').hide()"
+                                                        message="#{papeleraReciclajeFaces.message}"
+                                                        controller="#{papeleraReciclajeFaces}"/>
+                </c:if>
+                <c:if test="${papeleraReciclajeFaces.fueCambiadoPorOtroUsuario == false}">    
+                    
+                    <div class="grid ui-fluid mt-3 floatlabel-demo">
+                        <div class="col-12 md:col-12">
+                            <div class="field">
+                                <span class="ui-float-label">
+                                    <p:inputTextarea value="#{papeleraReciclajeFaces.tarjetaClonarSelected.tarjeta}"
+                                                 rows="3" autoResize="false"/>
+                                    <p:outputLabel for="@previous" value="#{msg['field.tarjetanuevotitulo']}" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex align-items-center ">
+                        <div class=" border-top-1 surface-border col-6 flex">
+                            <p:commandButton  title="#{core['button.clone']}" icon="pi pi-copy"
+                                              action="#{papeleraReciclajeFaces.clonar(papeleraReciclajeFaces.tarjetaClonarSelected)}"
+                                              update=":form:growl"
+                                              styleClass="ui-button-raised ui-button-secondary"/>
+
+                        </div>                
+                        <div class=" border-top-1 surface-border col-6 flex">
+                            <papelerareciclaje:overlayPanelCommandButtonClose onclick="PF('overlayPanelTarjetaClonar').hide()"/>
+                        </div>
+
+                    </div>
+          
+                </c:if>
+
+            </p:outputPanel>
+    
+        </p:dialog>
+
+
+
+ 
+
+    </composite:implementation>
+</html>

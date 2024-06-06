@@ -1,0 +1,498 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:scrumdialogo="http://xmlns.jcp.org/jsf/composite/scrumdialogo"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <composite:interface >
+
+    </composite:interface>
+
+    <composite:implementation>
+
+        <div class="p-5 jmoordbcore-p5">
+            <div class="grid">
+                <ui:repeat value="#{dashboardFaces.proyectoSprintOpenList}" var="proyectoSprintOpen" id="repeatSprint"  varStatus="status">
+
+
+                    <div class="surface-ground bg-indigo-900  col-12 lg:col-6 xl:col-4  ">
+
+                        <div class="shadow-2 border-proyecto-foraneo #{dashboardFaces.colorProyecto(proyectoSprintOpen.proyecto,false)} mb-3 h-full flex-column justify-content-between flex ">
+                            <div class="p-4">
+                                <div class="flex align-items-center">
+                                    <span class="inline-flex border-circle align-items-center justify-content-center bg-green-100 mr-3" style="width:56px;height:56px">
+                                        <i class="#{proyectoSprintOpen.proyecto.icono.icono} text-xl text-green-600"></i>
+                                    </span>
+                                    <span class="text-900 font-medium text-500">#{proyectoSprintOpen.proyecto.proyecto}</span>
+                                    <!--<span class="text-900 font-medium text-500">#{dashboardFaces.cutText(proyectoSprintOpen.proyecto.proyecto,dashboardFaces.largeSizeOfTextForCut.get())}</span>-->
+                                    <!--<span class="text-900 font-medium text-500">#{proyectoSprintOpen.proyecto.prefijo}</span>-->
+                                    <div class="ml-auto">
+
+
+                                        <p:menuButton  icon="pi pi-ellipsis-v" buttonStyleClass="ui-button-outlined ui-button-plain rounded-button">
+
+
+                                            <p:menuitem value="#{core['button.board']}" icon="pi pi-fw pi pi-th-large"
+                                                        rendered="#{dashboardFaces.haveOpenSprintAndDateIsLessOrEqualsAndEstadoIniciado(proyectoSprintOpen.proyecto, 'iniciado') and dashboardFaces.validDateProject(proyectoSprintOpen.proyecto)}"
+                                                        action="#{dashboardFaces.go(proyectoSprintOpen.proyecto,'tablero.xhtml',false,true)}"
+                                                        />
+                                            <p:menuitem  styleClass="ui-button-flat"
+                                                         value="#{msg['menuitem.sprint']}"
+                                                         title="#{msg['menuitem.sprint']}"
+                                                         action="#{dashboardFaces.go(proyectoSprintOpen.proyecto,'sprint.xhtml',false,true)}"
+                                                         rendered="#{dashboardFaces.isPropietarioDelProyecto(proyectoSprintOpen.proyecto) and  dashboardFaces.validDateProject(proyectoSprintOpen.proyecto)}"
+
+                                                         icon="pi pi-fw pi-book" >
+                                            </p:menuitem>
+                                            <p:menuitem  styleClass="ui-button-flat"
+                                                         value="#{msg['menuitem.programar']}"
+                                                         title="#{msg['menuitem.programar']}"
+                                                          rendered="#{dashboardFaces.validDateProject(proyectoSprintOpen.proyecto) and proyectoSprintOpen.proyecto.showTodasReserva eq true and p:ifAnyGranted('COLABORADOR') eq true}"
+                                                         action="#{dashboardFaces.go(proyectoSprintOpen.proyecto,'sprint.xhtml',false,true)}"
+                                                        
+
+                                                         icon="pi pi-fw pi-calendar-clock" >
+                                            </p:menuitem>
+
+                                            <p:menuitem value="#{msg['button.backlog']}" icon="pi pi-fw pi-server"
+                                                        rendered="#{dashboardFaces.showBacklog(proyectoSprintOpen.proyecto)}"
+                                                        update=":form:growl"
+                                                        action="#{dashboardFaces.go(proyectoSprintOpen.proyecto,'backlog.xhtml',false,true) }"
+                                                        />
+                                            <p:divider/>
+
+                                            <p:menuitem update=":form, outputPanelProyectoEditar" styleClass="ui-button-flat"
+                                                        value="#{core['menuitem.editar']}"
+                                                        action="#{dashboardFaces.prepareEditar(proyectoSprintOpen.proyecto)}"
+                                                        oncomplete="PF('overlayPanelProyectoEditar').show('#{component.clientId}')"
+                                                        rendered="#{dashboardFaces.isPropietarioDelProyecto(proyectoSprintOpen.proyecto) or p:ifAnyGranted('DEVELOPERS,SUPER-USER')}"
+                                                        icon="pi pi-fw pi-file-edit" title="#{core['menuitem.editar']}">
+
+                                            </p:menuitem>
+                                            <p:menuitem update=":form, outputPanelProyectoArchivar" styleClass="ui-button-flat"
+                                                        value="#{core['menuitem.archivar']}"
+                                                        action="#{dashboardFaces.prepareArchivar(proyectoSprintOpen.proyecto)}"
+                                                        oncomplete="PF('overlayPanelProyectoArchivar').show('#{component.clientId}')"
+                                                        rendered="#{dashboardFaces.isPropietarioDelProyecto(proyectoSprintOpen.proyecto)}"
+                                                        icon="pi pi-fw pi-database" title="#{core['menuitem.archivar']}">
+
+                                            </p:menuitem>
+                                            <p:menuitem update=":form, outputPanelProyectoEliminar" styleClass="ui-button-flat ui-button-help"
+                                                        value="#{msg['menuitem.eliminar']}"
+                                                        action="#{dashboardFaces.prepareEliminar(proyectoSprintOpen.proyecto)}"
+                                                        oncomplete="PF('overlayPanelProyectoEliminar').show('#{component.clientId}')"
+                                                        rendered="#{dashboardFaces.isPropietarioDelProyecto(proyectoSprintOpen.proyecto)}"
+                                                        icon="pi pi-fw pi-eraser" title="#{msg['menuitem.eliminar']}">
+
+                                            </p:menuitem>
+
+
+
+
+
+
+                                            <p:menuitem update=":form, outputPanelProyectoClonar" styleClass="ui-button-flat"
+                                                        value="#{core['menuitem.clonar']}"
+                                                        rendered="#{dashboardFaces.isPropietarioDelProyecto(proyectoSprintOpen.proyecto)}"
+                                                        action="#{dashboardFaces.prepareClonar(proyectoSprintOpen.proyecto)}"
+                                                        oncomplete="PF('overlayPanelProyectoClonar').show('#{component.clientId}')"
+                                                        icon="pi pi-fw pi-clone" title="#{core['menuitem.clonar']}">
+
+                                            </p:menuitem>
+
+
+
+
+
+                                            <p:divider/>
+
+
+                                            <p:menuitem value="#{msg['button.papelerareciclaje']}"
+                                                        title="#{msg['button.papelerareciclaje']}" 
+                                                        icon="pi pi-fw pi-trash"
+                                                        rendered="#{dashboardFaces.showBacklog(proyectoSprintOpen.proyecto)}"
+                                                        update=":form:growl" 
+                                                        action="#{dashboardFaces.goPapeleraReciclaje(proyectoSprintOpen)}"
+                                                        styleClass="rounded-button ui-button-danger "/>
+
+
+                                            <p:menuitem value="#{msg['button.email']}" icon="pi pi-fw pi-envelope"
+                                                        update=":form:growl"
+                                                        action="#{dashboardFaces.go(proyectoSprintOpen.proyecto,'email.xhtml',false,true)}"
+                                                        />
+
+
+                                        </p:menuButton>
+                                    </div>
+                                </div>
+                                <p:divider/>
+
+                                <div class="text-500 my-3 text-m bold font-500">
+
+                                    <!--#{dashboardFaces.cutText(proyectoSprintOpen.proyecto.proyecto,dashboardFaces.mediumSizeOfTextForCut.get())}-->
+                                    #{msg['field.prefijo']}:  #{proyectoSprintOpen.proyecto.prefijo}
+                                    <i class="pi pi-lock-open" jsf:rendered="#{proyectoSprintOpen.proyecto.privado eq false}" jsf:title="#{msg['label.publico']}"></i>
+                                    <i class="pi pi-lock" jsf:rendered="#{proyectoSprintOpen.proyecto.privado eq true}" jsf:title="#{msg['label.privado']}"></i>
+
+
+
+                                </div>
+                                <div class="text-500 my-3 text-xl font-300">
+
+                                    <p:outputLabel value="#{msg['field.idproyecto']} "/> 
+                                    <p:outputLabel value="#{proyectoSprintOpen.proyecto.idproyecto}"/> 
+
+                                </div>
+
+
+
+                                <c:if test="#{dashboardFaces.showDetallesProyecto eq true}">
+                                    <div class="text-500 my-3 text-xl font-300">
+                                        <p:outputLabel value="#{msg['field.estado']}: "/>                 
+                                        <p:outputLabel value=" #{proyectoSprintOpen.proyecto.estado}  "/> 
+<!--                                        <p:badge value="#{dashboardFaces.showMiResumenPendienteAddProgreso(proyectoSprintOpen.proyecto)}" rendered="#{proyectoSprintOpen.proyecto.estado eq 'iniciado'}"
+                                                 severity="success"
+                                                 >
+                                            <i class="pi pi-bell"/>
+                                        </p:badge>
+                                        <p:badge value="#{dashboardFaces.showMiResumenPendienteAddProgreso(proyectoSprintOpen.proyecto)}" severity="warning" rendered="#{proyectoSprintOpen.proyecto.estado eq 'detenido'}"
+                                                 >
+                                            <i class="pi pi-stopwatch" />
+                                        </p:badge>
+                                        <p:badge value="#{dashboardFaces.showMiResumenPendienteAddProgreso(proyectoSprintOpen.proyecto)}" severity="danger" rendered="#{proyectoSprintOpen.proyecto.estado eq 'finalizado'}"
+                                                 >
+                                            <i class="pi pi-download" />
+                                        </p:badge>-->
+
+
+                                    </div>
+                                    <p:avatarGroup styleClass="mb-3">
+                                        #{msg['field.propietario']}
+                                        <ui:repeat value="#{proyectoSprintOpen.proyecto.proyectoMiembro}" var="proyectoMiembro">
+                                            <p:avatar size="medium" shape="circle" rendered="#{proyectoMiembro.propietario eq true}">
+                                                <p:graphicImage 
+                                                    title="#{proyectoMiembro.userView.name}"
+                                                    stream="false" cache="false"
+                                                    rendered="#{proyectoMiembro.propietario eq true and dashboardFaces.jmoordbCoreMediaManager.isImageAndExists(dashboardFaces.repairPathOfFile(proyectoMiembro.userView.photo))}"
+                                                    value="#{dashboardFaces.jmoordbCoreMediaManager.generate(dashboardFaces.repairPathOfFile(proyectoMiembro.userView.photo),'')}" 
+                                                    />
+
+                                            </p:avatar>
+                                            <p:avatar rendered="#{proyectoMiembro.propietario eq true and dashboardFaces.jmoordbCoreMediaManager.isImageAndExists(dashboardFaces.repairPathOfFile(proyectoMiembro.userView.photo)) eq false}"
+                                                      title="#{proyectoMiembro.userView.name}"
+                                                      label="#{proyectoMiembro.userView.name}" styleClass="mr-2" size="small" />
+
+                                        </ui:repeat>
+                                    </p:avatarGroup>
+
+
+                                    <p:avatarGroup styleClass="mb-3">
+                                        #{msg['field.colaborador']}
+                                        <ui:repeat value="#{proyectoSprintOpen.proyecto.proyectoMiembro}" var="proyectoMiembro">
+                                            <p:avatar size="medium" shape="circle" rendered="#{proyectoMiembro.propietario eq false}">
+                                                <p:graphicImage 
+                                                    title="#{proyectoMiembro.userView.name}"
+                                                    stream="false" cache="false"
+                                                    rendered="#{proyectoMiembro.propietario eq false and dashboardFaces.jmoordbCoreMediaManager.isImageAndExists(dashboardFaces.repairPathOfFile(proyectoMiembro.userView.photo))}"
+                                                    value="#{dashboardFaces.jmoordbCoreMediaManager.generate(dashboardFaces.repairPathOfFile(proyectoMiembro.userView.photo),'')}" 
+                                                    />
+                                            </p:avatar>
+                                            <p:avatar rendered="#{proyectoMiembro.propietario eq false and dashboardFaces.jmoordbCoreMediaManager.isImageAndExists(dashboardFaces.repairPathOfFile(proyectoMiembro.userView.photo)) eq false}"
+                                                      title="#{proyectoMiembro.userView.name}"
+                                                      label="#{proyectoMiembro.userView.name}" styleClass="mr-2" size="small" />
+
+                                        </ui:repeat>
+                                    </p:avatarGroup>
+                                    <div class="text-500 my-3 text-xl font-300">
+                                        <i class="pi pi-calendar" /> 
+                                        <p:outputLabel value="#{msg['field.fechainicial']}: "/> 
+                                        <p:outputLabel value="#{dashboardFaces.showDateWithHour(proyectoSprintOpen.proyecto.fechainicial)}"/> 
+
+                                    </div>
+                                    <div class="text-500 my-3 text-xl font-300">
+                                        <i class="pi pi-calendar" /> 
+                                        <p:outputLabel value="#{msg['field.fechafinal']}: "/> 
+                                        <p:outputLabel value="#{dashboardFaces.showDateWithHour(proyectoSprintOpen.proyecto.fechafinal)}"/> 
+
+                                    </div>
+
+                                    <div class="text-500 my-3 text-xl font-300" jsf:rendered="#{proyectoSprintOpen.sprintOpen.open eq false}">
+                                        <p:outputLabel value="#{msg['outputlabel.advertencia']}: "/>
+                                        <p:badge value="" severity="danger" >
+                                            <i class="pi pi-stop-circle" />
+                                        </p:badge>
+                                        <p:outputLabel style="font-style: bold" value=" #{msg['label.notieneplandisponible']}" title="#{msg['label.notifiquepropietario']}" />
+
+                                    </div>
+                                    <div class="text-500 my-3 text-xl font-300" jsf:rendered="#{proyectoSprintOpen.sprintOpen.open}">
+                                        <p:outputLabel value="#{msg['outputlabel.sprintname']}: "/>
+
+                                        <p:commandLink id="commandButtonSprintOpen" 
+                                                       action="#{dashboardFaces.prepareSprintOpen(proyectoSprintOpen.sprintOpen)}"
+                                                       oncomplete="PF('overlayPanelSprintOpen').show('#{component.clientId}')"
+                                                       update=":form, outputPanelSprintOpen"  
+                                                       value="#{proyectoSprintOpen.sprintOpen.sprint}"
+                                                       title="#{msg['button.sprintopen']}" 
+                                                       styleClass="ui-button-success">
+                                            <i class="pi pi-eye"></i>
+                                        </p:commandLink>
+
+
+                                    </div>
+
+                                </c:if>
+
+
+                                <c:if test="#{dashboardFaces.showDetallesProyecto eq false}">
+                                    <div class="grid">
+                                        <div class="col-12 md:col-6 lg:col-3 p-3">
+                                            <div class="p-3 text-center bg-blue-500" style="border-radius: 12px">
+                                                <span class="inline-flex justify-content-center align-items-center bg-blue-600 border-circle mb-3" style="width:15px; height: 15px">
+                                                    <i class="pi pi-bookmark text-xl text-white"></i>
+                                                </span>
+
+
+                                                <div>
+                                                    <p:commandLink class="text-2xl font-medium text-white mb-2"
+                                                                   value="#{dashboardFaces.dataOfProyectoEstadistica(proyectoSprintOpen.proyecto).totalTarjetasPendiente}" 
+                                                                   oncomplete="PF('overlayPanelTarjetaView').show('#{component.clientId}')"
+                                                                   update=":form, ouputPanelTarjetaView"
+                                                                   action="#{dashboardFaces.showTarjetasWithProject('pendiente',proyectoSprintOpen.proyecto)}"
+                                                                   />
+
+
+                                                </div>
+                                                <!--<span class="text-blue-100 font-medium text-sm">#{msg['label.pendiente']}</span>-->
+                                            </div>
+                                        </div>
+                                        <div class="col-12 md:col-6 lg:col-3 p-3">
+                                            <div class="p-3 text-center bg-purple-500" style="border-radius: 12px">
+                                                <span class="inline-flex justify-content-center align-items-center bg-purple-600 border-circle mb-3" style="width:20px; height: 20px">
+                                                    <i class="pi pi-truck text-xl text-white"></i>
+                                                </span>
+
+
+                                                <div>
+                                                    <p:commandLink class="text-2xl font-medium text-white mb-2"
+                                                                   value="#{dashboardFaces.dataOfProyectoEstadistica(proyectoSprintOpen.proyecto).totalTarjetasProgreso}" 
+                                                                   oncomplete="PF('overlayPanelTarjetaView').show('#{component.clientId}')"
+                                                                   update=":form, ouputPanelTarjetaView"
+                                                                   action="#{dashboardFaces.showTarjetasWithProject('progreso',proyectoSprintOpen.proyecto)}"
+                                                                   />
+
+
+                                                </div>
+
+
+<!--<span class="text-purple-100 font-medium text-sm">#{msg['label.progreso']}</span>-->
+                                            </div>
+                                        </div>
+                                        <div class="col-12 md:col-6 lg:col-3 p-3">
+                                            <div class="p-3 text-center bg-indigo-500" style="border-radius: 12px">
+                                                <span class="inline-flex justify-content-center align-items-center bg-indigo-600 border-circle mb-3" style="width:20px; height: 20px">
+                                                    <i class="pi pi-compass text-xl text-white"></i>
+                                                </span>
+
+                                                <div>
+                                                    <p:commandLink class="text-2xl font-medium text-white mb-2"
+                                                                   value="#{dashboardFaces.dataOfProyectoEstadistica(proyectoSprintOpen.proyecto).totalTarjetasFinalizado}" 
+                                                                   oncomplete="PF('overlayPanelTarjetaView').show('#{component.clientId}')"
+                                                                   update=":form, ouputPanelTarjetaView"
+                                                                   action="#{dashboardFaces.showTarjetasWithProject('finalizado',proyectoSprintOpen.proyecto)}"
+                                                                   />
+
+
+                                                </div>
+
+
+<!--<span class="text-indigo-100 font-medium text-sm">#{msg['label.finalizado']}</span>-->
+                                            </div>
+                                        </div>
+                                        <div class="col-12 md:col-6 lg:col-3 p-3">
+                                            <div class="p-3 text-center bg-orange-500" style="border-radius: 12px">
+                                                <span class="inline-flex justify-content-center align-items-center bg-orange-600 border-circle mb-3" style="width:20px; height: 20px">
+                                                    <i class="pi pi-fw pi-server text-xl text-white"></i>
+                                                </span>
+
+
+                                                <div>
+                                                    <p:commandLink class="text-2xl font-medium text-white mb-2"
+                                                                   value="#{dashboardFaces.dataOfProyectoEstadistica(proyectoSprintOpen.proyecto).totalTarjetasBacklog}" 
+                                                                   oncomplete="PF('overlayPanelTarjetaView').show('#{component.clientId}')"
+                                                                   update=":form, ouputPanelTarjetaView"
+                                                                   action="#{dashboardFaces.showTarjetasWithProject('backlog',proyectoSprintOpen.proyecto)}"
+                                                                   />
+
+
+                                                </div>
+                                                <!--<span class="text-orange-100 font-medium text-sm">#{msg['label.backlog']}</span>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:if>
+
+
+
+
+
+
+
+
+                            </div>
+
+
+
+
+
+
+                            <!--<jmoordbcorejsf:lineadivisoria/>-->                     
+
+
+
+
+                            <div class="px-1 py-3 surface-100 text-right">
+                           
+                                <p:badge severity="danger" value ="#{proyectoSprintOpen.proyecto.estado}" rendered="#{dashboardFaces.isProjectDetenido(proyectoSprintOpen.proyecto) eq true}">
+                                    <i class="pi pi-bell" style="font-size: 2rem"/>
+                                </p:badge>
+                            
+
+                                <p:commandButton  icon="pi pi-th-large" title="#{core['button.board']}"                                              
+value="#{core['button.board']}" 
+                                                  rendered="#{proyectoSprintOpen.sprintOpen.open and dashboardFaces.validDateProject(proyectoSprintOpen.proyecto)}"
+                                                  action="#{dashboardFaces.go(proyectoSprintOpen.proyecto,'tablero.xhtml',false,true)}"
+                                                  styleClass="ui-button-rounded ui-button-secondary"/>
+                                <p:menuButton  icon="pi pi-chart-line" buttonStyleClass="ui-button-outlined ui-button-plain rounded-button">
+
+                                    <p:menuitem id="commandButtonLogros" 
+                                                value="#{msg['button.logros']}"
+                                                action="#{dashboardFaces.go(proyectoSprintOpen.proyecto,'graficalogros.xhtml',false,true)}"
+                                                icon="pi pi-chart-line"  
+                                                title="#{msg['button.logros']}" 
+
+                                                styleClass="ui-button-outlined ui-button-warning"/>
+
+
+
+                                    <p:menuitem id="commandButtonLogrosInteractive" 
+                                                value="#{msg['button.logrosdetalles']}"
+                                                action="#{dashboardFaces.go(proyectoSprintOpen.proyecto,'graficalogrosinteractive.xhtml',false,true)}"
+                                                icon="pi pi-chart-line"  
+                                                title="#{msg['button.logrosdetalles']}" 
+
+                                                styleClass="ui-button-outlined ui-button-help"/>
+                                    <p:divider/>
+
+
+                                    <p:divider/>
+                                    <p:menuitem id="commandButtonScheduleTarjeta" 
+                                                value="#{msg['button.scheduletarjeta']}"
+                                                action="#{dashboardFaces.go(proyectoSprintOpen.proyecto,'scheduledashboard.xhtml',false,true)}"
+                                                icon="pi pi-calendar-times"  title="#{msg['button.scheduletarjeta']}"                                                 
+                                                styleClass="ui-button-outlined ui-button-warning"/>
+
+                                    <p:menuitem id="commandButtonScheduleSprint" 
+                                                value="#{msg['button.schedulesprint']}"
+                                                action="#{dashboardFaces.go(proyectoSprintOpen.proyecto,'schedulesprint.xhtml',false,true)}"
+                                                icon="pi pi-calendar-times"  title="#{msg['button.schedulesprint']}"                                                 
+                                                styleClass="ui-button-outlined ui-button-help"/>
+
+
+                                </p:menuButton>
+
+
+                                <!--
+                                                                <p:commandButton  icon="pi pi-th-large" title="#{core['button.board']}"                                              
+                                                                                  value="#{core['button.board']}"
+                                                                                  rendered="#{proyectoSprintOpen.sprintOpen.open and dashboardFaces.validDateProject(proyectoSprintOpen.proyecto)}"
+                                                                                  action="#{dashboardFaces.go(proyectoSprintOpen.proyecto,'tablero.xhtml',false,true)}"
+                                                                                  styleClass="ui-button-raised ui-button-success"/>
+                                                                <p:commandButton id="commandButtonSprint" 
+                                                                                 value="#{msg['button.sprint']}"
+                                                                                 action="#{dashboardFaces.go(proyectoSprintOpen.proyecto,'sprint.xhtml',false,true)}"
+                                                                                 icon="pi pi-fw pi-book"  title="#{msg['button.sprint']}" 
+                                                                                 rendered="#{dashboardFaces.isPropietarioDelProyecto(proyectoSprintOpen.proyecto) and proyectoSprintOpen.proyecto.estado eq 'iniciado' and dashboardFaces.validDateProject(proyectoSprintOpen.proyecto)}"
+                                                                                 styleClass="ui-button-raised ui-button-warning"/>-->
+
+                                <!--
+                                                                <p:commandButton  value="#{core['button.backlog']}" icon="pi pi-fw pi-server"
+                                                                                  update=":form:growl" 
+                                
+                                                                                  action="#{dashboardFaces.go(proyectoSprintOpen.proyecto,'backlog.xhtml',false,true)}"
+                                                                                  styleClass="ui-button-raised ui-button-primary"/>-->
+
+
+<!--                                <p:commandButton  title="#{msg['button.papelerareciclaje']}" 
+                                                  icon="pi pi-fw pi-trash"
+                                                  rendered="#{proyectoSprintOpen.sprintOpen.open and dashboardFaces.validDateProject(proyectoSprintOpen.proyecto)}"
+                                                  update=":form:growl" 
+                                                  action="#{dashboardFaces.goPapeleraReciclaje(proyectoSprintOpen)}"
+                                                  styleClass="rounded-button ui-button-danger "/>-->
+
+                                <!--                                 <p:commandButton id="commandButtonSchedulePapelera"      
+                                                                                 rendered="#{dashboardFaces.isPropietarioDelProyecto(proyectoSprintOpen.proyecto)}"
+                                                                                 action="#{dashboardFaces.go(proyectoSprintOpen.proyecto,'papelerareciclaje.xhtml',false,true)}"
+                                                                                 icon="pi pi-trash" 
+                                                                                 title="#{msg['button.papelerareciclaje']}"                                                 
+                                                                                 styleClass="ui-button-outlined ui-button-danger"/>-->
+
+                                <p:commandButton id="commandButtonResumen" 
+                                                 action="#{dashboardFaces.prepareResumen(proyectoSprintOpen.proyecto)}"
+                                                 oncomplete="PF('overlayPanelResumen').show('#{component.clientId}')"
+                                                 update=":form, outputPanelResumen"  
+                                                 icon="pi pi-money-bill"  title="#{msg['button.resumen']}" 
+                                                 styleClass="rounded-button ui-button-help"/>
+
+                                <!--                                <p:commandButton id="commandButtonMyResumen" 
+                                                                                 action="#{dashboardFaces.prepareMiResumen(proyectoSprintOpen.proyecto)}"
+                                                                                 oncomplete="PF('overlayPanelMyResumen').show('#{component.clientId}')"
+                                                                                 update=":form, outputPanelMyResumen"  
+                                
+                                                                                 icon="pi pi-percentage"  title="#{msg['button.miresumen']}" 
+                                                                                 styleClass="rounded-button ui-button-danger"/>-->
+
+<!--                                <p:commandButton  icon="pi pi-directions" title="#{msg['button.flow']}" 
+                                                  styleClass="ui-button-success"
+                                                  value="#{msf['button.flow']}"
+                                                  rendered="#{proyectoSprintOpen.sprintOpen.open and proyectoSprintOpen.proyecto.estado eq 'iniciado'}"
+                                                  action="#{dashboardFaces.go(proyectoSprintOpen.proyecto,'flow.xhtml',false,true)}"/>-->
+
+
+
+                                <!--<p:separator/>-->
+
+
+
+
+
+
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+
+                </ui:repeat>
+
+            </div>
+        </div>
+
+
+    </composite:implementation>
+</html>

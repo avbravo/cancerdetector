@@ -1,0 +1,477 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f = "http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:dialogo="http://xmlns.jcp.org/jsf/composite/dialogo"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <composite:interface >
+        <composite:attribute name="id" default=""/> 
+
+    </composite:interface>
+
+    <composite:implementation>
+
+
+
+        <p:dialog header="#{msg['dialog.proyectoedit']}" widgetVar="overlayPanelProyectoEditar"  
+                     width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true"
+                  >
+            <p:ajax event="close" update=":form:growl" listener="#{dashboardFaces.handleCloseDialogRefresh}" />
+                <p:outputPanel id="#{cc.attrs.id}" style="text-align:center;">
+
+                    <p:tabView id="tabViewEditar">
+                        <p:tab title="#{msg['tab.proyecto']}">
+                            <div class="grid ui-fluid mt-3 floatlabel-demo">
+                                <div class="col-12 md:col12">
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:inputTextarea value="#{dashboardFaces.proyectoEditarSelected.proyecto}"
+                                                             rows="2" autoResize="false">
+                                                <p:ajax event="keyup" listener="#{dashboardFaces.sugerirPrefijoEditar}"
+                                                        update="prefijoeditar"/>
+                                            </p:inputTextarea>
+                                            <p:outputLabel for="@previous" value="#{msg['field.proyecto']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-12 md:col-9">
+                                    <div class="field">
+                                        <div class="ui-inputgroup">
+                                            <span class="ui-inputgroup-addon"> 
+                                                <p:commandButton title="#{msg['button.sugerirprefijo']}" icon="pi pi-wrench" 
+                                                                 action="#{dashboardFaces.genererNumeroPrefijoEditar()}"
+                                                                 update="prefijoeditar,growl"
+                                                                 styleClass="ui-button-outlined w-1 mr-1"/>
+                                            </span>
+                                            <span class="ui-float-label" style="width: 100%"> 
+                                                <p:inputText id="prefijoeditar" value="#{dashboardFaces.proyectoEditarSelected.prefijo}"/>
+                                                <p:outputLabel for="@previous" value="#{msg['field.prefijo']}" styleClass="ml-4" />
+                                                <p:message for="@previous" />
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 md:col-3">
+                                    <div class="field">
+                                        <div class="ui-inputgroup">
+                                            <span class="ui-inputgroup-addon"> 
+                                                <i class="#{dashboardFaces.proyectoEditarSelected.icono.icono}" jsf:id="iconeditar"/>
+                                            </span>
+                                            <span class="ui-float-label" style="width: 100%"> 
+                                                <p:selectOneMenu  value="#{dashboardFaces.proyectoEditarSelected.icono}" var="item"
+                                                                  
+                                                                  >
+                                                    <f:selectItems value="#{iconoConverterServices.iconos}"  var="item" 
+                                                                   itemLabel=""
+                                                                   itemValue="#{item}" />
+                                                    <p:column><i class="#{item.icono}" />  </p:column>
+
+                                                    <p:ajax update="@parent:@parent:iconeditar" />
+                                                </p:selectOneMenu>
+
+                                                <p:outputLabel for="@previous" value="#{msg['field.icono']}" styleClass="ml-4" />
+                                                <p:message for="@previous" />
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 md:col-12">
+
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:inputTextarea value="#{dashboardFaces.proyectoEditarSelected.descripcion}"/>
+                                            <p:outputLabel for="@previous" value="#{msg['field.descripcion']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-12 md:col-12">
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:selectOneMenu value="#{dashboardFaces.proyectoEditarSelected.estado}" filter="true" filterMatchMode="startsWith">
+                                                <f:selectItem itemLabel="#{msg['selectonemenu.iniciado']}" itemValue="#{msg['selectonemenu.iniciadovalue']}"/>
+                                                <f:selectItem itemLabel="#{msg['selectonemenu.detenido']}" itemValue="#{msg['selectonemenu.detenidovalue']}"/>
+                                                <!--<f:selectItem itemLabel="#{msg['selectonemenu.finalizado']}" itemValue="#{msg['selectonemenu.finalizadovalue']}"/>-->
+
+                                            </p:selectOneMenu>
+                                            <p:outputLabel for="@previous" value="#{msg['field.estado']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+
+
+
+
+
+                        </p:tab>
+                        <p:tab title="#{msg['tab.calendario']}">
+                            <div class="grid ui-fluid mt-3 floatlabel-demo">
+                                <div class="col-12 md:col-8">
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:datePicker   value="#{dashboardFaces.proyectoEditarSelected.fechainicial}" showIcon="true"
+                                                            monthNavigator="true" yearNavigator="true"
+                                                            pattern="dd/MM/yyyy HH:mm a"
+                                                            timeInput="true"
+                                                            hourFormat="12"
+                                                            showTime="true"
+                                                            locale="es"
+                                                            />
+                                            <p:outputLabel for="@previous" value="#{msg['field.fechainicial']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-12 md:col-8">
+
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:datePicker  value="#{dashboardFaces.proyectoEditarSelected.fechafinal}" showIcon="true"
+                                                           monthNavigator="true" yearNavigator="true"
+                                                           pattern="dd/MM/yyyy HH:mm a"
+                                                           timeInput="true"
+                                                           hourFormat="12"
+                                                           showTime="true"
+                                                           locale="es"
+                                                           />
+                                            <p:outputLabel for="@previous" value="#{msg['field.fechafinal']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-12 md:col-8">
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:selectOneMenu value="#{dashboardFaces.proyectoEditarSelected.periocidiadsprint}" filter="true" filterMatchMode="startsWith">
+                                                <f:selectItem itemLabel="#{msg['selectonemenu.semanal']}" itemValue="#{msg['selectonemenu.semanal']}"/>
+                                                <f:selectItem itemLabel="#{msg['selectonemenu.quincenal']}" itemValue="#{msg['selectonemenu.quincenal']}"/>
+                                                <f:selectItem itemLabel="#{msg['selectonemenu.mensual']}" itemValue="#{msg['selectonemenu.mensual']}"/>
+                                                <f:selectItem itemLabel="#{msg['selectonemenu.trimestral']}" itemValue="#{msg['selectonemenu.trimestral']}"/>
+                                                <f:selectItem itemLabel="#{msg['selectonemenu.semestral']}" itemValue="#{msg['selectonemenu.semestral']}"/>
+                                                <f:selectItem itemLabel="#{msg['selectonemenu.anual']}" itemValue="#{msg['selectonemenu.anual']}"/>
+                                            </p:selectOneMenu>
+                                            <p:outputLabel for="@previous" value="#{msg['field.periocidad']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+                                </div>
+                                 <div class="col-12 md:col-8">
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:inputTextarea value="#{dashboardFaces.proyectoEditarSelected.diasAlertaVencimiento}"
+                                                             rows="1" autoResize="false"
+                                                             >
+                                               
+                                            </p:inputTextarea>
+                                            <p:outputLabel for="@previous" value="#{msg['field.diasAlertaVencimiento']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </p:tab>
+
+                        <p:tab title="#{msg['tab.usuarios']}">
+                            <div class="grid ui-fluid mt-3 floatlabel-demo">
+                                <!--                                <div class="col-12 md:col-3">
+                                                                    <p:outputLabel  value="#{msg['field.propietario']}" />
+                                                                </div>-->
+                                <div class="col-12 md:col-12">
+                                    <div class="field">
+                                        <!--<span class="ui-float-label">-->
+                                        <p:outputLabel value="#{msg['field.propietario']}" />
+                                        <p:autoComplete id="propietarioEditar" multiple="true" value="#{dashboardFaces.userViewPropietarioEditSelectedList}"
+                                                        completeMethod="#{dashboardFaces.completeUserViewPropietarioEdit}"
+                                                        var="userView" itemLabel="#{userView.name}" itemValue="#{userView}"
+                                                        forceSelection="true"
+                                                        title="#{msg['autocomplete.minimo3caracteres']}"
+                                                        dropdown="true"
+                                                        minQueryLength="3"
+                                                        scrollHeight="250"
+                                                        converter="#{userViewConverter}"
+                                                        >
+                                            <p:column>
+                                                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{userView.name}"/>
+                                            </p:column>
+                                            <p:ajax event="itemSelect"   listener="#{dashboardFaces.autocompleteSelectedEvent}"  update=":form:growl, propietarioEditar" />  
+                                            <p:ajax event="itemUnselect"  process="@this" listener="#{dashboardFaces.autocompleteUnselectListener}" update=":form:growl, propietarioEditar" />
+                                        </p:autoComplete>
+
+                                    </div>
+                                </div>
+                                <!--                                <div class="col-12 md:col-3">
+                                                                    <p:outputLabel  value="#{msg['field.colaborador']}" />
+                                                                </div>-->
+                                <div class="col-12 md:col-12">
+
+
+                                    <!--<div class="col-12 md:col-6">-->
+                                    <div class="field">
+                                        <!--<span class="ui-float-label">-->
+                                        <p:outputLabel  value="#{msg['field.colaborador']}" />
+                                        <p:autoComplete id="colaboradoresEditar" multiple="true" value="#{dashboardFaces.userViewColaboradorEditSelectedList}"
+                                                        completeMethod="#{dashboardFaces.completeUserViewColaboradorEdit}"
+                                                        var="userView" itemLabel="#{userView.name}" itemValue="#{userView}"
+                                                        forceSelection="true"
+                                                        title="#{msg['autocomplete.minimo3caracteres']}"
+                                                        dropdown="true"
+                                                        minQueryLength="3"
+                                                        scrollHeight="250"
+                                                        converter="#{userViewConverter}"
+                                                        >
+                                            <p:column>
+                                                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{userView.name}"/>
+                                            </p:column>
+                                            <p:ajax event="itemSelect"   listener="#{dashboardFaces.autocompleteSelectedEvent}"  update=":form:growl, colaboradoresEditar" />  
+                                            <p:ajax event="itemUnselect"  process="@this" listener="#{dashboardFaces.autocompleteUnselectListener}" update=":form:growl, colaboradoresEditar" />
+                                        </p:autoComplete>
+                                        <!--</span>-->
+                                    </div>
+                                </div>
+                                <!--</div>-->
+
+
+
+                            </div>
+                        </p:tab>
+                        <p:tab title="#{msg['tab.area']}">
+                            <div class="grid ui-fluid mt-3 ">
+                                <div class="col-12 md:col-2">
+                                    <p:outputLabel  value="#{msg['field.area']}" />
+                                </div>
+
+                                <div class="col-12 md:col-10">
+                                    <div class="field">
+                                        <p:autoComplete id="areaEditar" multiple="true" value="#{dashboardFaces.areaList}"
+                                                        completeMethod="#{dashboardFaces.completeAreaEditar}"
+                                                        var="area" itemLabel="#{area.area}" itemValue="#{area}"
+                                                        forceSelection="true"
+                                                        title="#{msg['autocomplete.minimo3caracteres']}"
+                                                        dropdown="true"
+                                                        minQueryLength="3"
+                                                        scrollHeight="250"
+                                                        converter="#{areaConverter}"
+                                                        >
+                                            <p:column>
+                                                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{area.area}"/>
+                                            </p:column>
+                                            <p:ajax event="itemSelect"   listener="#{dashboardFaces.autocompleteSelectedEvent}"  update=":form:growl, areaEditar" />  
+                                            <p:ajax event="itemUnselect"  process="@this" listener="#{dashboardFaces.autocompleteUnselectListener}" update=":form:growl, areaEditar" />
+                                        </p:autoComplete>                  
+
+
+                                        <!--</span>-->
+                                    </div>
+                                </div>
+
+
+                                <div class="col-12 md:col-2">
+                                    <p:outputLabel  value="#{msg['field.departamento']}" />
+                                </div>
+
+                                <div class="col-12 md:col-10">
+                                    <div class="field">
+                                        <p:autoComplete id="departamentEditar" multiple="true" value="#{dashboardFaces.departamentViewList}"
+                                                        completeMethod="#{dashboardFaces.completeDepartamentViewEditar}"
+                                                        var="departamentView" itemLabel="#{departamentView.departament}" itemValue="#{departamentView}"
+                                                        forceSelection="true"
+                                                        title="#{msg['autocomplete.minimo3caracteres']}"
+                                                        dropdown="true"
+                                                        minQueryLength="3"
+                                                        scrollHeight="250" 
+                                                        converter="#{departamentViewConverter}"
+                                                        >
+                                            <p:column>
+                                                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{departamentView.departament}"/>
+                                            </p:column>
+                                            <p:ajax event="itemSelect"   listener="#{dashboardFaces.autocompleteSelectedEvent}"  update=":form:growl, departamentEditar" />  
+                                            <p:ajax event="itemUnselect"  process="@this" listener="#{dashboardFaces.autocompleteUnselectListener}" update=":form:growl, departamentEditar" />
+                                        </p:autoComplete>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </p:tab>
+
+                        <p:tab title="#{msg['tab.grupotipotarjeta']}">
+                            <div class="grid ui-fluid mt-3 ">
+                                <div class="col-12 md:col-2">
+                                    <p:outputLabel  value="#{msg['labelautocomplete.grupotipotarjeta']}" />
+                                </div>
+                                <div class="col-12 md:col-10">
+                                    <!--<div class="field">-->
+                                         <!--<p:outputLabel  value="#{msg['label.grupotipotarjeta']}" />-->
+                                    <p:autoComplete id="grupoTipoTarjeta" multiple="true" 
+                                                    value="#{dashboardFaces.grupoTipoTarjetaList}"
+                                                    completeMethod="#{dashboardFaces.completeGrupoTipoTarjetaEditar}"
+                                                    var="grupotipotarjeta" 
+                                                    itemLabel="#{grupotipotarjeta.grupoTipoTarjeta}" 
+                                                    itemValue="#{grupotipotarjeta}"
+                                                    forceSelection="true"
+                                                    title="#{msg['autocomplete.minimo3caracteres']}"
+                                                    dropdown="true"
+                                                    minQueryLength="3"
+                                                    scrollHeight="250" 
+                                                    converter="#{grupoTipoTarjetaConverter}"
+                                                    >
+                                        <p:column>
+                                            <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{grupotipotarjeta.grupoTipoTarjeta}"/>
+                                        </p:column>
+                                        <p:ajax event="itemSelect"   listener="#{dashboardFaces.autocompleteGrupoTipoTarjetaSelectedEvent}"  update=":form:growl,grupoTipoTarjeta" />  
+                                        <p:ajax event="itemUnselect"  process="@this" listener="#{dashboardFaces.autocompleteUnselectListener}" update=":form:growl,grupoTipoTarjeta" />
+                                    </p:autoComplete>
+                                    <!--</div>-->
+
+                                </div>
+
+
+                            </div>
+
+                        </p:tab>
+                        <p:tab title="#{msg['tab.permisos']}">
+                            <div class="grid ui-fluid mt-3 floatlabel-demo">
+
+                                <div class="col-12 md:col-12">
+                                    <i class="pi pi-user"></i>
+                                    <p:outputLabel  value="#{msg['label.propietario']}" />
+
+                                </div>
+
+                                <div class="col-12 md:col-3">
+                                    <p:outputLabel value="#{msg['label.alcance']}" />
+                                </div>
+
+                                <div class="col-12 md:col-9">
+                                    <div class="field">
+                                        <p:selectBooleanButton value="#{dashboardFaces.proyectoEditarSelected.privado}" 
+                                                               onLabel="#{msg['onlabel.privado']}" 
+                                                               offLabel="#{msg['onlabel.publico']}"
+                                                               onIcon="pi pi-lock" offIcon="pi pi-lock-open" style="width:6rem" />
+                                        <p:message for="@previous" />
+                                    </div>
+                                </div>
+
+                                <div class="col-12 md:col-3">
+                                    <p:outputLabel  value="#{msg['label.agregarTarjetaDuplicada']}" />
+                                </div>
+                                <div class="col-12 md:col-9">  
+                                    <div class="field">
+                                        <p:selectBooleanButton value="#{dashboardFaces.proyectoEditarSelected.agregarTarjetaDuplicada}"
+                                                               onLabel="#{core['button.yes']}" 
+                                                               offLabel="#{core['button.no']}"
+                                                               onIcon="pi pi-check" offIcon="pi pi-times" style="width:6rem" 
+                                                               />
+
+                                        <p:message for="@previous" />
+                                    </div>
+
+                                </div>
+                                
+                                <div class="col-12 md:col-3">
+                                <p:outputLabel  value="#{msg['label.generarsprintautomaticamente']}" />
+                            </div>
+                            <div class="col-12 md:col-9">
+                                <div class="field">
+                                    <p:selectBooleanButton value="#{dashboardFaces.proyectoEditarSelected.generarsprintautomaticamente}"
+                                                           title="#{msg['selectBooleanButtonTitle.generarsprintautomaticamentesprint']}"
+                                                           onLabel="#{core['button.yes']}" 
+                                                           offLabel="#{core['button.no']}"
+                                                           onIcon="pi pi-check" offIcon="pi pi-times" style="width:6rem" 
+                                                           />
+
+                                    <p:message for="@previous" />
+                                </div>
+                            </div>
+                                    <p:divider/>
+                      <div class="col-12 md:col-12">
+                                    <i class="pi pi-users"></i>
+                                    <p:outputLabel  value="#{msg['label.colaborador']}" />
+
+                                </div>
+                                <div class="col-12 md:col-6">
+                                    <div class="field">
+                                        <p:selectBooleanCheckbox value="#{dashboardFaces.proyectoEditarSelected.colaboradorcreartarjeta}"/>
+                                        <p:outputLabel for="@previous" value="#{msg['label.colaboradorcreartarjeta']}" />
+                                        <p:message for="@previous" />
+
+                                    </div>
+                                </div>
+                                <div class="col-12 md:col-6">
+                                    <div class="field">
+                                        <p:selectBooleanCheckbox value="#{dashboardFaces.proyectoEditarSelected.showTarjetaPrivado}"/>
+                                        <p:outputLabel for="@previous" value="#{msg['label.showTarjetaPrivado']}" />
+                                        <p:message for="@previous" />
+                                    </div>
+                                </div>
+                                <div class="col-12 md:col-6">  
+                                    <div class="field">
+                                        <p:selectBooleanCheckbox value="#{dashboardFaces.proyectoEditarSelected.showTodasReserva}"/>
+                                        <p:outputLabel for="@previous" value="#{msg['label.showTodasReserva']}" />
+                                        <p:message for="@previous" />
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </p:tab>
+
+
+
+
+                    </p:tabView>
+
+
+
+                    <div class="flex align-items-center ">
+                        <div class=" border-top-1 surface-border pt-3 flex">
+
+                            <p:commandButton  value="#{core['button.update']}" icon="pi pi-save"
+                                              action="#{dashboardFaces.editar(dashboardFaces.proyectoEditarSelected)}"
+                                              update=":form:growl"
+                                              process="#{cc.attrs.id}"
+                                              styleClass="w-6 ml-2"/>
+
+
+                            <p:commandButton value="#{core['button.cancel']}" icon="pi pi-times" 
+                                             onclick="PF('overlayPanelProyectoEditar').hide()"
+                                             update=":form"
+                                             styleClass="ui-button-outlined w-6 mr-2"/>
+
+
+                        </div>
+                    </div>
+                </p:outputPanel>
+
+        </p:dialog>
+
+
+
+    </composite:implementation>
+</html>

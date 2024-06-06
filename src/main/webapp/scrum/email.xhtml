@@ -1,0 +1,256 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades"
+                xmlns:user="http://xmlns.jcp.org/jsf/composite/user"
+                xmlns:primeblocks="http://xmlns.jcp.org/jsf/composite/primeblocks"
+                xmlns:perfil="http://xmlns.jcp.org/jsf/composite/perfil">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+
+        <c:if test="${emailFaces.callerLevel0 eq 'dashboard'}">
+            <p:commandLink action="dashboard" value="#{msg['breadcrumb.dashboard']}">
+            </p:commandLink>
+
+        </c:if>
+        <i class="pi pi-angle-right"></i>
+        <p:commandLink action="email" value="#{msg['breadcrumb.email']}">
+        </p:commandLink>
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD,DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+
+            <p:growl id="growl"/>
+            <script type="text/javascript">
+                function setDataTableWithPageStart() {
+
+                    widgetVardataTable.getPaginator().setPage(0);
+                }
+            </script>
+<!--            <div class="block-category-title">#{msg['form.email']}</div>-->
+
+            <!--<pb:blockViewerCore header="Sidebar" >-->
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+                <div class="min-h-screen flex flex-column relative flex-auto">
+                    <!--                    <dashboard:top/>-->
+                    <div class="surface-section , jmoordbcore-max-width600">
+
+
+
+                        <p:tabView >
+
+                            <p:tab title="#{msg['tab.redactar']}">
+                                <div class="grid ui-fluid mt-3 floatlabel-demo">
+                                    <div class="col-12 md:col-6">
+                                        <p:outputLabel  value=" #{msg['field.proyecto']}" />
+                                        <div class="field">
+
+
+
+                                            <p:outputLabel  value="#{emailFaces.proyectoSelected.proyecto}"  />
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="grid ui-fluid mt-3 floatlabel-demo">
+
+
+                                    <div class="col-12 md:col-12">
+                                        <div class="field">
+                                            <span class="ui-float-label">
+                                                <p:inputText id="email" value="#{emailFaces.tituloEmail}" />
+                                                <p:outputLabel for="@previous" value="#{msg['field.titulo']}" />
+                                                <p:message for="@previous" />
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="grid ui-fluid mt-3 floatlabel-demo">
+                                    <div class="col-12 md:col-12">
+                                        <div class="field">
+                                            <span class="ui-float-label">
+
+
+                                                <p:textEditor widgetVar="editor1" value="#{emailFaces.mensajeEmail}" 
+                                                              height="250px"
+                                                              secure="false"
+                                                              >
+                                                    <f:facet name="toolbar">
+                                                        <span class="ql-formats">
+                                                            <button class="ql-bold"></button>
+                                                            <button class="ql-italic"></button>
+                                                            <button class="ql-underline"></button>
+                                                            <button class="ql-strike"></button>
+                                                        </span>
+                                                        <span class="ql-formats">
+                                                            <select class="ql-font"></select>
+                                                            <select class="ql-size"></select>
+                                                        </span>
+                                                    </f:facet>
+                                                </p:textEditor>
+<!--                                                <p:outputLabel for="@previous" value="#{msg['field.mensaje']}" />
+                                                <p:message for="@previous" />-->
+                                            </span>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                                <div class="grid ui-fluid mt-3 floatlabel-demo">
+                                    <div class="col-12 md:col-2">
+
+                                        <p:fileUpload listener="#{emailFaces.fileUploadListener}"
+
+                                                      skinSimple="true"
+                                                      mode="simple"
+                                                      uploadIcon="pi pi-fw pi-upload"
+                                                      label="#{msg['button.file']}"
+                                                      uploadLabel="#{core['button.pupload']}"
+                                                      cancelLabel="#{core['button.uploadcancell']}"
+                                                      sizeLimit="12800000"
+                                                      allowTypes="/(\.|\/)(gif|jpe?g|png|docx?|pdf|txt|json|xml)$/"
+                                                      validateContentType="true"
+                                                      invalidFileMessage="#{core['fileupload.filetypeinvalido']}"
+                                                      invalidSizeMessage="#{core['fileupload.tamanoinvalido']}"
+                                                      auto="true"
+                                                      update=":form:growl, file, nameFile, commandButtonDeleteFile"/>
+                                    </div>
+                                    <div class="col-12 md:col-7">
+                                        <i class="pi pi-paperclip" jsf:id="file" >         
+                                        </i>
+
+
+                                        <p:outputLabel id="nameFile" value="#{emailFaces.nameFile}"/>
+
+
+
+
+
+                                    </div>
+                                    <div class="col-12 md:col-2">
+                                        <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                                         process="@this"
+                                                         id="commandButtonDeleteFile"
+
+                                                         update=":form:growl, nameFile, commandButtonDeleteFile"
+                                                         action="#{emailFaces.deleteFile()}"
+                                                         >
+                                            <p:confirm type="popup" header="#{core['confirmdialog.header']}" message="#{core['confirmdialog.message']}" icon="pi pi-info-circle"/>
+                                            <p:autoUpdate/>
+                                        </p:commandButton>
+                                    </div>
+                                </div>
+
+
+
+
+                            </p:tab>
+
+
+                            <p:tab title="#{msg['tab.destinatario']}">
+                                <div class="flex justify-content-between">
+
+                                </div>
+                                <p:dataTable style="border-style: none" value="#{emailFaces.userViewDomainList}"
+                                             var="item"
+                                             paginator="false"
+                                             editMode="cell"
+                                          resizableColumns="true" liveResize="true"
+                                             id="dataTableColaborador"
+                                             widgetVar="dataTableColaborador"
+                                             editable="true"
+                                             scrollable="true" scrollHeight="250"
+                                             >
+                                    <p:ajax event="cellEdit" listener="#{emailFaces.onCellEditColaborador}" update=":form:growl, dataTableColaborador"/>
+                                    <p:column class="column30"  >
+
+                                        <p:outputLabel value="#{item.userView.name}" style="float:left"/>
+
+                                    </p:column>
+
+
+
+
+
+
+                                    <p:column  class="column2">
+                                        <p:cellEditor >
+                                            <f:facet name="output"><p:selectBooleanCheckbox value="#{item.selected}" disabled="true" style="float:left"/>  </f:facet>
+                                            <f:facet name="input" ><p:selectBooleanCheckbox value="#{item.selected}" style="float:left"/>  
+                                            </f:facet>
+                                        </p:cellEditor>
+
+                                    </p:column>
+
+
+
+
+
+
+                                </p:dataTable>
+
+
+                            </p:tab>
+                        </p:tabView>
+
+                        <div class="flex align-items-center " style="max-width: 370px;">
+                            <div class=" border-top-1 surface-border col-6 flex">
+                                <p:commandButton  title="#{msg['button.send']}" icon="pi pi-envelope"
+                                                  action="#{emailFaces.sendEmail()}"
+                                                  update=":form:growl, :form"
+                                                  styleClass="w-6 ml-2 ui-button-outlined ui-button-success"
+                                                  />
+
+                            </div>
+
+
+
+                        </div>
+
+
+                    </div> 
+
+                </div>
+            </div>
+
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+            </p:confirmPopup>
+
+
+
+
+
+
+
+
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD,DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

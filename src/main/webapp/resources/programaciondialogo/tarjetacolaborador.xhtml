@@ -1,0 +1,138 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:tablero="http://xmlns.jcp.org/jsf/composite/tablero"
+      xmlns:dialogo="http://xmlns.jcp.org/jsf/composite/dialogo"
+      xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades"
+      xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+      >
+
+    <composite:interface >
+        <composite:attribute name="pendiente" default="false"/>
+        <composite:attribute name="progreso" default="false"/>
+        <composite:attribute name="finalizado" default="false"/>
+        <composite:attribute name="id" default=""/> 
+    </composite:interface>
+
+    <composite:implementation >
+
+
+
+        <p:dialog header="#{msg['dialog.tarjetacolaborador']}" widgetVar="overlayPanelTarjetaColaboradorDataTable" 
+                  width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true">
+            <p:ajax event="close" update=":form:growl" listener="#{programacionFaces.handleCloseDialogColaborador}" />
+
+            <p:outputPanel id="#{cc.attrs.id}" style="text-align:center;">
+
+                <jmoordbcorejsf:overlayPanelTarjetaHeader iconoheader="pi-check-square" 
+                                                          titulo="#{msg['dialog.tarjetatare']}"
+                                                          entity="#{programacionFaces.tarjetaTareaSelected}"
+                                                          icono="#{programacionFaces.tarjetaTareaSelected.icono}"/>
+
+                <c:if test="${programacionFaces.fueCambiadoPorOtroUsuario == true}">
+
+
+                    <utilidades:sincronizacionrequeridacontroller onclick="PF('overlayPanelTarjetaColaboradorDataTable').hide()"
+                                                                  message="#{programacionFaces.message}"
+                                                                  controller="#{programacionFaces}"/>
+                </c:if>
+
+                <c:if test="${programacionFaces.fueCambiadoPorOtroUsuario == false}">
+
+
+                    <p:dataTable style="border-style: none" value="#{programacionFaces.userViewDomainList}"
+                                 var="item"
+                                 paginator="true"
+                                 editMode="cell"
+                                 resizableColumns="true" liveResize="true"
+                                 id="dataTableColaborador"
+                                 widgetVar="dataTableColaborador"
+                                 editable="true"
+                                 rows="#{programacionFaces.rowPageDialog.get()}"
+                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                 draggableRows="true"
+                                 >
+                        <p:ajax event="cellEdit" listener="#{programacionFaces.onCellEditColaborador}" update=":form:growl, dataTableColaborador"/>
+
+ <p:column class="column3">
+                            <p:cellEditor >
+                                <f:facet name="output">
+                                    <p:toggleSwitch value="#{item.selected}" onIcon="pi pi-check" offIcon="pi pi-times" disabled="true" />
+                                </f:facet>
+
+                                <f:facet name="input" >
+
+
+                                    <p:selectOneMenu value="#{item.selected}" 
+                                                     autoWidth="false"
+                                                     filter="no" filterMatchMode="startsWith">
+
+                                        <f:selectItem itemLabel="#{core['button.yes']}" itemValue="true"/>
+                                        <f:selectItem itemLabel="#{core['button.no']}" itemValue="no"/>
+
+
+                                    </p:selectOneMenu>
+
+                                </f:facet>
+                            </p:cellEditor>
+
+                        </p:column>
+                        <p:column class="column30" >
+                            <p:outputLabel value="#{item.userView.name}" style="float:left"/>
+
+                        </p:column>
+
+
+
+
+
+
+
+
+
+                        <f:facet name="footer"  >
+                            <div class="grid mt-12" >
+                                <div class=" border-top-1 surface-border col-4 flex">
+
+                                    <p:commandButton   title="#{core['button.close']}" icon="pi pi-times"
+                                                       update=":form:growl"
+                                                       rendered="#{programacionFaces.isEditable}"
+
+                                                       action="#{programacionFaces.changeColaborador(programacionFaces.tarjetaColaboradorSelected)}"
+
+                                                       styleClass="ui-button-raised ui-button-secondary">
+
+                                    </p:commandButton>
+
+                                </div>
+
+
+                                <div class=" border-top-1 surface-border col-6 flex">
+                                </div>
+                            </div>
+                        </f:facet>
+                    </p:dataTable>
+
+                </c:if>
+            </p:outputPanel>
+        </p:dialog>
+
+
+
+
+
+    </composite:implementation>
+</html>

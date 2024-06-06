@@ -1,0 +1,162 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <composite:interface >
+
+    </composite:interface>
+
+    <composite:implementation>
+        <c:if test="#{dashboardFaces.proyectoSprintOpenForaneoList.size() gt 0}">
+            <div class="p-4">
+                <div class="px-1 py-2 surface-card text-right border-900">
+
+                    <div class="text-500 my-1 text-xl font-bold flex align-items-center">
+                        <i class="pi pi-bookmark"></i>#{msg['dashboard.proyectosdeotrasunidades']}
+                    </div>
+
+                </div>
+
+            </div>
+        </c:if>
+        <div class="p-5 jmoordbcore-p5">
+
+            <div class="grid">
+
+                <ui:repeat value="#{dashboardFaces.proyectoSprintOpenForaneoList}" var="proyectoSprintOpen" >
+
+
+                    <div class="surface-ground  col-12 lg:col-6 xl:col-4 ">
+
+                        <div class="shadow-2 border-proyecto-foreano #{dashboardFaces.colorProyecto(proyectoSprintOpen.proyecto,true)}  mb-3 h-full flex-column justify-content-between flex ">
+                            <div class="p-4">
+                                <div class="flex align-items-center">
+                                    <span class="inline-flex border-circle align-items-center justify-content-center bg-purple-100 mr-3" style="width:56px;height:56px">
+                                        <i class="#{proyectoSprintOpen.proyecto.icono.icono} text-xl text-cyan-600"></i>
+                                    </span>
+                                    <span class="text-900 font-medium text-500">#{proyectoSprintOpen.proyecto.proyecto}</span>
+                                    <!--<span class="text-900 font-medium text-500">#{proyectoSprintOpen.proyecto.prefijo}</span>-->
+                                    <div class="ml-auto">
+
+
+                                        <p:menuButton  icon="pi pi-ellipsis-v" buttonStyleClass="ui-button-flat ui-button-plain rounded-button"  rendered="#{dashboardFaces.haveOpenSprintAndDateIsLessOrEqualsAndEstadoIniciado(proyectoSprintOpen.proyecto, 'iniciado')}">
+
+                                            <p:menuitem value="#{core['button.board']}" icon="pi pi-fw pi pi-th-large"
+
+                                                        action="#{dashboardFaces.go(proyectoSprintOpen.proyecto,'tablero.xhtml',true,true)}"
+                                                        />
+
+
+                                        </p:menuButton>
+                                    </div>
+                                </div>
+                                <div class="text-500 my-3 text-xl font-500">
+                                    <!--<p:outputLabel value="#{dashboardFaces.cutText(proyectoSprintOpen.proyecto.proyecto,dashboardFaces.mediumSizeOfTextForCut.get())}"/>-->
+                                    #{msg['field.prefijo']}: #{proyectoSprintOpen.proyecto.prefijo}
+                                    <i class="pi pi-lock-open" jsf:rendered="#{proyectoSprintOpen.proyecto.privado eq false}" jsf:title="#{msg['label.publico']}"></i>
+                                    <i class="pi pi-lock" jsf:rendered="#{proyectoSprintOpen.proyecto.privado eq true}" jsf:title="#{msg['label.privado']}"></i>
+
+                                </div>
+                                <div class="text-500 my-3 text-xl font-300">
+
+                                    <p:outputLabel value="#{msg['field.idproyecto']} "/> 
+                                    <p:outputLabel value="#{proyectoSprintOpen.proyecto.idproyecto}"/> 
+
+                                </div>
+                                <c:if test="#{dashboardFaces.showDetallesProyecto eq true}">
+                                
+                                <div class="text-500 my-3 text-xl font-300">
+                                    <p:outputLabel value="#{msg['field.estado']}: "/>                 
+                                    <p:outputLabel value=" #{proyectoSprintOpen.proyecto.estado}  "/>   
+
+                                    <p:badge value="#{dashboardFaces.showMiResumenPendienteAddProgreso(proyectoSprintOpen.proyecto)}" rendered="#{proyectoSprintOpen.proyecto.estado eq 'iniciado'}"
+                                             severity="success">
+                                        <i class="pi pi-bell"/>
+                                    </p:badge>
+                                    <p:badge value="#{dashboardFaces.showMiResumenPendienteAddProgreso(proyectoSprintOpen.proyecto)}" severity="warning" rendered="#{proyectoSprintOpen.proyecto.estado eq 'detenido'}">
+                                        <i class="pi pi-stopwatch" />
+                                    </p:badge>
+                                    <p:badge value="#{dashboardFaces.showMiResumenPendienteAddProgreso(proyectoSprintOpen.proyecto)}" severity="danger" rendered="#{proyectoSprintOpen.proyecto.estado eq 'finalizado'}">
+                                        <i class="pi pi-download" />
+                                    </p:badge>
+
+                                </div>
+
+
+                                <p:avatarGroup styleClass="mb-3">
+                                    #{msg['field.propietario']}
+                                    <ui:repeat value="#{proyectoSprintOpen.proyecto.proyectoMiembro}" var="proyectoMiembro">
+                                        <p:avatar size="medium" shape="circle" rendered="#{proyectoMiembro.propietario eq true}">
+                                            <p:graphicImage 
+                                                title="#{proyectoMiembro.userView.name}"
+                                                stream="false" cache="false"
+                                                rendered="#{dashboardFaces.jmoordbCoreMediaManager.isImageAndExists(dashboardFaces.repairPathOfFile(proyectoMiembro.userView.photo))}"
+                                                value="#{proyectoMiembro.propietario eq true and dashboardFaces.jmoordbCoreMediaManager.generate(dashboardFaces.repairPathOfFile(proyectoMiembro.userView.photo),'')}" 
+                                                />
+                                        </p:avatar>
+                                        <p:avatar rendered="#{proyectoMiembro.propietario eq true and dashboardFaces.jmoordbCoreMediaManager.isImageAndExists(dashboardFaces.repairPathOfFile(proyectoMiembro.userView.photo)) eq false}"
+                                                  title="#{proyectoMiembro.userView.name}"
+                                                  label="#{proyectoMiembro.userView.name}" styleClass="mr-2" size="small" />
+
+
+                                    </ui:repeat>
+
+
+
+                                </p:avatarGroup>
+                                <div class="text-500 my-3 text-xl font-300">
+                                    <i class="pi pi-calendar" /> 
+                                    <p:outputLabel value="#{msg['field.fechafinal']}: "/> 
+                                    <p:outputLabel value="#{dashboardFaces.showDateWithHour(proyectoSprintOpen.proyecto.fechafinal)}"/> 
+
+                                </div>
+
+
+                                <div class="text-500 my-3 text-xl font-300" jsf:rendered="#{proyectoSprintOpen.sprintOpen.open eq false}">
+                                    <p:outputLabel value="#{msg['outputlabel.advertencia']}: "/>
+                                    <p:badge value="" severity="danger" >
+                                        <i class="pi pi-stop-circle" />
+                                    </p:badge>
+                                    <p:outputLabel style="font-style: bold" value=" #{msg['label.notieneplandisponible']}" title="#{msg['label.notifiquepropietario']}" />
+
+                                </div>
+
+                                <div class="text-500 my-3 text-xl font-300" jsf:rendered="#{proyectoSprintOpen.sprintOpen.open}">
+                                    <p:outputLabel value="#{msg['outputlabel.sprintname']}: "/>
+
+                                    <p:commandLink id="commandButtonSprintOpen" 
+                                                   action="#{dashboardFaces.prepareSprintOpen(proyectoSprintOpen.sprintOpen)}"
+                                                   oncomplete="PF('overlayPanelSprintOpen').show('#{component.clientId}')"
+                                                   update=":form, outputPanelSprintOpen"  
+                                                   value="#{proyectoSprintOpen.sprintOpen.sprint}"
+                                                   title="#{msg['button.sprintopen']}" 
+                                                   styleClass="ui-button-success"/>
+
+
+                                </div>
+                                    </c:if>
+                            </div>
+
+                            <jmoordbcorejsf:lineadivisoria/>                      
+                            <div class="px-1 py-3 surface-100 text-right">
+                                <p:commandButton  icon="pi pi-th-large"  title="#{core['button.board']}" 
+                                                  styleClass=" ui-button-outlined ui-button-secondary"
+                                                  rendered="#{proyectoSprintOpen.sprintOpen.open}"
+                                                  action="#{dashboardFaces.go(proyectoSprintOpen.proyecto,'tablero.xhtml',true,true)}"/>
+
+                            </div>
+                        </div>
+                    </div>
+                </ui:repeat>
+            </div>
+        </div>
+    </composite:implementation>
+</html>

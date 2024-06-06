@@ -1,0 +1,179 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+       xmlns:papelerareciclajedialogo="http://xmlns.jcp.org/jsf/composite/papelerareciclajedialogo"
+       xmlns:papelerareciclaje="http://xmlns.jcp.org/jsf/composite/papelerareciclaje"
+      xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades"
+          xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf">
+
+    <composite:interface >
+        <composite:attribute name="pendiente" default="false"/>
+        <composite:attribute name="progreso" default="false"/>
+        <composite:attribute name="finalizado" default="false"/>
+        <composite:attribute name="id" default=""/> 
+    </composite:interface>
+
+    <composite:implementation >
+
+               <p:dialog header="#{msg['dialog.archivo']}" widgetVar="overlayPanelTarjetaArchivo" 
+                   width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true"
+                  >
+            <p:ajax event="close" update=":form:growl" listener="#{papeleraReciclajeFaces.handleCloseDialogArchivo}" />
+
+            <p:outputPanel id="#{cc.attrs.id}" style="text-align:center;">
+
+                <jmoordbcorejsf:overlayPanelTarjetaHeader iconoheader="pi-upload" 
+                                                   titulo="#{msg['dialog.archivo']}"
+                                                   entity="#{papeleraReciclajeFaces.tarjetaArchivoSelected}"
+                                                   icono="#{papeleraReciclajeFaces.tarjetaArchivoSelected.icono}"/>
+
+
+
+
+     
+
+                <c:if test="${papeleraReciclajeFaces.fueCambiadoPorOtroUsuario == true}">
+
+
+                    <utilidades:sincronizacionrequeridacontroller onclick="PF('overlayPanelTarjetaArchivo').hide()"
+                                                                  message="#{papeleraReciclajeFaces.message}"
+                                                                  controller="#{papeleraReciclajeFaces}"/>
+                </c:if>
+
+                <c:if test="${papeleraReciclajeFaces.fueCambiadoPorOtroUsuario == false}">
+                      <p:remoteCommand name="rc" update=":form:growl" action="#{jmoordbCoreMediaManager.init()}">
+                                    <p:fileDownload value="#{jmoordbCoreMediaManager.media}"/>
+                                </p:remoteCommand>
+                        
+                        <p:dataTable style="border-style: none" value="#{papeleraReciclajeFaces.tarjetaArchivoSelected.archivo}"
+                                     var="item"
+                                     paginator="true"
+                                   resizableColumns="true" liveResize="true"
+                                     editMode="cell"
+                                     id="dataTableArchivo"
+                                     widgetVar="dataTableArchivo"
+                                     editable="true"
+                                     rows="#{papeleraReciclajeFaces.rowPageDialog.get()}"
+                                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                                 draggableRows="true"
+                                     >
+
+                            <p:ajax  event="cellEdit" listener="#{papeleraReciclajeFaces.onCellEditArchivo}" update=":form:growl, dataTableArchivo"/>
+                         
+           <p:column class="columnInputTextArea43" headerText="#{msg['field.descripcion']}">
+                            <p:cellEditor>
+                                <f:facet name="output"> 
+                                    
+                                    <p:inputTextarea  rows="#{item.descripcion.length() le 70?1:(item.descripcion.length()/70)+1}" style="width: 100% !important;" autoResize="false" readonly="true" value="#{item.descripcion}"  />
+                                </f:facet>
+                                <f:facet name="input">
+                                     <p:inputTextarea  rows="#{item.descripcion.length() le 70?1:(item.descripcion.length()/70)+1}" style="width: 100% !important;" autoResize="false"  value="#{item.descripcion}"  />
+                               
+                                </f:facet>
+                            </p:cellEditor>
+                             
+                        </p:column>
+
+
+                            <p:column class="column3" rendered="#{papeleraReciclajeFaces.isEditable}">
+                                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                                 process="@this"
+                                                 update=":form:growl, dataTableArchivo"
+                                                 action="#{papeleraReciclajeFaces.deleteArchivo(item)}"
+                                                 >
+                                    <p:confirm type="popup" header="#{core['confirmdialog.header']}" message="#{core['confirmdialog.message']}" icon="pi pi-info-circle"/>
+                                </p:commandButton>
+                            </p:column>
+
+                            <p:column class="column3">
+                              
+
+                                <p:commandButton 
+                                    oncomplete="rc()"
+                                    id="commandButtonFileDownload"
+                                    title="#{core['button.download']}" 
+                                    icon="pi pi-arrow-down" styleClass="ui-button-outlined"
+                                    rendered="#{papeleraReciclajeFaces.jmoordbCoreMediaManager.existsFile(papeleraReciclajeFaces.repairPathOfFile(item.path))}"
+                                    action="#{papeleraReciclajeFaces.saveToMediaContext(item.path,item.descripcion)}">
+
+                                </p:commandButton>
+
+                            </p:column>  
+
+
+
+                            <f:facet name="header">
+
+                                <p:fileUpload listener="#{papeleraReciclajeFaces.fileUploadListener}"
+                                              rendered="#{papeleraReciclajeFaces.isEditable}"
+                                              skinSimple="true"
+                                              mode="simple"
+                                              uploadIcon="pi pi-fw pi-upload"
+                                              title="#{msg['fileupload.extension']}"
+                                              label="#{core['button.file']}"
+                                              uploadLabel="#{core['button.upload']}"
+                                              cancelLabel="#{core['button.uploadcancell']}"
+                                              sizeLimit="12800000"
+                                              allowTypes="/(\.|\/)(gif|jpe?g|png|docx?|pdf|txt|json|xml)$/"
+                                              validateContentType="true"
+                                              invalidFileMessage="#{core['fileupload.filetypeinvalido']}"
+                                              invalidSizeMessage="#{core['fileupload.tamanoinvalido']}"
+                                              auto="true"
+                                              update=":form:growl, dataTableArchivo"/>
+
+                            
+
+
+
+                            </f:facet>
+
+                            <f:facet name="footer">
+                                <div class="flex align-items-center ">
+                                    <div class=" border-top-1 surface-border col-6 flex">
+                                        <p:commandButton   
+                                            title="#{core['button.close']}" icon="pi pi-times"
+                                            update=":form:growl"
+                                            action="#{papeleraReciclajeFaces.addArchivo(papeleraReciclajeFaces.tarjetaArchivoSelected)}" 
+                                            styleClass="ui-button-raised ui-button-secondary"/>
+                                    </div>
+
+                       
+
+                                </div>
+
+
+                            </f:facet>
+                        </p:dataTable>
+               
+                </c:if>
+
+
+            </p:outputPanel>
+
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+            </p:confirmPopup>
+
+
+
+
+        </p:dialog>
+
+
+
+    </composite:implementation>
+</html>

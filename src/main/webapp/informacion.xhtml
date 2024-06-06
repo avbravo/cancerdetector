@@ -1,0 +1,767 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">SFT</ui:define>
+
+    <ui:define name="breadcrumb">
+
+        <!--<i class="pi pi-angle-right"></i>-->
+        <p:commandLink action="/informacion" value="#{core['breadcrumb.informacion']}" >
+
+        </p:commandLink>
+    </ui:define>
+
+    <ui:define name="content">
+        <div>
+            <!--            <div class="pricing">
+                            <div class="pricing-content shadow-2">
+                                <div class="pricing-title text-900">Información</div>
+                                <div class="pricing-subtitle">Sistema de Flujo de Tarjetas</div>
+                                <p class="m-0">Usted puede gestionar su proyecto con las actividades que realiza diariamente.</p>
+                            </div>
+                        </div>-->
+            <div class="px-0 lg:px-8">
+                <div class="pricing-content shadow-2">
+                    <div class=" mb-3 text-5xl text-center  pricing-title text-900">Información</div>
+                </div>
+
+                <div class="flex flex-wrap">
+                    <div class="w-full lg:w-4 p-3">
+                        <div class="shadow-2 p-4 surface-0 border-blue-500 border-2" style="border-radius:6px">
+                            <div class="text-5xl text-900 mb-3 font-medium">#{conf['application.sigla']}</div>
+
+                            <div class="pt-4 pb-0">
+                                <ul class="list-none p-0 m-0">
+                                    <li class="flex align-items-center mb-3">
+
+                                        <span class="font-bold text-700 ml-2">#{conf['application.title']}</span>
+                                    </li>
+                                    <li class="flex align-items-center mb-3">
+
+                                        <span class="text-600 ml-2">#{conf['application.subtitle']}</span>
+                                    </li>
+
+
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full lg:w-4 p-3">
+                        <div class="shadow-2 p-4 surface-0 border-blue-500 border-2" style="border-radius:6px">
+                            <div class="text-5xl text-900 mb-3 font-medium">Documentación</div>
+
+                            <div class="pt-4 pb-0">
+                                <ul class="list-none p-0 m-0">
+                                    <li class="flex align-items-center mb-3">
+
+                                        <span class="font-bold text-700 ml-2">Respuestas a preguntas frecuentes</span>
+                                    </li>
+                                    <li class="flex align-items-center mb-3">
+
+                                        <span class="text-600 ml-2"></span>
+                                    </li>
+
+
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full lg:w-4 p-3">
+                        <div class="shadow-2 p-4 surface-0 border-blue-500 border-2" style="border-radius:6px">
+                            <div class="text-5xl text-900 mb-3 font-medium">Acerca de</div>
+
+                            <div class="pt-4 pb-0">
+                                <ul class="list-none p-0 m-0">
+                                    <li class="flex align-items-center mb-3">
+
+                                        <span class="font-bold text-700 ml-2">#{core['label.version']}</span>
+                                    </li>
+                                    <li class="flex align-items-center mb-3">
+
+                                        <span class="text-600 ml-2">#{loginFaces.applicationVersion.get()}</span>
+                                    </li>
+
+
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+
+            <div class="px-4 lg:px-8">
+                <div class="text-900 text-4xl mb-6 text-center">Preguntas frecuentes</div>
+                <div class="grid">
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+                        <div class="text-2xl text-900 line-height-3 mb-2">Logo 
+                            <p:graphicImage name="images/logo-primeblocks#{app.darkMode ? '-dark.svg' : '.svg'}"
+                                            library="primeblocks-app"  alt="Logo"
+                                            height="40"/>
+                        </div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700"> 
+                            <br>Las hormigas significa la fortaleza de los trabajadores, su organización.</br>
+                            <br>Las actividades se representan mediante tarjetas en las columnas pendientes, progreso, finalizado.</br>
+
+                        </p>
+
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">Resolución de Pantalla</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700"> SFT adapta la resolución en base a: <br/>
+                            1. Resolución menor 800(Moviles) se usara el #{loginFaces.screenResolutionMobile.get()}<br/>
+                            2. Resolución mayor o igual 800  y menor o igual 1898 se usara el #{loginFaces.screenResolution.get()}<br/>
+                            3. Resolución mayor 1899 se usara el #{loginFaces.screenResolutionScreenHigth.get()}<br/>
+
+                        </p>
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">Desde un dispositivo movil</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700"> Si su dispositivo tiene una resolución muy pequeña realice el siguiente procedimiento:                         
+
+                            De clic en el botón maximizar <i class="pi pi-window-maximize"></i>  del diálogo y automáticamente se adaptará a su resolución<br/>
+
+                        </p>
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"><i class="pi pi-stopwatch"></i>Resumen de Tarjetas </div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700"> De manera automatica se enviara un correo a cada colaborador diariamente desde las 7:50:30am en adelante, 
+                            con un listado de todas sus tarjetas pendientes, en progreso y reserva. Indicando el tiempo restante para finalizar cada tarea.  
+                            El usuario debe seleccionar la casilla Resumen de tarjeta desde su formulario de perfil para recibir estas notificaciones.
+                            <i class="pi pi-envelope"></i> <br/>
+
+                        </p>
+
+
+
+
+
+
+
+
+
+
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">Sincronización</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">
+                            Cuando otro usuario del sistema realiza actualizaciónes sobre un proyecto, plan, tablero, reserva , panel de trabajo o papelera de reciclaje se enviaran notificaciones automaticas para actualizar los formularios correspondientes.
+                            <br>Esta actualización se realiza cada <strong>#{loginFaces.websocketMinimumsSecondsForUpdate.get()}</strong> segundos.</br>
+                            <br>Si ocurren muchas actualizaciones antes del tiempo establecido se, indicara con un mensaje y un contador para que el usuario proceda a actualizarlo presionando el botón actualizar del formulario en que se encuentre trabajando.</br>
+
+                        </p>
+
+
+
+
+
+                    </div>
+
+
+
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+
+
+
+
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"><i class="pi pi-sitemap"></i>Organigrama</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Define un organigrama básico en el que se identifican los subdepartamentos asociados a un departamento. Este organigrama será utilizado al momento de generar los reportes y para el calendario, permitiendo a un jefe de unidad visualizar proyectos de otras unidades a su cargo.</p>
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">Configuración</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">El módulo configuración está reservado para SUPER-USUARIO que es el usuario con máximo nivel dentro de la aplicación y puede establecer la configuración de diversos elementos para garantizar la funcionalidad adecuada del sistema.</p>
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">Notificaciones</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Se enviarán notificaciones cuando usted es asignado o removido de un proyecto, asignado o removido de una tarjeta. 
+                            Cuando es un usuario foráneo que crea una tarjeta, se enviará notificaciones al propietario del proyecto que se encarga de realizar acciones sobre la misma. Se reciben notificaciones sobre los procesos que ocurran en esta tarjeta para dar un seguimiento entre el solicitante y el equipo que gestiona el proyecto.
+                            El tipo de notificaciones se ejecutan mediante envió de email e información de alertas en el sistema.
+                            También se emiten notificaciones cuando está próximo la fecha de cierre de un plan y cuando hay tarjetas con muchos días pendientes para finalizar.</p>
+
+
+
+
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"><i class="pi pi-arrows-v"></i>Arrastrar y Soltar elementos para ordenar</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">
+
+                            En los listados que se muestre el icono <i class="pi pi-arrows-v"></i>, indica que usted puede arrastrar y soltar los elementos para ordenarlos en otra posición.
+                            <br> Aplica para tareas, archivos, etiquetas. </br>
+                            <br> No aplica para comentarios e impedimentos debido a que es importante que se muestren en el orden en que han ocurrido. </br>
+
+                        </p>
+
+                    </div>
+
+
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+
+
+
+
+
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">Olvide mi clave</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Desde el formulario login usted de clic en el botón Olvido password y será dirigido a un formulario donde puede ingresar su correo y le será enviado un token que debe ingresar, luego de validarlo puede cambiar su contraseña.</p>
+
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"><i class="pi pi-calendar"></i>Calendario</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Usted puede visualizar calendario de las tarjetas, los planes, su agenda de todos los proyectos de manera que le permite tener una visión más clara de su trabajo. </p>
+
+
+
+
+
+
+
+
+
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">Tiempo de Sesión</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">La sesión al ingresar al sistema tiene una duración de 4 horas, luego de este periodo será cerrada automáticamente. Esto se realiza para evitar la sobrecarga de uso de recursos cuando los usuarios se han logueado y no están utilizando el sistema. El sistema emitirá una alerta diez minutos antes de finalizar la sesión y otra al faltar 3 minutos para la finalización de la sesión. El usuario puede cerrar su sesión e ingresar sus credenciales nuevamente, lo que dará una nueva sesión de 4 horas.</p>
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"> <p:graphicImage name="images/icons/timeline32x32.png" height="24" library="jmoordbcoreimages" />Cronología</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Muestra la cronología de tarjetas para el plan actual, de manera que tendrá una representación visual de las mismas. Se aplica a nivel del tablero solamente.</p>
+
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">¿Funciones del jefe de unidad?</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700"> El jefe de unidad esta habilitado a:                            
+                            Crear proyectos<br/>
+                            Crear planes de trabajo para cada proyecto. <br/>                           
+                            Crear tarjetas en el tablero.<br/>
+                            Crear tarjetas en la reserva.<br/>
+                            Crear grupos de tipos de tarjetas.<br/>
+                            Crear Tipos de tarjetas.<br/>
+                            Cierra los planes al finalizar el periodo establecido.<br/>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="px-4 lg:px-8">
+                <div class="text-900 text-4xl mb-6 text-center">Panel Principal</div>
+                <div class="grid">
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">Barra informativa</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">
+                            En la parte superior del panel principal se muestra el total de tarjetas: pendientes, progreso, finalizdo, reserva.
+                            En cada proyecto se muestra el total de tarjetas pendientes y en progreso mediante un contador.
+
+                        </p>
+
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">¿Por qué no puedo ver el botón Tablero?</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Si en el tablero principal en su proyecto de trabajo no se muestra el botón Tablero se debe a una de las siguientes condiciones: El propietario del proyecto no ha creado un <strong>plan activo</strong> para el periodo de fechas actuales o <strong> el plan abierto ya venció</strong> y no ha sido cerrado, ni se ha creado un plan para las fechas actuales. Comuníquese con el propietario del proyecto o envíele un email informándole de la situación.</p>
+
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"><i class="pi pi-fw pi-envelope"></i> Email</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Esta opción permite que usted pueda enviar emails a los diversos miembros de un proyecto, en el formulario de email usted puede seleccionar los destinatarios, redactar el email y adjuntar archivos.</p>
+
+
+                    </div>
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">Resumen</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Permite visualizar el total de tarjetas pendientes, en progreso, finalizado y las que están en reserva del proyecto seleccionado.</p>
+
+
+                    </div>
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"><i class="pi pi-chart-line"></i> Logros</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Los logros es la gráfica que muestra la estadística de todos los planes cerrados del proyecto, permitiendo al jefe de unidad tomar decisiones sobre el progreso del mismo a través del tiempo.</p>
+
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="px-4 lg:px-8">
+                <div class="text-900 text-4xl mb-6 text-center">Proyecto</div>
+                <div class="grid">
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">¿Qué es un proyecto?</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Un proyecto en el sistema de flujo de tarjetas es la unidad de gestión que permite definir una serie de componentes y sus acciones a realizarse con la finalidad de lograr alcanzar objetivos definidos.
+                            Estos proyectos deben ser asignados a uno o más departamentos, deben estar ubicados en una o más áreas.Los proyectos deben establecer una fecha de inicio y de fin, además de los colaboradores y propietarios del mismo.
+
+                        </p>
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">¿Qué ocurre si el propietario del proyecto no está laborando?</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">
+                            Cuando por un motivo extraordinario el propietario de un proyecto, no está presente y se requiere asignar otro propietario al proyecto, el superusuario puede asignar un nuevo propietario al proyecto para que administre el mismo.
+                        </p>
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">Estados de Proyectos</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">
+                            Un  proyecto puede contener tres estados:
+                            <br> <strong>Iniciado</strong> Indica que el proyecto está habilitado para crear planes y tarjetas en él.</br>
+                            <br> <strong>Detenido</strong> Indica que el proyecto se ha detenido y no se puede interactuar con el hasta que sea cambiado a Iniciado nuevamente.</br>
+                            <br> <strong>Finalizado</strong> Indica que el proyecto ha culminado, y no tiene planes abiertos. Los proyectos finalizados no se muestran en el dashboard principal.</br>
+
+                        </p>
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">Cambiar de Iniciado a Detenido</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">
+                            Si usted es un propietario del proyecto, seleccione el proyecto en el dashboard principal y de clic en <i class="pi pi-ellipsis-v"></i> y de clic en <strong>Editar</strong>  el proyecto. Usted puede cambiar entre estos dos estados.
+                        </p>
+
+
+                    </div>
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"> <i class="pi pi-lock"></i>Proyectos privados</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">En un proyecto privado tiene un alcance visible solo para los colaboradores y propietarios del mismo. Un colaborador de un proyecto privado solo puede ver las tarjetas que el mismo ha creado o que otro colaborador o jefe ha asignado.</p>
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">  <i class="pi pi-lock-open"></i>Proyectos públicos</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">En un proyecto público, cualquier colaborador que no este asignado puede generar tarjetas con ciertas restricciones que una vez asignado al colaborador él puede interactuar con ellas.</p>
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">  <i class="pi pi-user-plus"></i>Agregarse como Propietario</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">En casos extremos en los que no este disponible el propietario del proyecto. El super usuario puede asignarse como propietario. Para ello seleccione  <i class="pi pi-cog"></i>.
+                            luego <i class="pi pi-user-plus"></i> Propietario desde el menu principal. Se le mostrara una lista de los proyectos y podra agregarse a un proyecto haciendo clic en el botón <strong>Agregame</strong>.
+
+                        </p>
+
+
+
+
+
+                    </div>
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"><i class="pi pi-fw pi-file-edit"></i> ¿Cómo editar un proyecto?</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">En el dashboard principal seleccione el proyecto, de clic en el menú de opciones y seleccione editar.</p>
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"><i class="pi pi-fw pi-database"></i> ¿Cómo archivar un proyecto?</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">En el dashboard principal seleccione el proyecto, de clic en el menú de opciones y seleccione Archivar. Archivar un proyecto no lo elimina, en su lugar no sera mostrado en el dashboard principal. Solo se puede archivar un proyecto que no contenga planes abiertos.</p>
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"><i class="pi pi pi-fw pi-clone"></i> Clonar Proyectos</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Desde el dashboard principal seleccione el proyecto, de clic en el menú de opciones y seleccione clonar. Si el proyecto ha finalizado, puede clonar desde la opción de reportes seleccionado el proyecto y luego en el menú de opciones seleccione clonar.</p>
+
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"><i class="pi pi-folder-openv"></i> Reabrir un Proyectos</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">
+                            Para reabrir un proyecto que he sido finalizado, seleccione la opción del menú Mis Proyectos,  luego de clic en el icono <i class="pi pi-ellipsis-v"></i> y seleccione la opción Reabrir  <i class="pi pi-folder-openv"></i>. Esto lo dirigirá a un formulario donde puede reabrir el proyecto.
+
+                        </p>
+
+
+
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="px-4 lg:px-8">
+                <div class="text-900 text-4xl mb-6 text-center">Plan</div>
+                <div class="grid">
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"><i class="pi pi-fw pi-book"></i>¿Qué es un Plan?</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Es una iteración con un tiempo fijo establecido, generalmente 2 semanas o el tiempo que el equipo de trabajo acuerda.
+                            En este periodo de trabajo el equipo estará realizando las actividades acordadas con el jefe de unidad.El plan divide los requerimientos en pequeñas acciones llamadas tarjetas que puedan ser medidas para generar estadística.
+                            Un plan contendrá fecha de inicio y fin y los objetivos a alcanzarse. Para utilizar el tablero es necesario contar con un plan abierto. Cuando se cierra un plan se generan las estadísticas correspondientes.El plan será creado por el jefe de unidad..</p>
+
+
+                    </div>
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">Fechas recomendables del plan</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">
+                            Recomendamos establecer fechas en intervalos de tiempo que permitan flexibilizar el pase de tarjetas. Teniendo presente algún inconveniente el día de cierre. Defina en intervalos de inicio y fin a la 1:00 pm.
+                            Por ejemplo: Inicio: Lunes 13/11/2023 de 01:00pm a lunes 20/11/2023:01:00 pm. 
+                        </p>
+
+                    </div>
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"><i class="pi pi-lock"></i>Cerrar Plan</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Cerrar el plan es el proceso que debe realizar el propietario del proyecto con la finalidad de indicar que se han culminado el plan de trabajo establecido desde la fecha de inicio a la fecha de fin. Es importante que el propietario este al tanto de cerrar los planes, ya que los colaboradores no podrán registrar tarjetas si no hay plan activo en las fechas actuales. Si un plan no se ha cerrado y la fecha de vencimiento es menor que la fecha actual, el colaborador no podrá trabajar con el tablero.Cuando se cierra un plan se realizan las operaciones de cálculo para determinar las estadísticas del plan y de los colaboradores.</p>
+
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="px-4 lg:px-8">
+                <div class="text-900 text-4xl mb-6 text-center">Tarjeta</div>
+                <div class="grid">
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">¿Qué es un Tarjeta?</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Una tarjeta define requerimientos en término de las necesidades de los usuarios. Una tarjeta indica la actividad a realizarse, quién o quienes la ejecutan, así como las tareas, impedimentos, comentarios, archivos, etiquetas que acompañan a la misma para describir de manera clara la actividad</p>
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">Otro colaborador editó la misma tarjeta en que estoy trabajando</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Cuando esté trabajando en una tarjeta y otro colaborador la edita y usted intenta guardar sus cambios, se le enviara una notificación indicando que la tarjeta fue actualizada por otro usuario y usted debe proceder a sincronizar su tablero, ya que no podrá guardar sus cambios porque se perdería la información que otro colaborador creo. Cuando actualice el tablero, obtendrá la tarjeta actualizada y ahora si podrá proceder a editar la tarjeta, realizar sus cambios y guardarla.</p>
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">Agregar tipos de Tarjetas</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Como jefe de unidad, usted puede administrar los tipos de tarjetas que serán visualizados para ser asignados a las tarjetas.</p>
+
+                    </div>
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"><i class="pi pi-wallet"></i>¿Grupo tipo Tarjeta?</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700"> 
+                            Es una categoría para agrupar los tipos de tarjetas de manera que permita una búsqueda simplificada al momento de crear una tarjeta desde el Tablero o desde la Reserva.  
+                            Se asignan a los proyectos.
+                        </p>
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"><i class="pi pi-id-card"></i>¿Tipo Tarjeta?</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700"> 
+                            Los tipos de tarjetas están organizados con base en un grupo de tarjeta especifico, y son necesarios para crear las tarjetas.
+                        </p>
+
+
+                    </div>
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+                        <div class="text-2xl text-900 line-height-3 mb-2">Caracteres no válidos en nombre de tarjetas</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">No se permite usar caracter " dentro del nombre de la tarjeta.</p>
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">Tarjetas foráneas</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Son las tarjetas que crean usuarios en un proyecto público al que ellos no son miembros. En el tablero del usuario foráneo solo se muestra sus tarjetas, puede hacer solo las operaciones permitidas. Generar tarjetas, agregar comentarios, agregar archivos, editar la tarjeta. No puede hacer ninguna otra operación. Estas tarjetas son trabajadas por el propietario o miembro del proyecto, los que realizaran acciones sobre la misma y el usuario foráneo la vera reflejada en su tablero.</p>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+
+
+
+            <div class="px-4 lg:px-8">
+                <div class="text-900 text-4xl mb-6 text-center">Tablero</div>
+                <div class="grid">
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"><i class="pi pi-table"></i>¿Qué es un Tablero?</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Es una herramienta visual que permite visualizar todo el trabajo que realiza el equipo con base en columnas.Estas columnas representan las etapas en que se van ejecutando las diversas actividades.Promueve la transparencia, comunicación y colaboración del equipo.</p>
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"><i class="pi pi-search"></i>Buscar tarjeta en el tablero</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700"> Realiza la búsqueda en las columnas pendientes, progreso y finalizado para (el colaborador asignado a la misma) o propietario del proyecto, y al seleccionarla se habilita el diálogo de edición.</p>
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">¿Por qué como colaborador no puedo ver tarjetas de mis compañeros?</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Si es un proyecto de tipo publico y usted es colaborador podra ver todas las tarjetas del proyecto. Si es un proyecto de tipo privado el propietario debe indicar la opción Ver todas las tarjetas para que usted pueda visualizarlas.</p>
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">Ocultar iconos</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">De manera predeterminada no se mostraran los iconos de las tarjetas. Para mostrarlos, haga clic en el botón <i class="pi pi-android"/>
+                            <br>Si desea ocultarlos, haga clic en el botón <i class="pi pi pi-ban"/> </br>
+                        </p>
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">Ocultar iconos</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">De manera predeterminada no se mostraran los iconos de las tarjetas. Para mostrarlos, haga clic en el botón <i class="pi pi-android"/>
+                            <br>Si desea ocultarlos, haga clic en el botón <i class="pi pi pi-ban"/> </br>
+                        </p>
+
+
+
+
+
+                    </div>
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"><i class="pi pi-plus-circle"></i> Agregar Tarjetas</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">De clic en el botón <i class="pi pi-plus-circle"></i> para agregar una nueva tarjeta. En ese 
+                            formulario debe ingresar los datos generales de la tarjeta.</p>
+
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"><i class="pi pi pi-fw pi-clone"></i> Clonar Tarjetas</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">En el tablero seleccione la tarjeta de clic en el menú de opciones y escoja la opción Clonar.</p>
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"><i class="pi pi-cart-plus"></i>Crear Tarjetas desde una Plantilla</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">En el tablero, en el menú superior derecho de clic en el botón Agregar desde Plantilla, y se despliega un diálogo en el cual puede seleccionar una plantilla, y al dar clic en el botón (+), se creara una tarjeta con base en la plantilla. Tenga presente que solo se muestran las plantillas que coincidan con el grupo de tipo de tarjeta que está asociado al proyecto.</p>
+
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">¿Por qué como colaborador no puedo crear tarjetas?</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Se produce porque en un proyecto privado, el propietario del proyecto indico que el colaborador no puede crear tarjetas, ya que solo está permitido para el propietario. 
+                            Si usted desea generar sus propias tarjetas comuníquese con el propietario del proyecto, si él habilita en el proyecto la opción para crear tarjetas, en este caso podrá crearlas.</p>
+
+
+                    </div>
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">Crear tarjetas a partir de una tarea</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">En el tablero seleccione la tarjeta y abra el diálogo de Tarea, seleccione la tarea deseada y de clic en el botón Crear Tarjeta a partir de tarea y se crea una tarjeta nueva con todos los elementos de la tarjeta actual.</p>
+
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"><i class="pi pi-cart-plus"></i>Crear Plantillas</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Usted puede crear una plantilla basándonos en una tarjeta. Seleccione la tarjeta deseada en el tablero y de clic en el menú .... y seleccione la opción Agregar a plantillas. Luego indique el nombre y descripción de su plantilla.</p>
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">¿Porque no se muestra un tipo de tarjeta en el tablero o la reserva?</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">
+                            En primer lugar, el propietario del proyecto o jefe de unidad debe verificar en el formulario tipo de tarjeta que exista la tarjeta.
+                            Si esta existe debe revisar el grupo en que ha sido creada.
+                            Compruebe en el proyecto que el grupo al que pertenece el tipo de tarjeta se ha asignado al proyecto.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="px-4 lg:px-8">
+                <div class="text-900 text-4xl mb-6 text-center">Panel de Trabajo</div>
+                <div class="grid">
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"><i class="pi pi-book"></i>¿Qué es un Panel Trabajo? </div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">
+                            El panel de trabajo permite ver todas las tarjetas del colaborador de todos los proyectos que tengan un plan con un rango de fechas que cubra la fecha actual. No permite crear tarjetas. Usted puede realizar todas las otras operaciones de administración de tarjetas.
+                        </p>
+
+
+                    </div>
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"> </div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700"> </p>
+
+                    </div>
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"></div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700"></p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="px-4 lg:px-8">
+                <div class="text-900 text-4xl mb-6 text-center">Reserva</div>
+                <div class="grid">
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"><i class="pi pi-fw pi-server"></i>¿Qué es una Reserva?</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">La reserva es un espacio de trabajo en el cual se registran tarjetas que deben ser procesadas en un tiempo posterior. Estas tarjetas se pasan al tablero una vez que exista un plan abierto y el propietario del proyecto o colaborador la mueva en el momento que él considere oportuno.</p>
+
+
+
+                    </div>
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">¿Cómo muevo una tarjeta de reserva a un tablero?</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Las tarjetas en reserva pueden ser movidas a un tablero siempre y cuando exista un plan vigente para el proyecto. En la parte inferior de la tarjeta encontrará un botón con el número de plan con el siguiente formato sp-# y se despliega un diálogo en el que se le pide confirmar si desea mover la tarjeta a ese plan..</p>
+
+
+                    </div>
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">¿Por qué como colaborador no puedo ver tarjetas en reserva de mis compañeros?</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Si es un proyecto de tipo privado el propietario debe indicar la opción Ver todas las reservas para que usted pueda visualizarlas.</p>
+
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="px-4 lg:px-8">
+                <div class="text-900 text-4xl mb-6 text-center">Plan Programado</div>
+                <div class="grid">
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"><i class="pi pi-calendar-clock"></i>¿Qué es un plan programado?</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Un plan programado es un plan que se activara en el futuro, las fechas corresponden a un intervalo de tiempo que se desea realizar en un periodo posterior.</p>
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">¿Cómo crear un plan programado?</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">El jefe de unidad es el único  autorizado a crear planes programados. Estos planes no tienen restricciones, lo crea desde la opción Plan y se marcarán de color rojo los planes.</p>
+                        <div class="text-2xl text-900 line-height-3 mb-2">Iniciar un plan programado</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">La opción iniciar convierte un plan programado en un plan abierto, se pasarán todas las tarjetas en reserva y programadas al tablero del plan abierto siempre y cuando estén en las fechas válidas.</p>
+
+
+
+                    </div>
+
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">Agregar tarjetas a un plan programado un Colaborador</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Para agregar tarjetas a un plan programado el colaborador selecciona el proyecto, da clic derecho y selecciona Programar siempre y cuando se ha activado la opción de Ver reservas para colaboradores en el proyecto. Esto lo llevará al formulario de planes donde el colaborador puede observar solo los planes programados, selecciona el deseado y da clic en la opción programar.  Lo dirigirá al formulario donde puede agregar tarjetas que serán almacenadas en el plan. Estas tarjetas se pueden mover al plan activo o a otro plan programado.</p>
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">Agregar tarjetas a un plan programado un Jefe de Unidad</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">El jefe de unidad creará tarjetas en un plan programado, seleccionando en el menú la opción Programar de un plan programado deseado.</p>
+                    </div>
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+<div class="text-2xl text-900 line-height-3 mb-2">Mover tarjetas desde un plan programado </div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Las tarjetas se pueden mover desde un plan programado hacia el tablero activo o a otros planes programados. Solo seleccioné la tarjeta y de clic en el botón correspondiente que se muestra en el formulario de programación.</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="px-4 lg:px-8">
+                <div class="text-900 text-4xl mb-6 text-center">Papelera de Reciclaje</div>
+                <div class="grid">
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+                        <div class="text-2xl text-900 line-height-3 mb-2"><i class="pi pi-fw pi-trash"></i>Papelera de Reciclaje</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">La papelera de reciclaje se habilita desde el tablero principal. Permite ir a un formulario donde se encuentran todas las tarjetas eliminadas y permite restituirlas al plan actual.</p>
+
+                    </div>
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"> </div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700"> </p>
+
+                    </div>
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"> </div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700"> </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="px-4 lg:px-8">
+                <div class="text-900 text-4xl mb-6 text-center">Reportes</div>
+                <div class="grid">
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2">Reportes</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Se han establecido varios grupos de reportes en los que usted podrá observar el estado de los proyectos, los planes, tarjetas, estadísticas de los mismos. Sí, es jefe de unidad de una unidad que se estableció en el organigrama como superior a otras unidades, podrá observar los proyectos de esas unidades y generar los reportes de los mismos.</p>
+
+
+                    </div>
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"></div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700"></p>
+
+                    </div>
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"></div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700"></p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="px-4 lg:px-8">
+                <div class="text-900 text-4xl mb-6 text-center">Buscar Tarjetas</div>
+                <div class="grid">
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"><i class="pi pi-search"></i>Buscar Tarjetas</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Permite realizar busquedas combinadas de las tarjetas del colaborador. Si es un jefe de unidad puede buscar las tarjetas de todos sus colaboradores.</p>
+
+
+                    </div>
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"></div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700"></p>
+
+                    </div>
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"></div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700"></p>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="px-4 lg:px-8">
+                <div class="text-900 text-4xl mb-6 text-center">IA</div>
+                <div class="grid">
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"><i class="pi pi-prime"></i>IA</div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700">Realiza un estudio del comportamiento de los colaboradores en cada plan para determinar patrones y realizar predicciones sobre el trabajo que realizan basado en las acciones sobre las tarjetas.</p>
+
+                    </div>
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"></div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700"></p>
+
+                    </div>
+
+                    <div class="col-12 lg:col-4 px-2 lg:px-5">
+
+                        <div class="text-2xl text-900 line-height-3 mb-2"></div>
+                        <p class="mt-0 mb-6 p-0 line-height-3 text-700"></p>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

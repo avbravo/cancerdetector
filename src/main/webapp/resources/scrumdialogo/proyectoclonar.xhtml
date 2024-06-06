@@ -1,0 +1,130 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f = "http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:dialogo="http://xmlns.jcp.org/jsf/composite/dialogo"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <composite:interface >
+        <composite:attribute name="id" default=""/> 
+
+    </composite:interface>
+
+    <composite:implementation>
+
+
+
+        <p:dialog header="#{msg['dialog.proyectoclonar']}" widgetVar="overlayPanelProyectoClonar" 
+                  width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true"
+                  >
+            <p:ajax event="close" update=":form:growl" listener="#{dashboardFaces.handleCloseDialogRefresh}" />
+            <p:outputPanel id="#{cc.attrs.id}" style="text-align:center;">
+                <div class="grid ui-fluid mt-3 floatlabel-demo">
+
+                    <div class="col-12 md:col12">
+                        <div class="field">
+                            <span class="ui-float-label">
+                                <p:inputTextarea value="#{dashboardFaces.proyectoClonarSelected.proyecto}"
+                                                 rows="2" autoResize="false" disabled="false">
+                                    <p:ajax event="keyup" listener="#{dashboardFaces.sugerirPrefijoClonar}"
+                                            update="prefijoclonar"/>
+                                </p:inputTextarea>
+                                <p:outputLabel for="@previous" value="#{msg['field.proyecto']}" />
+
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 md:col12">
+                        <div class="field">
+                            <span class="ui-float-label">
+                                <p:inputText id="prefijoclonar" value="#{dashboardFaces.proyectoClonarSelected.prefijo}"/>
+                        <p:commandButton title="#{msg['button.sugerirprefijo']}" icon="pi pi-wrench" 
+                                         action="#{dashboardFaces.genererNumeroPrefijoClonar()}"
+                                         update="prefijoclonar,growl"
+                                         styleClass="ui-button-outlined w-1 mr-1"/>
+                              <span class="font-medium my-3 text-500">#{msg['field.prefijo']}</span>
+
+                            </span>
+                        </div>
+                    </div>
+
+                 
+                    
+                    
+
+
+
+
+
+
+                    <div class="flex align-items-center ">
+                        <div class="mr-12 mt-12">
+                            <span class="font-medium my-3 text-500">#{msg['field.descripcion']}</span>
+                            <p:outputLabel value="#{dashboardFaces.proyectoClonarSelected.descripcion}"/>                           
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="field col-12 md:col-12">
+
+                    <h:panelGroup styleClass="ui-inputgroup">
+                        <h:panelGroup id="iconclonar" styleClass="ui-inputgroup-addon">
+                            <span class="font-medium text-500">#{msg['field.icono']}</span>
+                            <i class="#{dashboardFaces.proyectoClonarSelected.icono.icono}"/>
+                        </h:panelGroup>
+                        <p:selectOneMenu  value="#{dashboardFaces.proyectoClonarSelected.icono}" var="item">
+                            <f:selectItems value="#{iconoConverterServices.iconos}"  var="item" 
+                                           itemLabel=""
+                                           itemValue="#{item}" />
+                            <p:column><i class="#{item.icono}" /></p:column>
+
+                            <p:ajax update="@parent:@parent:iconclonar" />
+                        </p:selectOneMenu>
+
+                    </h:panelGroup>
+                </div>
+
+
+           
+
+                <div class="flex align-items-center ">
+                    <div class=" border-top-1 surface-border col-6 flex">
+
+                        <p:commandButton  title="#{core['button.clone']}" icon="pi pi-copy"
+                                          action="#{dashboardFaces.clonar(dashboardFaces.proyectoClonarSelected)}"
+                                          update=":form:growl"
+                                          styleClass="w-6 ml-2"/>
+
+                        <p:commandButton title="#{core['button.cancel']}" icon="pi pi-times" 
+                                         onclick="PF('overlayPanelProyectoClonar').hide()"
+                                         update=":form"
+                                         styleClass="ui-button-outlined w-6 mr-2"/>
+
+                    </div>
+                </div>
+            </p:outputPanel>
+
+        </p:dialog>
+
+
+
+    </composite:implementation>
+</html>

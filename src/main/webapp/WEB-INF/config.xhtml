@@ -1,0 +1,90 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard">
+
+    <a tabindex="0" id="layout-config-button" class="layout-config-button" 
+       data-pb-styleclass="{ selector: '#app-sidebar', enterClass: 'hidden', enterActiveClass: 'fadeinleft', leaveToClass: 'hidden', leaveActiveClass: 'fadeoutleft', hideOnOutsideClick: true }"
+       >
+        <i class="pi pi-cog"/>
+    </a>
+
+    <p:sidebar widgetVar="sidebar" position="right" baseZIndex="10000" styleClass="layout-config ui-sidebar-md">
+        <h:form>
+            <a class="cursor-pointer block lg:hidden text-700 mr-3"
+               data-pb-styleclass="{ selector: '#app-sidebar', enterClass: 'hidden', enterActiveClass: 'fadeinleft', leaveToClass: 'hidden', leaveActiveClass: 'fadeoutleft', hideOnOutsideClick: true }">
+                <i class="pi pi-bars text-2xl"/>
+            </a>
+            <div class="config-title">#{core['menuitem.inputstyle']}</div>
+            <div class="formgroup-inline">
+                <div class="field-radiobutton">
+                    <p:radioButton id="opt1" for="inputStyleRadio" itemIndex="0"/>
+                    <label for="opt1">#{core['configmenuitem.outlined']}</label>
+
+                </div>
+                <div class="field-radiobutton">
+                    <p:radioButton id="opt2" for="inputStyleRadio" itemIndex="1"/>
+                    <label for="opt2">#{core['configmenuitem.filled']}</label>
+                </div>
+            </div>
+            <p:selectOneRadio id="inputStyleRadio" value="#{app.inputStyle}" layout="custom"
+                              onchange="App.updateInputStyle(event.target.value)">
+                <f:selectItem itemLabel="#{core['configmenuitem.outlined']}" itemValue="outlined"/>
+                <f:selectItem itemLabel="#{core['configmenuitem.filled']}" itemValue="filled"/>
+                <p:ajax/>
+            </p:selectOneRadio>
+
+            <div class="config-title">"#{core['configmenuitem.primeonedesing']}"</div>
+            <div class="grid themes-grid">
+                <div class="col-6 sm:col-3">
+                    <p:commandLink actionListener="#{app.changeTheme('saga', false)}" process="@this"
+                                   onstart="App.beforeResourceChange()" rendered="#{loginFaces.showTopBarInTemplate.get() eq true}"
+                                   oncomplete="App.changeTheme('saga')" update=":topbar-logo :content-panel">
+                        <p:graphicImage name="images/themes/saga.png" library="primeblocks-app" alt="Saga"/>
+                    </p:commandLink>
+                    <p:commandLink actionListener="#{app.changeTheme('saga', false)}" process="@this"
+                                   onstart="App.beforeResourceChange()" rendered="#{loginFaces.showTopBarInTemplate.get() eq false}"
+                                   oncomplete="App.changeTheme('saga')" update=":content-panel">
+                        <p:graphicImage name="images/themes/saga.png" library="primeblocks-app" alt="Saga"/>
+                    </p:commandLink>
+                    <span>#{msg['theme.saga']}</span>
+                </div>
+
+
+
+
+                <div class="col-6 sm:col-3">
+                    <p:commandLink actionListener="#{app.changeTheme('vela', true)}" process="@this"
+                                   onstart="App.beforeResourceChange()" rendered="#{loginFaces.showTopBarInTemplate.get() eq true}"
+                                   oncomplete="App.changeTheme('vela', true)" update=":topbar-logo :content-panel">
+                        <p:graphicImage name="images/themes/vela.png" library="primeblocks-app" alt="Vela"/>
+                    </p:commandLink>
+                    <p:commandLink actionListener="#{app.changeTheme('vela', true)}" process="@this"
+                                   onstart="App.beforeResourceChange()" rendered="#{loginFaces.showTopBarInTemplate.get() eq false}"
+                                   oncomplete="App.changeTheme('vela', true)" update=" :content-panel">
+                        <p:graphicImage name="images/themes/vela.png" library="primeblocks-app" alt="Vela"/>
+                    </p:commandLink>
+                    <span>#{msg['theme.vela']}</span>
+                </div>
+                <div class="col-6 sm:col-3">
+                    <p:commandLink actionListener="#{app.changeTheme('arya', true)}" process="@this"
+                                   onstart="App.beforeResourceChange()" rendered="#{loginFaces.showTopBarInTemplate.get() eq true}"
+                                   oncomplete="App.changeTheme('arya', true)" update=":topbar-logo :content-panel">
+                        <p:graphicImage name="images/themes/arya.png" library="primeblocks-app" alt="Arya"/>
+                    </p:commandLink>
+                    <p:commandLink actionListener="#{app.changeTheme('arya', true)}" process="@this"
+                                   onstart="App.beforeResourceChange()" rendered="#{loginFaces.showTopBarInTemplate.get() eq false}"
+                                   oncomplete="App.changeTheme('arya', true)" update="content-panel">
+                        <p:graphicImage name="images/themes/arya.png" library="primeblocks-app" alt="Arya"/>
+                    </p:commandLink>
+                    <span>#{msg['theme.arya']}</span>
+                </div>
+            </div>
+
+
+        </h:form>
+    </p:sidebar>
+
+</ui:composition>

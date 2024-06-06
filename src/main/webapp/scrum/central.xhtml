@@ -1,0 +1,333 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:central="http://xmlns.jcp.org/jsf/composite/central"
+                xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+
+        <p:commandLink action="central" value="#{msg['breadcrumb.central']}">
+        </p:commandLink>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('DEVELOPERS,SUPER-USER')}">
+            <p:growl id="growl"/>
+            <script type="text/javascript">
+                function setDataTableWithPageStart() {
+
+                    widgetVardataTable.getPaginator().setPage(0);
+                }
+            </script>
+<!--            <div class="block-category-title">#{msg['form.central']}</div>-->
+
+            <!--<pb:blockViewerCore header="Sidebar" >-->
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+                <div class="min-h-screen flex flex-column relative flex-auto">
+                    <!--                    <dashboard:top/>-->
+                    <div class="surface-section , jmoordbcore-max-width2000">
+                        <div class="grid">
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+                                        <label  class="font-bold">#{msg['label.central']}</label>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+
+
+                                    </div>
+                                </div>
+                                <div class="field mb-4 col-8">
+                                    <div class="field">
+                                        <p:outputLabel  value="#{msg['field.central']}" />
+                                        <!--<span class="ui-float-label">-->
+                                        <p:autoComplete id="central" multiple="false" value="#{centralFaces.centralSelectedAutocomplete}"
+                                                        completeMethod="#{centralFaces.completeCentral}"
+                                                        var="central" itemLabel="#{central.central}" 
+                                                        itemValue="#{central}"
+                                                        forceSelection="true"
+                                                        title="#{msg['autocomplete.minimo3caracteres']}"
+                                                        dropdown="true"
+                                                        minQueryLength="3"
+                                                        scrollHeight="250"
+
+                                                        converter="#{centralConverter}"
+                                                        >
+                                            <p:column>
+                                                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{central.central} - #{central.institution.institution}"/>
+                                            </p:column>
+                                            <p:ajax event="itemSelect"   listener="#{centralFaces.autocompleteSelectedEvent}"  update=":form:growl, central, dataTable" />  
+                                            <p:ajax event="itemUnselect"  process="@this" listener="#{centralFaces.autocompleteUnselectListener}" update=":form:growl, central, dataTable" />
+                                        </p:autoComplete>
+
+                                        <p:message for="@previous" />
+
+
+                                        <!--</span>-->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 lg:col-12">
+                                <p:dataTable style="border-style: none" var="item" value="#{centralFaces.centralLazyDataModel}"
+                                             binding="#{centralFaces.dataTable}"
+                                             id="dataTable"
+                                             widgetVar="widgetVardataTable"
+                                             lazy="true"
+                                             paginator="true"
+                                             rows="#{centralFaces.rowPageSmall.get()}"
+                                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                             paginatorPosition="both"
+                                             resizableColumns="true" liveResize="true"
+
+                                             rowKey="#{item.idcentral}"
+                                             selection="#{centralFaces.centralSelected}"
+                                             rowSelectMode="add"
+                                             >
+
+
+                                    <p:column class="column10" headerText="#{msg['field.idcentral']}" >
+                                        <p:outputLabel value="#{item.idcentral}" style="float:left"/>
+
+                                    </p:column>
+
+
+                                    <p:column class="column10" headerText="#{msg['field.central']}" >
+                                        <p:outputLabel value="#{item.central}" style="float:left"/>
+
+                                    </p:column>
+                                    <p:column class="column10" headerText="#{msg['field.institution']}" >
+                                        <p:outputLabel value="#{item.institution.institution}" style="float:left"/>
+
+                                    </p:column>
+                                    <p:column class="column3" headerText="#{msg['field.active']}" >                                     
+                                        <p:selectBooleanCheckbox value="#{item.active}" disabled="true" style="float:left"/> 
+                                    </p:column>
+
+
+                                    <p:column class="column2" exportable="false">
+                                        <p:menuButton  icon="pi pi-ellipsis-v" buttonStyleClass="ui-button-flat ui-button-plain rounded-button" >
+
+                                            <p:menuitem 
+                                                icon="pi pi-pencil" 
+
+                                                value="#{core['button.update']}"
+                                                update=":form:growl, outputPanelCentral"
+                                                oncomplete="PF('overlayPanelCentral').show('#{component.clientId}')"
+                                                action="#{centralFaces.prepareCentral(item)}"
+                                                styleClass="edit-button rounded-button ui-button-success" process="@this"/>       
+
+
+
+
+                                        </p:menuButton>
+                                    </p:column>
+
+
+
+
+
+                                    <f:facet name="header">
+                                        <div class="grid mt-12">
+                                            <div class="col-2">
+                                                <p:commandButton 
+                                                    title="#{core['button.add']}" 
+                                                    rendered="#{centralFaces.isEditable}"
+                                                    update=":form:growl, outputPanelCentral"
+                                                    icon="pi pi-plus-circle" styleClass="rounded-button mr-2 ui-button-summary"
+                                                    oncomplete="PF('overlayPanelCentral').show('#{component.clientId}')"
+                                                    action="#{centralFaces.agregarRowCentral()}" />
+
+                                            </div>
+                                            <div class="col-2">
+                                                <p:commandButton title="#{core['button.print']}"
+                                                                 icon="pi pi-print"
+                                                                 id="buttonPrint"
+                                                                 process="buttonPrint"
+                                                                 ajax="false"
+                                                                 immediate="true"
+                                                                 onclick="this.form.target = '_blank'"
+                                                                 action="#{centralFaces.printAll()}"
+                                                                 update=":form:growl"
+                                                                 styleClass="rounded-button ui-button-secondary" 
+                                                                 style="margin-right: .5rem">
+
+                                                </p:commandButton>
+                                            </div>
+                                            <div class="col-2">
+
+
+                                                <p:commandButton  title="#{msg['button.refresh']}" icon="pi pi-refresh" styleClass="rounded-button ui-button-help mr-2"
+                                                                  action="#{centralFaces.refresh()}"
+                                                                  process="@this"
+                                                                  update=":form:growl, dataTable"/>
+                                            </div>
+                                        </div>
+                                    </f:facet>
+
+                                </p:dataTable>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div> 
+
+                </div>
+            </div>
+
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+            </p:confirmPopup>
+
+
+
+            
+            <p:dialog header="#{msg['dialog.central']}" widgetVar="overlayPanelCentral" 
+                      width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true"
+                  >
+            <p:ajax event="close" update=":form:growl" listener="#{centralFaces.handleCloseDialogRefresh}" />
+                <p:outputPanel id="outputPanelCentral" style="text-align:center;"  >
+                    <c:if test="${centralFaces.showDialogContent == false}">
+
+
+                        <utilidades:sincronizacionrequeridacontroller onclick="PF('overlayPanelCentral').hide()"
+                                                                      message="#{centralFaces.message}"
+                                                                      controller="#{centralFaces}"
+                                                                      />
+                    </c:if>
+                    <c:if test="${centralFaces.showDialogContent == true}">
+                        
+                        <!--<p:outputLabel  value="#{msg['field.idcentral']}: #{centralFaces.centralSelected.idcentral}" />-->                           
+                            <div class="grid ui-fluid mt-3 floatlabel-demo">
+                                <div class="col-12 md:col-12">
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:selectOneMenu  value="#{centralFaces.centralSelected.institution}"
+                                                              var="item" autoWidth="false">
+                                                <f:selectItems value="#{institutionConverterServices.institutions}"  var="item" 
+                                                               itemLabel="#{item.institution}"
+                                                               itemValue="#{item}" />
+                                                <p:column><i class="#{item.institution}" /> #{item.institution} 
+                                                </p:column>
+
+
+                                            </p:selectOneMenu>
+
+                                            <p:outputLabel for="@previous" value="#{msg['field.central']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+
+
+
+
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:inputText value="#{centralFaces.centralSelected.central}"  />
+                                            <p:outputLabel for="@previous" value="#{msg['field.central']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+                                    <div class="field">
+                                        <span class="ui-float-label" jsf:rendered="#{centralFaces.buttonNewPressed eq false}">
+
+                                            <p:selectBooleanCheckbox value="#{centralFaces.centralSelected.active}"/> 
+                                            <p:outputLabel for="@previous" value="#{msg['field.active']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+
+
+
+
+                            <div class="flex align-items-center ">
+                                <div class=" border-top-1 surface-border col-6 flex">
+                                    <p:commandButton  title="#{core['button.save']}" icon="pi pi-save"
+                                                      action="#{centralFaces.save(centralFaces.centralSelected)}"
+                                                      update=":form:growl, dataTable"
+                                                      rendered="#{centralFaces.buttonNewPressed}"
+                                                      process="outputPanelCentral"
+                                                      styleClass="w-6 ml-2"/>
+                                    
+                                    <p:commandButton  title="#{core['button.update']}" 
+                                                      icon="pi pi-pencil" 
+                                                      rendered="#{centralFaces.buttonNewPressed eq false}"
+                                                      action="#{centralFaces.edit(centralFaces.centralSelected)}"
+                                                      update=":form:growl, dataTable"
+                                                      process="outputPanelCentral"
+                                                      styleClass="w-6 ml-2"/>
+                                </div>
+
+                                <div class=" border-top-1 surface-border col-6 flex">
+                                    <p:commandButton 
+                                        title="#{core['button.cancel']}" 
+                                        icon="pi pi-times" 
+                                        onclick="PF('overlayPanelCentral').hide()"
+                                        update=":form:growl, dataTable"
+                                        styleClass="ui-button-outlined w-6 mr-2 ui-button-danger"
+                                        />
+
+                                </div>
+                            </div>
+
+                    </c:if>
+
+                </p:outputPanel>
+                <!--</p:overlayPanel>-->
+            </p:dialog>
+
+
+
+
+
+
+
+
+
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('DEVELOPERS,SUPER-USER')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,102 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+             xmlns:papelerareciclaje="http://xmlns.jcp.org/jsf/composite/papelerareciclaje"
+      xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades"
+          xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf">
+
+    <composite:interface >
+        <composite:attribute name="pendiente" default="false"/>
+        <composite:attribute name="progreso" default="false"/>
+        <composite:attribute name="finalizado" default="false"/>
+        <composite:attribute name="id" default=""/> 
+    </composite:interface>
+
+    <composite:implementation >
+
+
+
+
+
+
+
+
+        <p:dialog header="#{msg['dialog.tarjetaarchivar']}" widgetVar="overlayPanelTarjetaArchivar" 
+                   width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true"
+                  >
+            <p:ajax event="close" update=":form:growl" listener="#{papeleraReciclajeFaces.handleCloseDialogRefresh}" />
+
+            <p:outputPanel id="#{cc.attrs.id}" style="text-align:center;">
+
+                <jmoordbcorejsf:overlayPanelTarjetaHeader iconoheader="pi-trash" 
+                                                   titulo="#{msg['dialog.tarjetaarchivar']}"
+                                                   entity="#{papeleraReciclajeFaces.tarjetaArchivarSelected}"
+                                                   icono="#{papeleraReciclajeFaces.tarjetaArchivarSelected.icono}"/>
+
+                <c:if test="${papeleraReciclajeFaces.fueCambiadoPorOtroUsuario == true}">
+
+
+                    <utilidades:sincronizacionrequeridacontroller onclick="PF('overlayPanelTarjetaArchivar').hide()"
+                                                                  message="#{papeleraReciclajeFaces.message}"
+                                                                  controller="#{papeleraReciclajeFaces}"
+                                                                  />
+                </c:if>
+
+                <c:if test="${papeleraReciclajeFaces.fueCambiadoPorOtroUsuario == false}">
+                   
+
+
+                        <div class="flex align-items-center ">
+                            <div class=" border-top-1 surface-border col-6 flex">
+
+
+                                <p:commandButton styleClass="ui-button-raised ui-button-secondary" icon="pi pi-trash"
+                                                 title="#{core['button.archivar']}"
+                                                 update=":form:growl"
+                                                 action="#{papeleraReciclajeFaces.archivar(papeleraReciclajeFaces.tarjetaArchivarSelected)}"
+                                                 >
+                                    <p:confirm type="popup" header="#{core['confirmdialog.header']}" message="#{core['confirmdialog.message']}" icon="pi pi-info-circle"/>
+                                </p:commandButton>
+                            </div>
+
+                            <div class=" border-top-1 surface-border col-6 flex">
+                                
+                                 <p:commandButton 
+                                    title="#{core['button.cancel']}" 
+                                    icon="pi pi-times" 
+                                    oncomplete="PF('PF('overlayPanelTarjetaArchivar').hide()"
+
+                                    action="#{papeleraReciclajeFaces.refreshCache(papeleraReciclajeFaces.tarjetaArchivarSelected,'archivar')}"
+                                    update=":form:growl,:form"
+                                    styleClass="ui-button-raised ui-button-secondary"
+                                    />
+                            </div>
+                        </div>
+               
+                </c:if>
+
+            </p:outputPanel>
+
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+            </p:confirmPopup>
+        </p:dialog>
+
+
+
+
+    </composite:implementation>
+</html>

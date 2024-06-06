@@ -1,0 +1,18 @@
+@startuml
+header Page Header
+footer Page %page% of %lastpage%
+
+title Login
+
+FacesLogin -> MicroporifleConfig :solicita propiedades
+MicroporifleConfig -> FacesLogin :properties
+
+FacesLogin -> Server : idapplicative
+Server -> FacesLogin : applicative,applicativerole,applicayiveprivilegie,emailconfiguration
+
+FacesLogin -> Server: username
+Server  -> FacesLogin: User
+FacesLogin ->LoginValidateServices :profiles a validar
+LoginValidateServices -> FacesLogin :profiles validados
+Alice -> Bob : message 2
+@enduml

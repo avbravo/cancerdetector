@@ -1,0 +1,524 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui" xmlns:pb="http://xmlns.jcp.org/jsf/composite/primeblocks"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" template="/WEB-INF/template.xhtml">
+    <ui:define name="title">PrimeBlocks</ui:define>
+
+    <ui:define name="breadcrumb">
+        <li>
+            <div class="chevron">/</div>
+            <h:link outcome="/ecommerce">E-commerce</h:link>
+        </li>
+        <li>
+            <div class="chevron">/</div>
+            <h:link outcome="/ecommerce/categoryfilter">Category Filters</h:link>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="block-category-title text-900">Category Filters</div>
+
+        <pb:blockViewer header="Sidebar" code="#{categoryFilterView.block1}">
+            <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
+                <div class="text-900 font-bold text-3xl text-center">
+                    Category Title
+                </div>
+                <p class="text-600 font-normal text-xl text-center">
+                    Nullam faucibus, sem et bibendum finibus, sapien ipsum congue felis,
+                    sit amet pretium ex nisl ut eros.
+                </p>
+                <p:divider class="w-full"></p:divider>
+                <div class="flex flex-wrap lg:flex-nowrap">
+                    <div class="col-fixed lg:col-2 mr-4 flex p-0 flex-column w-full lg:w-3">
+                        <div class="flex flex-column p-0">
+                            <a tabindex="0"
+                                class="cursor-pointer text-900 font-medium mb-3 hover:text-primary transition-duration-150">Denim</a>
+                            <a tabindex="0"
+                                class="cursor-pointer text-900 font-medium mb-3 hover:text-primary transition-duration-150">Sweaters</a>
+                            <a tabindex="0"
+                                class="cursor-pointer text-900 font-medium mb-3 hover:text-primary transition-duration-150">T-Shirt</a>
+                            <a tabindex="0"
+                                class="cursor-pointer text-900 font-medium mb-3 hover:text-primary transition-duration-150">Pants
+                                &amp; Shorts</a>
+                            <a tabindex="0"
+                                class="cursor-pointer text-900 font-medium mb-3 hover:text-primary transition-duration-150">Outwear</a>
+                            <a tabindex="0"
+                                class="cursor-pointer text-900 font-medium mb-3 hover:text-primary transition-duration-150">Shoes</a>
+                            <a tabindex="0"
+                                class="cursor-pointer text-900 font-medium mb-3 hover:text-primary transition-duration-150">Accessories</a>
+                        </div>
+                        <p:divider styleClass="w-full m-0 p-0"></p:divider>
+                        <p:accordionPanel id="myaccordion" styleClass="-mb-1 mt-3" multiple="true"
+                            activeIndex="0,1,2,3">
+                            <p:tab title="Brand (#{categoryFilterView.selectedBrands1Size})">
+                                <div class="transition-all transition-duration-400 transition-ease-in-out">
+                                    <div class="mb-3">
+                                        <span class="ui-input-icon-right w-full">
+                                            <i class="pi pi-search"></i>
+                                            <p:inputText type="text" placeholder="Search" class="w-full" />
+                                        </span>
+                                    </div>
+                                    <p:selectManyCheckbox id="brand-options"
+                                        value="#{categoryFilterView.selectedBrands1}" layout="custom">
+                                        <p:ajax update="@namingcontainer" />
+                                        <f:selectItem itemLabel="Alfred" itemValue="Alfred" />
+                                        <f:selectItem itemLabel="Hyper" itemValue="Hyper" />
+                                        <f:selectItem itemLabel="Bastion" itemValue="Bastion" />
+                                        <f:selectItem itemLabel="Peak" itemValue="Peak" />
+                                    </p:selectManyCheckbox>
+
+                                    <div class="flex w-full justify-content-between">
+                                        <div class="field-checkbox">
+                                            <p:checkbox id="brand_1" for="brand-options" value="Alfred" class="text-900"
+                                                itemIndex="0" />
+                                            <p:outputLabel for="brand_1" value="Alfred" styleClass="text-900" />
+                                        </div>
+                                        <p:badge value="42"
+                                            styleClass="mr-2 bg-gray-200 text-gray-900 p-0 border-circle"></p:badge>
+                                    </div>
+                                    <div class="flex w-full justify-content-between">
+                                        <div class="field-checkbox">
+                                            <p:checkbox id="brand_2" for="brand-options" value="Hyper" class="text-900"
+                                                itemIndex="1" />
+                                            <p:outputLabel for="brand_2" value="Hyper" styleClass="text-900" />
+                                        </div>
+                                        <p:badge value="18"
+                                            styleClass="mr-2 bg-gray-200 text-gray-900 p-0 border-circle"></p:badge>
+                                    </div>
+                                    <div class="flex w-full justify-content-between">
+                                        <div class="field-checkbox">
+                                            <p:checkbox id="brand_3" for="brand-options" value="Bastion"
+                                                class="text-900" itemIndex="2" />
+                                            <p:outputLabel for="brand_3" value="Bastion" styleClass="text-900" />
+                                        </div>
+                                        <p:badge value="7"
+                                            styleClass="mr-2 bg-gray-200 text-gray-900 p-0 border-circle"></p:badge>
+                                    </div>
+                                    <div class="flex w-full justify-content-between">
+                                        <div class="field-checkbox">
+                                            <p:checkbox id="brand_4" for="brand-options" value="Peak" class="text-900"
+                                                itemIndex="3" />
+                                            <p:outputLabel for="brand_4" value="Peak" styleClass="text-900" />
+                                        </div>
+                                        <p:badge value="36"
+                                            styleClass="mr-2 bg-gray-200 text-gray-900 p-0 border-circle"></p:badge>
+                                    </div>
+
+                                    <a tabindex="0" class="block cursor-pointer my-3 text-primary font-medium">Show
+                                        all...</a>
+                                </div>
+                            </p:tab>
+                            <p:tab title="Price Range">
+                                <div class="transition-all transition-duration-400 transition-ease-in-out relative">
+                                    <p:slider for="txt1,txt2" range="true" styleClass="mt-3 mx-auto" />
+                                    <div class="flex mt-4 mb-3">
+                                        <p:inputText id="txt1" value="#{categoryFilterView.number1}"
+                                            styleClass="mr-3 w-full" />
+                                        <p:inputText id="txt2" value="#{categoryFilterView.number2}"
+                                            styleClass="w-full" />
+                                    </div>
+                                </div>
+                            </p:tab>
+                            <p:tab title="Color (#{categoryFilterView.selectedColors1Size})">
+                                <div class="transition-all transition-duration-400 transition-ease-in-out">
+                                    <div class="grid mb-3">
+                                        <div class="col-4 flex flex-column align-items-center">
+                                            <div class="w-3rem h-3rem border-circle bg-gray-900 border-none">
+                                                <p:commandLink
+                                                    actionListener="#{categoryFilterView.toggleSelectedColors1('Black')}"
+                                                    styleClass="flex justify-content-center align-items-center no-underline w-full h-full"
+                                                    update="@namingcontainer">
+                                                    <ui:fragment
+                                                        rendered="#{categoryFilterView.selectedColors1.contains('Black')}">
+                                                        <i class="pi pi-check text-2xl text-white"></i>
+                                                    </ui:fragment>
+                                                </p:commandLink>
+                                            </div>
+                                            <p class="text-900 text-sm text-center mt-1">Black</p>
+                                        </div>
+                                        <div class="col-4 flex flex-column align-items-center">
+                                            <div class="w-3rem h-3rem border-circle bg-orange-500 border-none">
+                                                <p:commandLink
+                                                    actionListener="#{categoryFilterView.toggleSelectedColors1('Orange')}"
+                                                    styleClass="flex justify-content-center align-items-center no-underline w-full h-full"
+                                                    update="@namingcontainer">
+                                                    <ui:fragment
+                                                        rendered="#{categoryFilterView.selectedColors1.contains('Orange')}">
+                                                        <i class="pi pi-check text-2xl text-white"></i>
+                                                    </ui:fragment>
+                                                </p:commandLink>
+                                            </div>
+                                            <p class="text-900 text-sm text-center mt-1">Orange</p>
+                                        </div>
+                                        <div class="col-4 flex flex-column align-items-center">
+                                            <div
+                                                class="w-3rem h-3rem border-circle bg-indigo-500 cursor-pointer border-none flex justify-content-center align-items-center">
+                                                <p:commandLink
+                                                    actionListener="#{categoryFilterView.toggleSelectedColors1('Indigo')}"
+                                                    styleClass="flex justify-content-center align-items-center no-underline w-full h-full"
+                                                    update="@namingcontainer">
+                                                    <ui:fragment
+                                                        rendered="#{categoryFilterView.selectedColors1.contains('Indigo')}">
+                                                        <i class="pi pi-check text-2xl text-white"></i>
+                                                    </ui:fragment>
+                                                </p:commandLink>
+                                            </div>
+                                            <p class="text-900 text-sm text-center mt-1">Indigo</p>
+                                        </div>
+                                        <div class="col-4 flex flex-column align-items-center">
+                                            <div
+                                                class="w-3rem h-3rem border-circle bg-gray-500 cursor-pointer border-none flex justify-content-center align-items-center">
+                                                <p:commandLink
+                                                    actionListener="#{categoryFilterView.toggleSelectedColors1('Gray')}"
+                                                    styleClass="flex justify-content-center align-items-center no-underline w-full h-full"
+                                                    update="@namingcontainer">
+                                                    <ui:fragment
+                                                        rendered="#{categoryFilterView.selectedColors1.contains('Gray')}">
+                                                        <i class="pi pi-check text-2xl text-white"></i>
+                                                    </ui:fragment>
+                                                </p:commandLink>
+                                            </div>
+                                            <p class="text-900 text-sm text-center mt-1">Gray</p>
+                                        </div>
+                                        <div class="col-4 flex flex-column align-items-center">
+                                            <div
+                                                class="w-3rem h-3rem border-circle bg-cyan-500 cursor-pointer border-none flex justify-content-center align-items-center">
+                                                <p:commandLink
+                                                    actionListener="#{categoryFilterView.toggleSelectedColors1('Cyan')}"
+                                                    styleClass="flex justify-content-center align-items-center no-underline w-full h-full"
+                                                    update="@namingcontainer">
+                                                    <ui:fragment
+                                                        rendered="#{categoryFilterView.selectedColors1.contains('Cyan')}">
+                                                        <i class="pi pi-check text-2xl text-white"></i>
+                                                    </ui:fragment>
+                                                </p:commandLink>
+                                            </div>
+                                            <p class="text-900 text-sm text-center mt-1">Cyan</p>
+                                        </div>
+                                        <div class="col-4 flex flex-column align-items-center">
+                                            <div
+                                                class="w-3rem h-3rem border-circle bg-pink-500 cursor-pointer border-none flex justify-content-center align-items-center">
+                                                <p:commandLink
+                                                    actionListener="#{categoryFilterView.toggleSelectedColors1('Pink')}"
+                                                    styleClass="flex justify-content-center align-items-center no-underline w-full h-full"
+                                                    update="@namingcontainer">
+                                                    <ui:fragment
+                                                        rendered="#{categoryFilterView.selectedColors1.contains('Pink')}">
+                                                        <i class="pi pi-check text-2xl text-white"></i>
+                                                    </ui:fragment>
+                                                </p:commandLink>
+                                            </div>
+                                            <p class="text-900 text-sm text-center mt-1">Pink</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p:tab>
+                            <p:tab title="Size (#{categoryFilterView.selectedSizes1Size})">
+                                <p:outputPanel layout="block"
+                                    styleClass="flex flex-wrap w-full h-auto overflow-hidden justify-content-center gap-1">
+                                    <ui:repeat value="#{categoryFilterView.sizes}" var="s">
+                                        <div
+                                            class="w-4rem h-2rem text-200 flex justify-content-center align-items-center text-sm cursor-pointer border-round surface-100 #{categoryFilterView.selectedSizes1.contains(s) ? 'bg-primary': ''}">
+                                            <p:commandLink
+                                                actionListener="#{categoryFilterView.toggleSelectedSizes1(s)}"
+                                                value="#{s}" update="@namingcontainer:@namingcontainer:@namingcontainer"
+                                                styleClass="#{categoryFilterView.selectedSizes1.contains(s) ? 'bg-primary': ''}" />
+                                        </div>
+                                    </ui:repeat>
+                                </p:outputPanel>
+                            </p:tab>
+                        </p:accordionPanel>
+                    </div>
+                    <div class="w-full border-2 border-dashed border-round surface-border surface-section mt-3 lg:mt-0"
+                        style="min-height: 25rem"></div>
+                </div>
+            </div>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="Horizontal Expandable" code="#{categoryFilterView.block2}">
+            <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
+                <div class="text-900 font-bold text-3xl">Category Title</div>
+                <div class="grid grid-nogutter">
+                    <div class="col-12 p-0 mt-5 flex flex-column lg:flex-row align-items-start mb-4">
+                        <p:commandButton type="button"
+                            class="rounded-button bg-gray-900 text-white px-3 lg:mr-4 sm w-full lg:w-auto border-none"
+                            value="Filters" icon="pi pi-chevron-down" iconPos="right"
+                            pt:data-pb-styleclass="{ selector: '.filter-container', enterClass: 'hidden', enterActiveClass: 'slidedown', leaveToClass: 'hidden', leaveActiveClass: 'slideup'}">
+                        </p:commandButton>
+                        <p:outputPanel id="category_filters" class="grid flex-column lg:flex-row w-full h-full">
+                            <div class="col-12 lg:col flex align-items-center flex-wrap gap-1">
+                                <ui:repeat value="#{categoryFilterView.selectedBrands2}" var="brand">
+                                    <p:chip label="#{brand}" removable="true"
+                                        styleClass="mr-3 h-auto lg:h-full px-4 mt-3 lg:mt-0"
+                                        style="border-radius: 50px">
+                                        <p:ajax event="close"
+                                            listener="#{categoryFilterView.onBrandFilterRemove(brand)}"
+                                            update="@namingcontainer:@parent @form:@id(category_filter_wrapper)" />
+                                    </p:chip>
+                                </ui:repeat>
+                                <ui:repeat value="#{categoryFilterView.selectedColors2}" var="color">
+                                    <p:chip label="#{color}" removable="true"
+                                        styleClass="mr-3 h-auto lg:h-full px-4 mt-3 lg:mt-0"
+                                        style="border-radius: 50px">
+                                        <p:ajax event="close"
+                                            listener="#{categoryFilterView.onColorFilterRemove(color)}"
+                                            update="@namingcontainer:@parent @form:@id(category_filter_wrapper)" />
+                                    </p:chip>
+                                </ui:repeat>
+                                <ui:repeat value="#{categoryFilterView.selectedSizes2}" var="size">
+                                    <p:chip label="#{size}" removable="true"
+                                        styleClass="mr-3 h-auto lg:h-full px-4 mt-3 lg:mt-0"
+                                        style="border-radius: 50px">
+                                        <p:ajax event="close" listener="#{categoryFilterView.onSizeFilterRemove(size)}"
+                                            update="@namingcontainer:@parent @form:@id(category_filter_wrapper)" />
+                                    </p:chip>
+                                </ui:repeat>
+                                <p:commandLink actionListener="#{categoryFilterView.clearAll}"
+                                    update="category_filters category_filter_wrapper"
+                                    class="text-900 cursor-pointer text-center px-3 py-2 mt-3 lg:mt-0 border-1 border-200 lg:border-none inline-block hover:bg-primary hover:border-primary transition-duration-150"
+                                    style="border-radius: 50px; max-width: 7rem">Clear All
+                                </p:commandLink>
+                            </div>
+                        </p:outputPanel>
+                    </div>
+                    <p:outputPanel id="category_filter_wrapper"
+                        class="filter-container col-12 overflow-hidden transition-all transition-duration-400 transition-ease-in-out">
+                        <div class="grid grid-nogutter flex-column lg:flex-row">
+                            <div
+                                class="flex-auto lg:flex-1 col mt-0 lg:mt-2 mr-0 lg:mr-4 p-4 flex-column border-1 surface-border border-round">
+                                <p:outputPanel id="selected_brands_display"
+                                    class="cursor-pointer text-900 font-medium mb-3 flex justify-content-between w-full hover:text-primary transition-duration-150">
+                                    Brand (#{categoryFilterView.selectedBrands2Size})</p:outputPanel>
+
+                                <div class="mb-3">
+                                    <span class="ui-input-icon-right w-full">
+                                        <i class="pi pi-search"></i>
+                                        <p:inputText type="text" placeholder="Search" class="w-full" />
+                                    </span>
+                                </div>
+                                <p:selectManyCheckbox id="brand-options" value="#{categoryFilterView.selectedBrands2}"
+                                    layout="custom">
+                                    <p:ajax update="selected_brands_display category_filters" />
+                                    <f:selectItem itemLabel="Alfred" itemValue="Alfred" />
+                                    <f:selectItem itemLabel="Hyper" itemValue="Hyper" />
+                                    <f:selectItem itemLabel="Bastion" itemValue="Bastion" />
+                                    <f:selectItem itemLabel="Peak" itemValue="Peak" />
+                                </p:selectManyCheckbox>
+
+                                <div class="flex w-full justify-content-between">
+                                    <div class="field-checkbox">
+                                        <p:checkbox id="brand_1" for="brand-options" value="Alfred" class="text-900"
+                                            itemIndex="0" />
+                                        <p:outputLabel for="brand_1" value="Alfred" styleClass="text-900" />
+                                    </div>
+                                    <p:badge value="42" styleClass="mr-2 bg-gray-200 text-gray-900 p-0 border-circle">
+                                    </p:badge>
+                                </div>
+                                <div class="flex w-full justify-content-between">
+                                    <div class="field-checkbox">
+                                        <p:checkbox id="brand_2" for="brand-options" value="Hyper" class="text-900"
+                                            itemIndex="1" />
+                                        <p:outputLabel for="brand_2" value="Hyper" styleClass="text-900" />
+                                    </div>
+                                    <p:badge value="18" styleClass="mr-2 bg-gray-200 text-gray-900 p-0 border-circle">
+                                    </p:badge>
+                                </div>
+                                <div class="flex w-full justify-content-between">
+                                    <div class="field-checkbox">
+                                        <p:checkbox id="brand_3" for="brand-options" value="Bastion" class="text-900"
+                                            itemIndex="2" />
+                                        <p:outputLabel for="brand_3" value="Bastion" styleClass="text-900" />
+                                    </div>
+                                    <p:badge value="7" styleClass="mr-2 bg-gray-200 text-gray-900 p-0 border-circle">
+                                    </p:badge>
+                                </div>
+                                <div class="flex w-full justify-content-between">
+                                    <div class="field-checkbox">
+                                        <p:checkbox id="brand_4" for="brand-options" value="Peak" class="text-900"
+                                            itemIndex="3" />
+                                        <p:outputLabel for="brand_4" value="Peak" styleClass="text-900" />
+                                    </div>
+                                    <p:badge value="36" styleClass="mr-2 bg-gray-200 text-gray-900 p-0 border-circle">
+                                    </p:badge>
+                                </div>
+
+                                <a tabindex="0" class="block cursor-pointer my-3 text-primary font-medium">Show
+                                    all...</a>
+                            </div>
+                            <p:outputPanel id="selected_colors"
+                                class="flex-auto lg:flex-1 col mt-4 lg:mt-2 lg:mr-4 p-4 flex-column border-1 surface-border border-round">
+                                <span
+                                    class="cursor-pointer text-900 font-medium mb-3 flex justify-content-between w-full hover:text-primary transition-duration-150">Color
+                                    (#{categoryFilterView.selectedColors2Size})</span>
+                                <div class="grid mb-3">
+                                    <div class="col-4 flex flex-column align-items-center">
+                                        <div class="w-3rem h-3rem border-circle bg-gray-900 border-none">
+                                            <p:commandLink
+                                                actionListener="#{categoryFilterView.toggleSelectedColors2('Black')}"
+                                                styleClass="flex justify-content-center align-items-center no-underline w-full h-full"
+                                                update="selected_colors category_filters">
+                                                <ui:fragment
+                                                    rendered="#{categoryFilterView.selectedColors2.contains('Black')}">
+                                                    <i class="pi pi-check text-2xl text-white"></i>
+                                                </ui:fragment>
+                                            </p:commandLink>
+                                        </div>
+                                        <p class="text-900 text-sm text-center mt-1">Black</p>
+                                    </div>
+                                    <div class="col-4 flex flex-column align-items-center">
+                                        <div class="w-3rem h-3rem border-circle bg-orange-500 border-none">
+                                            <p:commandLink
+                                                actionListener="#{categoryFilterView.toggleSelectedColors2('Orange')}"
+                                                styleClass="flex justify-content-center align-items-center no-underline w-full h-full"
+                                                update="selected_colors category_filters">
+                                                <ui:fragment
+                                                    rendered="#{categoryFilterView.selectedColors2.contains('Orange')}">
+                                                    <i class="pi pi-check text-2xl text-white"></i>
+                                                </ui:fragment>
+                                            </p:commandLink>
+                                        </div>
+                                        <p class="text-900 text-sm text-center mt-1">Orange</p>
+                                    </div>
+                                    <div class="col-4 flex flex-column align-items-center">
+                                        <div
+                                            class="w-3rem h-3rem border-circle bg-indigo-500 cursor-pointer border-none flex justify-content-center align-items-center">
+                                            <p:commandLink
+                                                actionListener="#{categoryFilterView.toggleSelectedColors2('Indigo')}"
+                                                styleClass="flex justify-content-center align-items-center no-underline w-full h-full"
+                                                update="selected_colors category_filters">
+                                                <ui:fragment
+                                                    rendered="#{categoryFilterView.selectedColors2.contains('Indigo')}">
+                                                    <i class="pi pi-check text-2xl text-white"></i>
+                                                </ui:fragment>
+                                            </p:commandLink>
+                                        </div>
+                                        <p class="text-900 text-sm text-center mt-1">Indigo</p>
+                                    </div>
+                                    <div class="col-4 flex flex-column align-items-center">
+                                        <div
+                                            class="w-3rem h-3rem border-circle bg-gray-500 cursor-pointer border-none flex justify-content-center align-items-center">
+                                            <p:commandLink
+                                                actionListener="#{categoryFilterView.toggleSelectedColors2('Gray')}"
+                                                styleClass="flex justify-content-center align-items-center no-underline w-full h-full"
+                                                update="selected_colors category_filters">
+                                                <ui:fragment
+                                                    rendered="#{categoryFilterView.selectedColors2.contains('Gray')}">
+                                                    <i class="pi pi-check text-2xl text-white"></i>
+                                                </ui:fragment>
+                                            </p:commandLink>
+                                        </div>
+                                        <p class="text-900 text-sm text-center mt-1">Gray</p>
+                                    </div>
+                                    <div class="col-4 flex flex-column align-items-center">
+                                        <div
+                                            class="w-3rem h-3rem border-circle bg-cyan-500 cursor-pointer border-none flex justify-content-center align-items-center">
+                                            <p:commandLink
+                                                actionListener="#{categoryFilterView.toggleSelectedColors2('Cyan')}"
+                                                styleClass="flex justify-content-center align-items-center no-underline w-full h-full"
+                                                update="selected_colors category_filters">
+                                                <ui:fragment
+                                                    rendered="#{categoryFilterView.selectedColors2.contains('Cyan')}">
+                                                    <i class="pi pi-check text-2xl text-white"></i>
+                                                </ui:fragment>
+                                            </p:commandLink>
+                                        </div>
+                                        <p class="text-900 text-sm text-center mt-1">Cyan</p>
+                                    </div>
+                                    <div class="col-4 flex flex-column align-items-center">
+                                        <div
+                                            class="w-3rem h-3rem border-circle bg-pink-500 cursor-pointer border-none flex justify-content-center align-items-center">
+                                            <p:commandLink
+                                                actionListener="#{categoryFilterView.toggleSelectedColors2('Pink')}"
+                                                styleClass="flex justify-content-center align-items-center no-underline w-full h-full"
+                                                update="selected_colors category_filters">
+                                                <ui:fragment
+                                                    rendered="#{categoryFilterView.selectedColors2.contains('Pink')}">
+                                                    <i class="pi pi-check text-2xl text-white"></i>
+                                                </ui:fragment>
+                                            </p:commandLink>
+                                        </div>
+                                        <p class="text-900 text-sm text-center mt-1">Pink</p>
+                                    </div>
+                                </div>
+                            </p:outputPanel>
+                            <p:outputPanel id="selected_sizes"
+                                class="flex-auto lg:flex-1 col mt-4 lg:mt-2 p-4 border-1 surface-border border-round">
+                                <span
+                                    class="cursor-pointer text-900 font-medium mb-3 flex justify-content-between w-full hover:text-primary transition-duration-150">Size
+                                    (#{categoryFilterView.selectedSizes2Size})</span>
+                                <div class="flex flex-wrap w-full h-auto overflow-hidden justify-content-center gap-1">
+                                    <ui:repeat value="#{categoryFilterView.sizes}" var="s">
+                                        <div
+                                            class="w-4rem h-2rem text-200 flex justify-content-center align-items-center text-sm cursor-pointer border-round surface-100 #{categoryFilterView.selectedSizes2.contains(s) ? 'bg-primary': ''}">
+                                            <p:commandLink
+                                                actionListener="#{categoryFilterView.toggleSelectedSizes2(s)}"
+                                                value="#{s}"
+                                                update="@namingcontainer:@parent @form:@id(category_filters)"
+                                                styleClass="#{categoryFilterView.selectedSizes2.contains(s) ? 'bg-primary': ''}" />
+                                        </div>
+                                    </ui:repeat>
+                                </div>
+                            </p:outputPanel>
+                        </div>
+                    </p:outputPanel>
+                    <p:divider class="w-full"></p:divider>
+                    <div class="col-12 border-2 border-dashed border-round surface-border surface-section"
+                        style="min-height: 25rem"></div>
+                </div>
+            </div>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="Dropdown" code="#{categoryFilterView.block3}">
+            <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
+                <div class="flex justify-content-between flex-wrap">
+                    <div class="flex align-items-center mb-4 md:mb-0">
+                        <div class="text-900 font-bold text-3xl">Category Title</div>
+                        <p:badge value="76" styleClass="ml-3 bg-gray-200 text-gray-900 p-0 border-circle"></p:badge>
+                    </div>
+                    <div>
+                        <p:commandButton id="dynaButton" value="Sort By" type="button" icon="pi pi-sort-alt"
+                            styleClass="ui-button-outlined ui-button-secondary" iconPos="right" />
+                        <p:menu overlay="true" trigger="dynaButton" my="right top" at="right bottom">
+                            <p:submenu>
+                                <p:menuitem value="Color" />
+                                <p:menuitem value="Size" />
+                                <p:menuitem value="Price" />
+                            </p:submenu>
+                        </p:menu>
+                    </div>
+                </div>
+                <p class="text-600 text-xl">
+                    Nullam faucibus, sem et bibendum finibus, sapien ipsum congue felis,
+                    sit amet pretium ex nisl ut eros.
+                </p>
+                <p:divider styleClass="w-full border-gray-200"></p:divider>
+                <div class="grid grid-nogutter align-items-center">
+                    <p:selectCheckboxMenu id="menu_brands" multiple="true"
+                        styleClass="w-full" filter="true" filterMatchMode="startsWith" emptyLabel="Brands"
+                        updateLabel="true" class="flex-auto lg:flex-1 mb-3 lg:mt-0 w-full mr-0 lg:mr-4 text-900">
+                        <f:selectItems value="#{categoryFilterView.brands}" />
+                    </p:selectCheckboxMenu>
+                    <p:selectCheckboxMenu id="menu_color"
+                        emptyLabel="Color" updateLabel="true" styleClass="w-full" filter="true"
+                        filterMatchMode="startsWith" multiple="true"
+                        class="flex-auto lg:flex-1 mb-3 lg:mt-0 w-full mr-0 lg:mr-4 text-900">
+                        <f:selectItems value="#{categoryFilterView.colors}" />
+                    </p:selectCheckboxMenu>
+                    <p:selectCheckboxMenu id="menu_prices"
+                        emptyLabel="Price" updateLabel="true" styleClass="w-full" filter="true"
+                        filterMatchMode="startsWith" multiple="true"
+                        class="flex-auto lg:flex-1 mb-3 lg:mt-0 w-full mr-0 lg:mr-4 text-900">
+                        <f:selectItems value="#{categoryFilterView.prices}" />
+                    </p:selectCheckboxMenu>
+                    <p:selectBooleanButton onLabel="Sustainable" offLabel="Unsustainable" onIcon="pi pi-check"
+                        offIcon="pi pi-times" styleClass="mb-3 lg:mt-0 mr-4 flex-shrink-0 w-12rem" />
+                    <p:selectBooleanButton onLabel="Sale" offLabel="Not Sale" onIcon="pi pi-check" offIcon="pi pi-times"
+                        styleClass="mb-3 lg:mt-0 mr-4 flex-shrink-0 w-12rem" />
+                    <a tabindex="0" class="cursor-pointer flex align-items-center mb-3 lg:mt-0 text-900">Clear All</a>
+                    <div class="col-12 border-2 border-dashed border-round surface-border surface-section h-30rem mt-2">
+                    </div>
+                </div>
+            </div>
+        </pb:blockViewer>
+    </ui:define>
+</ui:composition>

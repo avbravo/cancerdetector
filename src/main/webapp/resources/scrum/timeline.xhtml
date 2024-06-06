@@ -1,0 +1,61 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <composite:interface >
+
+    </composite:interface>
+
+    <composite:implementation>
+        <c:if test="${dashboardFaces.showTimeline()}">
+        
+        <div class="col-12">
+            <div class="border-round p-4">
+                <div class="text-xl text-900 font-medium mb-5">#{core['dashboard.timeline']}</div>
+                
+                <ui:repeat value="#{dashboardFaces.timelineList}" var="timeline"  >
+                    <div class="mb-5 flex">
+                    <div class="flex flex-column align-items-center" style="width:2rem">
+                        <span class="bg-blue-500 text-0 flex align-items-center justify-content-center border-circle"
+                              style="min-width:2.5rem; min-height: 2.5rem">
+       
+                            <i class="#{timeline.proyectoView.icono.icono}"/>
+                        </span>
+                        
+                        <div class="#{dashboardFaces.colorTimeLineDashboard(timeline.proyectoView)}" style="width: 2px; min-height: 4rem"></div>
+                    </div>
+                    <div class="ml-5 surface-card shadow-2 border-round p-3 flex-auto">
+                        <div class="mb-3">
+                            <span class="text-900 font-medium inline-block mr-3">#{timeline.proyectoView.proyecto}</span>
+                            <span class="text-500 text-sm">#{timeline.titulo}</span>
+                        </div>
+                        <div class="line-height-3 text-700 mb-3">
+                           #{timeline.subtitulo}
+                        </div>
+<!--                        <div class="text-500 flex align-items-center">
+                            <i class="pi pi-heart mr-1"/>
+                            <span class="mr-3">0</span>
+
+                            <i class="pi pi-comment mr-1"/>
+                            <span class="mr-3">1</span>
+
+                            <i class="pi pi-eye mr-1"/>
+                            <span>24</span>
+                        </div>-->
+                    </div>
+                </div>
+                
+                </ui:repeat>
+                
+                
+             
+            </div>
+        </div>
+</c:if>
+    </composite:implementation>
+</html>

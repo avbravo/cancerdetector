@@ -1,0 +1,65 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:pb="http://xmlns.jcp.org/jsf/composite/primeblocks" template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="jakarta.faces.composite/jmoordbcorejsf"
+                xmlns:c="jakarta.tags.core"
+                xmlns:f="jakarta.faces.core">
+
+    <ui:define name="title">SFT</ui:define>
+
+    <ui:define name="breadcrumb">
+
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="block-category-title text-6xl text-center">#{core['label.sessionexpired']}</div>
+
+
+        <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
+            <div class="flex flex-column lg:flex-row justify-content-center align-items-center gap-7">
+                <div class="text-center lg:text-right">
+
+                    <!--<jmoordbcorejsf:lineadivisoria/>-->
+
+                    <div class="surface-card border-round flex p-3 flex-column md:flex-row ">
+                        <div class="border-bottom-1  md:border-bottom-none surface-border flex-auto p-3  ">
+
+                            <div class="flex align-items-center mb-12">
+                                <i class="pi pi-exclamation-triangle text-blue-500 text-xl mr-2"/>
+                                <div class="mt-6 mb-3 font-bold text-6xl  text-orange-900 text-900">#{core['sessionexpired.messagetitle']}</div>
+
+                            </div>
+
+
+                            <div class="flex align-items-center">
+                                <p class="text-700 text-2xl mt-0 mb-6">  #{core['sessionexpired.messagesubtitle']} </p>
+                            </div>
+
+
+                            <div class="flex align-items-center">
+                                <h:form>
+                                    <p:commandLink action="#{loginFaces.logout()}"  
+                                                   value="#{core['button.login']}"
+                                                   title="#{core['button.login']}"
+                                                   styleClass="rounded-button ui-button-danger"
+                                                   >
+                                        <i class="pi pi-power-off" style="font-size: 3rem"></i>
+                                    </p:commandLink>
+                                </h:form>
+                            </div>
+
+                            <div class="flex align-items-center" >
+                                <div class="card barra-tarjeta-footer" style="width: 18rem;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                </div>
+            </div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

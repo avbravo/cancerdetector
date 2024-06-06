@@ -1,0 +1,327 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+
+        <c:if test="${estadisticaCierreSprintFaces.callerLevel0 eq 'dashboard'}">
+            <p:commandLink action="dashboard" value="#{msg['breadcrumb.dashboard']}">
+            </p:commandLink>
+           
+        </c:if>
+        <c:if test="${estadisticaCierreSprintFaces.callerLevel0 eq 'proyecto'}">
+            <p:commandLink action="misproyecto" value ="#{msg['breadcrumb.misproyecto']}">
+            </p:commandLink>
+        </c:if>
+        
+        
+         <c:if test="${estadisticaCierreSprintFaces.callerLevel0 eq 'reportedepartamental'}">
+             <p:commandLink action="reportedepartamental" value="#{msg['breadcrumb.reportedepartamental']}">
+             </p:commandLink>
+            
+        </c:if>
+         <c:if test="${estadisticaCierreSprintFaces.callerLevel0 eq 'reportecolaboradordepartamental'}">
+             <p:commandLink action="reportecolaboradordepartamental" value="#{msg['breadcrumb.reportecolaboradordepartamental']}">
+             </p:commandLink>
+            
+        </c:if>
+         <i class="pi pi-angle-right"></i>
+        <p:commandLink action="estadisticacierresprint" value="#{msg['breadcrumb.estadisticacierresprint']}">
+        </p:commandLink>
+
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+            <p:growl id="growl"/>
+            <script type="text/javascript">
+                function setDataTableWithPageStart() {
+
+                    widgetVardataTable.getPaginator().setPage(0);
+                }
+            </script>
+<!--            <div class="block-category-title">#{msg['form.estadisticacierresprint']}</div>-->
+
+            <!--<pb:blockViewerCore header="Sidebar" >-->
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                 <dashboard:configleftmenu/>
+                <div class="min-h-screen flex flex-column relative flex-auto">
+<!--                    <dashboard:top/>-->
+                    <div class="surface-section , jmoordbcore-max-width2000">
+                        <div class="grid">
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+                                        <label  class="font-bold">#{msg['form.estadisticacierresprint']}</label>
+
+                                    </div>
+                                    <div class="field mb-4 col-8">
+                                        <label for="proyecto" class="font-medium">#{msg['field.proyecto']}: #{estadisticaCierreSprintFaces.proyectoSelected.proyecto}</label>
+
+                                    </div>
+
+                                    <div class="field mb-4 col-6">
+                                        <label  class="font-medium">#{msg['field.fechainicial']}: #{estadisticaCierreSprintFaces.showDateWithHour(estadisticaCierreSprintFaces.proyectoSelected.fechainicial)}</label>
+                                    </div>
+                                    <div class="field mb-4 col-6">
+                                        <label  class="font-medium">#{msg['field.fechafinal']}: #{estadisticaCierreSprintFaces.showDateWithHour(estadisticaCierreSprintFaces.proyectoSelected.fechafinal)}</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 lg:col-12">
+                                <p:dataTable style="border-style: none" var="item" value="#{estadisticaCierreSprintFaces.sprintLazyDataModel}"
+                                             binding="#{estadisticaCierreSprintFaces.dataTable}"
+                                             id="dataTable"
+                                             widgetVar="widgetVardataTable"
+                                             lazy="true"
+                                             paginator="true"
+                                             rows="#{estadisticaCierreSprintFaces.rowPageSmall.get()}"
+                                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                             paginatorPosition="both"
+                                          resizableColumns="true" liveResize="true"
+                                             
+                                             rowKey="#{item.idsprint}"
+                                             selection="#{estadisticaCierreSprintFaces.sprintSelected}"
+                                             rowSelectMode="add"
+
+                                             >
+
+                                    <p:column class="column1" headerText="">
+
+                                        <i class="pi pi-lock-open" jsf:rendered="#{item.open eq true}"></i>    
+                                        <i class="pi pi-lock" jsf:rendered="#{item.open eq false}"></i>    
+
+
+                                    </p:column>
+
+                                    <p:column class="column8" headerText="#{msg['field.sprint']}" sortable="true" sortBy="#{item.sprint}">
+                                        <p:outputLabel value="#{item.sprint}" style="float:left"/>
+
+                                    </p:column>
+
+                                    <p:column class="columnDate11" headerText="#{msg['field.fechainicial']}" >
+                                        <p:outputLabel value="#{estadisticaCierreSprintFaces.showDateWithHour(item.fechainicial)}" style="float:left"/>
+
+                                    </p:column>
+                                    <p:column class="columnDate11" headerText="#{msg['field.fechafinal']}">
+                                        <p:outputLabel value="#{estadisticaCierreSprintFaces.showDateWithHour(item.fechafinal)}" style="float:left"/>
+
+                                    </p:column>
+                                    <p:column class="column8" headerText="#{msg['label.pendiente']}">
+                                        <p:outputLabel value="#{item.estadisticaCierre.pendiente}" style="float:left"/>
+
+                                    </p:column>
+                                    <p:column class="column8" headerText="#{msg['label.progreso']}">
+                                        <p:outputLabel value="#{item.estadisticaCierre.progreso}" style="float:left"/>
+
+                                    </p:column>
+                                    <p:column class="column8" headerText="#{msg['label.finalizado']}">
+                                        <p:outputLabel value="#{item.estadisticaCierre.finalizado}" style="float:left"/>
+
+                                    </p:column>
+
+                                    <p:column class="column8" headerText="#{msg['label.simboloporcentaje']}">
+                                        <p:outputLabel value="#{item.estadisticaCierre.avance}" style="float:left"/>
+
+                                    </p:column>
+
+
+
+
+
+
+                                    <f:facet name="header">
+                                        <div class="grid mt-12">
+
+                                            <div class="col-2">
+                                                <p:commandButton title="#{core['button.print']}"
+                                                                 icon="pi pi-print"
+                                                                 id="buttonPrint"
+                                                                 process="buttonPrint"
+                                                                 ajax="false"
+                                                                 immediate="true"
+                                                                 onclick="this.form.target = '_blank'"
+                                                                     rendered="#{estadisticaCierreSprintFaces.sprintList.size() gt 0}"
+                                                                 action="#{estadisticaCierreSprintFaces.printAll()}"
+                                                                 update=":form:growl"
+                                                                 styleClass="rounded-button ui-button-secondary" 
+                                                                 style="margin-right: .5rem">
+
+                                                </p:commandButton>
+                                            </div>
+                                            <div class="col-2">
+
+
+                                                <p:commandButton  title="#{msg['button.refresh']}" icon="pi pi-refresh" styleClass="rounded-button ui-button-help mr-2"
+                                                                  action="#{estadisticaCierreSprintFaces.refresh()}"
+                                                                  process="@this"
+                                                                  update=":form"/>
+                                            </div>
+                                        </div>
+                                    </f:facet>
+                                    <f:facet name="footer">
+                                        <div class="grid mt-12">
+
+                                            <div class="col-12">
+                                                <p:outputLabel value="#{msg['footer.estadisticacierresprint']}"/>
+                                            </div>
+                                        </div>
+                                    </f:facet>
+
+                                </p:dataTable>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div> 
+
+                </div>
+            </div>
+
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+            </p:confirmPopup>
+
+
+
+            <p:dialog header="#{msg['dialog.sprint']}" widgetVar="overlayPanelSprint" 
+                       width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true"
+                  >
+            <p:ajax event="close" update=":form:growl" listener="#{estadisticaCierreSprintFaces.handleCloseDialogRefresh}" />
+                    
+                <p:outputPanel id="outputPanelSprint" style="text-align:center;"  >
+                    <c:if test="${estadisticaCierreSprintFaces.showDialogContent == false}">
+
+                        
+                        <utilidades:sincronizacionrequeridacontroller onclick="PF('overlayPanelSprint').hide()"
+                                                        message="#{estadisticaCierreSprintFaces.message}"
+                                                       controller="#{estadisticaCierreSprintFaces}"/>
+
+
+                    </c:if>
+                    <c:if test="${estadisticaCierreSprintFaces.showDialogContent == true}">
+                        <p:outputLabel  value="#{msg['field.sprint']}: #{estadisticaCierreSprintFaces.sprintSelected.sprint}" />                           
+                        <div class="grid ui-fluid mt-3 floatlabel-demo">
+                            <div class="col-12 md:col-6">
+                                <!--                                <div class="field">
+                                                                    <p:outputLabel  value="#{msg['field.sprint']}: #{estadisticaCierreSprintFaces.sprintSelected.sprint}" />                           
+                                
+                                                                </div>-->
+                                <!--<p:divider/>-->
+                                <div class="field">
+                                    <span class="ui-float-label">
+                                        <p:inputTextarea placeholder="#{msg['field.objetivosprint']}" value="#{estadisticaCierreSprintFaces.sprintSelected.descripcion}" rows="5" 
+                                                         autoResize="false"/>
+                                        <p:outputLabel for="@previous" value="#{msg['field.objetivosprint']}" />
+                                        <p:message for="@previous" />
+                                    </span>
+                                </div>
+
+                            </div>
+
+                            <div class="col-12 md:col-6">
+                                <div class="field">
+                                    <span class="ui-float-label">
+                                        <p:datePicker  value="#{estadisticaCierreSprintFaces.sprintSelected.fechainicial}" showIcon="true"
+                                                       mindate="#{estadisticaCierreSprintFaces.proyectoSelected.fechainicial}"
+                                                       maxdate="#{estadisticaCierreSprintFaces.proyectoSelected.fechafinal}"
+                                                       monthNavigator="true" yearNavigator="true"/>
+                                        <p:outputLabel for="@previous" value="#{msg['field.fechainicial']}" />
+                                        <p:message for="@previous" />
+                                    </span>
+                                </div>
+                                <div class="field">
+                                    <span class="ui-float-label">
+                                        <p:datePicker  value="#{estadisticaCierreSprintFaces.sprintSelected.fechafinal}" showIcon="true"
+                                                       mindate="#{estadisticaCierreSprintFaces.proyectoSelected.fechainicial}"
+                                                       maxdate="#{estadisticaCierreSprintFaces.proyectoSelected.fechafinal}"
+                                                       monthNavigator="true" yearNavigator="true"
+                                                       />
+                                        <p:outputLabel for="@previous" value="#{msg['field.fechafinal']}" />
+                                        <p:message for="@previous" />
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+                        <div class="flex align-items-center ">
+                            <div class=" border-top-1 surface-border col-6 flex">
+                                <p:commandButton  title="#{core['button.save']}" icon="pi pi-save"
+                                                  action="#{estadisticaCierreSprintFaces.saveSprint(estadisticaCierreSprintFaces.sprintSelected)}"
+                                                  update=":form:growl, dataTable"
+                                                  process="outputPanelSprint"
+                                                  rendered="#{estadisticaCierreSprintFaces.buttonNewPressed}"
+                                                  styleClass="w-6 ml-2"/>
+                                <p:commandButton  title="#{core['button.update']}" 
+                                                  icon="pi pi-pencil" 
+                                                  process="outputPanelSprint"
+                                                  rendered="#{estadisticaCierreSprintFaces.buttonNewPressed eq false}"
+                                                  action="#{estadisticaCierreSprintFaces.editSprint(estadisticaCierreSprintFaces.sprintSelected)}"
+                                                  update=":form:growl, dataTable"
+                                                  styleClass="w-6 ml-2"/>
+                            </div>
+
+                            <div class=" border-top-1 surface-border col-6 flex">
+                                <p:commandButton 
+                                    title="#{core['button.cancel']}" 
+                                    icon="pi pi-times" 
+                                    onclick="PF('overlayPanelSprint').hide()"
+                                    update=":form:growl, dataTable"
+                                    styleClass="ui-button-outlined w-6 mr-2 ui-button-danger"
+                                    />
+
+                            </div>
+                        </div>
+                    </c:if>
+
+                </p:outputPanel>
+                <!--</p:overlayPanel>-->
+                <!--</p:scrollPanel>-->
+            </p:dialog>
+
+
+
+
+
+
+
+
+
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

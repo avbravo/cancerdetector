@@ -1,0 +1,168 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:pb="http://xmlns.jcp.org/jsf/composite/primeblocks"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <style type="text/css">
+        .product-item .product-item-content {
+            border: 1px solid var(--surface-d);
+            border-radius: 3px;
+            margin: .3rem;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .product-item .product-image {
+            width: 50%;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+        }
+    </style>
+
+    <ui:define name="breadcrumb">
+
+        <i class="pi pi-angle-right"></i>
+        <p:commandLink action="carousel" value="#{core['cardheader.entercredentials']}">
+
+        </p:commandLink>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form" enctype="multipart/form-data" prependId="false">
+            <p:growl id="growl"/>
+
+            <p:focus context="password"/>
+
+            <div class="block-category-title">#{core['form.accessform']}</div>
+
+
+            <!--<pb:blockViewer header="#{core['blockviewer.credentials']}"  newFeature="false">-->
+
+
+
+            <div class="surface-ground jmoordbcore-max-width1175 px-4 py-8 md:px-6 lg:px-8 ">
+                <div class="flex flex-wrap shadow-2">
+                    <div class="w-full lg:w-6 p-4 lg:p-7 bg-blue-50">
+                        <div class="product-item">
+                            <div class="product-item-content">
+                                <!--<p:graphicImage name="images/blocks/logos/bastion-700.svg" library="primeblocks-app" alt="Image" height="35" styleClass="mb-6"/>-->
+
+                                <p:graphicImage name="images/logo-primeblocks.svg" library="primeblocks-app" alt="Image" height="45" styleClass="mb-6"/>
+
+
+                                <p:carousel value="#{loginFaces.featureList}" var="feature" numVisible="1" numScroll="1">
+                                    <div class="text-center mb-8">
+                                        <p:graphicImage name="images/blocks/illustration/#{feature.image}" library="primeblocks-app" alt="Image" styleClass="mb-6 w-6"/>
+                                        <div class="mx-auto font-medium text-xl mb-4 text-blue-900">#{feature.title}</div>
+                                        <p class="m-0 text-blue-700 line-height-3">#{feature.text}</p>
+                                    </div>
+                                </p:carousel>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="w-full lg:w-6 p-4 lg:p-7 surface-card">
+                        <div class="flex align-items-center justify-content-between mb-7">
+                            <span class="text-2xl font-medium text-900">#{core['cardheader.entercredentials']}</span>                          
+                        </div>
+                        <!--                        <div class="flex justify-content-between">
+                        
+                                                </div>-->
+                        <div class="flex align-items-center justify-content-between mb-7">
+                            <p:avatar size="large" shape="circle" >
+                            <p:graphicImage 
+                                title="#{loginFaces.userLogged.name}"
+                                stream="false" cache="false"
+                                rendered="#{loginFaces.jmoordbCoreMediaManager.isImageAndExists(loginFaces.repairPathOfFile(loginFaces.userLogged.photo))}"
+                                value="#{loginFaces.jmoordbCoreMediaManager.generate(loginFaces.repairPathOfFile(loginFaces.userLogged.photo),'')}" 
+                                />
+                        </p:avatar>
+                            <p:outputLabel id="username" value = "#{loginFaces.userLogged.username}" styleClass="w-full mb-3 p-3" />
+                        </div>
+
+                        <!--<label for="username" class="block text-900 font-medium mb-2">#{core['login.username']}</label>-->
+                        
+
+                        
+
+
+                        <!--
+                        
+                        
+                                                <div class="flex w-full relative align-items-center justify-content-center my-6 px-4">
+                                                    <div class="border-top-1 border-300 top-50 left-0 absolute w-full"></div>
+                                                    <div class="px-2 z-1 surface-0 flex align-items-center justify-content-center">
+                                                        <span class="text-600 font-normal text-sm"></span>
+                                                    </div>
+                                                </div>-->
+
+
+                        <label for="password" class="block text-900 font-medium mb-2">#{core['login.password']}</label>
+                        <p:password id="password" styleClass="w-full mb-3 p-3" value="#{loginFaces.password}"
+                                    toggleMask="true" redisplay="true"/>
+
+
+                        <div class="field mb-3 col-12 md:col-12">
+                            <label class="font-medium">#{core['selectOneMenu.profile']}</label>
+                            <p:selectOneListbox id="profile" value="#{loginFaces.profileLogged}" 
+                                                filter="false" filterMatchMode="contains" filterNormalize="true"
+                                                scrollHeight="150"
+                                                >
+
+                                <f:selectItems value="#{loginFaces.profileListLogged}" 
+                                               var="var" 
+                                               itemValue="#{var}" itemLabel="#{var.role.role } - #{var.departamentView.shortname} " />
+
+                                <!--                                <p:column>
+                                
+                                                                    <i class="pi pi-check"></i>
+                                                                </p:column>-->
+
+
+                            </p:selectOneListbox>
+                        </div>
+
+                        <div class="flex align-items-center justify-content-between mb-6">
+                            <!--                            <div class="flex align-items-center">
+                                                           
+                                                        </div>-->
+                            <p:commandButton  value="#{core['button.login']}" icon="pi pi-user" 
+                                              styleClass="ui-button-outlined py-3font-medium ui-button-success"
+                                              action="#{loginFaces.login()}"
+                                              update=":form:growl"/> 
+                            <p:commandButton  value="#{core['button.back']}" icon="pi pi-chevron-left" 
+                                              styleClass="ui-button-outlined py-3font-medium ui-button-help"
+                                              action="#{loginFaces.back()}"
+                                              update=":form:growl"/> 
+
+                            <p:commandButton  title="#{core['button.forgetpassword']}" 
+                                              icon="pi pi-question" 
+                                              styleClass="ui-button-outlined py-3font-medium ui-button-danger"
+                                              action="#{loginFaces.go('/olvidopassword.xhtml')}"
+                                              update=":form:growl"/> 
+
+
+
+
+                        </div>
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,149 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:programacion="http://xmlns.jcp.org/jsf/composite/programacion"
+                xmlns:programaciondialogo="http://xmlns.jcp.org/jsf/composite/programaciondialogo"
+                xmlns:jsf="jakarta.faces">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+        <c:if test="${programacionFaces.callerLevel0 eq 'dashboard'}">
+            <p:commandLink action="dashboard" value="#{msg['breadcrumb.dashboard']}">
+            </p:commandLink>
+        </c:if>
+
+        <c:if test="${programacionFaces.callerLevel0 eq 'proyecto'}">
+            <p:commandLink action="misproyecto" value="#{msg['breadcrumb.misproyecto']}">
+            </p:commandLink>
+        </c:if>
+
+
+        <c:if test="${programacionFaces.callerLevel0 eq 'reportedepartamental'}">
+            <p:commandLink action="reportedepartamental" value ="#{msg['breadcrumb.reportedepartamental']}">
+            </p:commandLink>
+
+        </c:if>
+        <c:if test="${programacionFaces.callerLevel0 eq 'reportecolaboradordepartamental'}">
+
+            <p:commandLink action="reportecolaboradordepartamental"
+                           value="#{msg['breadcrumb.reportecolaboradordepartamental']}">
+            </p:commandLink>
+
+        </c:if>
+
+        <i class="pi pi-angle-right"></i>
+        <p:commandLink action="sprint" value="#{msg['breadcrumb.sprint']}">
+        </p:commandLink>
+
+        <i class="pi pi-angle-right"></i>
+        <p:commandLink action="programacion" value="#{msg['breadcrumb.programacion']}">
+        </p:commandLink>
+
+
+
+
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+
+
+            <p:remoteCommand name="remoteCommandWebSocketBacklog" action="#{programacionFaces.refreshFromWebsocket()}"
+                             update="#{programacionFaces.updateForRemoteWebsocket()}"
+                             oncomplete="#{programacionFaces.onCompleteWebSocket()}"
+                             />
+            <style>
+                .cheap {
+                    background-color: #54a90a !important;
+                    background-image: none !important;
+                    color: #ffffff !important;
+                }
+            </style>
+            <!--<jmoordbcorejsf:ajaxStatus/>-->
+            <p:growl id="growl"/>
+
+        <!--<div class="block-category-title">#{msg['form.programacion']}</div>-->
+
+
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+                <div class="min-h-screen flex flex-column relative flex-auto">
+                    <!--                <dashboard:top/>-->
+                    <div class="flex flex-column flex-auto">
+                        <programacion:profile/>
+
+                        <div class="surface-ground" jsf:id="scrollPanelColumnaProgramacion">
+                            <div class="grid">
+
+                                <ui:repeat  rendered="#{programacionFaces.showColumnaPendiente}" value="#{programacionFaces.tarjetaPendienteList}" var="tarjeta" >
+                                    <programacion:detalletarjeta pendiente="true"/>
+
+                                </ui:repeat>
+
+                            </div>
+                        </div>
+
+
+   
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+            <programaciondialogo:tarjetaclonar id="outputPanelTarjetaClonar"/>
+            <programaciondialogo:tarjetaarchivar id="outputPanelTarjetaArchivar"/>
+            <programaciondialogo:tarjetaeditar id="outputPanelTarjetaEditar"/>
+            <programaciondialogo:tarjetaview id="outputPanelTarjetaView" />
+            <programaciondialogo:tarjetacolaborador id="outputPanelTarjetaColaboradorDataTable"/>
+            <programaciondialogo:tarjetatarea id="outputPanelTarjetaTarea"/>
+            <programaciondialogo:tarjetaarchivo id="outputPanelTarjetaArchivo"/>
+            <programaciondialogo:tarjetacomentario id="outputPanelTarjetaComentario"/>
+            <programaciondialogo:tarjetaimpedimento id="outputPanelTarjetaImpedimento"/>
+            <programaciondialogo:tarjetaetiqueta id="outputPanelTarjetaEtiqueta"/>
+
+
+            <p:overlayPanel widgetVar="overlayPanelSprintDescripcion" dismissable="false" modal="true" showCloseIcon="true" dynamic="true" 
+                            style="width:370px">
+                <p:outputPanel id="outputPanelSprintDescripcion" style="text-align:center;">
+                    <div class="flex align-items-center ">
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium my-3 text-500">#{msg['field.descripcion']}</span>
+
+                        </div>
+                    </div>
+                    <p:divider/>
+                    <div class="flex align-items-center ">
+                        <!--<div class="mr-12 mt-12">-->
+                        <p:inputTextarea  rows="#{programacionFaces.sprintSelected.descripcion.length() le 70?1:(programacionFaces.sprintSelected.descripcion.length()/70)+2}" 
+                                          style="width: 100% !important;" autoResize="false" readonly="true" 
+                                          value="#{programacionFaces.sprintSelected.descripcion}"> 
+
+                        </p:inputTextarea>              
+
+
+                        <!--</div>-->
+                    </div>
+
+
+
+                </p:outputPanel>
+            </p:overlayPanel>
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

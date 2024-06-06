@@ -1,0 +1,87 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:scrumdialogo="http://xmlns.jcp.org/jsf/composite/scrumdialogo">
+
+    <composite:interface >
+
+    </composite:interface>
+
+    <composite:implementation>
+        <div class="flex align-items-start flex-column lg:flex-row lg:justify-content-between">
+            <div class="flex align-items-start flex-column md:flex-row">
+
+                <div>
+                    <span class="text-900 font-medium text-1xl">#{dashboardFaces.userLogged.name}</span>
+
+
+                    <div class="flex align-items-center flex-wrap text-sm">
+                        <div class="mr-5 mt-3">
+                            <span class="font-medium text-700">#{dashboardFaces.cutText(dashboardFaces.profileLogged.departamentView.departament,dashboardFaces.mediumSizeOfTextForCut.get())}</span>
+                            <div class="text-700 mt-2"></div>
+                        </div>
+                        <div class="mr-5 mt-3">
+                            <span class="font-medium text-700">#{dashboardFaces.cutText(dashboardFaces.profileLogged.role.role,dashboardFaces.mediumSizeOfTextForCut.get())}</span>
+                            <div class="text-700 mt-2"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="mt-3 lg:mt-0">
+                <p:badge value="#{dashboardFaces.contadorNotificacionesWebsocket}" severity="danger">
+                    <p:commandLink  styleClass="ml-2" action="#{dashboardFaces.refresh()}"
+                                    update=":form"
+                                    title="#{core['label.notificaciones']}"
+                                    >
+                        <i class="pi pi-bell" style="font-size: 2rem"/>
+
+                    </p:commandLink>
+                </p:badge>
+
+                <p:commandButton title="#{msg['button.proyectoagregar']}" icon="pi pi-plus-circle" styleClass="rounded-button mr-2"
+                                 rendered="#{p:ifAnyGranted('COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER, DIRECTOR,JEFE-UNIDAD ,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}"
+                                 action="#{dashboardFaces.prepareNew()}"
+                                 update="outputPanelProyectoAgregar,form"
+                                 oncomplete="PF('overlayPanelProyectoAgregar').show('#{component.clientId}')"
+                                 id="commandButtonProyectoAdd"
+                                 />
+                
+                
+                        <p:selectBooleanButton value="#{dashboardFaces.showDetallesProyecto}" offIcon="pi pi-eye" onIcon="pi pi-eye-slash" 
+                                               title="#{msg['selectBooleanButton.detalles']}">
+                            <p:ajax update=":form" listener="#{dashboardFaces.visualizarDetallesProyecto}" />
+                        </p:selectBooleanButton>
+                
+                <p:commandButton title="#{msg['button.paneltrabajo']}"
+                                 icon="pi pi-desktop" 
+                                 styleClass="rounded-button mr-2 ui-button-danger"
+                                 rendered="#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER, DIRECTOR,JEFE-UNIDAD ,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}"
+                                 action="#{dashboardFaces.goPanelTrabajo()}"
+                                 id="commandButtonPanelTrabajo"
+                                 />
+
+                <p:commandButton  title="#{msg['button.refresh']}" icon="pi pi-refresh" 
+                                  styleClass="rounded-button ui-button-help mr-2"
+                                  rendered="#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS, SUPER-USER,DIRECTOR,JEFE-UNIDAD ,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}"
+                                  action="#{dashboardFaces.refresh()}"
+                                  process="@this"
+                                  update=":form"/>
+
+            </div>
+        </div>
+
+
+        <scrumdialogo:proyectoagregar id="outputPanelProyectoAgregar"
+                                      idTabView="tabView"/>
+
+
+
+
+    </composite:implementation>
+</html>

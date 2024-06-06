@@ -1,0 +1,40 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard">
+
+    <composite:interface >
+
+    </composite:interface>
+
+    <composite:implementation>
+
+        <div id="app-sidebar"
+             class="surface-section h-full lg:h-auto hidden lg:block flex-shrink-0 absolute lg:static left-0 top-0 z-1 border-right-1 surface-border select-none"
+             style="width:60px">
+<!--        <div id="app-sidebar"
+             class="surface-section h-full lg:h-auto hidden lg:block flex-shrink-0 absolute lg:static left-0 top-0 z-1 border-right-1 surface-border select-none"
+             style="width:100px">-->
+<!--        <div id="app-sidebar"
+             class="surface-section h-full lg:h-auto hidden lg:block flex-shrink-0 absolute lg:static left-0 top-0 z-1 border-right-1 surface-border select-none"
+             style="width:100px">-->
+            <div class="flex flex-column h-full">
+                <div class="flex align-items-center px-5 flex-shrink-0" style="height:60px">
+
+
+<!--      <p:graphicImage name="images/logo-primeblocks#{app.darkMode ? '-dark.svg' : '.svg'}"
+                                library="primeblocks-app"  alt="Logo" height="30"/>-->
+
+
+                </div>
+                <dashboard:leftmenu/>
+
+
+                <dashboard:footer/>
+            </div>
+        </div>
+    </composite:implementation>
+</html>

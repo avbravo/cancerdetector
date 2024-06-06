@@ -1,0 +1,30 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite">
+
+    <composite:interface >
+        <composite:attribute name="iconoheader" default=""/> 
+        <composite:attribute name="titulo" default=""/> 
+        <composite:attribute name="entity" type="java.lang.Object"/>
+        <composite:attribute name="icono" type="java.lang.Object"/>
+
+        <composite:attribute name="iconofield"  default="icono" />
+        <composite:attribute name="tarjetafield"  default="tarjeta" />
+        <composite:attribute name="idtarjetafield"  default="idtarjeta" />
+    </composite:interface>
+
+    <composite:implementation >
+
+
+        <i class="#{cc.attrs.icono[cc.attrs.iconofield]}"></i>
+
+        <p:outputLabel value="#{cc.attrs.entity[cc.attrs.tarjetafield]}" style="alignment-adjust: left"/> 
+
+
+
+    </composite:implementation>
+</html>

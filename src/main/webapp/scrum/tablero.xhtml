@@ -1,0 +1,282 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:tablero="http://xmlns.jcp.org/jsf/composite/tablero"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:tablerodialogo="http://xmlns.jcp.org/jsf/composite/tablerodialogo"
+
+                xmlns:jsf="jakarta.faces">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+        <c:if test="${tableroFaces.callerLevel0 eq 'dashboard'}">
+            <p:commandLink action="dashboard" value="#{msg['breadcrumb.dashboard']}" >
+            </p:commandLink>
+        </c:if>
+
+        <c:if test="${tableroFaces.callerLevel0 eq 'proyecto'}">
+            <p:commandLink action="misproyecto" value="#{msg['breadcrumb.misproyecto']}" >              
+            </p:commandLink>
+
+        </c:if>
+        <c:if test="${tableroFaces.callerLevel0 eq 'reportedepartamental'}">
+            <p:commandLink action="reportedepartamental" value="#{msg['breadcrumb.reportedepartamental']}">
+            </p:commandLink>
+        </c:if>
+        <c:if test="${tableroFaces.callerLevel0 eq 'reportecolaboradordepartamental'}">
+            <p:commandLink action="reportecolaboradordepartamental" accesskey=""
+                           value="#{msg['breadcrumb.reportecolaboradordepartamental']}">
+            </p:commandLink>
+        </c:if>
+
+        <i class="pi pi-angle-right"></i>
+        <p:commandLink action="tablero" value="#{core['breadcrumb.tablero']}" >
+
+        </p:commandLink>
+
+
+
+    </ui:define>
+
+    <ui:define name="content">
+
+
+        <h:form id="form" enctype="multipart/form-data"  prependId="false"  rendered="#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}"
+               
+                >
+
+
+            <p:remoteCommand name="remoteCommandWebSocketTablero" 
+                             action="#{tableroFaces.refreshFromWebsocket()}"
+                             update="#{tableroFaces.updateForRemoteWebsocket()}"
+                             oncomplete="#{tableroFaces.onCompleteWebSocket()}"
+
+                             />
+
+
+
+
+
+
+            <style>
+                .loading-icon {
+                    font-size: 3rem;
+                    color: var(--primary-color);
+                }
+            </style>
+
+            <p:growl id="growl"  />
+            <style>
+                .cheap {
+                    background-color: #54a90a !important;
+                    background-image: none !important;
+                    color: #ffffff !important;
+                }
+            </style>
+
+            <style>
+                .custom-scrolltop.ui-scrolltop {
+                    width: 2rem;
+                    height: 2rem;
+                    border-radius: 4px;
+                    outline: 0 none;
+                    background-color: var(--primary-color);
+                }
+                .custom-scrolltop.ui-scrolltop:hover {
+                    background-color: var(--primary-color);
+                }
+
+                .custom-scrolltop.ui-scrolltop .ui-scrolltop-icon {
+                    font-size: 1rem;
+                    color: var(--primary-color-text);
+                }
+            </style>
+                        <!--<div class="block-category-title">#{core['form.tablero']}</div>-->
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+                <div class="min-h-screen flex flex-column relative flex-auto">
+
+                    <!--<dashboard:top/>-->
+                    <div class="flex flex-column flex-auto">
+
+                        <tablero:profile/>
+
+
+                        <c:if test="${tableroFaces.haveSprintOpen == false}">
+                            <div  class="flex align-items-start p-4 bg-yellow-100 border-round border-1 border-yellow-300">
+                                <i class="pi pi-check-circle text-yellow-900 text-2xl mr-3"/>
+                                <div class="mr-3">
+                                    <div class="text-yellow-900 font-medium text-xl mb-2 line-height-1">#{core['warning.warning']}</div>
+                                    <p class="m-0 p-0 text-yellow-700 mb-3 line-height-3">
+                                        #{tableroFaces.message}
+                                    </p>
+                                    <!--<a class="font-medium text-yellow-900 mr-4 no-underline cursor-pointer">Accept</a>-->
+                                    <!--<a class="font-medium text-yellow-900 no-underline cursor-pointer">Decline</a>-->
+                                </div>
+                                <div class="ml-auto">
+                                    <a class="inline-flex align-items-center justify-content-center ml-auto border-circle hover:bg-yellow-50 no-underline cursor-pointer transition-colors transition-duration-150"
+                                       style="width:1.5rem;height:1.5rem">
+                                        <i class="pi pi-times text-yellow-900"/>
+                                    </a>
+                                </div>
+                            </div>
+                        </c:if>
+
+
+                        <div class="card" jsf:id="scrollPanelColumna">
+                            <!--<h5>Vertical</h5>-->
+<!--                             <div class="col-12 md:col-4" jsf:rendered="#{tableroFaces.contadorNotificacionesWebsocket gt 0}">
+                                <p:staticMessage severity="warn" summary="#{core['warning.warning']}" detail="#{msg['warning.haynuevoscambiosactualiceformulario']}" style="width: 100%"/>
+                            </div>-->
+                            <div class="flex">
+                                
+                                <div class="col-4 xl:col-4">
+
+                                    <div class="surface-card  border-round p-4" style="padding: 1px!important;" >
+                           
+                                        <div class="card " style="width: 19rem;">
+
+                                            <div class="card " style="width: 22rem;">
+                                                <p:selectBooleanButton value="#{tableroFaces.showColumnaPendiente}" onIcon="pi pi-eye" offIcon="pi pi-eye-slash" 
+                                                                       styleClass="ui-button-secondary" 
+                                                                       >
+                                                    <p:ajax update=":form" listener="#{tableroFaces.visualizarColumna}" />
+                                                </p:selectBooleanButton>
+                                                <p:commandButton id="commandButtonPendienteBarq" 
+
+                                                                 value="#{core['tablero.pendiente']} "
+                                                                 icon="pi pi-bookmark"  title="#{core['tablero.pendiente']} [#{tableroFaces.tarjetaPendienteList.size()}]"
+                                                                 styleClass="ui-button-flat rounded-button ui-button-danger"/>
+
+                                                <p:spacer width="157"/>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <ui:repeat  rendered="#{tableroFaces.showColumnaPendiente}" value="#{tableroFaces.tarjetaPendienteList}" var="tarjeta" >
+                                            <tablero:detalletarjeta pendiente="true"/>
+
+                                        </ui:repeat>
+
+
+                                    </div>
+                                </div>
+                                <p:divider layout="vertical" />
+
+                            
+                                <div class="col-4 xl:col-4">
+
+                                    <div class="surface-card  border-round p-4" style="padding: 1px!important;" >
+
+                                        <div class="card " style="width: 19rem;">
+
+                                            <div class="card">
+                                                <p:selectBooleanButton value="#{tableroFaces.showColumnaProgreso}" onIcon="pi pi-eye" offIcon="pi pi-eye-slash"
+
+                                                                       styleClass="ui-button-warning" >
+                                                    <p:ajax update=":form" listener="#{tableroFaces.visualizarColumna}" />
+                                                </p:selectBooleanButton>
+                                                <p:commandButton  
+
+                                                    value="#{core['tablero.progreso']} "
+                                                    icon="pi pi-truck"  title="#{core['tablero.progreso']} [#{tableroFaces.tarjetaProgresoList.size()}]"
+                                                    styleClass="ui-button-flat rounded-button ui-button-warning"/>
+
+                                                <p:spacer width="165"/>
+
+                                            </div>
+                                        </div>
+
+
+                                        <ui:repeat rendered="#{tableroFaces.showColumnaProgreso}" value="#{tableroFaces.tarjetaProgresoList}" var="tarjeta" >
+                                            <tablero:detalletarjeta progreso="true"/>
+
+                                        </ui:repeat>
+
+
+                             
+
+                                    </div>
+                                </div>
+                                <p:divider layout="vertical" />
+
+                               
+                                <div class="col-4 xl:col-4">
+
+                                    <div class="surface-card  border-round p-4" style="padding: 1px!important;" >
+
+                                        <div class="card" style="width: 19rem;">
+
+                                            <div class="card">
+                                                <p:selectBooleanButton value="#{tableroFaces.showColumnaFinalizado}" onIcon="pi pi-eye" offIcon="pi pi-eye-slash" 
+                                                                       styleClass="ui-button-success"
+                                                                       >
+
+
+                                                    <p:ajax update=":form" listener="#{tableroFaces.visualizarColumna}" />
+                                                </p:selectBooleanButton>
+                                                <p:commandButton  
+
+                                                    value="#{core['tablero.finalizado']} "
+                                                    icon="pi pi-compass"  title="#{core['tablero.finalizado']} [#{tableroFaces.tarjetaFinalizadoList.size()}]"
+                                                    styleClass="ui-button-flat rounded-button ui-button-success"/>
+                                                <p:spacer width="157"/>
+
+
+                                            </div>
+                                        </div>
+
+
+
+
+                                        <ui:repeat rendered="#{tableroFaces.showColumnaFinalizado}" value="#{tableroFaces.tarjetaFinalizadoList}" var="tarjeta" >
+                                            <tablero:detalletarjeta finalizado="true"/>
+                                            <jmoordbcorejsf:lineadivisoria/>
+                                        </ui:repeat>
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <tablerodialogo:tarjetaagregarplantilla id="overlayPanelTarjetaAgregarPlantilla" />
+                        <tablerodialogo:tarjetaclonar id="outputPanelTarjetaClonar" />
+                        <tablerodialogo:tarjetaarchivar id="outputPanelTarjetaArchivar" />
+                        <tablerodialogo:tarjetaeditar id="outputPanelTarjetaEditar" />
+                        <tablerodialogo:tarjetaview id="outputPanelTarjetaView" />
+                        <tablerodialogo:tarjetacolaborador id="outputPanelTarjetaColaboradorDataTable" />
+                        <tablerodialogo:tarjetatarea id="outputPanelTarjetaTarea" />
+                        <tablerodialogo:tarjetaarchivo id="outputPanelTarjetaArchivo" />
+                        <tablerodialogo:tarjetacomentario id="outputPanelTarjetaComentario" />
+                        <tablerodialogo:tarjetaimpedimento id="outputPanelTarjetaImpedimento" />
+                        <tablerodialogo:tarjetaetiqueta id="outputPanelTarjetaEtiqueta" />
+
+
+
+                    </div>
+                </div>
+            </div>
+
+
+
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

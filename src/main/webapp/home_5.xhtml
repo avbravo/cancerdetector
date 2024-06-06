@@ -1,0 +1,102 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:pb="http://xmlns.jcp.org/jsf/composite/primeblocks"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <style type="text/css">
+        .product-item .product-item-content {
+            border: 1px solid var(--surface-d);
+            border-radius: 3px;
+            margin: .3rem;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .product-item .product-image {
+            width: 50%;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+        }
+    </style>
+
+    <ui:define name="breadcrumb">
+        <li>
+            <div class="chevron">/</div>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form" enctype="multipart/form-data" prependId="false">
+            <p:growl id="growl"/>
+
+
+            <!--<div class="block-category-title">#{core['form.login']}</div>-->
+
+
+            <!--<div class="flex align-items-center justify-content-center">-->
+            <div class="px-4 py-6 md:px-6 lg:px-6 flex justify-content-center align-items-center">
+                <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
+                    <div class="text-center mb-5">
+
+                        <p:graphicImage name="images/logo-primeblocks#{app.darkMode ? '-dark.svg' : '.svg'}"
+                                        library="primeblocks-app"  alt="Logo"
+
+                                        height="40" styleClass="mb-3"/>
+
+                        <!--<div class="text-900 text-3xl font-medium mb-3">#{conf['application.title']}</div>-->
+                        <!--                        <span class="text-600 font-medium line-height-3">Don't have an account?</span>
+                                                <a class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Create today!</a>-->
+                    </div>
+
+                    <div>
+                        <!--<label for="username" class="block text-900 font-medium mb-2">#{core['login.username']}</label>-->
+                        <p:inputText id="username" value="#{loginFaces.username}" styleClass="w-full mb-3"/>
+
+
+
+                        <div class="flex align-items-center justify-content-between mb-6">
+                            <div class="flex align-items-center">
+                                <!--                                <p:selectBooleanCheckbox id="rememberme" styleClass="mr-2"/>
+                                                                <label for="rememberme">Remember me</label>-->
+                            </div>
+                            <a class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">Forgot your password?</a>
+                        </div>
+                        <p:commandButton  value="#{core['button.next']}"
+                                          action="#{loginFaces.next()}"
+                                          update=":form:growl"
+                                          icon="pi pi-user"
+                                          styleClass="w-full sm:w-auto font-bold py-2 mb-3 sm:mb-0 sm:mr-3"
+
+                                          />
+
+
+                        <div class="flex flex-nowrap flex-column align-items-center sm:flex-row sm:justify-content-center">
+                            <div class="flex align-items-center justify-content-between mb-6">
+                                <div class="flex align-items-center">
+
+                                    <label>#{core['label.version']} : #{loginFaces.applicationVersion.get()}</label>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </h:form>
+
+
+
+
+    </ui:define>
+
+</ui:composition>

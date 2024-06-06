@@ -1,0 +1,1311 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/WEB-INF/template.xhtml"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">SFT</ui:define>
+
+    <ui:define name="breadcrumb">
+
+        <!--<i class="pi pi-angle-right"></i>-->
+        <p:commandLink action="/documentation" value="#{core['breadcrumb.documentation']}" >
+
+        </p:commandLink>
+    </ui:define>
+
+    <ui:define name="head">
+        <style type="text/css" >
+            #documentation i {
+                background-color: var(--surface-a);
+                color: #2196f3;
+                font-family: Monaco,courier,monospace;
+                font-style: normal;
+                font-size: 12px;
+                padding: 2px 4px;
+                letter-spacing: .5px;
+                border-radius: 3px;
+                font-weight: 600;
+                margin: 0 2px;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">
+        <div id="documentation">
+
+            <h1 class="text-4xl mt-0 mb-3">Documentación</h1>
+            <p class="mb-3 line-height-3">El Sistema de Flujo de Trabajo (SFT) es una aplicación para la gestión del trabajo basado en SCRUM.</p>
+            <h3 class="text-xl mb-3"> Arquitectura</h3>
+            <pre class=" language-markup" >
+
+              <code>
+ 
+            Plataforma Java.
+            Jakarta EE
+            Eclipse Microprofile
+            Jmoordb-core
+            Base Datos: MongoDB
+           </code>
+            </pre>
+
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.b-39</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>Fecha:22/05/2024</i></p>
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>     
+                - [x] Configurar la creación de colecciones dinamicas para almacenar las tarjetas y Sprint por proyecto
+
+                - [x] Ajustar el programa sftalert para enviar notificaciones establecimiento el uso de sleep() para evitar bloqueo
+
+                - [x] Eliminar el menú de configuración para otros usuarios que no sean superuser o developers
+
+                - [x] Mostrar siempre el botón de reserva aunque el proyecto este detenido.
+
+                - [x] Habilitar la reserva que este en un intervalo de fechas del proyecto y no del Sprint actual.
+
+                - [x] Crear modulo de migración para el sistema sft con colecciones dinamicas 
+
+                - [x] Mejorar el formulario de Login del sistema
+
+                - [x] Corregir el error que con el esquema nuevo no muestra el calendario
+
+                - [x] Corregir error en reporte estadísticas no muestra el formulario al se llamado desde los reportes
+
+                - [x] Crear nueva versión del sistema sft
+
+                - [x] Reporte de tarjetas en el buscador
+
+                - [x] Mejorar el diseño del formulario login y solicitar Tokens
+
+                - [x] Realizar mejoras en el formulario de búsquedas de tarjetas
+
+                - [x] Corregir el error que no imprime las tarjetas desde el formulario de búsqueda de tarjetas
+            </code></pre> 
+            
+            
+            
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.b-38</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>26/03/2024</i></p>
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>     
+            - [x] Ajustar el panel de trabajo que inicialmente no muestra ordenado las tarjetas por la ultima acción efectuada
+            - [x] Modificar el formulario de perfil ajustando los iconos en los botones para un mejor diseño
+            - [x] Mejorar el procedimiento de ordenación de tarjetas en base a la ultima modificación realizada.
+            - [x] Verificar tarjetas que quedan fuera del sprint, no estan en reserva ni eliminadas por la fecha final, analizar tarjeta 968 creada por Israel.
+            - [x] Ejecutar formulario setup version1_0_b_38 para crear atributo lastModification
+
+
+            </code></pre> 
+            
+            
+            
+            
+            
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.b-37</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>25/03/2024</i></p>
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>     
+            - [x] Modificar la visualización de proyectos privados eliminando la opción de Mi Resumen, ya que esta se muestra en la tarjeta principal.
+            - [x] Corregir en el dashboard principal que el total de tarjetas por cada proyecto que se muestra en la tarjeta de proyectos foraneos.
+            - [x] Modificar la opción de descarga de archivo que coloque el nombre de la descripcion del documento.
+            - [x] Modificar las clases Java que generan una descripción del archivo para eliminar la extensión
+            - [x] Agregar al dashboard principal diálogos que se activan mediante un commandlink y muestran las tarjetas pendientes, progreso, finalizado y reserva y con un link al tablero si esta disponible.
+            - [x] Modificar el formulario de creación y edición de proyectos para agregar el atributo generación automática de Sprint, para permitir el cierre y creación automática de plan.
+            - [x] Realizar ajustes en el dashboard principal para una mejor visualización de los totales por tarjetas en cada proyecto.
+            - [x] Eliminar el mensaje que debe actualizar el tablero cuando recibe un Websocket con las notificaciones.
+            </code></pre> 
+
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.b-36</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>19/03/2024</i></p>
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>     
+            - [x] Realizar mejoras en el diseño del dashboard principal
+            - [x] Verificar el cerrar un Sprint y crear uno nuevo que envia un mensaje de error
+            - [x] Mejorar el dashboard principal colocando información de las totales de las tarjetas
+            - [x] Corregir error al cerrar Sprint  
+
+            </code></pre> 
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.b-35</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>19/03/2024</i></p>
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>     
+            - [x] Ajustar el formulario de perfil quitar los otros botones que no son necesarios.
+            - [x] Eliminar el borde de los datatable de los formularios.
+            - [x] Modificar el formulario de crear y actualizar usuarios agregando la opción para recibir notificaciones
+            - [x] Agregar nueva opción de ordenación de tarjetas por ultima modificacion 
+            - [x] Corregir la clase en el microservicio que calcula estadisticas por proyecto
+            - [x] Realizar eliminación del metodo refreshCache() y en su lugar realizar invocaciones al método refresh() para la carga de datos
+            - [x] Revisar el calculo de estimación de la duración de la tarjeta
+            - [x] Modificar la opcion de crear una tarjeta desde una plantilla que se le ha cambiado el nombre ya que muestra el nombre original y no el de la plantilla.
+            - [x] Mejorar el login de usuario colocando el perfil de usuario. (foto).
+            - [x] Mejorar el dashboard colocando los totales de los proyectos y mostrar por cada proyecto
+            - [x] En el dashboard principal colocar un boton para colapsar el proyecto
+            - [x] Crear aplicacion para envio de notificación de que las tareas están pendientes o progreso o ya llegaron a su fin
+
+            </code></pre> 
+
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.b-34</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>14/03/2024</i></p>
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>     
+            - [x] Crear atributo en la tabla usuario, que indique si desea recibir un resumen de las tarjetas todos los dias.
+            - [x] Corregir el error en el dashboard principal que no muestra la imagen del propietario del proyecto
+            - [x] Envio de resumen de tarjetas todas las noches a las 9:30:25 am
+            - [x] Error el tablero falla no muestra colaboradores puede ser con la nueva version de jmoordb-core
+            - [x] Crear aplicacion para envio de notificación de que las tareas están pendientes o progreso o ya llegaron a su fin
+
+            </code></pre> 
+
+
+
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.b-33</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>12/03/2024</i></p>
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>     
+            - [x] Agregar un nuevo tipo de graficas logros en el dashboard principal
+            - [x] Modificar todos los formularios que utilicen rowExpansion y cambiar el componente carousel por datatable
+            - [x] Revisar el detalle de tarjetas que muestra el contador de etiquetas incorrecto
+
+
+            </code></pre> 
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.b-32</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>11/03/2024</i></p>
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>     
+            - [x] Cambiar los row expasion con div class='card' como se muestra en applicative.xhtml en buscador de tarjetas
+            - [x] Cambiar los row expasion con div class='card' como se muestra en applicative.xhtml en applicative
+            - [x] Cambiar los row expasion con div class='card' como se muestra en applicative.xhtml en mis proyectos
+            - [x] Cambiar los row expasion con div class='card' como se muestra en applicative.xhtml en propietario agregar
+            - [x] Cambiar los row expasion con div class='card' como se muestra en applicative.xhtml en reporte colaborador departamental
+            - [x] Cambiar los row expasion con div class='card' como se muestra en applicative.xhtml en reporte  departamental
+            - [x] Cambiar los row expasion con div class='card' como se muestra en applicative.xhtml en tarjetas
+            - [x] Cambiar los row expasion con div class='card' como se muestra en applicative.xhtml en tarjetas foraneas
+            - [x] Cambiar los row expasion con div class='card' como se muestra en applicative.xhtml en tarjetasimpedimentos
+            - [x] Cambiar todos los textos y propierties  dialog.x por dialog.x para estandarizar la sintaxis de uso
+            - [x] Agregar un border a todos los elementos datatable de los formularios y expandir a 12 columnas
+            - [x] Ajustar el tamaño del sistema al 100% para una mejor visualizacion
+            - [x] Ajustar en el dashoard colocar el nombre del proyecto en lugar de las siglas en los proyectos privados y publicos
+            - [x] Corregir el error en el toptip de los botones de la columna finalizado que mostraban el mensaje por error de progreso
+            - [x] Corregir en el panel de vista de tarjetas que no muestra el boton para visualizar un archivo
+            - [x] Crear un dialogo para el historial de la tarjeta en el formulario panel de trabajo
+            - [x] Implementar la validación de tres rangos de resoluciones
+            - [x] Implementar el uso del boton maximizar para dispositivos moviles los dialogos.
+            - [x] Realizar ajustes en todos los diálogos comentarios para una mejor visualización (formulario Tablero, Reserva, Panel trabajo, Papelera de reciclaje)
+            - [x] Realizar ajustes en todos los diálogos tareas para una mejor visualización (formulario Tablero)
+            - [x] Realizar ajustes en todos los diálogos impedimentos para una mejor visualización (formulario Tablero)
+            - [x] Realizar ajustes en todos los diálogos etiquetas para una mejor visualización (formulario Tablero)
+            - [x] Realizar ajustes en todos los diálogos archivos para una mejor visualización (formulario Tablero)
+            - [x] Realizar ajustes en todos los diálogos colaborador para una mejor visualización (formulario Tablero)
+            - [x] Realizar ajustes en todos los diálogos agregar a plantilla para una mejor visualización (formulario Tablero)
+            - [x] Realizar ajustes en todos los diálogos agregar desde plantilla para una mejor visualización (formulario Tablero)
+            - [x] Realizar ajustes en todos los diálogos clonar para una mejor visualización (formulario Tablero)
+            - [x] Realizar ajustes en todos los diálogos remover para una mejor visualización (formulario Tablero)
+            - [x] Realizar ajustes en todos los diálogos view detalle para una mejor visualización (formulario Tablero)
+            - [x] Realizar ajustes en todos los diálogos agregar tarjeta para una mejor visualización (formulario Tablero)
+            - [x] Realizar ajustes en todos los diálogos editar tarjeta para una mejor visualización (formulario Tablero)
+            - [x] Corregir el error en el dialogo de impedimiento en el Panel de Trabajo
+            - [x] Implementar el uso   public void handleCloseDialogTarea(CloseEvent event); para manejar los cierres de los dialogos
+            - [x] Implementar el uso   public void handleCloseDialogImpedimento(CloseEvent event); para manejar los cierres de los dialogos
+            - [x] Implementar el uso   public void handleCloseDialogEtiqueta(CloseEvent event); para manejar los cierres de los dialogos
+            - [x] Implementar el uso   public void handleCloseDialogArchivo(CloseEvent event); para manejar los cierres de los dialogos
+            - [x] Implementar el uso   public void handleCloseDialogColaborador(CloseEvent event); para manejar los cierres de los dialogos
+            - [x] Implementar el uso   public void handleCloseDialogEditar(CloseEvent event); para manejar los cierres de los dialogos
+            - [x] Revisar los comentarios muy extensos convertirlo en inputTextArea en los datatable 
+            - [x] Revisar las tareas muy extensos convertirlo en inputTextArea en los datatable 
+            - [x] Revisar los impedimentos muy extensos convertirlo en inputTextArea en los datatable  
+            - [x] Revisar los etiquetas  muy extensos convertirlo en inputTextArea en los datatable 
+            - [x] Mejorar el detalle de tarjetas agregando botones para invocar etiquetas y colaborador
+            - [x] Revisar los nombres de archivos  muy extensos convertirlo en inputTextArea en los datatable 
+            - [x] Implementar dialogos responsivos en crear proyecto y editar proyectos del dashboard principal
+            - [x] Implementar dialogos responsivos en archivar proyecto del dashboard principal
+            - [x] Implementar dialogos responsivos en clonar proyecto y editar proyectos del dashboard principal
+            - [x] Implementar dialogos responsivos en crear y editar sprint
+            - [x] Realizar mejoras en el dialogo de cerrar sprint 
+            - [x] Implementar dialogos responsivos en calendario schedulesprint.xhtml
+            - [x] Implementar dialogos responsivos en calendario scheduledashboard.xhtml
+            - [x] Implementar dialogos responsivos en calendario scheduletablero.xhtml
+            - [x] Implementar dialogos responsivos en calendario schedulebylogged.xhtml
+            - [x] Implementar dialogos responsivos en grupotipotarjeta.xhtml
+            - [x] Implementar dialogos responsivos en tarjeta.xhtml
+            - [x] Implementar dialogos responsivos en user.xhtml
+            - [x] Implementar dialogos responsivos en role.xhtml
+            - [x] Implementar dialogos responsivos en icono.xhtml
+            - [x] Implementar dialogos responsivos en institution.xhtml
+            - [x] Implementar dialogos responsivos en central.xhtml
+            - [x] Implementar dialogos responsivos en departament.xhtml
+            - [x] Implementar dialogos responsivos en country.xhtml
+            - [x] Implementar dialogos responsivos en province.xhtml
+            - [x] Implementar dialogos responsivos en district.xhtml
+            - [x] Implementar dialogos responsivos en township.xhtml
+            - [x] Implementar dialogos responsivos en zone.xhtml
+            - [x] Implementar dialogos responsivos en clonar proyecto en misproyectos.xhtml
+            - [x] Implementar dialogos responsivos en clonar proyecto en reportedcolaboradordepartamental.xhtml
+            - [x] Implementar dialogos responsivos en clonar proyecto en reportedepartamental.xhtml
+
+
+            </code></pre> 
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.b-31</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>26/02/2024</i></p>
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>     
+            - [x] Crear formulario de administración de province
+            - [x] Crear formulario de administración de district
+            - [x] Modificar el logo del sistema sft
+            - [x] Crear formulario de administración de township
+            - [x] Crear formulario de administración de zone
+            - [x] Corregir reporte de edificios no lo muestra ,envía una pagina vacía
+            - [x] Editar los registros de district de la base de datos
+            - [x] Editar los registros de corregimientos de la base de datos
+
+            </code></pre> 
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.b-30</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>26/02/2024</i></p>
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>     
+            - [x] Crear un formulario en que el super usuario vea todos los proyectos y desde alli poder asignar propietario
+            - [x] Mostrar los usuarios de un proyecto por categorias, propietario y colaborador en el dashboard principal
+            - [x] Cambiar el logo del sistema adaptarlo a las nuevas funcionalidades
+            - [x] Modificar el formulario de login con panel estilo carrousel
+            - [x] Actualizar la versión de Payara  Micro a 6.2024.2
+            - [x] Crear formulario administrativo para manejo de Institución
+            - [x] Subir versión 1.0.b-30 del sistema
+            - [x] Crear formulario de administración de iconos
+            - [x] Crear formulario de administración de paises
+            - [x] Crear formulario de administración de central
+            - [x] Configurar los repositorios y controler de las entidades usadas para administrar la aplicación
+            - [x] se cambio en los dialogos styleClass="jmoordbcore-dialog-responsive" por styleClass="jmoordbcore-dialog-responsive40x450"
+            - [x] Crear formulario de administración de building
+            </code></pre> 
+
+
+
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.b-29</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>19/02/2024</i></p>
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>     
+            - [x] Ampliar el ancho de los formularios para aprovechar el maximo tamaño de las pantallas
+            - [x] Verificar que en el formulario de tablero al agregar una tarjeta nueva y se trata de mover a progreso genera una excepción
+            - [x] Verificar que en el formulario de reserva al agregar una tarjeta nueva y se trata de mover a progreso genera una excepción
+            - [x] Validar las opciones que tiene en Mis reportes si el usuario no es propietario del proyecto.
+            - [x] Crear opción para para reabrir proyectos cerrados desde la opción mis proyectos.
+            - [x] Se mejoro el diseño de los formularios mis reportes, reporte departamental y reporte colaborador
+            - [x] Implementar WebSocket en los formulario mis reportes, reporte por colaborador, reporte departamental
+
+            </code></pre> 
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.b-28</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>15/02/2024</i></p>
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>     
+            - [x] Modificar tablero para utilizar datos de cache y reducir peticiones al microservicios.
+            - [x] Modificar panel de control para utilizar datos de cache y reducir peticiones al microservicios.
+            - [x] Modificar papelera de reciclaje para utilizar datos de cache y reducir peticiones al microservicios.
+            - [x] Modificar backlog para utilizar datos de cache y reducir peticiones al microservicios.
+            - [x] Modificar el formulario de proyectos para permitir que el super usuario podria agregar propietarios a los proyectos
+            - [x] Corregir que no muestra el timeLine desde el tablero.
+            - [x] Modificar el formulario de tablero para que no mensajes de las operaciones realizadas
+            - [x] Actualizar los proyectos a Microprofile 6.0
+            </code></pre> 
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.b-27</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>08/02/2024</i></p>
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>     
+            - [x] Modificar las tarjetas que no se esta asignado que permita ver los detalles de la misma a cualquier colaborador del proyecto.
+            - [x] Organizar la pagina de documentación y preguntas frecuentes
+            - [x] Eliminar en los datatable el uso de  reflow="true"  styleClass="mt-2" y cambiarlos por  resizableColumns="true" liveResize="true"
+            - [x] Crear opción para mostrar los iconos en las tarjetas para agilizar la carga de las tarjetas en el tablero, reserva, panel de trabajo, papelera de reciclaje
+            - [x] Modificar el formulario de papelera de reciclaje para mostrar adecuadamente las tarjetas
+            - [x] Modificar el formulario de reserva para mostrar adecuadamente las tarjetas
+            - [x]  Realizar ajustes en la visualización de las tarjetas para que el menu contextual se despliegue a la derecha
+            - [x]  Realizar ajustes en la visualización del dashboard principal para que el menu contextual se despliegue a la derecha
+            - [x]Modificar el formulario de tablero proyectos foraneos que permita agregar una tarjeta a la plantilla
+
+            </code></pre> 
+
+
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.b-26</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>07/02/2024</i></p>
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>     
+            - [x] Verificar que el formulario Organigrama implemente el uso de Cache en los autocomplete y selectOneMenu
+            - [x] Verificar reporte departamental que implemente el uso de Cache en los autocomplete y selectOneMenu
+            - [x] Verificar reporte x colaborador que implemente el uso de Cache en los autocomplete y selectOneMenu
+            - [x] Mejorar los dialogos de los formularios de departamento, rol, grupotarjeta 
+            - [x] Agregar a la entidad Tarea {UserView, ordenado} y aplicarle funcionalidad similar a comentarios en tablero, panel de control y reserva
+            - [x] Crear un programa que actualice todas las tarjetas con el nombre del usuario en la tarjeta en el tablero
+            - [x] Crear un programa que actualice todas las tarjetas con el nombre del usuario en la tarjeta en el panel de control
+            - [x] Crear un programa que actualice todas las tarjetas con el nombre del usuario en la tarjeta en el backlog
+            - [x] Ajustar el dialogo de tareas , permitiendo ordenación en el tablero y en el panel de control y en la reserva.
+            - [x] Agregar la columna fecha en  los diálogos que muestran los impedimentos de las tarjetas
+            - [x] Ajustar el dialogo de archivos, permitiendo ordenación en el tablero y en el panel de control y en la reserva.
+            - [x] Ajustar el dialogo de etiquetas, permitiendo ordenación en el tablero y en el panel de control y en la reserva.
+            - [x] Agregar la columna usuario  en  los diálogos que muestran los impedimentos de las tarjetas para determinar el usuario que realiza la operación
+            - [x] Agregar la columna activo de manera que el usuario puede marcarla para indicar si fue o no resuelto el impedimiento.
+            - [x] Realizar ajustes en el diseño responsivo del tablero
+            - [x] Realizar ajustes en el diseño responsivo panel de trabajo
+            - [x] Realizar ajustes en el diseño responsivo reserva
+            - [x] Realizar ajustes en el diseño responsivo papelera de reciclaje
+            - [x] Controlar que no envié notificaciones al websocket de papelera de reciclaje, si no ha ocurrido una eliminación de una tarjeta en el tablero
+            - [x] Controlar que no envié notificaciones al websocket de papelera de reciclaje, si no ha ocurrido una eliminación de una tarjeta en el reserva
+            - [x] Controlar que no envié notificaciones al websocket de papelera de reciclaje, si no ha ocurrido una eliminación de una tarjeta en el panel trabajo
+            - [x] Modificar el formulario de ayuda, agregando nuevas funcionalidades.
+            - [x] Mejorar el diseño del dashboard principal
+            - [x] Ejecutar el setup para que cargue los user a las tareas dentro de las tarjetas
+            - [x] Crear y subir versión 1.0.b-26
+
+
+            </code></pre>  
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.b-25</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>01/01/2024</i></p>
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>     
+            - [x] Actualizar la versión de payaramicro a 6.2024.1
+            - [x] Verificar el formulario perfil que implemente el uso de Cache en los autocomplete y selectOneMenu
+            - [x] Corregir el código que muestra la advertencia de dias pendientes en el tablero y panel de control
+            - [x] Verificar en buscador de tarjetas que implemente el uso de Cache en los autocomplete y selectOneMenu
+
+
+            </code></pre>  
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.b-24</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>29/01/2024</i></p>
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>     
+
+            -[x] Modificar la opción de cambio de temas, no actualiza el usuario.
+            -[x] Cambiar todos los findById que devuelvan Optional() como userView en Rest Implementation
+            -[x] Modificar cuando crea un nuevo plan, verificar los dias del plan anterior y colocar ese tiempo como la fecha final del plan
+            -[x] Modificar el envio de Websocket para que no envie al mismo usuario que la genera
+            -[X] Verificar que al cerrar un Sprint pasa las tarjetas a la reserva
+            -[x]  Cambiar el color de las tarjetas que estan próxima a vencer o agregarle un indicativo de advertencia en el tablero
+            -[x]  Cambiar el color de las tarjetas que estan próxima a vencer o agregarle un indicativo de advertencia en el panel de control
+            -[x] Agregar el atributo dias para advertencia en el entity proyecto y actulizar el formulario donde se crea y edita el proyecto
+            -[x] Mejorar el formulario de creación y edición de proyectos agregar la propiedad diasparaadvertencia
+            -[x] En el tablero y panel de control tomar el valor del atributo dias de adevertencia para las tarjetas
+
+
+            </code></pre>  
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.b-23</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>24/01/2024</i></p>
+
+
+            <h3 class="text-xl mb-3">Funcionalidades</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>     
+
+            ## Websocket
+
+            - [x] Sincronizar tarjetas mediante Websocket y validar cambios Tablero
+            - [x] Sincronizar tarjetas mediante Websocket y validar cambios Backlog
+            - [x] Sincronizar tarjetas mediante Websocket y validar cambios Papelera de Reciclaje
+            - [X] Crear websocket para el dashboard que envie notificaciones cuando se cambia un proyecto
+            - [x] Sincronizar con websocket el tablero cuando cambia un proyecto
+            - [x] Sincronizar con websocket el backlog cuando cambia un proyecto
+            - [x] Sincronizar con websocket la papelera de reciclaje cambia un proyecto
+            - [x] Verificar con proyectos foraneos si actualiza el tablero del usuario foraneo.
+            - [x] Modificar todos los converter y controller para soportar el uso de Cache para reducir peticiones a los microservicios
+             -[x] Implementar websocket con contador de actualizaciones en el tablero
+             -[x] Implementar websocket con contador de actualizaciones en el backlog
+             -[x] Implementar websocket con contador de actualizaciones en la papelera de reciclaje
+             -[x] Implementar websocket con contador de actualizaciones en la panel de trabajo
+             -[x] Implementar websocket con contador de actualizaciones en el sprint
+             -[x] Implementar websocket con contador de actualizaciones en el dashboard
+             -[x] Probar cambio el estado o fechas proyecto como afecta el formulario de Reserva, Papelera de reciclaje, Panel de trabajo, Tablero
+             -[x] Probar cambio el estado o fechas sprint como afecta el formulario de Reserva, Papelera de reciclaje, Panel de Trabajo, Tablero
+             -[x] Remover el encripter de los microservicios
+             
+            # Dashboard
+            - [x] Revisar que desde el Dashboard principal muestra el boton <Tablero/> que no valida que la fecha inicial sea mayor que la actual.
+
+            # Tablero 
+            - [x] Revisar que Tablero que no valida que la fecha inicial sea mayor que la actual al cambiar el websocket
+
+
+            ## General
+            - [x] Remover bordes de las columnas donde se visualizan las tarjetas tablero, reserva, panel de trabajo, papelera de reciclaje
+            - [x] Modificar la entidad proyecto y colocar información del Sprint abierto de manera que reduzca las peticiones al endpoint para obtener informacion del sprint del proyecto.
+            - [x] Agregar a cada proyecto información del ultimo plan disponible, tal como fecha de inicio y fecha de fin esto ayuda al usuario.
+            - [X] Validar que al crear un Sprint la fecha final del proyecto sea mayor que la actual.
+            - [x] Ajustar el formulario de edición de proyectos que envia un mensaje que otro usuario lo modifico.
+            - [x] Guardar la fecha hora actual en el campo fechafinal del sprint al momento de cerrar un sprint.
+            - [x] Al crear proyecto validar que se indique el tipo de tarjetas para el proyecto
+            - [x] Botón de advertencia en el dialogo de comentarios que no se ha dado clic en el botón (+) para agregarlo a la tarjeta.
+            - [x] Modificar el formulario de editar proyectos eliminando la opción finalizado del menu de selección
+            - [x] Crear formulario de cerrar proyecto validar un proyecto que queda con tarjetas pendientes o en progreso y no hay sprint abierto.
+            - [x] Desabilitar el uso de p:inplace para que no afecte la implementación de WebSocket en Tablero
+            - [x] Desabilitar el uso de p:inplace para que no afecte la implementación de WebSocket en Backlog
+            - [x] Implementar el uso de ConverterServices para mejorar el desempeño de la aplicación al reducir la cantidad de peticiones al microservicio en tablero
+            - [x] Implementar el uso de ConverterServices para mejorar el desempeño de la aplicación al reducir la cantidad de peticiones al microservicio en backlog
+            - [x] Implementar el uso de ConverterServices para mejorar el desempeño de la aplicación al reducir la cantidad de peticiones al microservicio en papelera
+            - [x] Implementar el uso de ConverterServices para mejorar el desempeño de la aplicación al reducir la cantidad de peticiones al microservicio en panel  de trabajo
+
+            </code></pre>  
+
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.beta-22</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>14/12/2023</i></p>
+
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>     
+                ## General
+                - [x] Ajustar el formulario de login el panel es muy grande
+                - [x] Agregar soporte para el evento Enter al ingresar elementos a los componentes de las tarjetas en el tablero
+                - [x] Agregar soporte para el evento Enter al ingresar elementos a los componentes de las tarjetas en el Bakclog
+                - [x] Corregir el dialogo de visualizar archivos , para que se mantenga en el area disponible
+
+            </code></pre>  
+
+
+
+
+            <hr></hr>
+
+
+            <h3 class="text-xl mb-3">Release: 1.0.beta-21</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>1/12/2023</i></p>
+
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>     
+               
+            - [x] Corregir el dialogo de visualizar archivos , para que se mantenga en el area disponible
+
+
+            </code></pre>    
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.beta-20</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>1/12/2023</i></p>
+
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>     
+               
+            ## Plantillas de Tarjeta
+            - [x] Mejorar el diseño de ver las tarjetas mediante un rowexpasion como aparece en el formulario de tarjetas
+
+            ## Visualizar Archivos
+            - [x] Crear opción para visualizar archivos en el tablero
+            - [x] Crear opción para visualizar archivos en el backlog
+            - [x] Crear opción para visualizar archivos en formulario busqueda
+            - [x] Crear opción para visualizar archivos en formulario tarjetas
+            - [x] Crear opción para visualizar archivos en formulario Foraneas
+            - [x] Crear opción para visualizar archivos en formulario Impedimentos
+            - [x] Ajustar la resolución de pantalla de la plantilla
+            - [x] Mejorar el tablero y colocar de manera predeterminada la visualización individual de tarjetas
+            - [x] Modificar los rowExpansion de los datatable para ampliar el tamaño responsivo
+
+
+            ### Nuevas Funcionalidades
+            - [x] Agregar estilo de reportes como se muestra en la opción de buscar tarjetas
+
+            </code></pre>    
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.beta-19</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>27/11/2023</i></p>
+
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>     
+                ## General
+                - [x] Ampliar el tiempo de sesion cuando el usuario presiona una tecla
+                - [x] Elimina el reloj y el commandButton del tiempo del servidor
+                - [x] Corregir el error de que se quedaba sin mostrar elementos del dashboard al logearse
+                - [x] Verificar comportamiento al presionar botón actualizar del navegador
+                - [x] Modificar ubicación del formulario login
+                - [x] Muestra el tablero combinado para el perfil colaborador
+                - [x] Modificar la visualización de elementos en las columnas para que se justifiquen a la izquierda
+
+                ## Buscador Tarjetas
+                - [x] Implementar mejoras en el formulario de busqueda de tarjetas similar a la de los tablero
+                - *[x] Implementar múltiplos filtros en los auto complete con regex en el formulario de buscar tarjetas
+                    * crear metodos searchLikeByName(String name, Search search)
+                    * crear metodos countSearchLikeByName(String name, Search search), 
+                - [x] Agregar en el formulario Buscar tarjeta una opción que lo diriga al Tablero
+                - [x] Mejorar el buscador de tarjetas mostrar en los autocomplete información mas corta y usar el nuevo autocomplete con paginación.
+                - [x] Implementar múltiplos filtros en los auto complete con regex en el formulario de buscar tarjetas
+
+                ## Papelera de Reciclaje
+                - [x] Crear un formulario papelera de reciclaje donde estan las tarjetas borradas y se puede restaurar similar a un backlog a un proyecto activo
+
+                ## Responsive
+                - [x] Revisar todos los dialogos responsive en moviles para una mejor visualización
+
+                ## Modulo Plantillas de Tarjeta
+                -[x] Crear modulo de administración de plantillas en  base a tarjetas
+                -[x] Crear opcion que permita generar una tarjeta en base a una plantilla
+
+                - [x] Crear la opción para guardar una tarjeta como plantilla
+                la plantilla es una opción de menú de cada tarjeta que al darle click en la opción guardar plantilla la almacena en la colección plantilla 
+                     {Almacena,una copia de la tarjeta que sirve para crear una nueva.
+                      ,Se identifica por tipo de grupo de tarjeta para asociarlo a los proyectos que tienen esos grupos de tipo de tarjeta
+                      ,Se identifican por colaborador
+                      ,Al seleccionar la opción crear tarjeta de plantilla que se coloca en el profile de la tarjeta , se crea una nueva en un proceso similar a una clonacion
+                      se asginan las fechas del dia de hoy y la fecha final el final del sprint     
+                }
+
+
+                ## General
+                - [x] Corregir el despliege de horas del reloj de 24 horas a formato 12 horas
+                - [x] Actualizar la versión de Payara-micro a 6.2023.10
+            </code></pre>    
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.beta-18</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>16/10/2023</i></p>
+
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>                
+          
+             ## Tablero
+            - [x] Corregir el dialogo de comentario en el tablero que no habilita eliminar comentarios
+            - [x] Calcular la estimación de manera automática al ingresar las fechas de inicio y fin  en tablero
+
+
+            ## Nuevas Funcionalidades
+            - [x] Eliminar el panel Atention de todos los formularios
+            - [x] Subir el tiempo de sesión a 4 horas
+
+            ## Backlog
+            - [x] Corregir el dialogo de comentario en el backlog que no habilita eliminar comentarios
+            - [x] Validar que solo el colaborador asignado pueda mover, editar, archivar la tarjeta
+            - [x] Calcular la estimación de manera automatica al ingresar las fechas de inicio y finalizacion 
+
+            ## Dashboard
+            - [x] Crear una opción de resumen de las tarjetas del colaborador en el dashboard
+            - [x] Crear un formulario Panel del trabajo que muestre todas las tarjetas de todos los proyectos que se invoque desde el Dashboard.
+
+            ## General
+            - [x] Ajustar el cierre de sesión e indicar cuanto tiempo hace falta para que expire.
+
+            </code></pre>    
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.beta-17</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>5/10/2023</i></p>
+
+
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>                
+
+            ### Documentación
+            - [x] Documentar que se puede crear una tarjeta a partir de una tarea, es útil para dividir una actividad compleja en tarjeta.
+
+            ## Reportes
+            - [x] Verificar, en reportes, el espacio entre comentario y el nombre del usuario
+            - [x] Verificar, en reportes, el tamaño del label de comentario
+            - [x] Ajustar las columnas de los formularios de reportes para hacer visible los botones de impresion
+
+            ## Tablero
+            - [x] Ajustar el tablero cuando se ingresa desde un reporte al tablero y muestra los dialogos de tarjeta no se muestra el boton cerrar
+            - [x] Verificar que cuando se intenta agregar etiquetas, comentarios otareas y esta vacio el lis no agreagr nada.
+            - [x] Validar en el formulario de comentario que al dar enter no ejecute eventos o envie a guardar
+            - [x] Crear una tarjeta a partir de una tarea asignando los mismos colaboradores
+            - [x] Agregar opción de buscar tarjetas en el tablero
+
+
+            ## Sprint
+            - [x] Crear una tarjeta a partir de una tarea asignando los mismos colaboradores
+            - [x] Agregar opción de buscar tarjetas en el backlog
+
+
+            ## Backlog
+            - [x] Agregar opción de buscar tarjetas en el backlog
+
+
+            ## General
+            - [x] Ajustar todos los formularios con rowexpansion aplicarles scrollPane para una mejor renderización
+
+
+
+             </code></pre>    
+
+
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.beta-16</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>21/09/2023</i></p>
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>                
+             ## Tablero
+            - [x] Mostrar siempre el botón de tareas en la barra inferior de la tarjeta para facilitar su uso
+            - [X] Cambiar el mensaje de Vista por detalles de tarjetas en el boton que muestra los detalles
+            - [x] Mostrar el boton editar desde el footer de la tarjeta
+            - [x] Agregar tabs al dialogo de edición de tarjetas para que se muestre de tamaño adecuado
+            - [x] Validar que solo el colaborador asignado pueda mover, editar, archivar la tarjeta
+
+            ## Backlog
+            - [x] Cambiar el mensaje de Vista por detalles de tarjetas en el boton que muestra los detalles
+            - [x] Mostrar siempre el botón de tareas en la barra inferior de la tarjeta para facilitar su uso
+            - [x] Mostrar el boton editar desde el footer de la tarjeta
+            - [x] Agregar tabs al dialogo de edición de tarjetas para que se muestre de tamaño adecuado
+            - [x] Validar que solo el colaborador asignado pueda mover, editar, archivar la tarjeta
+
+            ## General
+            - [x] Corregir el formulario documentation.xhtml que no se despliega
+
+
+
+
+             </code></pre>    
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.beta-15</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>20/09/2023</i></p>
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>                
+             ## Proyecto
+             - [x] Modificar el inputText para ingresar el nombre del proyecto en el dialogo crear
+             - [x] Modificar el inputText para ingresar el nombre del proyecto en el dialogo editar
+
+            ## Tablero
+            - [x] Agregar un botón que muestre detalles de las tarjetas en el tablero
+            - [x] Aumentar el tamaño de la grafica que se muestra desde el tablero
+            - [x] Modificar el dialogo de editar tarjeta del tablero no se muestran los botones en el movil
+            - [x] Modificar el header de la tarjeta que se muestra en los dialogos del tablero
+            - [x] Modificar dialogo de clonar tarjetas
+            - [x] Modificar los dialogos que usan datatable colocando el inputText fuera de la tabla
+
+            ## Backlog
+            - [x] Agregar un botón que muestre detalles de las tarjetas en el backlog
+            - [x] Modificar el dialogo de editar tarjeta del backlog no se muestran los botones en el movil
+            - [x] Modificar el header de la tarjeta que se muestra en los dialogos del tablero
+            - [x] Modificar dialogo de clonar tarjetas
+            - [x] Modificar los dialogos que usan datatable colocando el inputText fuera de la tabla
+            - [x] Verificar el formulario de reserva con fecha menor que el plan actual y verificar si permite moverlo y las fecha que coloca y mostrar boton de pasar al tablero
+
+
+
+             </code></pre>    
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.beta-14</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>19/09/2023</i></p>
+
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>                
+            ## Tablero
+            - [x] Ajustar el tamaño del dialogo agregar con descripcion muy larga no muestra el botón guardar.
+            - [x] Modificar el formulario de crear tarjeta para que permita enviar email cuando se crea desde el mismo tablero.
+            - [x] Verificar la creación de tarjetas foraneas (Pide seleccionar el colaborador) y no la muestra en el tablero
+            - [x] Agregar de manera predeterminada la prioridad de las tarjeta a media
+            - [x] Cambiar el color de las tarjetas en base a la prioridad en el tablero
+
+            ## Sprint
+            - [x] Verificar condición que al cerrar un Sprint no envia el mensaje que se proceso correctamente
+
+            ## Backlog
+             -[x] Corregir el error que envia *Fecha final del Plan es menor que la fecha actual* cuando no hay sprint abierto
+             -[x] Cambiar el color de las tarjetas en base a la prioridad en el tablero
+
+
+             </code></pre>    
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.beta-13</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>15/09/2023</i></p>
+
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>                
+        
+            ## Tipo Tarjeta
+            - [x] Corregir que al editar un tipo de tarjeta siempre lo regresa a la primera pagina
+
+            ## Tablero
+            - [x] Modificar el formulario de tablero para que cuando se desplacen las tarjetas a otra columna mantenga el orden descendente
+            - [x] Verificar el error que no muestra el calendario cuando se invoca desde el tablero
+            - [x] Verificar el error que no muestra la cronologia cuando se invoca desde el tablero
+            - [x] Modificar el tablero para que muestre el # de tarjeta aunque se oculten los detalles
+            - [x] Permitir ordenar las tarjeta en el tablero por varios atributos
+
+            ## Backlog
+            - [x] Modificar el backlog para que muestre el # de tarjeta aunque se oculten los detalles
+            - [x] Permitir ordenar las tarjeta en el backlog por varios atributos
+
+            ## General
+            - [x] Corregir los formularios que utilicen datatable con dialogos de edición para que al editarlo se mantenga en la  misma pagina
+            - [x] Agregar función al momento de crear tarjeta que elimina las comillas en el nombre de la tarjeta
+
+
+            </code>
+            </pre>
+
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.beta-12</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>12/09/2023</i></p>
+
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>                
+            
+            ### Nuevas Funcionalidades
+            - [x] Agregar a informacion.xhtml los pasos para grupo de tipo de tarjeta, como asignarlo a un proyecto y como se muestra en el tablero.
+
+            ### Correcciones
+
+            ## Proyectos
+            - [x] Modificar la entiad proyecto y agregar un list de GrupoTipoTarjeta y modificar los formularios de crear y editar proyecto
+            - [x] Agregar la opcion que permita indicar si permite o no duplicar tarjetas y validar en tablero y reserva
+            - [x] Mejorar dialogo de crear proyecto el tab otros se muestra distorcionado
+            - [x] Mejorar dialogo de editar proyecto el tab otros se muestra distorcionado
+            - [x] Ajustar al crear un proyecto colocar la fecha final por defecto con hora 11:59 pm del ultimo dia del año y la fecha inicial con hora 8:00 am
+            - [x] Ajustar el dialogo que muestra los permisos del proyecto
+            
+            
+            ## Grupo tipo de tarjeta
+            -[x] Agregar grupo de tipo de tarjeta (entidad, repository, services, restclient)
+
+            ## Tipo de tarjeta
+             -[x] Modificar el entity Tipo de tarjeta y agregar referencia a GrupoTipoTarjeta
+            - [x] Agregar al formulario de tipo de tarjeta el grupo (modificar la entidad y agregar referencia)
+            - [x] En el proyecto el propietario selecciona los grupos de tipo de tarjeta que se usaran en ese proyecto
+            - [x] En el tablero mostrar solo los tipo de tarjeta filtrados por los grupos establecido en el proyecto
+
+
+            ## Tablero
+            - [] Agregar al left menu la opción de crear tarjeta o actulizar un submenu cuando esta en el tablero. Para que no sea necesario desplazarse al inicio
+            - [x] Corregir el error que no permite guardar nuevas tarjetas
+            - [x] Agregar la opción que permita indicar si permite o no duplicar tarjetas y validar en tablero y reserva
+            - [x] Modificar el tablero para que solo muestre las tarjetas del grupo asignado al proyecto
+            - [x] Agregar colaboradores al crear tarjetas en el tablero
+
+            ## Sprint
+            - [x] Ajustar al crear un Sprint colocar la fecha final por defecto con hora 11:59 pm del ultimo dia del año y la fecha inicial con hora 8:00 am
+
+            ## Backlog
+            -[x] Modificar el backlog para que solo muestre las tarjetas del grupo asignado al proyecto
+            -[x] Agregar colaboradores al crear tarjetas en la reserva
+
+            </code>
+            </pre>
+
+
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.beta-11</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>06/09/2023</i></p>
+
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>                
+            - [x] Verificar el formulario de cierre de Sprint que permite cerrarlo sin ingresar comentario.
+            - [x] Verificar el formulario de reserva con fecha menor que el plan actual y verificar si permite moverlo y las fecha que coloca y mostrar boton de pasar al tablero
+            - [x] Verificar el formulario de logros se queda congelado Fecha final del Plan es menor que la fecha actual
+            - [x] Modificar el formulario de cierre de sprint se queda congelado
+            - [x] Corregir el error que al cerrar el Sprint se queda congelado.
+            - [x] Ajustar el formulario login quitando el buscador de roles, para simplificar la vista
+            - [x] Modificar todos los datatable para hacerlos responsivos en móviles
+            - [x] Modificar los dialogos del formulario de Sprint con scrollPanel para adaptación movil
+            - [x] Modificar los dialogos del formulario de Tablero con scrollPanel para adaptación movil
+            - [x] Modificar los dialogos del formulario de Proyectos con scrollPanel para adaptación movil
+            - [x] Modificar los dialogos del formulario de Tipo tarjetas con scrollPanel para adaptación movil
+            - [x] Modificar los dialogos del formulario de Perfil con scrollPanel para adaptación movil
+            - [x] Modificar los dialogos del formulario de Usuarios con scrollPanel para adaptación movil
+            - [x] Modificar los dialogos del formulario de Reportes con scrollPanel para adaptación movil
+            - [x] Cambiar todos los dialogos con scrollPane de todos los formularios del sistema
+            - [x] Probar todos los dialogos con scrollPane
+            ## Tablero
+            - [x] Agregar la opcion de pasar del tablero a la reserva una tarjeta
+            - [x] Validar el envio de email al mover una tarjeta del tablero al backlog
+            - [x] Agregar un boton en el profile del tablero que lo lleve a la reserva
+            
+            ## Backlog
+            - [x] Agregar un boton en el profile de la reserva que lo lleve al tablero
+            </code>
+            </pre>
+
+
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.beta-10</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>06/09/2023</i></p>
+
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>
+            - [x] Verificar el formulario de cierre de Sprint que permite cerrarlo sin ingresar comentario.
+            - [x] Verificar el formulario de reserva con fecha menor que el plan actual y verificar si permite moverlo y las fecha que coloca y mostrar boton de pasar al tablero
+            - [x] Verificar el formulario de logros se queda congelado Fecha final del Plan es menor que la fecha actual
+            - [x] Modificar el formulario de cierre de sprint se queda congelado
+            - [x] Corregir el error que al cerrar el Sprint se queda congelado.
+            - [x] Ajustar el formulario login quitando el buscador de roles, para simplificar la vista
+            - [x] Modificar todos los datatable para hacerlos responsivos en móviles
+            - [x] Modificar los dialogos del formulario de Sprint con scrollPanel para adaptación movil
+            - [x] Modificar los dialogos del formulario de Tablero con scrollPanel para adaptación movil
+            - [x] Modificar los dialogos del formulario de Proyectos con scrollPanel para adaptación movil
+            - [x] Modificar los dialogos del formulario de Tipo tarjetas con scrollPanel para adaptación movil
+            - [x] Modificar los dialogos del formulario de Perfil con scrollPanel para adaptación movil
+            - [x] Modificar los dialogos del formulario de Usuarios con scrollPanel para adaptación movil
+            - [x] Modificar los dialogos del formulario de Reportes con scrollPanel para adaptación movil
+            - [x] Cambiar todos los dialogos con scrollPane de todos los formularios del sistema
+            - [x] Probar todos los dialogos con scrollPane
+            - [x] Agregar un boton en el profile de la reserva que lo lleve al tablero
+            - [x] Agregar la opcion de pasar del tablero a la reserva una tarjeta
+            - [x] Validar el envio de email al mover una tarjeta del tablero al backlog
+            - [x] Agregar un boton en el profile del tablero que lo lleve a la reserva
+            </code>
+            </pre>
+
+
+
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.beta-10</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>04/09/2023</i></p>
+
+
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>
+            - [x] Sincronizar automaticamente cuando se envia el mensaje que fue editado por otro usuario en el tablero
+            - [x] Sincronizar automaticamente cuando se envia el mensaje que fue editado por otro usuario en el sprint
+            - [x] Sincronizar automaticamente cuando se envia el mensaje que fue editado por otro usuario en el proyecto
+            - [x] Mostrar el detalle de las tarjetas sin colapsar al ingresar al tablero
+            - [x] Ajustar el dashboard principal y no mostrar el mensaje de Otras Unidades si no existen proyectos de otras unidades disponibles
+            - [x] Cambiar el logo svg principal del sistema
+            - [x] Aplicar cambios en privilegios de la opción organigrama 
+            - [x] Corregir el error en el tablero en Mis tarjetas muestra en la columna finalizado lo de otros colaboradores
+            - [x] Corregir en envio de correo Proyecto:  Enviado por: .
+            - [x] Cuando la misma persona se remueve de la tarjeta no enviar el correo en el tablero.
+            - [x] Ajustar el formulario de Sprint quitando los objetivos dentro del componente
+            - [x] Ajustar el formulario de Tipo de tarjeta quitando los objetivos dentro del componente
+            - [x] Ajustar el formulario de tarjeta en el datatable comentario mejorando la vista de comentarios en columnas
+            - [x] Cambiar el texto del boton Archivo y Archivar en la tarjeta por Adjunto y Remover
+            - [x] Modificar el datatable comentario agregando el botón a la tarjeta
+            - [x] Modificar el datatable tarea agregando el botón a la tarjeta
+            - [x] Modificar el tablero validando la fecha final de la tarjeta si es menor que la del sprint actual, debe actualizarse a la fecha final del sprint.
+            - [x] Ampliar el rango de estimaciones para no restringuir el tiempo de las tarjetas
+            - [x] Mejorar el dialogo de edición de tarjetas simplificando el diseño
+            - [x] Ajustar el formato de fechas para incluir horas en todos los formularios
+            - [x] Modificar el formulario de reserva y quitar del repeat en detalletarjeta.xhtml los   backlogdialogo:tarjetaclonar id="outputPanelTarjetaClonar"  y demàs y colocarlos antes de la invocación
+            - [x] Revisar en proyectos foraneos y proyectos privados si usa el repeat y dentro de el esta los dialogos, quitarlos de alli y ponerlos en nivel superior
+            - [x] Verificar el tiempo de respuesta del sistema 
+            - [x] Validar que la fecha inicial no sea mayor que la fecha final al crear o editar tarjeta en tablero
+            - [x] Validar que la fecha inicial no sea mayor que la fecha final al crear o editar tarjeta en reserva
+            - [x] Validar que la fecha inicial no sea mayor que la fecha final al crear o editar proyecto
+            - [x] Validar que la fecha inicial no sea mayor que la fecha final al crear o editar sprint
+            - [x] Corregir el error que al presionar F5 lo envia a la pantalla de inicio
+            - [x] Modificar formulario crear y editar proyecto permitir la selección de horas
+            - [x] Modificar formulario crear y editar sprint permitir la selección de horas
+            - [x] Modificar la opción de agregar tarjeta en el tablero incluir "Descripcion/fechahorainicio /fechahorafin
+            - [x] Modificar la opción de agregar tarjeta en Reserva incluir "Descripcion/fechahorainicio /fechahorafin
+            - [x] Agregrar botones de desplazamiento a la tarjeta pendiente hasta finalizado y de finalizado hasta pendiente
+            - [x] Al enviar un email con la tarjeta agregar la descripción de la misma
+            - [x] Enviar email cuando se edita la tarjeta junto con la descripción
+            - [x] Colocar un mensaje que indique que se realizaron cambios por otro usuario y que debe sincronizar el tablero
+            - [x] Agregar el mensaje indicando el tiempo de sesión que queda para expirar.
+            - [x] Tablero al editar verificar que la fecha inicial puede ser menor del inicio del sprint
+            - [x] Editar el tablero de proyecto foraneo asignar automaticamente la fecha y hora y la estimación
+            - [x] Editar el formulario de  tablero para asignación automaticamente la fecha y hora y la estimación
+            - [x] Modificar el formulario de Tablero al agregar etiquetas si se agrega una y se elimina y se da clic en el botón Guardar no lo almacena 
+            - [x] Modificar el formulario de Backlog al agregar etiquetas si se agrega una y se elimina y se da clic en el botón Guardar no lo almacena 
+
+            </code>
+            </pre>
+
+
+
+
+
+
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.beta-9</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>21/08/2023</i></p>
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>
+            - [x] Agregar nuevos iconos personalizados para identificar elementos
+            - [x] Agregar filtro para solo visualizar "Mis Tarjetas" en el tablero de trabajo
+            - [x] Ajustar en el dashboard principal el espacio de texto antes de los proyectos
+            - [x] Agregar al dashoard en los proyectos privados y públicos un mensaje que indique no hay planes habilitados
+            - [x] Agregar en el menú superior un espacio entre los botones a la derecha en el sistema de flujo de tarjetas
+            - [x] Mejorar el formulario de login eliminando elementos de la barra derecha
+            - [x] Mejorar el diseño los elementos de la barra superior principal para una mejor disposición de los elementos
+            - [x] Corregir el formulario Impediementos que no lo despliega
+            - [x] Se muestra la fecha final del proyecto en el dashboard principal
+            - [x] Se mejoro el diseño del formulario de sesión expirada
+            - [x] Mejorar el diseño de la interfaz del sistema de flujo de tarjeta
+            - [x] Configurar nuevo email del sistema de flujo de tarjeta
+            - [x] Realizar cambios en la imagen SVG principal del sistema F.T.
+
+            </code>
+            </pre>        
+            <hr></hr>
+
+
+            <h3 class="text-xl mb-3">Release: 1.0.beta-8</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>18/08/2023</i></p>
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>
+           - [x] Actualizar el soporte para payara-micro:6.2023.8
+            - [x] Corregir el error que se genera cuando un plan ya ha vencido su fecha final y se mantiene abierto
+            - [x] Corregir el error que se genera cuando un plan ya ha vencido su fecha final y se mantiene abierto y se ingresa a reserva
+             </code>
+            </pre>
+
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.beta-7</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>17/08/2023</i></p>
+
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" >
+            <code>
+             -[x] Agregar informaciòn de ayuda a los usuarios del sistema en la opción información.xhtml
+            -[x] Mejorar el diseño del tablero del sistema de flujo de tarjetas
+            -[x] Simplificar la barra de la plantilla permitiendo ocultarla/mostrarla. SFT
+            -[x] Mejorar el diseño de la barra de breadcrumb con las opciones de pagina
+            -[x] Agregar informaciòn de ayuda a los usuarios del sistema en la opción información.xhtml
+            - [x] Aumentar el tamaño del nombre del proyecto en el tablero para que se muestre completo
+            </code>
+            </pre>
+
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.beta-6</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>11/08/2023</i></p>
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" ><code>
+
+            - [x] Crear formulario Mi Calendario que permite ver al usuario logeado todos las tarjetas de todos los proyectos en que este trabajando
+            - [x] Implementar el control de sesión expirada en el sistema de flujo de tarjetas
+            - [x] Crear formulario de información del sistema de flujo de tarjetas
+            - [x] Crear formulario de documentación del sistema de f.t
+
+            - [x] Corregir el error al tratar de agregar un nuevo rol de usuario en el sistema s.f.
+            - [x] Revisar el Contador de reserva en dashboard que no esta mostrando la cantidad exacta de tarjetas en reserva
+            - [x] Realizar ajustes en el tablero de proyectos públicos el usuario foráneo no debe visualizar los iconos en la barra superior del tablero, solo se permite actualizar y crear tarjetas.
+            - [x] Corregir error en la opción de buscar tarjetas, muestra a un colaborador todas las tarjetas.
+            - [x] Corregir error .TableroFaces.sendEmailTarjeta Cannot invoke "String.equals(Object)" because "x" is null al mover una tarjeta foranea en el tablero
+
+            </code></pre>
+
+
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.beta-5</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>7/08/2023</i></p>
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" ><code>
+            - [x] Mejora el formulario de tarjetas ajustando los tamaños de columnas
+            - [x] Se cambió el profile del tablero indicando en la parte superior el nombre del proyecto y en la parte inferior el prefijo.
+            - [x] Editar todos los diálogos e implementar un process="" del diálogo principal
+            - [x] Formulario de tarjetas se agregó rowExpansion y se incluyo información detallada de la tarjeta
+            - [x] Formulario de tarjetas foráneas se agregó rowExpansion y se incluyo información detallada de la tarjeta
+            - [x] Corregir error en el formulario Reserva después de migrar a la versión 13 de primefaces
+            - [x] Se valido que al quitar un colabordor de un proyecto y este tenia tarjetas asignadas, estas se muestran sin colaborador para permitir que otro colaborador las tome
+            - [x] Agregar  atributo descripción al formulario de cerrar sprint para dar mayor información al usuario y se permite mostrar los impedimentos encontrados
+            - [x] Implementar ajuste en el ancho de los componentes que se muestran en los formularios del sistema F.T.
+            - [x] Ajustar diseño del formulario de login sistema de flujo de tarjetas
+            - [x] Ajustar el tamaño con grid max de los formularios principales del sistema de flujo de tarjetas
+            - [x] Realizar corrección en el formulario de crear tarjetas de reserva para generar la estimación de manera automática.
+
+            </code></pre>
+
+
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.beta-4</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>3/07/2023</i></p>
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" ><code>
+             - [x] Se creó el formulario **Olvido password**, que permite el cambio de password mediante el envío de un token al correo
+            - [x] Se creó una nueva colección llamada Organigrama que gestiona los departamentos y los departamentos que dependen del mismo, se utiliza para los reportes departamentales.
+            - [x] se actualizó el servidor a Payara-6.2023.6 
+            - [x] se creó el formulario para administrar el organigrama
+            - [x] Se generó el reporte mis proyectos para mostrar los proyectos del usuario registrado.
+            - [x] Se creó el reporte departamental que permite filtrar por los departamentos del organigrama
+            - [x] Se creó el reporte de colaborador departamental que permite filtrar por los departamentos del organigrama
+            - [x] Se creó el manual de usuario de Jefe de Unidad
+            - [x] Se creó el manual de usuario de Colaborador
+            - [x] Se mejoró la interface UserServices y UserView Services usando Optional
+            - [x] Se ajustó los Converter UserConverter/UserViewConverter para usar Optional 
+            - [x] Se ajustó el formulario LoginController Los Converter UserConverter
+            - [x] En el formulario de crear/editar usuarios se valida que no se repita email y cédula del usuario,
+            - [x] En el formulario de perfil se valida que no se repita email y cédula del usuario,
+            - [x] En la barra principal se muestra el texto de Login o Salir dependiendo de si se ha iniciado sesión o no el usuario
+            - [x] Al realizarse tres intentos fallidos de acceso se redirecciona al formulario de cambiar el password
+            - [x] Se ajustó el menú de reportes con base en los perfiles de los usuarios
+            - [x] En el formulario de reportes de proyectos se valida los roles permitidos para otras acciones de los reportes
+            - [x] Se verifica que tenga registros para habilitar el botón de imprimir todos los registros en los formularios con datatable
+            - [x] En el formulario de Cronología, si es un colaborador se filtran los registros de ese usuario
+            - [x] En el dashboard principal se quitó el botón menú de Reserva para colaboradores, es una acción que solo el propietario del proyecto puede ejecutar
+            - [x] En el reporte de estadísticas de cierre por colaborador se agregó el filtro de resultados por el colaborador conectado excluyendo otros colaboradores.
+            - [x] Se revisó las opciones de menú con base en los perfiles del usuario conectado
+            - [x] Verificar que el total en reserva no coincide con el mostrado desde el menú reportes->proyectos opción Resumen
+            - [x] Se corrigió la opción de Resumen en el reporte de proyectos, y en el dashboard.
+            - [x] Se verificó el reporte de tarjetas en la sección columna, se muestra el texto Reserva cuando la tarjeta está en Reserva.
+            - [x] Se ajustaron los datatable para colocar el tamaño de columna a 0p:column style="width:10rem" para columnas con contenido extenso
+            - [x] Se realizó una corrección en el framework jmoordb-core para generación de implementaciones de repositorios
+            - [x] Se verificó  los autocompletados múltiples que al quitar un elemento e intentar de seleccionarlo en la misma operación no mostraba si se había removido. En los formularios usuarios, proyectos
+            - [x] Se corrigió en formulario Perfil cambiando él autocompletado de Sede por un label
+            - [x] Se corrigió la opción de mostrar imágenes y archivos
+            - [x] Se corrigió el uso de imágenes con componentes p:avatar
+            - [x] Se modificó el formulario de Cronología, se ajustó la representación visual.
+            - [x] En el formulario organigrama al editarlo se deshabilita el departamento principal
+
+            </code></pre>
+
+
+
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.beta-3</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>2/06/2023</i></p>
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" ><code>
+
+            - [x] Se creó el formulario de administración de roles
+            - [x]Se agregó un nuevo rol de SUPER-USER del sistema
+            - [x] Se creó el formulario de administración departamentos
+            - [x] Se agregaron nuevos perfiles para usuarios
+            - [x] Se agregó la opción Perfil para que el usuario pueda editar sus datos y cambiar su contraseña, cambiar su foto.
+            - [x] En la barra superior el usuario puede invocar el formulario de cambio de perfil al hacer clic en el avatar.
+            - [x] Se modificó el manejo de archivos, se soporta la migración a otros servidores de manera sencilla
+            - [x] Se modificó las opciones para subir y descargar archivos y se envía notificaciones sobre el proceso
+            - [x] Se actualizó la versión del servidor a Payara micro 6.2023.5
+            - [x] Se cambió el término Requisito por Reserva para especificar los componentes de Backlog con la finalidad de ser un término más entendible para los usuarios
+            - [x] Al crear una tarjeta de manera predeterminada se muestra la fecha final y la estimación de 05:30 hh:mm
+
+               Envió de Emails
+
+            - [x] Se creó un formulario que permite el envió de emails con archivos adjuntos a los colaboradores del proyecto que el emisor seleccione de la lista.
+            - [x] Cuando se asigna o remueve un colaborador de una tarjeta del *tablero* este recibe un email con la notificación correspondiente.
+            - [x] Cuando se asigna o remueve un colaborador de una tarjeta de la *Reserva* este recibe un email con la notificación correspondiente.
+            - [x] Al crear/editar un proyecto se envía correo a los colaboradores
+            - [x] Al agregar/eliminar un colaborador del proyecto se envía correo informando al respecto
+            - [x] Al crear, editar y cerrar un plan se envía email a todos los colaboradores del proyecto
+
+              Tarjetas foráneas
+            - [x] Cuando un colaborador genera una tarjeta en un proyecto foráneo al que él no pertenece, se le envía un correo al propietario del proyecto.
+            - [x] Cuando un usuario edita la tarjeta se envía un email a todos los colaboradores de la misma
+            - [x] Cuando un usuario agrega comentarios a la tarjeta se envía un email a todos los colaboradores de la misma
+            - [x]] Cuando un usuario mueve la tarjeta se envía un email a todos los colaboradores de la misma
+            - [x] Cuando un colaborador archiva la tarjeta se envía el email informando
+            - [x]  Cuando un colaborador sube un archivo a la tarjeta se envía el email informando
+
+           - [x] Se corrigió en el formulario de proyectos el texto que especificaba colaborador, propietario, departamento y área que se mostraba dentro del mismo componente y no se visualizaba adecuadamente.
+           - [x] Se eliminó la imagen del usuario en el pie de página para que la carga inicial sea más rápida
+           - [x] En la sección inicial de miembros del equipo se omitió mostrar la foto y se muestra un Gravatar con el nombre
+
+            </code></pre>
+
+
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.beta-2</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>18/05/2023</i></p>
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de correcciones se define en la siguiente  <i>lista</i>.</p>
+            <pre class=" language-markup" ><code>
+            - [x] Se cambió el menú izquierdo para reducir el tamaño que ocupaba el menú anterior
+            - [x] Se cambiaron los iconos de cierre de diálogos
+            - [x] En el panel principal se ajustó el borde de las tarjetas de proyectos
+            - [x] Se crearon componentes de los formularios para simplificar el diseño
+            - [x] Se mejoro el diseño del panel de mensaje cuando otro usuario ha realizado cambios sobre la misma tarjeta en que se está trabajando simultaneamente.
+            - [x] Las tareas finalizadas se muestran de color verde
+            - [x] Se colocaron títulos en las tarjetas con comentarios, impedimentos y etiquetas en el tablero y en el formulario de requisitos
+            - [x] Se creó el formulario para administración de usuarios
+            - [x] Se mejoró el diseño del formulario de creación de proyectos
+            - [x] Se actualizaron los videos con la nueva interface
+             - [x] Se mejoró las opciones para centrar diálogos
+            </code></pre>
+
+
+
+            <hr></hr>
+            <h3 class="text-xl mb-3">Release: 1.0.beta-1</h3>
+            <p class="mb-3 line-height-3">Fecha:<i>8/05/2023</i></p>
+
+            <h3 class="text-xl mb-3">Correcciones</h3>
+            <p class="mb-3 line-height-3">El listado de funcionalidades se define en la siguiente
+                <i>lista</i>.</p>
+
+            <pre class=" language-markup" ><code>
+               - [x] Creación, edición, clonación, reportes de proyectos
+               - [x]  Creación, edición, clonación, cierres, reportes de planes
+               - [x]  Administración del tablero
+               - [x]  Creación, edición de tarjetas
+               - [x]  Gestión de colaboradores, etiquetas, archivos, comentarios, impedimentos de las tarjetas
+               - [x]  Administración de requisitos del proyecto
+               - [x]  Gráficos estadísticos por plan y colaboradores
+               - [x] Reportes de proyectos, planes
+               - [x]  Cronología del tablero
+    
+            </code></pre>
+
+
+
+
+
+
+
+        </div>
+    </ui:define>
+
+</ui:composition>

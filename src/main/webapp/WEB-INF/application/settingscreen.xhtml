@@ -1,0 +1,326 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pb="http://xmlns.jcp.org/jsf/composite/primeblocks"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">PrimeBlocks</ui:define>
+
+    <ui:define name="breadcrumb">
+        <li>
+            <div class="chevron">/</div>
+            <h:link outcome="/application">Application</h:link>
+        </li>
+        <li>
+            <div class="chevron">/</div>
+            <h:link outcome="/application/settingscreen">Setting Screen</h:link>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="block-category-title">Setting Screen</div>
+
+        <pb:blockViewer header="Settings" code="#{settingScreenView.block1}">
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <div id="app-sidebar"
+                     class="h-full lg:h-auto hidden lg:block flex-shrink-0 absolute lg:static left-0 top-0 z-1 border-right-1 surface-border w-full md:w-auto">
+                    <div class="flex h-full">
+                        <div class="flex flex-column h-full bg-indigo-500 flex-shrink-0 select-none">
+                            <div class="flex align-items-center justify-content-center flex-shrink-0 bg-indigo-600"
+                                 style="height:60px">
+                                <p:graphicImage name="images/blocks/logos/hyper-light.svg" library="primeblocks-app"
+                                                alt="Image" height="30"/>
+                            </div>
+                            <div class="overflow-y-auto mt-3">
+                                <ul class="list-none py-3 px-2 m-0" data-pb-tablist="setting">
+                                    <li class="mb-2">
+                                        <a class="flex align-items-center cursor-pointer p-3 lg:justify-content-center hover:bg-indigo-400 border-round text-indigo-100 hover:text-indigo-50 transition-duration-150 transition-colors bg-indigo-700"
+                                           data-pb-tab="{toggleClass: 'bg-indigo-700', selector: '#tab1', selectorToggleClass: 'hidden'}">
+                                            <i class="pi pi-home text-lg"/>
+                                        </a>
+                                    </li>
+                                    <li class="mb-2">
+                                        <a class="flex align-items-center cursor-pointer p-3 lg:justify-content-center hover:bg-indigo-400 border-round text-indigo-100 hover:text-indigo-50 transition-duration-150 transition-colors"
+                                           data-pb-tab="{toggleClass: 'bg-indigo-700', selector: '#tab2', selectorToggleClass: 'hidden'}">
+                                            <i class="pi pi-bookmark text-lg"/>
+                                        </a>
+                                    </li>
+                                    <li class="mb-2">
+                                        <a class="flex align-items-center cursor-pointer p-3 lg:justify-content-center hover:bg-indigo-400 border-round text-indigo-100 hover:text-indigo-50 transition-duration-150 transition-colors"
+                                           data-pb-tab="{toggleClass: 'bg-indigo-700', selector: '#tab3', selectorToggleClass: 'hidden'}">
+                                            <i class="pi pi-users text-lg"/>
+                                        </a>
+                                    </li>
+                                    <li class="mb-2">
+                                        <a class="flex align-items-center cursor-pointer p-3 lg:justify-content-center hover:bg-indigo-400 border-round text-indigo-100 hover:text-indigo-50 transition-duration-150 transition-colors"
+                                           data-pb-tab="{toggleClass: 'bg-indigo-700', selector: '#tab4', selectorToggleClass: 'hidden'}">
+                                            <i class="pi pi-comments text-lg"/>
+                                        </a>
+                                    </li>
+                                    <li class="mb-2">
+                                        <a class="flex align-items-center cursor-pointer p-3 lg:justify-content-center hover:bg-indigo-400 border-round text-indigo-100 hover:text-indigo-50 transition-duration-150 transition-colors"
+                                           data-pb-tab="{toggleClass: 'bg-indigo-700', selector: '#tab5', selectorToggleClass: 'hidden'}">
+                                            <i class="pi pi-calendar text-lg"/>
+                                        </a>
+                                    </li>
+                                    <li class="mb-2">
+                                        <a class="flex align-items-center cursor-pointer p-3 lg:justify-content-center hover:bg-indigo-400 border-round text-indigo-100 hover:text-indigo-50 transition-duration-150 transition-colors"
+                                           data-pb-tab="{toggleClass: 'bg-indigo-700', selector: '#tab6', selectorToggleClass: 'hidden'}">
+                                            <i class="pi pi-cog text-lg"/>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mt-auto">
+                                <hr class="mb-3 mx-3 border-top-1 border-bottom-none border-indigo-300"/>
+                                <a class="m-3 flex align-items-center cursor-pointer py-1 px-0 justify-content-center hover:bg-indigo-400 border-round text-300 hover:text-0
+                                    transition-duration-150 transition-colors">
+                                    <p:graphicImage name="images/blocks/avatars/circle/avatar-f-1.png"
+                                                    library="primeblocks-app" alt="Image"
+                                                    style="width: 24px; height: 24px"/>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="flex flex-column surface-0 p-4 overflow-y-auto flex-shrink-0 flex-grow-1 md:flex-grow-0"
+                             style="width:250px">
+                            <div class="justify-content-end mb-3 flex lg:hidden">
+                                <p:commandButton type="button" icon="pi pi-times"
+                                                 styleClass="rounded-button ui-button-flat ui-button-plain"
+                                                 pt:data-pb-styleclass="{ selector: '#app-sidebar', leaveToClass: 'hidden', leaveActiveClass: 'fadeoutleft' }"/>
+                            </div>
+                            <div class="surface-0 flex-auto">
+                                <div id="tab1">
+                                    <div class="w-full lg:w-auto select-none">
+                                        <ul class="list-none py-2 px-0 m-0">
+                                            <li>
+                                                <div class="p-3 text-500 font-medium">HOME</div>
+                                            </li>
+                                            <li>
+                                                <a class="flex align-items-center cursor-pointer p-3 hover:surface-100 border-round transition-colors transition-duration-150">
+                                                    <i class="pi pi-home mr-2 text-700"/>
+                                                    <span class="font-medium text-700">Dashboard</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="flex align-items-center cursor-pointer p-3 hover:surface-100 border-round transition-colors transition-duration-150">
+                                                    <i class="pi pi-bookmark mr-2 text-700"/>
+                                                    <span class="font-medium text-700">Bookmarks</span>
+                                                    <span class="inline-flex align-items-center justify-content-center ml-auto bg-blue-100 text-blue-900 border-circle"
+                                                          style="min-width: 1.5rem; height: 1.5rem">3</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="flex align-items-center cursor-pointer p-3 hover:surface-100 border-round transition-colors transition-duration-150">
+                                                    <i class="pi pi-users mr-2 text-700"/>
+                                                    <span class="font-medium text-700">Team</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="flex align-items-center cursor-pointer p-3 hover:surface-100 border-round transition-colors transition-duration-150">
+                                                    <i class="pi pi-comments mr-2 text-700"/>
+                                                    <span class="font-medium text-700">Messages</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="flex align-items-center cursor-pointer p-3 hover:surface-100 border-round transition-colors transition-duration-150">
+                                                    <i class="pi pi-calendar mr-2 text-700"/>
+                                                    <span class="font-medium text-700">Calendar</span>
+                                                    <span class="inline-flex align-items-center justify-content-center ml-auto bg-purple-100 text-purple-900 border-circle"
+                                                          style="min-width: 1.5rem; height: 1.5rem">2</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="flex align-items-center cursor-pointer p-3 hover:surface-100 border-round transition-colors transition-duration-150">
+                                                    <i class="pi pi-user mr-2 text-blue-500"/>
+                                                    <span class="font-medium text-blue-500 font-bold">Profile</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <ul class="list-none py-2 px-0 m-0 border-top-1 surface-border">
+                                            <li>
+                                                <div class="p-3 text-500 font-medium">ORGANIZATION</div>
+                                            </li>
+                                            <li>
+                                                <a class="flex align-items-center cursor-pointer p-3 hover:surface-100 border-round transition-colors transition-duration-150">
+                                                    <i class="pi pi-home mr-2 text-700"/>
+                                                    <span class="font-medium text-700">Overview</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="flex align-items-center cursor-pointer p-3 hover:surface-100 border-round transition-colors transition-duration-150">
+                                                    <i class="pi pi-bookmark mr-2 text-700"/>
+                                                    <span class="font-medium text-700">Security</span>
+                                                    <span class="inline-flex align-items-center justify-content-center ml-auto bg-cyan-100 text-cyan-900 border-circle"
+                                                          style="min-width: 1.5rem; height: 1.5rem">3</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="flex align-items-center cursor-pointer p-3 hover:surface-100 border-round transition-colors transition-duration-150">
+                                                    <i class="pi pi-users mr-2 text-700"/>
+                                                    <span class="font-medium text-700">Domains</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="flex align-items-center cursor-pointer p-3 hover:surface-100 border-round transition-colors transition-duration-150">
+                                                    <i class="pi pi-calendar mr-2 text-700"/>
+                                                    <span class="font-medium text-700">Reports</span>
+                                                    <span class="inline-flex align-items-center justify-content-center ml-auto bg-orange-100 text-orange-900 border-circle"
+                                                          style="min-width: 1.5rem; height: 1.5rem">2</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div id="tab2" class="p-3 font-medium text-xl text-900 hidden">Bookmarks
+                                </div>
+                                <div id="tab3" class="p-3 font-medium text-xl text-900 hidden">Team
+                                </div>
+                                <div id="tab4" class="p-3 font-medium text-xl text-900 hidden">Messages
+                                </div>
+                                <div id="tab5" class="p-3 font-medium text-xl text-900 hidden">Calendar
+                                </div>
+                                <div id="tab6" class="p-3 font-medium text-xl text-900 hidden">Settings
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="min-h-screen flex flex-column relative flex-auto">
+                    <div class="flex justify-content-between align-items-center px-5 surface-section border-bottom-1 surface-border relative lg:static"
+                         style="height:60px">
+                        <div class="flex">
+                            <a class="cursor-pointer block lg:hidden text-700 mr-3"
+                               data-pb-styleclass="{ selector: '#app-sidebar', enterClass: 'hidden', enterActiveClass: 'fadeinleft', leaveToClass: 'hidden', leaveActiveClass: 'fadeoutleft' }">
+                                <i class="pi pi-bars text-4xl"/>
+                            </a>
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"/>
+                                <p:inputText type="search" styleClass="border-none" placeholder="Search"/>
+                            </span>
+                        </div>
+                        <a class="cursor-pointer block lg:hidden text-700"
+                           data-pb-styleclass="{ selector: '@next', enterClass: 'hidden', enterActiveClass: 'fadein', leaveToClass: 'hidden', leaveActiveClass: 'fadeout', hideOnOutsideClick: true }">
+                            <i class="pi pi-ellipsis-v text-2xl"/>
+                        </a>
+                        <ul class="list-none p-0 m-0  hidden lg:flex lg:align-items-center select-none lg:flex-row
+                            surface-section border-1 lg:border-none surface-border right-0 top-100 z-1 shadow-2 lg:shadow-none absolute lg:static">
+                            <li>
+                                <a class="flex p-3 lg:px-3 lg:py-2 align-items-center text-600 hover:text-900 hover:surface-100 font-medium border-round cursor-pointer
+                                    transition-duration-150 transition-colors">
+                                    <i class="pi pi-inbox text-base lg:text-2xl mr-2 lg:mr-0"/>
+                                    <span class="block lg:hidden font-medium">Inbox</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="flex p-3 lg:px-3 lg:py-2 align-items-center text-600 hover:text-900 hover:surface-100 font-medium border-round cursor-pointer
+                                    transition-duration-150 transition-colors">
+                                    <p:badge severity="danger">
+                                        <i class="pi pi-bell text-base lg:text-2xl"/>
+                                    </p:badge>
+                                    <span class="block lg:hidden font-medium ml-2 lg:ml-0">Notifications</span>
+                                </a>
+                            </li>
+                            <li class="border-top-1 surface-border lg:border-top-none">
+                                <a class="flex p-3 lg:px-3 lg:py-2 align-items-center hover:surface-100 font-medium border-round cursor-pointer
+                                    transition-duration-150 transition-colors">
+                                    <p:graphicImage name="images/blocks/avatars/circle/avatar-f-1.png"
+                                                    library="primeblocks-app" alt="Image"
+                                                    styleClass="mr-3 lg:mr-0" style="width: 32px; height: 32px"/>
+                                    <div class="block lg:hidden">
+                                        <div class="text-900 font-medium">Josephine Lillard</div>
+                                        <span class="text-600 font-medium text-sm">Marketing Specialist</span>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="p-5 flex flex-column flex-auto">
+                        <div>
+                            <div class="text-900 font-medium text-xl mb-3">Profile</div>
+                            <p class="m-0 mb-4 p-0 text-600 line-height-3 mr-3">Odio euismod lacinia at quis risus sed vulputate odio. Non nisi est sit amet.
+                                Egestas integer eget aliquet nibh praesent tristique magna.</p>
+                            <div class="surface-card p-4 shadow-2 border-round">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+                                        <label for="nickname" class="font-medium">Nickname</label>
+                                        <p:inputText id="nickname"/>
+                                    </div>
+                                    <div class="surface-100 mb-3 col-12" style="height:2px"></div>
+                                    <div class="field mb-4 col-12 md:col-6">
+                                        <label for="bio" class="font-medium">Bio</label>
+                                        <p:inputTextarea id="bio" rows="5" autoResize="true"/>
+                                    </div>
+                                    <div class="field mb-4 col-12 md:col-6">
+                                        <label class="font-medium">Avatar</label>
+                                        <div class="flex align-items-center">
+                                            <p:graphicImage name="images/blocks/avatars/circle/avatar-f-4.png"
+                                                            library="primeblocks-app" alt="Image"
+                                                            styleClass="mr-4"/>
+                                            <p:fileUpload mode="simple" skinSimple="true" label="Upload Image"
+                                                          auto="true"
+                                                          process="@this"/>
+                                        </div>
+                                    </div>
+                                    <div class="surface-100 mb-3 col-12" style="height:2px"></div>
+                                    <div class="field mb-4 col-12 md:col-6">
+                                        <label for="email" class="font-medium">Email</label>
+                                        <p:inputText id="email"/>
+                                    </div>
+                                    <div class="field mb-4 col-12 md:col-6">
+                                        <label for="bio" class="font-medium">Country</label>
+                                        <p:selectOneMenu filter="true" filterMatchMode="startsWith">
+                                            <f:selectItem itemLabel="Select a Country" itemValue=""/>
+                                            <f:selectItem itemLabel="Australia" itemValue="Australia"/>
+                                            <f:selectItem itemLabel="Brazil" itemValue="Brazil"/>
+                                            <f:selectItem itemLabel="China" itemValue="China"/>
+                                            <f:selectItem itemLabel="Egypt" itemValue="Egypt"/>
+                                            <f:selectItem itemLabel="France" itemValue="France"/>
+                                            <f:selectItem itemLabel="Germany" itemValue="Germany"/>
+                                            <f:selectItem itemLabel="India" itemValue="India"/>
+                                            <f:selectItem itemLabel="Japan" itemValue="Japan"/>
+                                            <f:selectItem itemLabel="Spain" itemValue="Spain"/>
+                                            <f:selectItem itemLabel="United States" itemValue="United States"/>
+                                        </p:selectOneMenu>
+                                    </div>
+                                    <div class="field mb-4 col-12 md:col-6">
+                                        <label for="city" class="font-medium">City</label>
+                                        <p:inputText id="city"/>
+                                    </div>
+                                    <div class="field mb-4 col-12 md:col-6">
+                                        <label for="state" class="font-medium">State</label>
+                                        <p:inputText id="state"/>
+                                    </div>
+                                    <div class="surface-100 mb-3 col-12" style="height:2px"></div>
+                                    <div class="field mb-4 col-12">
+                                        <label for="website" class="font-medium">Website</label>
+                                        <div class="ui-inputgroup">
+                                            <span class="ui-inputgroup-addon">www</span>
+                                            <p:inputText id="website"/>
+                                        </div>
+                                    </div>
+                                    <div class="surface-100 mb-3 col-12" style="height:2px"></div>
+                                    <div class="field mb-4 col-12">
+                                        <label class="font-medium">Privacy</label>
+                                        <div class="flex align-items-center">
+                                            <p:toggleSwitch/>
+                                            <span class="ml-2">Share my data with contacts</span>
+                                        </div>
+                                    </div>
+                                    <div class="surface-100 mb-3 col-12" style="height:2px"></div>
+                                    <div class="col-12">
+                                        <p:commandButton type="button" value="Save Changes" styleClass="w-auto mt-3"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </pb:blockViewer>
+
+    </ui:define>
+
+</ui:composition>

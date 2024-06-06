@@ -1,0 +1,385 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:c="jakarta.tags.core">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+
+        <p:commandLink action="propietarioagregar" value="#{msg['breadcrumb.propietarioagregar']}">
+        </p:commandLink>
+
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('DEVELOPERS,SUPER-USER')}">
+            <p:growl id="growl"/>
+            <p:remoteCommand name="remoteCommandWebSocketProyecto"
+                             action="#{propietarioAgregarFaces.refreshFromWebsocket()}"
+                             update="#{propietarioAgregarFaces.updateForRemoteWebsocket()}" 
+                             oncomplete="#{propietarioAgregarFaces.onCompleteWebSocket()}" 
+
+                             />
+
+            <script type="text/javascript">
+                function setDataTableWithPageStart() {
+
+                    widgetVardataTable.getPaginator().setPage(0);
+                }
+            </script>
+<!--            <div class="block-category-title">#{msg['form.misproyecto']}</div>-->
+
+            <!--<pb:blockViewerCore header="Sidebar" >-->
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+                <div class="min-h-screen flex flex-column relative flex-auto">
+                    <!--                    <dashboard:top/>-->
+                    <!--<div class="surface-section, jmoordbcore-max-width1175">-->
+                    <div class="surface-section, jmoordbcore-max-width2000">
+                        <div class="grid">
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+                                        <label  class="font-bold">#{msg['form.propietarioagregar']}</label>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-12 lg:col-12">
+                                <p:dataTable style="border-style: none" var="item" value="#{propietarioAgregarFaces.proyectoLazyDataModel}"
+                                             binding="#{propietarioAgregarFaces.dataTable}"
+                                             id="dataTable"
+                                             widgetVar="widgetVardataTable"
+                                             lazy="true"
+                                             paginator="true"
+                                             rows="#{propietarioAgregarFaces.rowPageSmall.get()}"
+                                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                             paginatorPosition="both"
+                                             resizableColumns="true" liveResize="true"
+
+                                             rowKey="#{item.idsprint}"
+                                             selection="#{propietarioAgregarFaces.proyectoSelected}"
+                                             rowSelectMode="add"
+
+                                             >
+                                    <p:column class="column2">
+                                        <p:rowToggler/>
+                                    </p:column>
+                                    <p:column  class="column10" headerText="#{msg['field.idproyecto']}" sortable="true" sortBy="#{item.idproyecto}">
+
+                                        <p:outputLabel value="#{item.idproyecto}" style="float:left"/>
+
+                                    </p:column>
+
+
+
+                                    <p:column class="column15" headerText="#{msg['field.proyecto']}" sortable="true" sortBy="#{item.proyecto}">
+
+                                        <p:outputLabel value=" #{item.proyecto}" style="float:left">
+                                            <i class="#{item.icono.icono}"></i>
+                                        </p:outputLabel>
+
+                                    </p:column>
+
+
+
+                                  
+                                    <p:column class="column3" headerText="#{msg['field.propietario']}">
+                                        <p:avatarGroup styleClass="mb-3">
+                                            <ui:repeat value="#{item.proyectoMiembro}" var="proyectoMiembro">
+                                             
+                                                    <p:avatar size="medium" shape="circle" rendered="#{proyectoMiembro.propietario eq true}">
+                                                        <p:graphicImage 
+                                                            title="#{proyectoMiembro.userView.name}"
+                                                            stream="false" cache="false"
+                                                            rendered="#{propietarioAgregarFaces.jmoordbCoreMediaManager.isImageAndExists(propietarioAgregarFaces.repairPathOfFile(proyectoMiembro.userView.photo))}"
+                                                            value="#{propietarioAgregarFaces.jmoordbCoreMediaManager.generate(propietarioAgregarFaces.repairPathOfFile(proyectoMiembro.userView.photo),'')}" 
+                                                            />
+                                                    </p:avatar>
+                                                    <p:avatar rendered="#{proyectoMiembro.propietario eq true and propietarioAgregarFaces.jmoordbCoreMediaManager.isImageAndExists(propietarioAgregarFaces.repairPathOfFile(proyectoMiembro.userView.photo)) eq false}"
+                                                              title="#{proyectoMiembro.userView.name}"
+                                                              label="#{proyectoMiembro.userView.name}" styleClass="mr-2" size="small" />
+                                              
+                                            </ui:repeat>
+                                        </p:avatarGroup>
+                                    </p:column>
+
+                                    <p:column class="column5" headerText="#{msg['column.evento']}">
+                                            <p:commandButton value="#{msg['button.agregar']}" 
+                                            title="#{msg['button.agregar']}" 
+                                                         icon="pi pi-user-plus"
+                                                         update=":form:growl, outputPanelPropietarioAgregar"
+                                                         rendered="#{!propietarioAgregarFaces.esPropietarioProyecto(item)}"
+
+                                                         oncomplete="PF('overlayPanelPropietarioAgregar').show('#{component.clientId}')"
+                                                         action="#{propietarioAgregarFaces.prepareProyectoReabrir(item)}"
+                                                         styleClass="ui-button-outlined ui-button-help"
+                                                         />
+                                    </p:column>
+                                    
+                                    
+                                     <p:column class="column3" headerText="#{msg['field.colaborador']}">
+                                        <p:avatarGroup styleClass="mb-3">
+                                            <ui:repeat value="#{item.proyectoMiembro}" var="proyectoMiembro">
+                                             
+                                                    <p:avatar size="medium" shape="circle" rendered="#{proyectoMiembro.propietario eq false}">
+                                                        <p:graphicImage 
+                                                            title="#{proyectoMiembro.userView.name}"
+                                                            stream="false" cache="false"
+                                                            rendered="#{propietarioAgregarFaces.jmoordbCoreMediaManager.isImageAndExists(propietarioAgregarFaces.repairPathOfFile(proyectoMiembro.userView.photo))}"
+                                                            value="#{propietarioAgregarFaces.jmoordbCoreMediaManager.generate(propietarioAgregarFaces.repairPathOfFile(proyectoMiembro.userView.photo),'')}" 
+                                                            />
+                                                    </p:avatar>
+                                                    <p:avatar rendered="#{proyectoMiembro.propietario eq false and propietarioAgregarFaces.jmoordbCoreMediaManager.isImageAndExists(propietarioAgregarFaces.repairPathOfFile(proyectoMiembro.userView.photo)) eq false}"
+                                                              title="#{proyectoMiembro.userView.name}"
+                                                              label="#{proyectoMiembro.userView.name}" styleClass="mr-2" size="small" />
+                                              
+                                            </ui:repeat>
+                                        </p:avatarGroup>
+                                    </p:column>
+                                    
+                                    
+                                    <p:column class="column3" headerText="#{msg['field.estado']}">
+
+
+                                        <p:outputLabel value="#{item.estado}" style="float:left"  rendered="#{item.estado ne 'finalizado'}"/>
+                                        <p:outputLabel value="#{item.estado}" style="float:left" styleClass="bg-purple-900"
+                                                       rendered="#{item.estado eq 'finalizado' and propietarioAgregarFaces.esPropietarioProyecto(item) eq false}}"/>
+
+                                        <p:outputLabel value="#{item.estado}" style="float:left" styleClass="bg-purple-900"
+                                                       rendered="#{item.estado eq 'finalizado' and propietarioAgregarFaces.esPropietarioProyecto(item) eq false}" />
+
+
+                                    
+                                    </p:column>
+                                    <p:column class="column1" headerText="#{msg['field.privado']}">
+
+
+                                        <p:selectBooleanCheckbox value="#{item.privado}" style="float:left" disabled="true"/>
+
+
+                                    </p:column>
+
+
+                                    <p:column class="column10" headerText="#{msg['field.departamento']}">
+                                        <ui:repeat var="departamento" value="#{item.departamentView}" >
+                                            <p:outputLabel value="#{departamento.departament} " style="float:left"/>
+                                            <p:outputLabel value="/" rendered="#{item.departamentView.size() gt 1}" style="float:left"/>
+
+                                        </ui:repeat>
+
+
+                                    </p:column>
+
+                                    <p:rowExpansion>
+                                          <div class="card">
+
+                                            <div class="flex align-items-center flex-wrap text-sm">
+                                                <div class="mr-5 mt-5">
+                                                    <p:outputLabel value="#{msg['field.prefijo']}"/>
+                                                </div>
+                                                <div class="mr-5 mt-5">
+                                                    <p:outputLabel value="#{item.prefijo}" style="float:left; font-style: italic"/>
+
+                                                </div>
+                                            </div>
+                                            <div class="flex align-items-center flex-wrap text-sm">
+                                                <div class="mr-5 mt-5">
+                                                    <p:outputLabel value="#{msg['field.fechainicial']}"/>
+                                                </div>
+                                                <div class="mr-5 mt-5">
+                                                    <p:outputLabel value="#{misProyectoFaces.showDateWithHour(item.fechainicial)}" style="float:left; font-style: italic"/>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="flex align-items-center flex-wrap text-sm">
+                                                <div class="mr-5 mt-5">
+                                                    <p:outputLabel value="#{msg['field.fechafinal']}"/>
+                                                </div>
+                                                <div class="mr-5 mt-5">
+                                                    <p:outputLabel value="#{misProyectoFaces.showDateWithHour(item.fechafinal)}" style="float:left; font-style: italic"/>
+
+                                                </div>
+                                            </div>
+
+
+
+
+
+                                        </div>
+
+
+                                        <p:divider/>
+                                        <div class="card">
+                                            <h4><p:outputLabel value="#{msg['header.proyectomiembro']} : #{item.proyectoMiembro.size()}"/></h4>
+                                            <p:carousel var="proyectomiembro" value="#{item.proyectoMiembro}" 
+                                                        paginator="true"
+                                                        numVisible="3" numScroll="3"
+                                                        orientation="horizontal"
+                                                        >
+                                                <div class="flex align-items-center flex-wrap text-sm">
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{msg['field.propietario']}"/>
+                                                    </div>
+                                                    <div class="mr-5 mt-5">
+
+                                                        <p:selectBooleanCheckbox   value="#{proyectomiembro.propietario}" style="float:left" disabled="true" />
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="flex align-items-center flex-wrap text-sm">
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{msg['field.name']}"/>
+                                                    </div>
+
+                                                    <div class="mr-5 mt-5">
+                                                        <ui:repeat var="userView" value="#{proyectomiembro.userView}">
+                                                            <p:outputLabel value="#{userView.name} " style="float:left"/>
+                                                        </ui:repeat>
+                                                    </div>
+                                                </div>
+
+
+
+
+
+                                            </p:carousel>
+
+
+                                        </div>
+                                       
+
+
+                                    </p:rowExpansion>
+
+
+
+
+
+                                    <f:facet name="header">
+                                        <div class="grid mt-12">
+
+                                            <div class="col-2">
+                                                <p:badge value="#{propietarioAgregarFaces.contadorNotificacionesWebsocket}"
+                                                         severity="danger">
+                                                    <p:commandLink  styleClass="ml-2" 
+                                                                    action="#{propietarioAgregarFaces.refresh()}"
+                                                                    update=":form"
+                                                                    title="#{core['label.notificaciones']}"
+                                                                    >
+                                                        <i class="pi pi-bell" style="font-size: 2rem"/>
+
+                                                    </p:commandLink>
+                                                </p:badge>
+                                            </div>
+                                          
+                                            <div class="col-2">
+
+
+                                                <p:commandButton  title="#{msg['button.refresh']}" icon="pi pi-refresh" styleClass="rounded-button ui-button-help mr-2"
+                                                                  action="#{propietarioAgregarFaces.refresh()}"
+                                                                  process="@this"
+                                                                  update=":form"/>
+                                            </div>
+                                        </div>
+                                    </f:facet>
+
+                                </p:dataTable>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div> 
+
+                </div>
+            </div>
+
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+            </p:confirmPopup>
+
+
+
+    
+
+
+
+
+            <p:overlayPanel widgetVar="overlayPanelPropietarioAgregar" dismissable="false" modal="true" showCloseIcon="true" dynamic="true" 
+                            style="width:370px">
+                <p:outputPanel id="outputPanelPropietarioAgregar" style="text-align:center;">
+
+                    <div class="flex align-items-center ">
+                        <div class="mr-4 mt-2">
+                            <span class="font-bold my-3 text-500">#{msg['label.proyecto']}</span>
+                            <div class="text-500 mt-2">#{propietarioAgregarFaces.proyectoReabrir.proyecto}</div>
+                        </div>
+                    </div>
+                    <p:divider/>
+
+                    <div class="flex align-items-center ">
+
+                        <div class="mr-4 mt-2">
+                            <p:commandButton id="commandButtonPropietarioAgregar" 
+
+                                             update=":form"
+                                             value="#{msg['button.agregarme']}"
+                                             action="#{propietarioAgregarFaces.agregarmeComoPropietario()}"
+                                             icon="pi pi-user-plus"  
+                                             title="#{msg['button.agregarme']}"
+                                             styleClass="ui-button-outlined ui-rounded-button ui-button-success">
+                                <p:confirm type="popup" header="#{core['confirmdialog.header']}" message="#{msg['confirmdialog.asigarsepropietario']}" icon="pi pi-info-circle"/>
+                            </p:commandButton>
+                        </div>
+                        <div class="mr-4 mt-4">
+                            <p:commandButton   title="#{core['button.close']}" 
+                                               icon="pi pi-times"
+                                               update=":form:growl"
+                                               value="#{core['button.close']}"
+                                               action="#{propietarioAgregarFaces.cerrarDialogo()}"
+                                               styleClass="ui-button-help ui-button-outlined ui-rounded-button">
+
+                            </p:commandButton>
+                        </div>
+                    </div>
+
+                </p:outputPanel>
+            </p:overlayPanel>
+
+
+
+
+
+    
+
+
+
+
+
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('DEVELOPERS,SUPER-USER')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

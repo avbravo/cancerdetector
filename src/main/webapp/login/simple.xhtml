@@ -1,0 +1,104 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:pb="http://xmlns.jcp.org/jsf/composite/primeblocks"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <style type="text/css">
+        .product-item .product-item-content {
+            border: 1px solid var(--surface-d);
+            border-radius: 3px;
+            margin: .3rem;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .product-item .product-image {
+            width: 50%;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+        }
+    </style>
+
+    <ui:define name="breadcrumb">
+
+        <i class="pi pi-angle-right"></i>
+        <p:commandLink action="carousel" value="#{core['cardheader.entercredentials']}">
+
+        </p:commandLink>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form" enctype="multipart/form-data" prependId="false">
+            <p:growl id="growl"/>
+            <p:focus context="credencial"/>
+
+
+            <!--<div class="block-category-title">#{core['form.accessform']}</div>-->
+            <div class="flex align-items-center justify-content-center">
+                <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
+                    <div class="text-center mb-5">
+<!--                        <p:graphicImage name="images/logo-primeblocks#{app.darkMode ? '-dark.svg' : '.svg'}" library="primeblocks-app" alt="Image"
+                                        height="50" styleClass="mb-3"/>
+                        -->
+                        <i class="pi pi-key"></i>      
+                        <div class="text-900 text-3xl font-medium mb-3">#{core['cardheader.entercredentials']}</div>
+                        <span class="text-600 font-medium line-height-3">#{loginFaces.userLogged.username}</span>
+                        <!--<a class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Create today!</a>-->
+                    </div>
+
+                    <div>
+                        <label for="credencial" class="block text-900 font-medium mb-2">#{core['login.password']}</label>
+
+                        <p:password id="credencial" styleClass="w-full mb-3" value="#{loginFaces.password}"
+                                    title="#{loginFaces.password}"       toggleMask="true" redisplay="true"
+                                    autocomplete="off"/>
+                        <label for="profile" class="block text-900 font-medium mb-2">#{core['selectOneMenu.profile']}</label>
+                        <p:selectOneListbox id="profile" value="#{loginFaces.profileLogged}" 
+                                            filter="false" filterMatchMode="contains" filterNormalize="true"
+                                            scrollHeight="150"
+                                            >
+
+                            <f:selectItems value="#{loginFaces.profileListLogged}" 
+                                           var="var" 
+                                           itemValue="#{var}" 
+                                           itemLabel="#{var.role.role } - #{var.departamentView.shortname}" />
+
+
+                        </p:selectOneListbox>
+
+                        <div class="flex align-items-center justify-content-between mb-6">
+                            <div class="flex align-items-center">
+                                <p:commandLink  value="#{core['button.back']}" 
+                                                styleClass="ui-button-outlined py-3font-medium ui-button-help"
+                                                action="#{loginFaces.back()}"
+                                                update=":form:growl"/> 
+
+                            </div>
+
+
+                            <p:commandLink  title="#{core['button.forgetpassword']}" 
+                                            value="#{core['button.forgetpassword']}"
+                                            styleClass="ui-button-outlined py-3font-medium ui-button-danger"
+                                            action="#{loginFaces.go('/olvidopassword.xhtml')}"
+                                            update=":form:growl"/> 
+                        </div>
+
+                        <!--<p:commandButton type="button" value="Sign In" icon="pi pi-user" styleClass="w-full"/>-->
+                        <p:commandButton  value="#{core['button.login']}" icon="pi pi-user" 
+                                          styleClass="w-full  py-3font-medium ui-button-success"
+                                          action="#{loginFaces.login()}"
+                                          update=":form:growl"/> 
+                    </div>
+                </div>
+            </div>
+
+
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

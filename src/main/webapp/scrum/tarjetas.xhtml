@@ -1,0 +1,622 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+        <c:if test="${tarjetasFaces.callerLevel0 eq 'dashboard'}">
+            <p:commandLink action="dashboard" value="#{msg['breadcrumb.dashboard']}">
+            </p:commandLink>
+            <c:if test="${tarjetasFaces.callerLevel1 eq 'tablero'}">
+                <i class="pi pi-angle-right"></i>
+                <p:commandLink action="tablero" value="#{core['breadcrumb.tablero']}">
+                </p:commandLink>
+            </c:if>
+            <c:if test="${tarjetasFaces.callerLevel1 eq 'sprint'}">
+                <i class="pi pi-angle-right"></i>
+                <p:commandLink action="sprint" value="#{msg['breadcrumb.sprint']}">
+                </p:commandLink>
+            </c:if>
+
+        </c:if>
+        <c:if test="${tarjetasFaces.callerLevel0 eq 'proyecto'}">
+            <p:commandLink action="misproyecto" value="#{msg['breadcrumb.misproyecto']}">
+            </p:commandLink>
+            <c:if test="${tarjetasFaces.callerLevel1 eq 'sprint'}">
+                <i class="pi pi-angle-right"></i>
+                <p:commandLink action="sprint" value="#{msg['breadcrumb.sprint']}">
+                </p:commandLink>
+            </c:if>
+
+        </c:if>
+        <c:if test="${tarjetasFaces.callerLevel0 eq 'reportedepartamental'}">
+            <p:commandLink action="reportedepartamental" value="#{msg['breadcrumb.reportedepartamental']}">
+            </p:commandLink>
+            <c:if test="${tarjetasFaces.callerLevel1 eq 'sprint'}">
+                <i class="pi pi-angle-right"></i>
+                <p:commandLink action="sprint" value="#{msg['breadcrumb.sprint']}">
+                </p:commandLink>
+            </c:if>
+
+        </c:if>
+        <c:if test="${tarjetasFaces.callerLevel0 eq 'reportecolaboradordepartamental'}">
+            <p:commandLink action="reportecolaboradordepartamental" value="#{msg['breadcrumb.reportecolaboradordepartamental']}">
+            </p:commandLink>
+            <c:if test="${tarjetasFaces.callerLevel1 eq 'sprint'}">
+                <i class="pi pi-angle-right"></i>
+                <p:commandLink action="sprint" value="#{msg['breadcrumb.sprint']}">
+                </p:commandLink>
+            </c:if>
+
+        </c:if>
+
+
+        <i class="pi pi-angle-right"></i>
+        <p:commandLink action="tarjetas" value="#{msg['breadcrumb.tarjeta']}">
+        </p:commandLink>
+
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+            <p:growl id="growl"/>
+            <script type="text/javascript">
+                function setDataTableWithPageStart() {
+
+                    widgetVardataTable.getPaginator().setPage(0);
+                }
+            </script>
+<!--            <div class="block-category-title">#{msg['form.tarjetas']}</div>-->
+
+            <!--<pb:blockViewerCore header="Sidebar" >-->
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+                <div class="min-h-screen flex flex-column relative flex-auto">
+                    <!--                    <dashboard:top/>-->
+                    <!--<div class="surface-section, jmoordbcore-max-width1175">-->
+                    <div class="surface-section, jmoordbcore-max-width2000">
+                        <div class="grid">
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+                                        <label  class="font-bold">#{msg['label.tarjetas']}</label>
+
+                                    </div>
+                                    <div class="field mb-4 col-8">
+                                        <label for="proyecto" class="font-medium">#{msg['field.proyecto']}: #{tarjetasFaces.proyectoSelected.proyecto}</label>
+
+                                    </div>
+
+                                    <div class="field mb-4 col-6">
+                                        <label  class="font-medium">#{msg['field.fechainicial']}: #{tarjetasFaces.showDateWithHour(tarjetasFaces.proyectoSelected.fechainicial)}</label>
+                                    </div>
+                                    <div class="field mb-4 col-6">
+                                        <label  class="font-medium">#{msg['field.fechafinal']}: #{tarjetasFaces.showDateWithHour(tarjetasFaces.proyectoSelected.fechafinal)}</label>
+                                    </div>
+                                </div>
+                                <div class="flex align-items-center flex-wrap text-sm" jsf:rendered="#{tarjetasFaces.isEditable}">
+                                    <div class="mr-5 mt-3">
+                                        <span class="font-medium text-500">#{msg['field.sprint']}</span>
+                                        <div class="text-700 mt-2">#{tarjetasFaces.sprintSelected.sprint}</div>
+                                    </div>
+                                    <div class="mr-5 mt-3">
+                                        <span class="font-medium text-500">#{msg['field.fechainicial']}</span>
+                                        <div class="text-700 mt-2">#{tarjetasFaces.showDateWithHour(tarjetasFaces.sprintSelected.fechainicial)}</div>
+                                    </div>
+                                    <div class="mr-5 mt-3">
+                                        <span class="font-medium text-500">#{msg['field.fechafinal']}</span>
+                                        <div class="text-700 mt-2">#{tarjetasFaces.showDateWithHour(tarjetasFaces.sprintSelected.fechafinal)}</div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <p:remoteCommand name="rc" update=":form:growl" action="#{jmoordbCoreMediaManager.init()}">
+                                <p:fileDownload value="#{jmoordbCoreMediaManager.media}"/>
+                            </p:remoteCommand>
+
+                            <p:remoteCommand name="rc2" update=":form:growl" action="#{jmoordbCoreMediaManager.init()}"/>
+
+                            <div class="col-12 lg:col-12">
+                                <p:dataTable style="border-style: none" var="item" value="#{tarjetasFaces.tarjetaLazyDataModel}"
+                                             binding="#{tarjetasFaces.dataTable}"
+                                             id="dataTable"
+                                             widgetVar="widgetVardataTable"
+                                             lazy="true"
+                                             paginator="true"
+                                             rows="#{tarjetasFaces.rowPageSmall.get()}"
+                                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                             paginatorPosition="both"
+                                             resizableColumns="true" liveResize="true"                                          
+                                             rowKey="#{item.idtarjeta}"
+                                             selection="#{tarjetasFaces.tarjetaSelected}"
+                                             rowSelectMode="add"
+
+                                             >
+                                    <p:column class="column2">
+                                        <p:rowToggler/>
+                                    </p:column>
+
+                                    <p:column class="column10" headerText="#{msg['field.idtarjeta']}">
+                                        <p:outputLabel value="#{item.idtarjeta}" style="float:left"/>
+                                    </p:column>
+                                    <p:column class="column20" headerText="#{msg['field.tarjeta']}">
+                                        <p:outputLabel value="#{item.tarjeta}" style="float:left" title="#{item.tipotarjeta.tipotarjeta}"/>
+                                    </p:column>
+
+
+                                    <p:column class="column10" headerText="#{msg['field.colaborador']}">
+                                        <ui:repeat var="userView" value="#{item.userView}">
+                                            <p:outputLabel value="#{userView.name} " style="float:left"/>
+                                        </ui:repeat>
+
+                                    </p:column>
+                                    <p:column class="column4">
+
+                                        <p:outputLabel value="" rendered="#{item.tarea.size() gt 0}" style="float:left"
+                                                       title="#{msg['label.tareas']} #{item.tarea.size()}">
+                                            <i class="pi  pi-check-square"></i>
+                                        </p:outputLabel>
+                                        <p:outputLabel value="" rendered="#{item.comentario.size() gt 0}" style="float:left"
+                                                       title="#{msg['label.comentarios']} #{item.comentario.size()}">
+                                            <i class="pi pi-comment"></i>
+                                        </p:outputLabel>
+
+                                        <p:outputLabel value="" rendered="#{item.impedimento.size() gt 0}" style="float:left"
+                                                       title="#{msg['label.impedimentos']} #{item.impedimento.size()}">
+                                            <i class="pi  pi-megaphone"></i>
+                                        </p:outputLabel>
+
+                                        <p:outputLabel value="" rendered="#{item.archivo.size() gt 0}" style="float:left"
+                                                       title="#{msg['label.archivos']} #{item.archivo.size()}"
+                                                       >
+                                            <i class="pi pi-paperclip"></i>
+                                        </p:outputLabel>
+                                    </p:column>
+                                    <p:column class="columnColumna4" headerText="#{msg['field.columna']}">
+                                        <p:outputLabel value="#{item.columna}" rendered="#{item.backlog eq false and item.idsprint ne 0}" style="float:left"/>
+                                        <p:outputLabel value="#{msg['column.backlog']}" rendered="#{item.backlog eq false and item.idsprint eq 0}" style="float:left"/>
+                                    </p:column>
+                                    <p:column class="columnDate10" headerText="#{msg['field.fechainicial']}" >
+                                        <div class="text-700 mt-2">#{tarjetasFaces.showDateWithHour(item.fechainicial)}</div>
+
+                                    </p:column>
+                                    <p:column class="columnDate10" headerText="#{msg['field.fechafinal']}" >
+                                        <div class="text-700 mt-2">#{tarjetasFaces.showDateWithHour(item.fechafinal)}</div>
+
+                                    </p:column>
+<!--                                    <p:column class="column10" headerText="#{msg['field.tipotarjeta']}">
+                                        <div class="text-700 mt-2">#{item.tipotarjeta.tipotarjeta}</div>
+
+                                    </p:column>-->
+                                    <p:column class="column6" headerText="#{msg['field.prioridad']}">
+                                        <div class="text-700 mt-2">#{item.prioridad}</div>
+
+                                    </p:column>
+                                    <p:column class="column1" headerText="#{msg['field.backlogletter']}">                         
+
+                                        <i class="pi pi-check" jsf:rendered="#{item.backlog eq true and item.idsprint eq 0}"></i>
+                                        <!--<i class="pi pi-times" jsf:rendered="#{item.backlog eq false and item.idsprint ne 0}"></i>-->
+                                    </p:column>
+
+                                    <p:rowExpansion>
+
+                                        <div class="card">
+
+                                            <div class="flex align-items-center flex-wrap text-sm">
+                                                <div class="mr-5 mt-5">
+                                                    <p:outputLabel value="#{msg['field.descripcion']}"/>
+                                                </div>
+                                                <div class="mr-5 mt-5">
+                                                    <p:outputLabel value="#{item.descripcion}" style="float:left; font-style: italic"/>
+
+                                                </div>
+                                            </div>
+                                            <div class="flex align-items-center flex-wrap text-sm">
+                                                <div class="mr-5 mt-5">
+                                                    <p:outputLabel value="#{msg['field.icono']}"/>
+                                                </div>
+                                                <div class="mr-5 mt-5">
+                                                    <i class="#{item.icono.icono} text-blue-500 text-xl mr-2" />
+
+                                                </div>
+                                            </div>
+
+
+                                            <div class="flex align-items-center flex-wrap text-sm">
+                                                <div class="mr-5 mt-5">
+                                                    <p:outputLabel value="#{msg['field.proyecto']}"/>
+                                                </div>
+                                                <div class="mr-5 mt-5">
+                                                    <p:outputLabel value="#{tarjetasFaces.findProyectoViewByIdSprint(item).proyecto}" style="float:left; font-style: italic"/>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="flex align-items-center flex-wrap text-sm">
+                                                <div class="mr-5 mt-5">
+                                                    <p:outputLabel value="#{msg['field.sprint']}"/>
+                                                </div>
+                                                <div class="mr-5 mt-5">
+                                                    <p:outputLabel value="#{item.idsprint}" style="float:left; font-style: italic"/>
+
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="flex align-items-center flex-wrap text-sm">
+                                                <div class="mr-5 mt-5">
+                                                    <p:outputLabel value="#{msg['field.tipotarjeta']}"/>
+                                                </div>
+                                                <div class="mr-5 mt-5">
+                                                    <p:outputLabel value="#{item.tipotarjeta.tipotarjeta}" style="float:left; font-style: italic"/>
+
+                                                </div>
+                                            </div>
+                                            <div class="flex align-items-center flex-wrap text-sm">
+                                                <div class="mr-5 mt-5">
+                                                    <p:outputLabel value="#{msg['field.estimacion']}"/>
+                                                </div>
+                                                <div class="mr-5 mt-5">
+                                                    <p:outputLabel value="#{item.estimacion}" style="float:left; font-style: italic"  title="#{msg['inputmask.formatoestimacion']}"/>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="flex align-items-center flex-wrap text-sm">
+                                                <div class="mr-5 mt-5">
+                                                    <p:outputLabel value="#{msg['field.fechafinal']}"/>
+                                                </div>
+                                                <div class="mr-5 mt-5">
+                                                    <p:outputLabel value="#{tarjetasFaces.showDateWithHour(item.fechafinal)}" style="float:left; font-style: italic"/>
+
+                                                </div>
+                                            </div>
+                                            <div class="flex align-items-center flex-wrap text-sm">
+                                                <div class="mr-5 mt-5">
+                                                    <p:outputLabel value="#{msg['field.backlog']}"/>
+                                                </div>
+                                                <div class="mr-5 mt-5">
+
+                                                    <p:selectBooleanCheckbox   value="#{item.backlog}" style="float:left" disabled="true" />
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+
+
+                                        <p:divider/>
+                                        <div class="card">
+                                            <h4><p:outputLabel value="#{msg['header.tarea']} : #{item.tarea.size()}"/></h4>
+
+                                            <p:dataTable style="border-style: none" var="itemTarea" value="#{item.tarea}"
+                                                         id="dataTableTarea"
+                                                         widgetVar="widgetVardataTableTarea"
+                                                         lazy="false"
+                                                         resizableColumns="true" liveResize="true"
+                                                         scrollable="true" scrollHeight="250"
+                                                         >
+                                                <p:column class="column2" headerText="#{msg['field.completado']}" >
+                                                    <div class="text-700 mt-2">    <p:selectBooleanCheckbox   value="#{itemTarea.completado}" style="float:left" disabled="true" /></div>
+
+                                                </p:column>
+
+
+                                                <p:column class="columnInputTextArea43" headerText="#{msg['field.tarea']}" >
+
+
+
+                                                    <p:inputTextarea  rows="#{itemTarea.tarea.length() le 70?1:(itemTarea.tarea.length()/70)+1}" style="width: 100% !important; float:left;text-decoration: line-through" autoResize="false" readonly="true" value="#{itemTarea.tarea}"  rendered="#{itemTarea.completado eq true}"/>
+                                                    <p:inputTextarea  rows="#{itemTarea.tarea.length() le 70?1:(itemTarea.tarea.length()/70)+1}" style="width: 100% !important;" autoResize="false" readonly="true" value="#{itemTarea.tarea}" rendered="#{itemTarea.completado eq false}" />
+
+
+
+                                                </p:column>
+                                                <p:column class="column2" headerText="#{msg['field.por']}" >
+                                                    <p:avatar shape="circle"
+                                                              title="#{itemTarea.userView.name}"
+                                                              label="#{itemTarea.userView.name}" styleClass="mr-2" size="small" />
+
+                                                </p:column>
+
+                                            </p:dataTable>
+
+
+                                        </div>
+
+
+
+
+                                        <p:divider/>
+
+                                        <div class="card">
+                                            <h4><p:outputLabel value="#{msg['header.comentario']} : #{item.comentario.size()} "/></h4>
+
+                                            <p:dataTable style="border-style: none" var="itemComentario" value="#{item.comentario}"
+                                                         id="dataTableComentario"
+                                                         widgetVar="widgetVardataTableComentario"
+                                                         lazy="false"
+                                                         resizableColumns="true" liveResize="true"
+                                                         scrollable="true" scrollHeight="250"
+                                                         >
+
+
+                                                <p:column class="column2" headerText="#{msg['field.por']}" >
+                                                    <p:avatar shape="circle"
+                                                              title="#{itemComentario.userView.name}"
+                                                              label="#{itemComentario.userView.name}" styleClass="mr-2" size="small" />
+
+                                                </p:column>
+
+
+
+
+                                                <p:column class="columnInputTextArea43" headerText="#{msg['field.comentario']}">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output"> 
+
+                                                            <p:inputTextarea  rows="#{itemComentario.comentario.length() le 70?1:(itemComentario.comentario.length()/70)+1}" style="width: 100% !important;" autoResize="false" readonly="true" value="#{itemComentario.comentario}"  />
+                                                        </f:facet>
+                                                        <f:facet name="input">
+                                                            <p:inputTextarea  rows="#{itemComentario.comentario.length() le 70?1:(itemComentario.comentario.length()/70)+1}" style="width: 100% !important;" autoResize="false"  value="#{itemComentario.comentario}"  />
+
+                                                        </f:facet>
+                                                    </p:cellEditor>
+
+                                                </p:column>
+
+
+
+                                                <p:column class="columnDate10" headerText="#{msg['field.fecha']}" >
+                                                    <div class="text-700 mt-2">#{tarjetasFaces.showDateWithHour(itemComentario.fecha)}</div>
+
+                                                </p:column>
+                                                <p:column class="column2" headerText="#{msg['field.privado']}" >
+                                                    <div class="text-700 mt-2">    <p:selectBooleanCheckbox   value="#{itemComentario.privado}" style="float:left" disabled="true" /></div>
+
+                                                </p:column>
+                                                <p:column class="column2" headerText="#{msg['field.active']}" >
+                                                    <div class="text-700 mt-2">    <p:selectBooleanCheckbox   value="#{itemComentario.active}" style="float:left" disabled="true" /></div>
+
+                                                </p:column>
+                                            </p:dataTable>
+
+
+
+                                        </div>
+
+
+
+
+
+                                        <p:divider/>
+                                        <div class="card">
+                                            <h4><p:outputLabel value="#{msg['header.impedimento']} : #{item.impedimento.size()} "/></h4>
+
+                                            <p:dataTable style="border-style: none" var="itemImpedimento" value="#{item.impedimento}"
+                                                         id="dataTableImpedimento"
+                                                         widgetVar="widgetVardataTableImpedimento"
+                                                         lazy="false"
+                                                         resizableColumns="true" liveResize="true"
+                                                         scrollable="true" scrollHeight="250"
+                                                         >
+
+                                                <p:column  class="column2" headerText="#{msg['field.completado']}">
+                                                    <p:selectBooleanCheckbox value="#{itemImpedimento.completado}" disabled="true" style="float:left"/>  
+                                                </p:column>
+
+                                                <p:column class="columnInputTextArea43" headerText="#{msg['field.impedimento']}" >
+
+                                                    <p:inputTextarea  rows="#{itemImpedimento.impedimento.length() le 70?1:(itemImpedimento.impedimento.length()/70)+1}" style="width: 100% !important; float:left;text-decoration: line-through" autoResize="false" readonly="true" value="#{itemImpedimento.impedimento}"  rendered="#{itemImpedimento.completado eq true}"/>
+                                                    <p:inputTextarea  rows="#{itemImpedimento.impedimento.length() le 70?1:(itemImpedimento.impedimento.length()/70)+1}" style="width: 100% !important;" autoResize="false" readonly="true" value="#{itemImpedimento.impedimento}" rendered="#{itemImpedimento.completado eq false}" />
+
+
+
+                                                </p:column>
+
+
+
+                                                <p:column class="column2" headerText="#{msg['field.por']}" >
+                                                    <p:avatar shape="circle"
+                                                              title="#{itemImpedimento.userView.name}"
+                                                              label="#{itemImpedimento.userView.name}" styleClass="mr-2" size="small" />
+
+                                                </p:column>
+                                                <p:column class="columnDate11" headerText="#{msg['field.fecha']}">
+                                                    <div class="text-700 mt-2">#{tarjetasFaces.showDateWithHour(itemImpedimento.fecha)}</div>
+
+                                                </p:column>
+
+                                                <p:column  class="column2" headerText="#{msg['field.active']}">
+                                                    <p:selectBooleanCheckbox value="#{itemImpedimento.active}" disabled="true" style="float:left"/>  
+                                                </p:column>
+
+                                            </p:dataTable>
+
+
+                                        </div>
+
+                                        <p:divider/>
+
+                                        <div class="card">
+
+                                            <h4><p:outputLabel value="#{msg['header.archivo']} : #{item.archivo.size()} "/></h4>
+
+
+                                            <p:dataTable style="border-style: none" var="itemArchivo" value="#{item.archivo}"
+                                                         id="dataTableArchivo"
+                                                         widgetVar="widgetVardataTableArchivo"
+                                                         lazy="false"
+                                                         resizableColumns="true" liveResize="true"
+                                                         scrollable="true" scrollHeight="250"
+                                                         >
+
+                                                <p:column class="columnInputTextArea43" headerText="#{msg['field.descripcion']}">
+
+                                                    <p:inputTextarea  rows="#{itemArchivo.descripcion.length() le 70?1:(itemArchivo.descripcion.length()/70)+1}" style="width: 100% !important;" autoResize="false" readonly="true" value="#{itemArchivo.descripcion}"  />
+
+
+                                                </p:column>
+
+
+
+                                                <p:column class="column1" >
+                                                    <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-eye"
+                                                                     process="@this"
+                                                                     update=":form:growl "                                                                                             
+                                                                     oncomplete="rc2(),PF('overlayPanelViewImage').show('#{component.clientId}')"
+                                                                     action="#{tarjetasFaces.saveToMediaContext(itemArchivo.path,itemArchivo.descripcion)}"
+                                                                     >
+                                                        <f:setPropertyActionListener value="#{itemArchivo}" target="#{tarjetasFaces.selectedMediaArchivo}"/>
+                                                    </p:commandButton>
+                                                </p:column>
+
+
+
+
+
+
+                                                <p:column class="column1" >
+                                                    <p:commandButton 
+                                                        oncomplete="rc()"
+                                                        id="commandButtonFileDownload"
+                                                        title="#{core['button.download']}" 
+                                                        icon="pi pi-arrow-down" styleClass="ui-button-outlined"
+                                                        rendered="#{tarjetasFaces.jmoordbCoreMediaManager.existsFile(tarjetasFaces.repairPathOfFile(itemArchivo.path))}"
+                                                        action="#{tarjetasFaces.saveToMediaContext(itemArchivo.path,itemArchivo.descripcion)}">
+
+                                                    </p:commandButton>
+                                                </p:column>
+                                            </p:dataTable>
+
+
+                                        </div>  
+
+                                        <p:divider/>
+                                        <div class="card">
+                                            <h4><p:outputLabel value="#{msg['header.etiqueta']} : #{item.etiqueta.size()}"/></h4>
+                                           <p:dataTable style="border-style: none" var="itemEtiqueta" value="#{item.etiqueta}"
+                                                         id="dataTableEtiqueta"
+                                                         widgetVar="widgetVardataTableEtiqueta"
+                                                         lazy="false"
+                                                         resizableColumns="true" liveResize="true"
+                                                         scrollable="true" scrollHeight="250"
+                                                         >
+
+
+                                              
+
+                                                <p:column class="column6" headerText="#{msg['field.severity']}">         
+                                                   
+                                                        <p:tag severity="#{itemEtiqueta.severity}" value="#{itemEtiqueta.etiqueta}" rounded="true" style="float:left"/>
+                                                </p:column>
+
+                                            </p:dataTable>
+
+
+
+                                        </div>
+
+
+                                    </p:rowExpansion>
+
+
+                                    <f:facet name="loading">
+                                        <h1>Loading please wait...</h1>
+                                    </f:facet>
+
+                                    <f:facet name="header">
+                                        <div class="grid mt-12">
+
+                                            <div class="col-2">
+                                                <p:commandButton title="#{core['button.print']}"
+                                                                 icon="pi pi-print"
+                                                                 id="buttonPrint"
+                                                                 process="buttonPrint"
+                                                                 ajax="false"
+                                                                 immediate="true"
+                                                                 rendered="#{tarjetasFaces.tarjetaList.size() gt 0}"
+                                                                 onclick="this.form.target = '_blank'"
+                                                                 action="#{tarjetasFaces.printTarjeta()}"
+                                                                 update=":form:growl"
+                                                                 styleClass="rounded-button ui-button-secondary" 
+                                                                 style="margin-right: .5rem">
+
+                                                </p:commandButton>
+                                            </div>
+
+                                        </div>
+                                    </f:facet>
+
+                                </p:dataTable>
+
+                            </div>
+                        </div>
+
+                    </div> 
+
+                </div>
+            </div>
+
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+            </p:confirmPopup>
+
+
+
+            <p:dialog widgetVar="overlayPanelViewImage"  dynamic="true" styleClass="jmoordbcore-dialog-responsive540">
+                <!--
+                      <p:overlayPanel widgetVar="overlayPanelViewImage" dismissable="false" modal="true" showCloseIcon="true" dynamic="true" 
+                                            style="width:470px">-->
+                <p:outputPanel id="outputPanelViewImage" style="text-align:center;" >
+
+                    <!--                    <div class="flex align-items-center ">
+                                            <div class="mr-4 mt-2">
+                                                <span class="font-medium my-3 text-500">#{msg['label.archivo']}</span>
+                    
+                                            </div>
+                                        </div>
+                                        <p:divider/>-->
+
+
+
+
+                    <p:media value="#{jmoordbCoreMediaManager.media}"
+                             width="550px" height="450px"
+                             cache="false" player="pdf"/>
+
+                    <p:autoUpdate />
+
+                </p:outputPanel>
+            </p:dialog>
+
+
+
+
+
+
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

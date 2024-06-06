@@ -1,0 +1,188 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+   xmlns:papelerareciclaje="http://xmlns.jcp.org/jsf/composite/papelerareciclaje"
+      
+      xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades"
+          xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf">
+
+    <composite:interface >
+        <composite:attribute name="pendiente" default="false"/>
+        <composite:attribute name="progreso" default="false"/>
+        <composite:attribute name="finalizado" default="false"/>
+        <composite:attribute name="id" default=""/> 
+    </composite:interface>
+
+    <composite:implementation >
+
+
+        
+        <p:dialog header="#{msg['dialog.tarjetatarea']}" widgetVar="overlayPanelTarjetaTarea" 
+                  width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true"
+                  >
+            <p:ajax event="close" update=":form:growl" listener="#{papeleraReciclajeFaces.handleCloseDialogTarea}" />
+
+
+            <p:outputPanel id="#{cc.attrs.id}" style="text-align:center;">
+                <jmoordbcorejsf:overlayPanelTarjetaHeader iconoheader="pi-megaphone" 
+                                                   titulo="#{msg['dialog.tarjetatarea']}"
+                                                   entity="#{papeleraReciclajeFaces.tarjetaTareaSelected}"
+                                                   icono="#{papeleraReciclajeFaces.tarjetaTareaSelected.icono}"/>
+
+
+                <c:if test="${papeleraReciclajeFaces.fueCambiadoPorOtroUsuario == true}">
+
+
+
+                    <utilidades:sincronizacionrequeridacontroller onclick="PF('overlayPanelTarjetaTarea').hide()"
+                                                                  message="#{papeleraReciclajeFaces.message}"
+                                                                  controller="#{papeleraReciclajeFaces}"
+
+                                                                  />
+
+                </c:if>
+
+                <c:if test="${papeleraReciclajeFaces.fueCambiadoPorOtroUsuario == false}">
+                    
+                        <div class="grid ui-fluid mt-3 floatlabel-demo">
+                            <div class="col-12 md:col-10">
+                                <div class="flex align-items-center ">
+                                    <p:inputTextarea id="inputTextTarea" value ="#{papeleraReciclajeFaces.inputTextTarea}" 
+                                                     placeholder="#{msg['label.ingresetarea']}" 
+                                                     rendered="#{papeleraReciclajeFaces.isEditable}"
+                                                     rows="2"
+                                                     autoResize="false"
+                                                     onkeypress="if (event.keyCode == 13)
+                                                                 return false;"
+                                                     />
+                                </div>
+
+                            </div>
+                            <div class="col-12 md:col-2">
+                                <div class="flex align-items-center ">
+                                    <p:commandButton 
+                                        title="#{core['button.add']}" 
+                                        rendered="#{papeleraReciclajeFaces.isEditable}"
+                                        update=":form:growl, dataTableTarea, inputTextTarea"
+                                        icon="pi pi-plus-circle" styleClass="rounded-button mr-2 ui-button-summary"
+                                        action="#{papeleraReciclajeFaces.agregarRowTarea()}" />
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <p:dataTable style="border-style: none" value="#{papeleraReciclajeFaces.tarjetaTareaSelected.tarea}"
+                                     var="item"
+                                     paginator="true"
+                                     editMode="cell"
+                            resizableColumns="true" liveResize="true"
+                                     id="dataTableTarea"
+                                     widgetVar="dataTableTarea"
+                                     editable="true"
+                                   rows="#{papeleraReciclajeFaces.rowPageDialog.get()}"
+                                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                                 draggableRows="true"
+                                     >
+                            <p:ajax event="cellEdit" listener="#{papeleraReciclajeFaces.onCellEditTarea}" update=":form:growl, dataTableTarea"/>
+
+                            <p:column class="columnInputTextArea43" headerText="#{msg['field.tarea']}" >
+
+
+                            <p:cellEditor >
+                                <f:facet name="output">
+                                  <p:inputTextarea rows="#{item.tarea.length() le 70?1:(item.tarea.length()/70)+1}" style="width: 100% !important; float:left;text-decoration: line-through" autoResize="false" readonly="true" value="#{item.tarea}"  rendered="#{item.completado eq true}"/>
+                                  <p:inputTextarea  rows="#{item.tarea.length() le 70?1:(item.tarea.length()/70)+1}" style="width: 100% !important;" autoResize="false" readonly="true" value="#{item.tarea}" rendered="#{item.completado eq false}" />
+
+                                </f:facet>
+                                <f:facet name="input" >
+                                     <p:inputTextarea  rows="#{item.tarea.length() le 70?1:(item.tarea.length()/70)+1}" style="width: 100% !important;" autoResize="false"  value="#{item.tarea}"  />
+                                </f:facet>
+                            </p:cellEditor>
+
+                        </p:column>
+
+
+
+                            <p:column class="column4">
+                                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                                 process="@this"
+                                                 rendered="#{papeleraReciclajeFaces.isEditable}"
+                                                 update=":form:growl, dataTableTarea"
+                                                 action="#{papeleraReciclajeFaces.deleteTarea(item)}"
+                                                 >
+                                    <p:confirm type="popup" header="#{core['confirmdialog.header']}" message="#{core['confirmdialog.message']}" icon="pi pi-info-circle"/>
+                                </p:commandButton>
+                                
+                                   <p:commandButton class="ui-button-secondary rounded-button" icon="pi pi-copy"
+                                                         process="@this"
+                                                         title="#{msg['button.convertirentarjeta']}"
+                                                         rendered="#{tableroFaces.isEditable}"
+                                                         update=":form:growl, dataTableTarea"
+                                                         action="#{papeleraReciclajeFaces.convertirTarjetaDesdeTarea(papeleraReciclajeFaces.tarjetaTareaSelected,item)}"
+                                                         >
+                                            <p:confirm type="popup" header="#{msg['confirmdialog.headerconvertirentarjeta']}" message="#{msg['confirmdialog.messageconvertirentarjeta']}" icon="pi pi-info-circle"/>
+                                        </p:commandButton>
+                            </p:column>
+
+
+                            <f:facet name="footer">
+                                <div class="flex align-items-center ">
+                                    <div class=" border-top-1 surface-border col-4 flex">
+
+                                        <p:commandButton  
+                                            title="#{core['button.close']}" icon="pi pi-times"
+                                            rendered="#{papeleraReciclajeFaces.isEditable}"
+                                            update=":form:growl"
+                                            action="#{papeleraReciclajeFaces.addTarea(papeleraReciclajeFaces.tarjetaTareaSelected)}" 
+                                            styleClass="ui-button-raised ui-button-secondary"/>
+
+                                        <p:commandButton   title="#{core['button.close']}" icon="pi pi-times"
+                                                           update=":form:growl"
+                                                           rendered="#{papeleraReciclajeFaces.isEditable eq false}"
+                                                           action="#{papeleraReciclajeFaces.closeAddTarea(papeleraReciclajeFaces.tarjetaTareaSelected)}"
+                                                           styleClass="ui-button-raised ui-button-secondary">
+
+                                        </p:commandButton>
+
+                                    </div>
+                                    <!--                                <dialogo:centrardialogo/>-->
+
+
+
+                                </div>
+                            </f:facet>
+                        </p:dataTable>
+                    
+                </c:if>
+
+
+            </p:outputPanel>
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+
+            </p:confirmPopup>
+
+
+
+        </p:dialog>
+
+
+
+
+    </composite:implementation>
+</html>

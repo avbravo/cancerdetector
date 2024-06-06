@@ -1,0 +1,594 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+        <p:commandLink action="/dashboard" value="#{msg['breadcrumb.reportecolaboradordepartamental']}">
+        </p:commandLink>
+
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD, COORDINADOR-FACULTAD,   SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+            <style>
+                .cheap {
+                     background-color: maroon !important;
+                    background-image: none !important;
+                    color: #ffffff !important;
+                }
+            </style>
+            <p:growl id="growl"/>
+            <p:remoteCommand name="remoteCommandWebSocketProyecto"
+                             action="#{reporteColaboradorDepartamentalFaces.refreshFromWebsocket()}"
+                             update="#{reporteColaboradorDepartamentalFaces.updateForRemoteWebsocket()}" 
+                             oncomplete="#{reporteColaboradorDepartamentalFaces.onCompleteWebSocket()}" 
+
+                             />
+
+            <script type="text/javascript">
+                function setDataTableWithPageStart() {
+
+                    widgetVardataTable.getPaginator().setPage(0);
+                }
+            </script>
+<!--            <div class="block-category-title">#{msg['form.reportecolaboradordepartamental']}</div>-->
+
+            <!--<pb:blockViewerCore header="Sidebar" >-->
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+                <div class="min-h-screen flex flex-column relative flex-auto">
+                    <!--                    <dashboard:top/>-->
+                    <div class="surface-section, jmoordbcore-max-width2000">
+                        <div class="grid">
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+                                        <label  class="font-bold">#{msg['label.reportecolaboradordepartamental']}</label>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-12 lg:col-12">
+                                <p:dataTable style="border-style: none" var="item" value="#{reporteColaboradorDepartamentalFaces.proyectoLazyDataModel}"
+                                             binding="#{reporteColaboradorDepartamentalFaces.dataTable}"
+                                             id="dataTable"
+                                             widgetVar="widgetVardataTable"
+                                             lazy="true"
+                                             paginator="true"
+                                             rows="#{reporteColaboradorDepartamentalFaces.rowPageSmall.get()}"
+                                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                             paginatorPosition="both"
+                                             resizableColumns="true" liveResize="true"
+                                             rowKey="#{item.idproyecto}"
+                                             selection="#{reporteColaboradorDepartamentalFaces.proyectoSelected}"
+                                             rowSelectMode="add"
+rowStyleClass="#{item.estado eq 'eliminado' ? 'cheap' : null}"
+                                             >
+
+                                    <p:column class="column2">
+                                        <p:rowToggler/>
+                                    </p:column>
+
+                                    <p:column class="column10" headerText="#{msg['field.idproyecto']}" sortable="true" sortBy="#{item.idproyecto}">
+
+                                        <p:outputLabel value="#{item.idproyecto}" style="float:left"/>
+
+                                    </p:column>
+
+
+
+                                    <p:column class="column15" headerText="#{msg['field.proyecto']}" sortable="true" sortBy="#{item.proyecto}">
+
+                                        <p:outputLabel value=" #{item.proyecto}" style="float:left">
+                                            <i class="#{item.icono.icono}"></i>
+                                        </p:outputLabel>
+
+                                    </p:column>
+
+
+
+
+                                    <p:column class="column1" exportable="false" >
+
+
+
+
+                                        <p:commandButton title="#{core['button.print']}"
+                                                         icon="pi pi-print"                                                   
+                                                         ajax="false"
+
+                                                         immediate="true"
+                                                         onclick="this.form.target = '_blank'"
+                                                         action="#{reporteColaboradorDepartamentalFaces.printByProyecto(item)}"
+                                                         update=":form:growl"
+                                                         styleClass="edit-button rounded-button ui-button-secondary" process="@this"
+                                                         >
+
+                                        </p:commandButton>
+
+
+
+
+                                    </p:column>
+                                    <p:column class="column1" exportable="false" > 
+                                        <p:menuButton  icon="pi pi-ellipsis-v" buttonStyleClass="ui-button-flat ui-button-plain rounded-button" >
+                                            <p:menuitem value="#{msg['button.sprint']}" icon="pi pi-fw pi-book"
+                                                        update=":form:growl"
+                                                        rendered="#{reporteColaboradorDepartamentalFaces.profileLogged.role.role ne 'COLABORADOR'}"
+                                                        action="#{reporteColaboradorDepartamentalFaces.goSprint(item,'sprint.xhtml',false,false)}"
+                                                        />
+
+
+                                            <p:menuitem value="#{core['button.board']}"  icon="pi pi-th-large"
+                                                        update=":form:growl"
+
+                                                        rendered="#{reporteColaboradorDepartamentalFaces.haveOpenSprintAndDateIsLessOrEquals(item) and item.estado eq 'iniciado' and reporteColaboradorDepartamentalFaces.profileLogged.role.role ne 'COLABORADOR'}"
+                                                        action="#{reporteColaboradorDepartamentalFaces.goTablero(item,false,false)}"/>
+
+
+
+                                            <p:menuitem value="#{core['button.tarjetas']}"  icon="pi pi-credit-card"
+                                                        update=":form:growl"
+
+                                                        action="#{reporteColaboradorDepartamentalFaces.goTarjetas(item)}"/>
+
+
+                                            <p:menuitem value="#{msg['button.tarjetasforaneas']}"  icon="pi pi-shopping-bag"
+                                                        update=":form:growl"
+                                                        action="#{reporteColaboradorDepartamentalFaces.goTarjetasForaneas(item)}"/>
+
+
+                                            <p:menuitem value="#{msg['button.tarjetasimpedimentos']}"  icon="pi pi-megaphone"
+                                                        update=":form:growl"
+                                                        action="#{reporteColaboradorDepartamentalFaces.goTarjetasImpedimentos(item)}"/>
+
+
+                                            <p:menuitem update="form, outputPanelProyectoClonar" styleClass="ui-button-flat"
+                                                        value="#{core['menuitem.clonar']}"                                                     
+                                                        action="#{reporteColaboradorDepartamentalFaces.prepareClonar(item)}"
+                                                        rendered="#{reporteColaboradorDepartamentalFaces.profileLogged.role.role ne 'COLABORADOR'}"
+                                                        oncomplete="PF('overlayPanelProyectoClonar').show('#{component.clientId}')"
+                                                        icon="pi pi-fw pi-clone" title="#{core['menuitem.clonar']}">
+
+                                            </p:menuitem>
+
+                                            <p:menuitem value="#{msg['button.backlog']}" icon="pi pi-fw pi-server"
+                                                        update=":form:growl"
+                                                        rendered="#{reporteColaboradorDepartamentalFaces.profileLogged.role.role ne 'COLABORADOR'}"
+                                                        action="#{reporteColaboradorDepartamentalFaces.go(item,'backlog.xhtml',false,true)}"
+                                                        />
+
+                                            <p:divider/>
+                                            <p:menuitem value="#{msg['button.resumen']}"    icon="pi pi-eye"
+                                                        update=":form:growl, outputPanelResumen"
+                                                        oncomplete="PF('overlayPanelResumen').show('#{component.clientId}')"
+                                                        action="#{reporteColaboradorDepartamentalFaces.prepareResumen(item)}"
+                                                        styleClass="ui-button-outlined ui-button-help"/>
+
+
+
+                                            <p:menuitem value="#{msg['button.logros']}" icon="pi pi-fw pi pi-chart-line"
+                                                        update=":form:growl"
+                                                        action="#{reporteColaboradorDepartamentalFaces.go(item,'graficalogros.xhtml',false,true)}"
+                                                        />
+                                            <p:menuitem  icon="pi pi-map" 
+
+                                                         value="#{msg['button.sprintestadisticacierre']}"
+                                                         update=":form:growl,dataTable" 
+
+                                                         action="#{reporteColaboradorDepartamentalFaces.go(item,'estadisticacierresprint.xhtml',false,true)}"
+                                                         styleClass="edit-button rounded-button ui-button-danger" process="@this">
+
+                                            </p:menuitem>
+                                            <p:menuitem  icon="pi pi-users" 
+
+                                                         value="#{msg['button.sprintestadisticacolaborador']}"
+                                                         update=":form:growl,dataTable" 
+                                                         action="#{reporteColaboradorDepartamentalFaces.go(item,'estadisticacierresprintcolaborador.xhtml',false,true)}"
+                                                         styleClass="edit-button rounded-button ui-button-danger" process="@this">
+
+                                            </p:menuitem>
+                                        </p:menuButton>
+
+
+
+                                    </p:column>
+                                    <p:column class="column3" headerText="#{msg['field.estado']}">
+
+                                        <p:outputLabel value="#{item.estado} " style="float:left">
+
+                                        </p:outputLabel>
+
+                                    </p:column>
+                                    <p:column class="column1" headerText="#{msg['field.privado']}">
+
+
+                                        <p:selectBooleanCheckbox value="#{item.privado}" style="float:left" disabled="true"/>
+
+
+                                    </p:column>
+                                    <p:column class="column10" headerText="#{msg['field.departamento']}">
+                                        <ui:repeat var="departamento" value="#{item.departamentView}" >
+                                            <p:outputLabel value="#{departamento.departament} " style="float:left"/>
+                                            <p:outputLabel value="/" rendered="#{item.departamentView.size() gt 1}" style="float:left"/>
+
+                                        </ui:repeat>
+
+
+                                    </p:column>
+                                    <p:rowExpansion>
+                                        <div class="card">
+
+                                            <div class="flex align-items-center flex-wrap text-sm">
+                                                <div class="mr-5 mt-5">
+                                                    <p:outputLabel value="#{msg['field.prefijo']}"/>
+                                                </div>
+                                                <div class="mr-5 mt-5">
+                                                    <p:outputLabel value="#{item.prefijo}" style="float:left; font-style: italic"/>
+
+                                                </div>
+                                            </div>
+                                            <div class="flex align-items-center flex-wrap text-sm">
+                                                <div class="mr-5 mt-5">
+                                                    <p:outputLabel value="#{msg['field.fechainicial']}"/>
+                                                </div>
+                                                <div class="mr-5 mt-5">
+                                                    <p:outputLabel value="#{reporteColaboradorDepartamentalFaces.showDateWithHour(item.fechainicial)}" style="float:left; font-style: italic"/>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="flex align-items-center flex-wrap text-sm">
+                                                <div class="mr-5 mt-5">
+                                                    <p:outputLabel value="#{msg['field.fechafinal']}"/>
+                                                </div>
+                                                <div class="mr-5 mt-5">
+                                                    <p:outputLabel value="#{reporteColaboradorDepartamentalFaces.showDateWithHour(item.fechafinal)}" style="float:left; font-style: italic"/>
+
+                                                </div>
+                                            </div>
+
+
+
+
+
+                                        </div>
+
+
+                                        <p:divider/>
+                                        <div class="card">
+                                            <h4><p:outputLabel value="#{msg['header.proyectomiembro']} : #{item.proyectoMiembro.size()}"/></h4>
+                                            <p:carousel var="proyectomiembro" value="#{item.proyectoMiembro}" 
+                                                        paginator="true"
+                                                        numVisible="3" numScroll="3"
+                                                        orientation="horizontal"
+                                                        >
+                                                <div class="flex align-items-center flex-wrap text-sm">
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{msg['field.propietario']}"/>
+                                                    </div>
+                                                    <div class="mr-5 mt-5">
+
+                                                        <p:selectBooleanCheckbox   value="#{proyectomiembro.propietario}" style="float:left" disabled="true" />
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="flex align-items-center flex-wrap text-sm">
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{msg['field.name']}"/>
+                                                    </div>
+
+                                                    <div class="mr-5 mt-5">
+                                                        <ui:repeat var="userView" value="#{proyectomiembro.userView}">
+                                                            <p:outputLabel value="#{userView.name} " style="float:left"/>
+                                                        </ui:repeat>
+                                                    </div>
+                                                </div>
+
+
+
+
+
+                                            </p:carousel>
+
+
+                                        </div>
+
+
+
+
+                                    </p:rowExpansion>
+
+
+
+                                    <f:facet name="header">
+                                        <div class="grid mt-12">
+
+                                            <div class="col-2">
+                                                <p:badge value="#{reporteColaboradorDepartamentalFaces.contadorNotificacionesWebsocket}"
+                                                         severity="danger">
+                                                    <p:commandLink  styleClass="ml-2" 
+                                                                    action="#{reporteColaboradorDepartamentalFaces.refresh()}"
+                                                                    update=":form"
+                                                                    title="#{core['label.notificaciones']}"
+                                                                    >
+                                                        <i class="pi pi-bell" style="font-size: 2rem"/>
+
+                                                    </p:commandLink>
+                                                </p:badge>
+                                            </div>
+                                            <div class="col-2">
+                                                <p:commandButton title="#{core['button.print']}"
+                                                                 icon="pi pi-print"
+                                                                 id="buttonPrint"
+                                                                 process="buttonPrint"
+                                                                 ajax="false"
+                                                                 immediate="true"
+                                                                 rendered="#{reporteColaboradorDepartamentalFaces.proyectoList.size() gt 0}"
+                                                                 onclick="this.form.target = '_blank'"
+                                                                 action="#{reporteColaboradorDepartamentalFaces.printAll()}"
+                                                                 update=":form:growl"
+                                                                 styleClass="rounded-button ui-button-secondary" 
+                                                                 style="margin-right: .5rem">
+
+                                                </p:commandButton>
+                                            </div>
+                                            <div class="col-2">
+
+
+                                                <p:commandButton  title="#{msg['button.refresh']}" icon="pi pi-refresh" styleClass="rounded-button ui-button-help mr-2"
+                                                                  action="#{reporteColaboradorDepartamentalFaces.refresh()}"
+                                                                  process="@this"
+                                                                  update=":form"/>
+                                            </div>
+
+                                        </div>
+                                        <div class="grid mt-12">
+                                            <div class="col-2">
+                                                <p:outputLabel value="#{msg['label.departamentoorganigrama']}"/>
+                                            </div>
+                                            <div class="col-10">
+                                                <p:selectOneMenu id="departament" value="#{reporteColaboradorDepartamentalFaces.departamentViewSelected}" 
+                                                                 converter="#{departamentViewConverter}" >
+                                                    <f:selectItems value="#{departamentViewConverterServices.departamentViews}"  var="result" itemValue="#{result}" itemLabel="#{result.departament}"  />
+                                                    <p:ajax event="itemSelect" listener="#{reporteColaboradorDepartamentalFaces.onItemSelectDepartament}"
+                                                            update=":form:growl, dataTable, colaborador" />
+
+                                                </p:selectOneMenu>
+                                            </div>
+                                        </div>
+                                        <div class="grid mt-12">
+                                            <div class="col-2">
+                                                <p:outputLabel value="#{msg['label.colaborador']}"/>
+                                            </div>
+                                            <div class="col-10">
+                                                <p:selectOneMenu id="colaborador" value="#{reporteColaboradorDepartamentalFaces.userViewSelected}" 
+                                                                 converter="#{userViewConverter}" >
+                                                    <f:selectItems value="#{userViewConverterServices.userViews}"  var="result" itemValue="#{result}"
+                                                                   itemLabel="#{result.name}"  />
+                                                    <p:ajax event="itemSelect" listener="#{reporteColaboradorDepartamentalFaces.onItemSelectUser}" update=":form:growl, dataTable" />
+
+                                                </p:selectOneMenu>
+                                            </div>
+                                        </div>
+                                    </f:facet>
+
+                                </p:dataTable>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div> 
+
+                </div>
+            </div>
+
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+            </p:confirmPopup>
+
+
+
+            <p:overlayPanel widgetVar="overlayPanelResumen" dismissable="false" modal="true" showCloseIcon="true" dynamic="true" 
+                            style="width:270px">
+                <p:outputPanel id="outputPanelResumen" style="text-align:center;">
+
+                    <div class="flex align-items-center ">
+                        <div class="mr-4 mt-2">
+                            <span class="font-bold my-3 text-500">#{msg['label.sprints']}</span>
+                            <div class="text-500 mt-2">#{reporteColaboradorDepartamentalFaces.proyectoEstadisticaResumen.totalSprint}</div>
+                        </div>
+                    </div>
+                    <p:divider/>
+                    <div class="flex align-items-center ">
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium my-3 text-500">#{msg['label.sprintactual']}</span>
+
+                        </div>
+                    </div>
+                    <div class="flex align-items-center ">
+
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium text-500">#{msg['label.pendiente']}</span>
+                            <div class="text-500 mt-2">#{reporteColaboradorDepartamentalFaces.proyectoEstadisticaResumen.totalTarjetasPendiente}</div>
+                        </div>
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium text-500">#{msg['label.progreso']}</span>
+                            <div class="text-500 mt-2">#{reporteColaboradorDepartamentalFaces.proyectoEstadisticaResumen.totalTarjetasProgreso}</div>
+                        </div>
+                    </div>
+                    <div class="flex align-items-center ">
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium text-500">#{msg['label.finalizado']}</span>
+                            <div class="text-500 mt-2">#{reporteColaboradorDepartamentalFaces.proyectoEstadisticaResumen.totalTarjetasFinalizado}</div>
+                        </div>
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium text-500">#{msg['label.backlog']}</span>
+                            <div class="text-500 mt-2">#{reporteColaboradorDepartamentalFaces.proyectoEstadisticaResumen.totalTarjetasBacklog}</div>
+                        </div>
+                    </div>
+                </p:outputPanel>
+            </p:overlayPanel>
+
+
+
+
+
+            <p:dialog header="#{msg['dialog.proyectoclonar']}" widgetVar="overlayPanelProyectoClonar" 
+
+                      width="50vw" 
+                      responsive="true"
+                      showEffect="fade" 
+                      modal="true" 
+                      closable="true"
+                      resizable="true"
+                      maximizable="true"
+                      minimizable="true"
+                      >
+                <p:ajax event="close" update=":form:growl" listener="#{reporteColaboradorDepartamentalFaces.handleCloseDialogRefresh}" />
+
+                <p:outputPanel id="outputPanelProyectoClonar" style="text-align:left;">
+
+                    <div class="col-12 md:col-12">
+                        <div class="field">
+                            <span class="font-medium my-3 text-500">#{msg['field.proyecto']}</span>
+
+
+                            <p:inputTextarea 
+                                rows="#{reporteColaboradorDepartamentalFaces.proyectoClonarSelected.proyecto.length() le 70?1:(reporteColaboradorDepartamentalFaces.proyectoClonarSelected.proyecto.length()/70)+1}" style="width: 100% !important;" autoResize="false" readonly="false" 
+                                value="#{reporteColaboradorDepartamentalFaces.proyectoClonarSelected.proyecto}"> 
+                                <p:ajax event="keyup" listener="#{reporteColaboradorDepartamentalFaces.sugerirPrefijoClonar}"
+                                        update="prefijoclonar"/>    
+                            </p:inputTextarea>              
+
+                        </div>
+
+                    </div>
+                    <div class="col-12 md:col-12">
+                        <div class="field">
+                            <span class="font-medium my-3 text-500">#{msg['field.prefijo']}</span>
+                            <p:inputText id="prefijoclonar" value="#{reporteColaboradorDepartamentalFaces.proyectoClonarSelected.prefijo}"/>
+                            <p:commandButton title="#{msg['button.sugerirprefijo']}" icon="pi pi-wrench" 
+                                             action="#{reporteColaboradorDepartamentalFaces.genererNumeroPrefijoClonar()}"
+                                             update="prefijoclonar,growl"
+                                             styleClass="ui-button-outlined w-1 mr-1"/>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-12 md:col-12">
+                        <div class="field">
+                            <label for="descripcion" class="font-medium">#{msg['field.descripcion']}: </label>
+                            <p:inputTextarea id="descripcion" 
+                                             rows="#{reporteColaboradorDepartamentalFaces.proyectoClonarSelected.descripcion.length() le 70?1:(reporteColaboradorDepartamentalFaces.proyectoClonarSelected.descripcion.length()/70)+1}" style="width: 100% !important;" autoResize="false" readonly="true" value="#{reporteColaboradorDepartamentalFaces.proyectoClonarSelected.descripcion}"  />
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="field col-12 md:col-12">
+
+                        <h:panelGroup styleClass="ui-inputgroup">
+                            <h:panelGroup id="iconclonar" styleClass="ui-inputgroup-addon">
+                                <span class="font-medium text-500">#{msg['field.icono']}</span>
+                                <i class="#{reporteColaboradorDepartamentalFaces.proyectoClonarSelected.icono.icono}"/>
+                            </h:panelGroup>
+                            <p:selectOneMenu  value="#{reporteColaboradorDepartamentalFaces.proyectoClonarSelected.icono}" var="item">
+                                <f:selectItems value="#{iconoConverterServices.iconos}"  var="item" 
+                                               itemLabel=""
+                                               itemValue="#{item}" />
+                                <p:column><i class="#{item.icono}" /> #{item.icono} </p:column>
+
+                                <p:ajax update="@parent:@parent:iconclonar" />
+                            </p:selectOneMenu>
+
+                        </h:panelGroup>
+                    </div>
+
+
+                    <div class="flex align-items-left ">
+                        <div class="mr-12 mt-12">
+                            <span class="font-medium my-3 text-500">#{msg['field.privado']}</span>
+                            <p:selectBooleanCheckbox value="#{reporteColaboradorDepartamentalFaces.proyectoClonarSelected.privado}" disabled="false"/>
+
+                        </div>
+
+                    </div>
+                    <div class="flex align-items-left ">
+                        <div class="mr-12 mt-12">
+                            <span class="font-medium my-3 text-500">#{msg['field.generarsprintautomaticos']}</span>
+                            <p:selectBooleanCheckbox value="#{reporteColaboradorDepartamentalFaces.proyectoClonarSelected.generarsprintautomaticamente}" disabled="false"/>
+
+                        </div>
+
+                    </div>
+
+                    <div class="flex align-items-left ">
+                        <div class="mr-12 mt-12">
+                            <span class="font-medium text-500">#{msg['field.estado']}</span>
+                            <p:outputLabel value="#{reporteColaboradorDepartamentalFaces.proyectoClonarSelected.estado}" />
+
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="flex align-items-center ">
+                        <div class=" border-top-1 surface-border col-6 flex">
+                            <p:commandButton  title="#{core['button.clone']}" icon="pi pi-copy"
+                                              action="#{reporteColaboradorDepartamentalFaces.clonar(reporteColaboradorDepartamentalFaces.proyectoClonarSelected)}"
+                                              update=":form:growl"
+                                              styleClass="w-6 ml-2"/>
+
+                            <p:commandButton title="#{core['button.cancel']}" icon="pi pi-times" 
+                                             onclick="PF('overlayPanelProyectoClonar').hide()"
+                                             update=":form"
+                                             styleClass="ui-button-outlined w-6 mr-2"/>
+
+
+
+                        </div>
+                    </div>
+                </p:outputPanel>
+
+            </p:dialog>
+
+
+
+
+
+
+
+
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD, COORDINADOR-FACULTAD,   SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

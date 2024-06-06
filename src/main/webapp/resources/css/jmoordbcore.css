@@ -1,0 +1,966 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 02/28/2023, 11:19:04 a. m.
+    Author     : avbravo
+*/
+/*.textarea-background:disabled {background-color:#616161;}*/
+/*.textarea-background:disabled {background-color:whitesmoke; color: #121212 !important;}*/
+.textarea-background:disabled {
+    background-color: #f2faf9;
+    color: #121212 !important;
+}
+.textarea-background:enabled {
+    background-color:#f2faf9;
+    color:#121212 !important;
+}
+/*.columna-background {background-color:#7D8B99 !important;}*/
+/*.columna-background-pendiente {background-color:#7e96a1 !important;}*/
+.columna-background-pendiente {
+    background-color: var(--surface-100) !important;
+}
+
+.columna-background-progreso {
+    background-color:#b08620 !important;
+}
+.columna-background-finalizado {
+    background-color:#4caf50 !important;
+}
+
+.barra-tarjeta-footer {
+    background-color: var(--surface-100) !important;
+}
+.barra-tarjeta-footer200 {
+    background-color: var(--surface-200) !important;
+}
+
+
+/*.textarea-fore-color:disabled {color:#121212;}
+.textarea-fore-color:enabled {color:red;}*/
+
+
+.textarea-box-shadow {
+    box-shadow: inset 0 2px 2px #d19405 !important;
+}
+
+
+.border-tarjeta {
+    border-radius: 2rem !important;
+
+}
+
+.border-proyecto-privado {
+    border-radius: 2rem !important;
+
+}
+.border-proyecto-foreaneo {
+    /*border-radius: 1rem !important;*/
+    border-bottom-style: solid;
+
+}
+
+.border-circular {
+    border-radius: 50% !important;
+}
+
+
+.border-dotted {
+
+    border-bottom-style: dotted !important;
+}
+.border-solid {
+
+    border-bottom-style: solid !important;
+}
+.border-dashed {
+
+    border-bottom-style: dashed !important;
+}
+
+
+
+/*.textarea-background-black{
+     background: #ffffff;
+}*/
+/*
+.fc-event.oneEvent {
+background: purple !important;
+border-color: red !important;
+color: white !important;
+}
+
+.fc-event:hover.oneEvent {
+background: pink !important;
+border-color: red !important;
+color: white !important;
+}
+
+.fc-event.twoEvent {
+background: green !important;
+border-color: greenyellow !important;
+color: white !important;
+}
+
+.fc-event:hover.twoEvent {
+background: yellowgreen !important;
+border-color: greenyellow !important;
+color: white !important;
+}*/
+
+
+/*
+Autocomplete
+*/
+.ui-autocomplete{
+    width: 100% !important;
+}
+.ui-autocomplete-input{
+    width: 100% !important;
+}
+.ui-autocomplete-multiple {
+    width: 98% !important;
+}
+.p-autocomplete {
+    width: 98% !important;
+}
+.ui-autocomplete-multiple-container {
+    width: 100% !important;
+}
+
+
+/*
+columnas de datatable
+*/
+
+.anchonormal10{
+    width:10px;
+}
+.anchonormal15{
+    width:15px;
+}
+.anchonormal20{
+    width:20px;
+}
+.anchonormal25{
+    width:25px;
+}
+.anchonormal30{
+    width:30px;
+}
+.anchonormal35{
+    width:35px;
+}
+.anchonormal40{
+    width:40px;
+}
+.anchonormal45{
+    width:45px;
+}
+
+
+.anchonormal50{
+    width:50px;
+}
+.anchonormal55{
+    width:55px;
+}
+.anchonormal60{
+    width:60px;
+}
+
+
+.anchonormal65{
+    width:65px;
+}
+
+.anchonormal70{
+    width:70px;
+}
+.anchonormal75{
+    width:75px;
+}
+.anchonormal80{
+    width:80px;
+}
+.anchonormal85{
+    width:85px;
+}
+.anchonormal90{
+    width:90px;
+}
+.anchonormal95{
+    width:95px;
+}
+.anchonormal100{
+    width:100px;
+}
+
+/*
+Ancho de de div coloquelo en los formularios debajo del <dashboard_top/>
+ <dashboard:top/>
+ <div class="surface-section, jmoordbcore-max-width970" >
+*/
+
+.jmoordbcore-max-width600{
+    max-width: 600px;
+}
+.jmoordbcore-max-width850{
+    max-width: 850px;
+}
+
+.jmoordbcore-max-width970{
+    max-width: 970px;
+}
+.jmoordbcore-max-width1050{
+    max-width: 1050px;
+}
+
+
+.jmoordbcore-max-width1175{
+    max-width: 1175px;
+}
+.jmoordbcore-max-width1250{
+    max-width: 1250px;
+}
+.jmoordbcore-max-width1300{
+    max-width: 1300px;
+}
+
+.jmoordbcore-max-width1500{
+    max-width: 1500px;
+}
+.jmoordbcore-max-width2000{
+    max-width: 2000px;
+}
+
+
+/*
+maxheight
+
+*/*
+.jmoordbcore-max-height5{
+    max-height:  5px;
+}
+.jmoordbcore-max-height50{
+    max-height:  50px;
+}
+.jmoordbcore-max-height100{
+    max-height:  100px;
+}
+.jmoordbcore-max-height5porciento{
+    max-height:  5%;
+}
+
+
+/*
+Para el breadcrumb del template principal
+*/
+
+.jmoordbcore-layout-breadcrumb {
+    background-color: var(--surface-a);
+    border-bottom: 1px solid var(--surface-d);
+    padding: 0.5rem 2rem;
+    height: 55px;
+}
+
+ul.jmoordbcore-ul-none{
+    list-style: none;
+}
+
+.jmoordbcore-rigth{
+    display: flex;
+    margin-left: auto;
+    margin-right: 0;
+
+}
+
+.jmoordbcore-space-rigth {
+    padding-right: 1em;
+
+}
+.jmoordbcore-space-top
+{
+    padding-top: 0.3em;
+}
+.jmoordbcore-space-top08
+{
+    padding-top: 0.8em;
+}
+.jmoordbcore-space-top1
+{
+    padding-top: 1.0em;
+}
+
+.jmoordbcore-block-category-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+/*.jmoordbcore-block-category-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}*/
+
+div.layout-content {
+    padding: 2rem;
+    padding-top: 0.5em;
+}
+
+.p-5.jmoordbcore-p5{
+    padding-top: 0.5rem !important;
+}
+
+#app-sidebar div.mt-3{
+    display: block;
+    position: fixed;
+}
+
+@media only screen and (min-width: 992px){
+    #layout-config-button{
+        display: none;
+    }
+    #app-sidebar .lg\:text-2xl{
+        font-size: 1.7rem !important
+    }
+    table td.column1,
+    table th.column1{
+        width:1rem;
+    }
+
+    table td.column2,
+    table th.column2{
+        width:2rem;
+    }
+
+    table td.column3,
+    table th.column3{
+        width:3rem;
+    }
+    table td.column4,
+    table th.column4{
+        width:4rem;
+    }
+
+    table td.column5,
+    table th.column5{
+        width:5rem;
+    }
+
+    table td.column6,
+    table th.column6{
+        width:6rem;
+    }
+
+    table td.column7,
+    table th.column7{
+        width:7rem;
+    }
+
+    table td.column8,
+    table th.column8{
+        width:8rem;
+    }
+
+    table td.column9,
+    table th.column9{
+        width:9rem;
+    }
+
+    table td.column10,
+    table th.column10{
+        width:10rem;
+    }
+
+    table td.column11,
+    table th.column11{
+        width:11rem;
+    }
+
+    table td.column12,
+    table th.column12{
+        width:12rem;
+    }
+
+    table td.column13,
+    table th.column13{
+        width:13rem;
+    }
+
+    table td.column14,
+    table th.column14{
+        width:14rem;
+    }
+
+    table td.column15,
+    table th.column15{
+        width:15rem;
+    }
+
+    table td.column16,
+    table th.column16{
+        width:16rem;
+    }
+
+    table td.column17,
+    table th.column17{
+        width:17rem;
+    }
+
+    table td.column18,
+    table th.column18{
+        width:18rem;
+    }
+    table td.column19,
+    table th.column19{
+        width:19rem;
+    }
+    table td.column20,
+    table th.column20{
+        width:20rem;
+    }
+    table td.column21,
+    table th.column21{
+        width:21rem;
+    }
+    table td.column22,
+    table th.column22{
+        width:22rem;
+    }
+    table td.column23,
+    table th.column23{
+        width:23rem;
+    }
+    table td.column24,
+    table th.column24{
+        width:24rem;
+    }
+    table td.column25,
+    table th.column25{
+        width:25rem;
+    }
+    table td.column26,
+    table th.column26{
+        width:26rem;
+    }
+    table td.column27,
+    table th.column27{
+        width:27em;
+    }
+    table td.column28,
+    table th.column28{
+        width:28rem;
+    }
+    table td.column29,
+    table th.column29{
+        width:29rem;
+    }
+    table td.column30,
+    table th.column30{
+        width:30rem;
+    }
+    table td.column31,
+    table th.column31{
+        width:31rem;
+    }
+    table td.column32,
+    table th.column32{
+        width:32rem;
+    }
+    table td.column33,
+    table th.column33{
+        width:33rem;
+    }
+    table td.column34,
+    table th.column34{
+        width:34rem;
+    }
+    table td.column35,
+    table th.column35{
+        width:35rem;
+    }
+    table td.column36,
+    table th.column36{
+        width:36rem;
+    }
+    table td.column37,
+    table th.column37{
+        width:37rem;
+    }
+
+    table td.columnDate9,
+    table th.columnDate9{
+        width:9rem;
+    }
+    table td.columnDate10,
+    table th.columnDate10{
+        width:10rem;
+    }
+    table td.columnDate11,
+    table th.columnDate11{
+        width:11rem;
+    }
+    table td.columnDate12,
+    table th.columnDate12{
+        width:12rem;
+    }
+    table td.columnDate13,
+    table th.columnDate13{
+        width:13rem;
+    }
+    table td.columnDate14,
+    table th.columnDate14{
+        width:14rem;
+    }
+    table td.columnDate15,
+    table th.columnDate15{
+        width:15rem;
+    }
+    
+    
+    table td.columnColumna4,
+    table th.columnColumna4{
+        width:4rem;
+    }
+    table td.columnColumna5,
+    table th.columnColumna5{
+        width:5rem;
+    }
+    table td.columnColumna6,
+    table th.columnColumna6{
+        width:6rem;
+    }
+    
+    table td.columnInputTextArea35,
+    table th.columnInputTextArea35{
+        width:35rem;
+    }
+    table td.columnInputTextArea36,
+    table th.columnInputTextArea36{
+        width:36rem;
+    }
+    table td.columnInputTextArea37,
+    table th.columnInputTextArea37{
+        width:37rem;
+    }
+    table td.columnInputTextArea38,
+    table th.columnInputTextArea38{
+        width:38rem;
+    }
+    table td.columnInputTextArea39,
+    table th.columnInputTextArea39{
+        width:39rem;
+    }
+    table td.columnInputTextArea40,
+    table th.columnInputTextArea40{
+        width:40rem;
+    }
+    table td.columnInputTextArea41,
+    table th.columnInputTextArea41{
+        width:41rem;
+    }
+    table td.columnInputTextArea42,
+    table th.columnInputTextArea42{
+        width:42rem;
+    }
+    table td.columnInputTextArea43,
+    table th.columnInputTextArea43{
+        width:43rem;
+    }
+
+}
+
+.jmoordbcore-toolbar-mainmenu i.pi,
+.jmoordbcore-toolbar-mainmenu .ui-menubutton .pi{
+    font-size: 1.5rem;
+}
+
+ul.text-cyan-600 .ui-button.ui-button-flat{
+    color: var(--cyan-600) !important;
+}
+@media only screen and (max-width: 991px){
+    .movil-limitado.movil-witdh-maxheight{
+        width:1100px;
+        max-height: 1350px;
+    }
+
+
+    a.menu-item-notext span.ui-menuitem-text{
+        display: none;
+    }
+}
+
+.jmoordbcore-dialog-responsive{
+
+    minHeight:40px;
+    width:540px;
+    minWidth:100px;
+
+}
+.jmoordbcore-dialog-responsive40x450{
+
+    minHeight:40px;
+    width:450px;
+    max-width: 450px;
+}
+.jmoordbcore-dialog-responsive400{
+
+    minHeight:40px;
+    width:400px;
+    minWidth:100px;
+
+}
+
+.jmoordbcore-dialog-responsive540{
+
+    minHeight:40px;
+    width:540px;
+    minWidth:100px;
+
+}
+
+
+
+.jmoordbcore-dialog-responsive690{
+
+    minHeight:40px;
+    width:690px;
+    minWidth:100px;
+
+}
+
+
+.jmoordbcore-scrollPanel-responsive{
+
+    min-width: 100px;
+    min-height: 40px ;
+    max-width: 400px;
+    max-height: 750px
+
+}
+
+.jmoordbcore-scrollPanel-responsive100{
+
+    min-width: 100px;
+    min-height: 40px ;
+    max-width: 100px;
+    max-height: 750px
+
+}
+
+
+
+.jmoordbcore-scrollPanel-responsive450{
+
+    min-width: 100px;
+    min-height: 40px ;
+    max-width: 450px;
+    max-height: 750px
+
+}
+.jmoordbcore-scrollPanel-responsive540{
+
+    min-width: 100px;
+    min-height: 40px ;
+    max-width: 540px;
+    max-height: 750px
+
+}
+.jmoordbcore-scrollPanel-responsive690{
+
+    min-width: 100px;
+    min-height: 40px ;
+    max-width: 690px;
+    max-height: 750px
+
+}
+.jmoordbcore-scrollPanel-responsive750{
+
+    min-width: 100px;
+    min-height: 40px ;
+    max-width: 750px;
+    max-height: 750px
+
+}
+
+/*dimensiones para el tablero*/
+
+.jmoordbcore-tablero-scrollPanel-responsive1200{
+    width: 1200px;
+    min-height: 1450px ;
+    padding: 1px;
+
+}
+.jmoordbcore-tablero-scrollPanel-responsive1250{
+    width: 1250px;
+    min-height: 1450px ;
+    padding: 1px;
+
+}
+.jmoordbcore-tablero-scrollPanel-responsive1300{
+    width: 1300px;
+    max-width: 1300px;
+    min-height: 1450px ;
+    padding: 1px;
+
+}
+.jmoordbcore-tablero-scrollPanel-responsive1350{
+    width: 1350px;
+    max-width: 1350px;
+    min-height: 1450px ;
+    padding: 1px;
+
+}
+.jmoordbcore-tablero-scrollPanel-responsive1400{
+    width: 1400px;
+    max-width: 1400px;
+    min-height: 1450px ;
+    padding: 1px;
+
+}
+.jmoordbcore-tablero-scrollPanel-responsive1450{
+    width: 1450px;
+    max-width: 1450px;
+    min-height: 1450px ;
+    padding: 1px;
+
+}
+.jmoordbcore-tablero-scrollPanel-responsive1500{
+    width: 1500px;
+    max-width: 1500px;
+    min-height: 1450px ;
+    padding: 1px;
+
+}
+.jmoordbcore-tablero-scrollPanel-responsive1600{
+    width: 1600px;
+    max-width: 1600px;
+    min-height: 1600px ;
+    padding: 1px;
+
+}
+.jmoordbcore-tablero-scrollPanel-responsive1650{
+    width: 1650px;
+    max-width: 1650px;
+    min-height: 1650px ;
+    padding: 1px;
+
+}
+.jmoordbcore-tablero-scrollPanel-responsive1700{
+    width: 1700px;
+    max-width: 1700px;
+    min-height: 1700px ;
+    padding: 1px;
+
+}
+
+/*
+Columnas del tablero
+*/
+.jmoordbcore-tablero-columna-scrollPanel-responsive450{
+    border: none;
+    width:480px;
+    max-height: 1350px;
+    max-width: 400px;
+    padding: 1px;
+
+}
+.jmoordbcore-tablero-columna-scrollPanel-responsive500{
+    border: none;
+    width:500px;
+    max-height: 1350px;
+    max-width: 400px;
+    padding: 1px;
+
+}
+.jmoordbcore-tablero-columna-scrollPanel-responsive550{
+    border: none;
+    width:550px;
+    max-height: 1350px;
+    max-width: 400px;
+    padding: 1px;
+
+}
+.jmoordbcore-tablero-columna-scrollPanel-responsive600{
+    border: none;
+    width:600px;
+    max-height: 1350px;
+    max-width: 400px;
+    padding: 1px;
+
+}
+
+
+
+
+/*dimensiones para columnas del tablero*/
+
+.jmoordbcore-columna-tablero-scrollPanel-responsive150{
+    width: 150px;
+    max-width: 150px;
+    max-height: 1350px ;
+    padding: 1px;
+
+}
+.jmoordbcore-columna-tablero-scrollPanel-responsive350{
+    width: 350px;
+    max-width: 350px;
+    max-height: 1350px ;
+    padding: 1px;
+
+}
+.jmoordbcore-columna-tablero-scrollPanel-responsive380{
+    width: 380px;
+    max-width: 380px;
+    max-height: 1350px ;
+    padding: 1px;
+
+}
+.jmoordbcore-columna-tablero-scrollPanel-responsive400{
+    width: 400px;
+    max-width: 400px;
+    max-height: 1350px ;
+    padding: 1px;
+
+}
+.jmoordbcore-columna-tablero-scrollPanel-responsive450{
+    width: 450px;
+    max-width: 450px;
+    max-height: 1350px ;
+    padding: 1px;
+
+}
+.jmoordbcore-columna-tablero-scrollPanel-responsive480{
+    width: 480px;
+    max-width: 480px;
+    max-height: 1350px ;
+    padding: 1px;
+
+}
+.jmoordbcore-columna-tablero-scrollPanel-responsive500{
+    width: 500px;
+    max-width: 500px;
+    max-height: 1350px ;
+    padding: 1px;
+
+}
+.jmoordbcore-columna-tablero-scrollPanel-responsive550{
+    width: 550px;
+    max-width: 550px;
+    max-height: 1350px ;
+    padding: 1px;
+
+}
+.jmoordbcore-columna-tablero-scrollPanel-responsive580{
+    width: 580px;
+    max-width: 580px;
+    max-height: 1350px ;
+    padding: 1px;
+
+}
+
+
+/*_______________*/
+@media only screen and (min-width: 400px){
+    #div500 label span.ui-outputlabel-label{
+        width: 380px;
+        display: inline-block;
+    }
+
+}
+
+
+.ui-clock-jmoordbcore,
+.ui-clock-jmoordbcore span
+{
+    border: 0px solid #304562 !important;
+    background: #1f2d40;
+    color: rgba(255,255,255,.87);
+    padding: 1rem
+}
+
+
+.surface-card-expired-jmoordbcore {
+    background-color: #ffffff !important;
+}
+
+.text-red-900 {
+    color: #F91616 !important;
+}
+
+button.margin-l-t-1{
+    margin-left: 1em;
+    margin-top: 1em;
+}
+
+
+/*
+Borde circle
+*/
+
+
+.border-circle-jmoordb-60 {
+    border-radius: 60% !important;
+}
+.border-circle-jmoordb-50 {
+    border-radius: 50% !important;
+}
+.border-circle-jmoordb-40 {
+    border-radius: 40% !important;
+}
+.border-circle-jmoordb-30 {
+    border-radius: 30% !important;
+}
+
+.border-circle-jmoordb-20 {
+    border-radius: 20% !important;
+}
+.border-circle-jmoordb-10 {
+    border-radius: 10% !important;
+}
+
+.border-circle-jmoordb-5 {
+    border-radius: 5% !important;
+}
+
+
+/*.ui-datatable.borderless tbody td {
+    border-style: none !important;
+}*/
+
+.borderless .ui-datatable thead th,
+.borderless .ui-datatable tbody,
+.borderless .ui-datatable tbody tr,
+.borderless .ui-datatable tbody td {
+    border: none !important;
+    display: none !important;
+}
+
+/*.borderless .ui-state-default,
+.borderless .ui-widget-content .ui-state-default,
+.borderless .ui-widget-header .ui-state-default {
+    border: none;
+}*/
+
+
+.preformatted {
+    white-space: pre-wrap;
+}
+
+.modernWay {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+
+.DataTable.ui-datatable table thead {
+    display: none;
+    border: none !important;
+}

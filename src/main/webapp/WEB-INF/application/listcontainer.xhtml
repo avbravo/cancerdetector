@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:pb="http://xmlns.jcp.org/jsf/composite/primeblocks"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">PrimeBlocks</ui:define>
+
+    <ui:define name="breadcrumb">
+        <li>
+            <div class="chevron">/</div>
+            <h:link outcome="/application">Application</h:link>
+        </li>
+        <li>
+            <div class="chevron">/</div>
+            <h:link outcome="/application/listcontainer">List Container</h:link>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="block-category-title">List Container</div>
+
+        <pb:blockViewer header="With Dividers" code="#{listContainerView.block1}"
+                        containerClass="surface-0 px-4 py-8 md:px-6 lg:px-8">
+            <ul class="list-none p-0 m-0">
+                <li class="pb-4 border-bottom-1 border-300">
+                    <div class="border-2 border-dashed border-300 border-round surface-0 p-4"></div>
+                </li>
+                <li class="py-4 border-bottom-1 border-300">
+                    <div class="border-2 border-dashed border-300 border-round surface-0 p-4"></div>
+                </li>
+                <li class="pt-4">
+                    <div class="border-2 border-dashed border-300 border-round surface-0 p-4"></div>
+                </li>
+            </ul>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="Card with Dividers" code="#{listContainerView.block2}"
+                        containerClass="px-4 py-8 md:px-6 lg:px-8">
+            <div class="surface-0 p-4 shadow-2 border-round">
+                <ul class="list-none p-0 m-0">
+                    <li class="pb-4 border-bottom-1 border-300">
+                        <div class="border-2 border-dashed border-300 border-round surface-0 p-4"></div>
+                    </li>
+                    <li class="py-4 border-bottom-1 border-300">
+                        <div class="border-2 border-dashed border-300 border-round surface-0 p-4"></div>
+                    </li>
+                    <li class="pt-4">
+                        <div class="border-2 border-dashed border-300 border-round surface-0 p-4"></div>
+                    </li>
+                </ul>
+            </div>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="Separate Cards" code="#{listContainerView.block3}"
+                        containerClass="px-4 py-8 md:px-6 lg:px-8">
+            <ul class="list-none p-0 m-0">
+                <li class="surface-0 p-4 mb-3 shadow-2 border-round">
+                    <div class="border-2 border-dashed border-300 border-round surface-0 p-4"></div>
+                </li>
+                <li class="surface-0 p-4 mb-3 shadow-2 border-round">
+                    <div class="border-2 border-dashed border-300 border-round surface-0 p-4"></div>
+                </li>
+                <li class="surface-0 p-4 shadow-2 border-round">
+                    <div class="border-2 border-dashed border-300 border-round surface-0 p-4"></div>
+                </li>
+            </ul>
+        </pb:blockViewer>
+    </ui:define>
+
+</ui:composition>

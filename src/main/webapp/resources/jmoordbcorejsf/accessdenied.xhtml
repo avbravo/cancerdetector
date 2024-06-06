@@ -1,0 +1,35 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f = "http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite">
+
+    <composite:interface >
+
+    </composite:interface>
+
+    <composite:implementation>
+
+            <div class="surface-card border-round flex shadow-2 justify-content-center">
+
+                <div class="bg-blue-50 flex align-items-center justify-content-center py-3 px-5">
+                    <p:graphicImage name="images/blocks/illustration/security.svg" library="primeblocks-app" alt="Image"
+                                    styleClass="mx-auto block mb-4 w-full"/>
+                </div>
+                <div class="py-3 px-5 flex flex-column align-items-start">
+                    <div class="text-900 font-medium mb-3 text-xl">#{core['title.accesodenegado']}</div>
+                    <p class="mt-0 mb-4 p-0 line-height-3">#{core['subtitle.accesodenegado']}</p>
+                    <p class="mt-0 mb-4 p-0 line-height-3">#{core['label.notieneprivilegios']}</p>
+                    <p:commandButton action="#{navigatorFaces.go('/home.xhtml')}" value="#{core['button.login']}" 
+                                     styleClass="mt-auto "
+                                     iconPos="right"/>
+                </div>
+            </div>
+
+    </composite:implementation>
+</html>

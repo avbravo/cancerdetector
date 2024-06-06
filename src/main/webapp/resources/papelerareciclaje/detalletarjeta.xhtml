@@ -1,0 +1,216 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="jakarta.faces">
+
+    <composite:interface >
+        <composite:attribute name="pendiente" default="false"/>
+        <composite:attribute name="progreso" default="false"/>
+        <composite:attribute name="finalizado" default="false"/>
+    </composite:interface>
+
+    <composite:implementation >
+
+        <div class="col-12 lg:col-4 p-3 ">
+            <div class="shadow-2 border-round surface-card  mb-3 h-full flex-column justify-content-between flex ">
+                <div class="p-4 ">
+                    <div class="flex align-items-center">
+                        <span class="inline-flex border-circle align-items-center justify-content-center  mr-3" style="width:38px;height:38px">
+                            <i class="#{tarjeta.icono.icono} text-xl text-green-600" jsf:rendered="#{papeleraReciclajeFaces.showIcon}"></i>
+                            <p:menuButton  icon="pi pi-ellipsis-v" buttonStyleClass="ui-button-flat ui-button-plain rounded-button" 
+                                           rendered="#{papeleraReciclajeFaces.isEditable}"   >
+
+
+
+                                <p:menuitem  styleClass="ui-button-flat"
+                                             update=":form, outputPanelTarjetaColaboradorDataTable"
+                                             rendered="#{papeleraReciclajeFaces.showProyectoForaneo() eq false}"
+                                             action="#{papeleraReciclajeFaces.prepareColaborador(tarjeta)}"
+                                             value="#{core['menuitem.colaborador']}"
+                                             oncomplete="PF('overlayPanelTarjetaColaboradorDataTable').show('#{component.clientId}')"
+                                             icon="pi pi-fw pi-user-minus" title="#{core['menuitem.colaborador']}">
+
+                                </p:menuitem>
+
+                                <p:menuitem  styleClass="ui-button-flat"
+                                             value="#{core['menuitem.clonar']}"
+                                             rendered="#{papeleraReciclajeFaces.showProyectoForaneo() eq false}"
+                                             action="#{papeleraReciclajeFaces.prepareClonar(tarjeta)}"
+                                             update=":form, outputPanelTarjetaClonar"
+                                             oncomplete="PF('overlayPanelTarjetaClonar').show('#{component.clientId}')"
+                                             icon="pi pi-fw pi-clone" title="#{core['menuitem.clonar']}">
+
+                                </p:menuitem>
+
+ <p:separator rendered="#{papeleraReciclajeFaces.tienePrivilegiosParaTarjeta(tarjeta)}"/>
+                            <p:menuitem  styleClass="ui-button-flat ui-button-danger"
+                                         value="#{core['menuitem.remove']}"
+                                         rendered="#{papeleraReciclajeFaces.showProyectoForaneo() eq false and papeleraReciclajeFaces.tienePrivilegiosParaTarjeta(tarjeta)}"
+                                         action="#{papeleraReciclajeFaces.prepareArchivar(tarjeta)}"
+                                         update=":form, outputPanelTarjetaArchivar"
+                                         oncomplete="PF('overlayPanelTarjetaArchivar').show('#{component.clientId}')"
+                                         icon="pi pi-fw pi-trash" title="#{core['menuitem.remove']}">
+
+                            </p:menuitem>
+
+
+                                <p:separator rendered="#{papeleraReciclajeFaces.tienePrivilegiosParaTarjeta(tarjeta)}"/>
+                                <p:menuitem  styleClass="ui-button-flat"
+                                             update=":form, outputPanelTarjetaEtiqueta"                                  
+                                             value="#{core['menuitem.etiqueta']}"
+                                             title="#{core['menuitem.etiqueta']}"
+                                             rendered="#{papeleraReciclajeFaces.showProyectoForaneo() eq false and papeleraReciclajeFaces.tienePrivilegiosParaTarjeta(tarjeta)}"
+                                             action="#{papeleraReciclajeFaces.prepareEtiqueta(tarjeta)}"
+                                             oncomplete="PF('overlayPanelTarjetaEtiqueta').show('#{component.clientId}')"
+                                             icon="pi pi-fw pi-hashtag" >
+
+                                </p:menuitem>
+
+                            </p:menuButton>
+                        </span>
+                        <span class="text-900 font-medium text-2xl"><p:outputLabel value="#{tarjeta.tarjeta}"/></span>
+                    </div>
+                    <div class="text-900 my-3 text-xl font-medium">#{msg['field.idtarjeta']} #{tarjeta.idtarjeta}</div>
+                    <p class="mt-0 mb-3 text-700 line-height-3">#{msg['label.vence']} #{papeleraReciclajeFaces.showDateWithHour(tarjeta.fechafinal)}
+                        <p:commandButton    
+                            rendered="#{papeleraReciclajeFaces.diasPendientes(tarjeta) gt 1 }"
+                            value="#{papeleraReciclajeFaces.diasPendientes(tarjeta)}"
+                            icon="pi pi-clock" title="#{core['button.diaspendientes']}"                                       
+                            styleClass="rounded-button ui-button-primary ui-button-flat"/>
+                        <p:commandButton                                   
+                            value="#{papeleraReciclajeFaces.diasPendientes(tarjeta)}"
+                            rendered="#{papeleraReciclajeFaces.diasPendientes(tarjeta) lt 0}"
+                            icon="pi pi-clock"   title="#{core['button.diasatrasados']}"                                     
+                            styleClass="rounded-button ui-button-help ui-button-flat"/>
+                    </p>
+
+
+
+                    <p class="mt-0 mb-3 text-700 line-height-3">#{msg['field.tipotarjeta']} :  #{tarjeta.tipotarjeta.tipotarjeta}</p>
+
+                    <div class="flex align-items-center">
+
+
+                        <ui:repeat value="#{tarjeta.etiqueta}" var="etiqueta">
+
+                            <p:tag severity="#{etiqueta.severity}" value="#{etiqueta.etiqueta}" rounded="true"/>
+
+                        </ui:repeat>
+                    </div>
+
+                    <p class="mt-0 mb-3 text-700 line-height-3">#{msg['label.prioridad']} #{tarjeta.prioridad}</p>
+                    <div class="flex align-items-center">
+
+                        <div class="card " style="width: 18rem;">
+                            <p:avatarGroup styleClass="mb-3">
+                                <ui:repeat value="#{tarjeta.userView}" var="userView">
+
+                                    <p:avatar size="medium" shape="circle">
+                                        <p:graphicImage 
+                                            title="#{userView.name}"
+                                            stream="false" cache="false"
+                                            rendered="#{papeleraReciclajeFaces.jmoordbCoreMediaManager.isImageAndExists(papeleraReciclajeFaces.repairPathOfFile(userView.photo))}"
+                                            value="#{papeleraReciclajeFaces.jmoordbCoreMediaManager.generate(papeleraReciclajeFaces.repairPathOfFile(userView.photo),'')}" 
+                                            />
+                                    </p:avatar>
+                                    <p:avatar rendered="#{papeleraReciclajeFaces.jmoordbCoreMediaManager.isImageAndExists(papeleraReciclajeFaces.repairPathOfFile(userView.photo)) eq false}"
+                                              title="#{userView.name}"
+                                              label="#{userView.name}" styleClass="mr-2" size="small" />
+
+
+                                </ui:repeat>
+
+
+
+                            </p:avatarGroup>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="px-4 py-3  text-right">
+                    <p:commandButton update=":form, outputPanelTarjetaView" 
+                                     styleClass="ui-button-flat"    
+                                     rendered="#{papeleraReciclajeFaces.tienePrivilegiosVerTarjeta(tarjeta)}"
+                                     action="#{papeleraReciclajeFaces.prepareView(tarjeta)}"
+                                     oncomplete="PF('overlayPanelTarjetaView').show('#{component.clientId}')"
+                                     icon="pi pi-fw pi-eye" title="#{core['menuitem.viewdetails']}">
+
+                    </p:commandButton>
+
+                
+
+                    <p:selectOneMenu  value="#{papeleraReciclajeFaces.sprintProgramadoMoveSelected}" var="item"
+                                      rendered="#{sprintConverterServices.sprints.size() ge 1 and papeleraReciclajeFaces.isValidDateProject eq true and papeleraReciclajeFaces.haveSprintOpen eq true and papeleraReciclajeFaces.tienePrivilegiosParaTarjeta(tarjeta) eq true}"
+                                      >
+
+                        <f:selectItems value="#{sprintConverterServices.sprints}"  var="item" 
+                                       itemLabel="#{item.sprint}"
+                                       itemValue="#{item}"                                                        
+                                       >
+
+                        </f:selectItems>
+                        <p:column> #{item.sprint} </p:column>
+                        <p:column> #{item.descripcion} </p:column>
+                        <p:column><p:outputLabel value="#{papeleraReciclajeFaces.showDateWithHour(item.fechainicial)}" style="float:left"/> </p:column>
+                        <p:column><p:outputLabel value="#{papeleraReciclajeFaces.showDateWithHour(item.fechafinal)}" style="float:left"/> </p:column>
+                        <p:ajax event="itemSelect" listener="#{papeleraReciclajeFaces.onItemSelectSprintProgramado}" update=":form:growl, commandButtonPasarAlSprintProgramado" 
+
+                                process="@this"/>
+                    </p:selectOneMenu>
+                    <p:commandButton id="commandButtonPasarAlSprintProgramado" 
+                                     rendered="#{sprintConverterServices.sprints.size() ge 1 and papeleraReciclajeFaces.isValidDateProject eq true and papeleraReciclajeFaces.haveSprintOpen eq true and papeleraReciclajeFaces.tienePrivilegiosParaTarjeta(tarjeta) eq true}"
+                                     update=":form"
+                                     value="#{papeleraReciclajeFaces.sprintProgramadoMoveSelected.sprint}"
+                                     action="#{papeleraReciclajeFaces.pasarAlSprintProgramado(tarjeta )}"
+                                     icon="pi pi-arrow-up-right"  title="#{msg['button.pasaralsprint']}"
+                                     styleClass="ui-button-outlined ui-rounded-button ui-button-danger">
+                        <p:confirm type="popup" header="#{core['confirmdialog.header']}" message="#{msg['confirmdialog.pasarbacklogalsprint']}" icon="pi pi-info-circle"/>
+                    </p:commandButton>
+                </div>
+                <div class="px-4 py-3 surface-100 text-right">
+                    <p:commandButton id="commandButtonPasarAlTablero" 
+                                     rendered="#{papeleraReciclajeFaces.isValidDateProject eq true and papeleraReciclajeFaces.haveSprintOpen eq true and papeleraReciclajeFaces.tienePrivilegiosParaTarjeta(tarjeta) eq true}"
+                                     update=":form"
+                                     value="#{papeleraReciclajeFaces.sprintSelected.sprint}"
+                                     action="#{papeleraReciclajeFaces.pasarAlTablero(tarjeta)}"
+                                     icon="pi pi-th-large"  
+                                     title="#{msg['button.pasaraltablero']}"
+                                     styleClass="ui-button-outlined ui-rounded-button ui-button-success">
+                        <p:confirm type="popup" header="#{core['confirmdialog.header']}" message="#{msg['confirmdialog.pasarbacklogaltablero']}" icon="pi pi-info-circle"/>
+                    </p:commandButton>
+
+
+                    
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <!--<p:separator style="width:300px;height:3px;  background-color: #121212;"/>-->
+
+
+
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+            <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+            <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirmdialog-yes ui-button-danger" />
+        </p:confirmDialog>
+
+
+
+
+
+
+
+    </composite:implementation>
+</html>

@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.cancerdetector</groupId>
+    <artifactId>cancerdetector</artifactId>
+    <version>1.39.2</version>
+    <packaging>war</packaging>
+    <name>cancerdetector</name>
+    
+    <properties>
+        <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <failOnMissingWebXml>false</failOnMissingWebXml>
+        <jakartaee>10.0.0</jakartaee>
+        <!--<primefaces.version>13.0.3</primefaces.version>-->
+        <primefaces.version>14.0.0</primefaces.version>
+        
+        <primefaces-extensions.version>13.0.2</primefaces-extensions.version>
+         <version.payara>6.2024.5</version.payara>
+        <microprofile.version>6.1</microprofile.version>
+        <!--<microprofile.version>6.0</microprofile.version>-->
+       <microprofile-config-api.version>3.1</microprofile-config-api.version>
+    
+        <!--<microprofile-health-api.version>4.0</microprofile-health-api.version>-->
+        <microprofile-health-api.version>4.0.1</microprofile-health-api.version>
+        <!--<microprofile-metrics-api.version>5.0.0</microprofile-metrics-api.version>-->
+        <microprofile-metrics-api.version>5.1.0</microprofile-metrics-api.version>
+        <jmeter.version>2.6.0</jmeter.version>
+        <final.name>cancerdetector</final.name>
+
+        <version.jmoordbfaces>1.5.1</version.jmoordbfaces>
+        <version.jmoordbutilfaces>3.2</version.jmoordbutilfaces>
+        <version.jmoordbencripter>2.0</version.jmoordbencripter>
+        <version.jmoordb-core-annotations>1.5</version.jmoordb-core-annotations>
+    
+        
+      
+    </properties>
+
+    <dependencies>
+        
+        <!--        <dependency>
+                  <groupId>org.graalvm.polyglot</groupId>
+                  <artifactId>polyglot</artifactId>
+                  <version>23.1.0</version>
+              </dependency>
+              <dependency>
+                  <groupId>org.graalvm.polyglot</groupId>
+                  <artifactId>python</artifactId>
+                  <version>23.1.0</version>
+                  <type>pom</type>
+              </dependency>
+        -->
+  
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+            <version>${jakartaee}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.microprofile</groupId>
+            <artifactId>microprofile</artifactId>
+            <version>${microprofile.version}</version>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.microprofile.config</groupId>
+            <artifactId>microprofile-config-api</artifactId>
+            <version>${microprofile-config-api.version}</version>
+        </dependency>
+        
+        
+        <dependency>
+            <groupId>org.eclipse.microprofile.health</groupId>
+            <artifactId>microprofile-health-api</artifactId>
+            <version>${microprofile-health-api.version}</version>
+            <type>jar</type>
+        </dependency>
+        
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+            <type>jar</type>
+        </dependency>
+        
+
+  
+  
+ 
+        <!--Jakarta Faces
+        
+        -->
+   
+        <dependency>
+            <groupId>jakarta.faces</groupId>
+            <artifactId>jakarta.faces-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>${primefaces.version}</version>
+            <!--<version>12.0.0</version>-->
+            <classifier>jakarta</classifier>        
+        </dependency>
+        
+        
+        
+        <dependency>
+            <groupId>jakarta.websocket</groupId>
+            <artifactId>jakarta.websocket-api</artifactId>
+            <version>2.1.1</version>
+            <scope>provided</scope>
+        </dependency>
+        
+       
+        <!--       <dependency>
+            <groupId>org.primefaces.extensions</groupId>
+            <artifactId>primefaces-extensions</artifactId>
+            <version>${primefaces-extensions.version}</version>
+            <classifier>jakarta</classifier>
+        </dependency>-->
+        <!--
+        lombok
+        -->
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+            <scope>provided</scope>
+        </dependency>
+    
+    
+    
+    
+        <!--
+        jmoordb-core-frontend
+        -->
+        
+
+
+        
+        
+
+        <!--  
+      <dependency>
+            <groupId>com.github.avbravo</groupId>
+            <artifactId>jmoordbfaces</artifactId>
+            <version>${version.jmoordbfaces}</version>
+        </dependency>
+        -->
+        
+ 
+
+        
+        
+        <!--
+     
+        
+        -->
+        <dependency>
+            <groupId>com.github.avbravo</groupId>
+            <artifactId>jmoordb-core-annotations</artifactId>
+            <version>${version.jmoordb-core-annotations}</version>
+        </dependency>
+
+<!--           <dependency>
+            <groupId>com.github.avbravo</groupId>
+            <artifactId>jmoordbutilfaces</artifactId>
+            <version>${version.jmoordbutilfaces}</version>
+        </dependency>
+    -->
+      
+         
+  
+  
+        <!--  	<dependency>
+            <groupId>com.github.avbravo</groupId>
+            <artifactId>jmoordbfaces</artifactId>
+            <version>${version.jmoordbfaces}</version>
+        </dependency>-->
+
+    
+        <!-- 
+       <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>5.2.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>font-awesome</artifactId>
+            <version>6.3.0</version>
+        </dependency>-->
+    
+    
+        <!--
+         Encriptation
+        -->
+     
+       <dependency>
+            <groupId>com.github.avbravo</groupId>
+            <artifactId>jmoordbutilfaces</artifactId>
+            <version>${version.jmoordbutilfaces}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.avbravo</groupId>
+            <artifactId>jmoordbencripter</artifactId>
+            <version>${version.jmoordbencripter}</version>
+        </dependency>
+    
+       
+        <!--
+        Creo que esta sera para archivos removerla si no sube archivos
+        -->
+
+        
+        <!--
+                        Email
+        -->
+      
+      
+     
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+     
+     
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.4</version>
+        </dependency>
+
+        <!--
+        JCache
+        -->
+     
+        <dependency>
+            <groupId>javax.cache</groupId>
+            <artifactId>cache-api</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        
+        <!--
+        Eclipse Collections
+        -->
+     
+    </dependencies>
+    
+    <build>
+        <finalName>${final.name}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.10.1</version>
+                <configuration>
+                    <source>21</source>
+                    <target>21</target>
+                    <compilerArguments>
+                        <endorseddirs>${endorsed.dir}</endorseddirs>
+                    </compilerArguments>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.2</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${endorsed.dir}</outputDirectory>
+                            <silent>true</silent>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>jakarta.platform</groupId>
+                                    <artifactId>jakarta.jakartaee-api</artifactId>
+                                    <version>${jakartaee}</version>
+                                    <type>jar</type>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>fish.payara.maven.plugins</groupId>
+                <artifactId>payara-micro-maven-plugin</artifactId>
+                <configuration>
+                    <payaraVersion>${version.payara}</payaraVersion>
+                    <deployWar>false</deployWar>
+                    <commandLineOptions>
+                        <option>
+                            <key>--autoBindHttp</key>
+                        </option>
+                        <!--puerto 9001 -->
+                     
+                        <!-- desabilita Hazelcas -->
+                        <option>
+                            <key>--noHazelcast</key>
+                        </option>
+                        <option>
+                            <key>--logo</key>
+                        </option>
+
+                        <option>
+                            <key>--deploy</key>
+                            <value>${project.build.directory}/${project.build.finalName}</value>
+                        </option>                     
+                    </commandLineOptions>
+                    <!--
+                    JDK 17+ Soluciona error con EJB
+                    -->                         
+                    <javaCommandLineOptions>
+                        <option>
+                            <key>--add-opens</key>
+                            <value>java.base/java.io=ALL-UNNAMED</value>
+                        </option>
+                        <option>
+                            <key></key>
+                            <value>-Djdk.util.zip.disableZip64ExtraFieldValidation=true</value>
+                        </option>
+                    </javaCommandLineOptions>                
+                </configuration>
+                <version>2.0</version>
+            </plugin>
+            
+        
+        </plugins>
+        
+        
+        <!--
+Blocks
+        -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>${basedir}/src/main/webapp/WEB-INF</directory>
+                <includes>
+                    <include>web.xml</include>
+                </includes>
+                <filtering>true</filtering>
+                <targetPath>${project.build.directory}</targetPath>
+            </resource>
+        </resources>
+    </build>
+    
+
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+</project>

@@ -1,0 +1,355 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <composite:interface >
+
+    </composite:interface>
+
+    <composite:implementation>
+
+        <div class="mt-3">
+            <ul class="list-none p-0 m-0 text-cyan-600">
+
+                <p:commandLink action="dashboard" class="flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center text-cyan-600 border-left-2 border-cyan-600 hover:border-300 transition-duration-150 transition-colors"
+                               title="#{msg['menuitem.dashboard']}"
+                               >                                                                           
+                    <i class="pi pi-home mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-2xl "></i>
+                    <c:if test="#{loginFaces.showTextLeftMenu.get() eq true}">
+                        <span class="font-medium inline text-base lg:text-xs lg:block">#{msg['menuitem.dashboard']}</span>  
+                    </c:if>
+                </p:commandLink>
+
+
+                <p:commandLink action="perfil" class="flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center text-cyan-600 border-left-2 border-cyan-600 hover:border-300 transition-duration-150 transition-colors"
+                               title="#{msg['menuitem.perfil']}"
+                               rendered="#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD,DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD, SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}" >
+                    <i class="pi pi-user-edit mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-2xl"></i>
+                    <c:if test="#{loginFaces.showTextLeftMenu.get() eq true}">
+                        <span class="font-medium">#{msg['menuitem.perfil']}</span>
+                    </c:if>
+                </p:commandLink>
+
+                <p:commandLink action="organigram" class="flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center text-cyan-600 border-left-2 border-cyan-600 hover:border-300 transition-duration-150 transition-colors"
+                               title="#{msg['menuitem.organigram']}"
+
+                               rendered="#{p:ifAnyGranted('DEVELOPERS,SUPER-USER,DIRECTOR')}" >
+                    <i class="pi pi-sitemap mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-2xl"></i>
+                    <c:if test="#{loginFaces.showTextLeftMenu.get() eq true}">
+                        <span class="font-medium"> #{msg['menuitem.organigramshort']}</span>
+                    </c:if>
+                </p:commandLink>
+
+                <p:commandLink action="buscadortarjetas" class="flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center text-cyan-600 border-left-2 border-cyan-600 hover:border-300 transition-duration-150 transition-colors"
+                               title="#{msg['menuitem.busquedas']}"
+
+                               rendered="#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD,DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD, SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}" >
+                    <i class="pi pi-search mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-2xl"></i>
+                    <c:if test="#{loginFaces.showTextLeftMenu.get() eq true}">
+                        <span class="font-medium"> #{msg['menuitem.busquedas']}</span>
+                    </c:if>
+                </p:commandLink>
+
+
+                <p:commandLink action="schedulebylogged" 
+                               class="flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center text-cyan-600 border-left-2 border-cyan-600 hover:border-300 transition-duration-150 transition-colors"
+                               title="#{msg['menuitem.schedulebylogged']}"
+
+                               rendered="#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD,DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD, SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}" >
+                    <i class="pi pi-calendar-times mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-2xl"></i>
+                    <c:if test="#{loginFaces.showTextLeftMenu.get() eq true}">
+                        <span class="font-medium"> #{msg['menuitem.schedulebylogged']}</span>
+                    </c:if>
+                </p:commandLink>
+                
+                
+                  
+
+                            
+                            
+
+
+            
+                <!--<div class="mb-3"></div>-->
+
+
+                <p:commandLink action="grupotipotarjeta" 
+                               class="flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center text-cyan-600 border-left-2 border-cyan-600 hover:border-300 transition-duration-150 transition-colors"
+                               title="#{msg['menuitem.grupotipotarjeta']}"
+
+                               rendered="#{p:ifAnyGranted('COORDINADOR-FACULTAD,DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD, SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}" >
+                    <i class="pi pi-wallet mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-2xl"></i>
+                    <c:if test="#{loginFaces.showTextLeftMenu.get() eq true}">
+                        <span class="font-medium"> #{msg['menuitem.grupotipotarjeta']}</span>
+                    </c:if>
+                </p:commandLink>
+
+                
+                            
+                <p:commandLink action="tipotarjeta" 
+                               class="flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center text-cyan-600 border-left-2 border-cyan-600 hover:border-300 transition-duration-150 transition-colors"
+                               title="#{msg['menuitem.tipotarjeta']}"
+
+                               rendered="#{p:ifAnyGranted('COORDINADOR-FACULTAD,DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD, SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}" >
+                    <i class="pi pi-id-card mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-2xl"></i>
+                    <c:if test="#{loginFaces.showTextLeftMenu.get() eq true}">
+                        <span class="font-medium"> #{msg['menuitem.tipotarjeta']}</span>
+                    </c:if>
+                </p:commandLink>
+                
+                <p:commandLink action="reabrirproyecto" 
+                               class="flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center text-cyan-600 border-left-2 border-cyan-600 hover:border-300 transition-duration-150 transition-colors"
+                               title="#{msg['menuitem.reabrirproyecto']}"
+
+                               rendered="#{p:ifAnyGranted('COORDINADOR-FACULTAD,DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD, SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}" >
+                    <i class="pi pi-folder-open mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-2xl"></i>
+                    <c:if test="#{loginFaces.showTextLeftMenu.get() eq true}">
+                        <span class="font-medium"> #{msg['menuitem.reabrirproyecto']}</span>
+                    </c:if>
+                </p:commandLink>
+                <p:commandLink action="papelerareciclajeproyecto" 
+                               class="flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center text-cyan-600 border-left-2 border-cyan-600 hover:border-300 transition-duration-150 transition-colors"
+                               title="#{msg['menuitem.papelerareciclajeproyecto']}"
+
+                               rendered="#{p:ifAnyGranted('COORDINADOR-FACULTAD,DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD, SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}" >
+                    <i class="pi pi-trash mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-2xl"></i>
+                    <c:if test="#{loginFaces.showTextLeftMenu.get() eq true}">
+                        <span class="font-medium"> #{msg['menuitem.papelerareciclajeproyecto']}</span>
+                    </c:if>
+                </p:commandLink>
+                
+                
+                    <li class="relative">
+
+                    <p:commandButton id="leftMenuCommandButtonReportes" iconPos="right" value="  " title="#{msg['menubar.reportes']}"  
+                                     icon="pi pi-print  mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-2xl" styleClass="ui-button-flat">
+
+                    </p:commandButton>
+                    <p:menu overlay="true" trigger="leftMenuCommandButtonReportes" my="left top" at="left bottom">
+                        <p:submenu label="#{msg['submenu.proyecto']}">
+
+                            <p:menuitem value="#{msg['menuitem.misproyectos']}" action="misproyecto"
+                                        rendered="#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD,DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD, SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}"
+                                        icon="pi pi-folder mr-2"/>
+
+                        </p:submenu>
+                        <p:submenu label="#{msg['menuitem.otros']}" rendered="#{p:ifAnyGranted('DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,   SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+
+                            <p:menuitem value="#{msg['menuitem.departamentamental']}" action="reportedepartamental"
+                                        rendered="#{p:ifAnyGranted('DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD, COORDINADOR-FACULTAD,   SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}"
+                                        icon="pi pi-tablet mr-2"/>
+
+
+                            <p:menuitem value="#{msg['menuitem.reportecolaboradordepartamental']}" action="reportecolaboradordepartamental"
+                                        rendered="#{p:ifAnyGranted('DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD, COORDINADOR-FACULTAD,   SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}"
+                                        icon="pi pi-users mr-2"/>
+
+                        </p:submenu>
+
+
+
+
+                    </p:menu>
+
+                </li>
+                
+                <li class="relative">
+
+                    <p:commandButton id="leftMenuCommandButtonSetting" iconPos="right" value="  " title="#{msg['menubar.settings']}" 
+                                     icon="pi pi-cog mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-2xl" styleClass="ui-button-flat"
+                                     rendered="#{p:ifAnyGranted('DEVELOPERS,SUPER-USER')}">
+                    </p:commandButton>
+
+                    <p:menu overlay="true" trigger="leftMenuCommandButtonSetting" my="left top" at="left bottom"
+                            toggleable="true"
+                            >
+                        <p:submenu label="#{msg['submenu.administration']}" rendered="#{p:ifAnyGranted('DEVELOPERS, SUPER-USER')}">
+
+                            <p:menuitem value="#{msg['menuitem.user']}" action="user"                                       
+                                        icon="pi pi-user mr-2"/>
+
+                            <p:menuitem value="#{msg['menuitem.role']}" action="role"                                      
+                                        icon="pi pi-pencil mr-2"/>
+
+
+
+
+                            <p:menuitem value="#{msg['menuitem.applicative']}" action="applicative"                                     
+                                        icon="pi pi-sitemap mr-2"/>
+                            <p:divider />
+                            <p:menuitem value="#{msg['menuitem.propietarioadd']}" action="propietarioagregar"                                     
+                                        icon="pi pi-user-plus mr-2"/>
+                            <p:divider />
+
+                            <p:menuitem value="#{msg['menuitem.setup']}" action="setup"                                     
+                                        icon="pi pi-sliders-h mr-2"/>
+                            <p:divider />
+
+
+                            <p:menuitem value="#{msg['menuitem.icon']}" action="icono"                                     
+                                        icon="pi pi-images mr-2"/>
+
+                        </p:submenu>
+                        <p:submenu label="#{msg['menuitem.configuration']}" rendered="#{p:ifAnyGranted('DEVELOPERS, SUPER-USER')}" >
+
+
+
+
+                            <p:divider /> 
+                            <p:menuitem value="#{msg['menuitem.institution']}" action="institution"                                     
+                                        icon="pi pi-globe mr-2"/>
+
+                            <p:menuitem value="#{msg['menuitem.central']}" action="central"                                     
+                                        icon="pi pi-tablet mr-2"/>
+
+                            <p:menuitem value="#{msg['menuitem.building']}" action="building"                                     
+                                        icon="pi pi-building mr-2"/>
+                            
+                               <p:menuitem value="#{msg['menuitem.departament']}" action="departament"                                     
+                                        icon="pi pi-building mr-2"/>
+                               
+                            <p:divider /> 
+
+                         
+
+                            <p:menuitem value="#{msg['menuitem.country']}" action="country"                                     
+                                        icon="pi pi-flag-fill mr-2"/>
+
+                            <p:menuitem value="#{msg['menuitem.province']}" action="province"                                     
+                                        icon="pi pi-stop mr-2"/>
+
+                            <p:menuitem value="#{msg['menuitem.district']}" action="district"                                     
+                                        icon="pi pi-stop mr-2"/>
+
+                            <p:menuitem value="#{msg['menuitem.township']}" action="township"                                     
+                                        icon="pi pi-stop mr-2"/>
+
+                            <p:menuitem value="#{msg['menuitem.zone']}" action="zone"                                     
+                                        icon="pi pi-bookmark-fill mr-2"/>
+
+
+                        </p:submenu>
+<!--                        <p:submenu label="#{msg['menuitem.otros']}"  >
+
+                            <p:menuitem value="#{msg['menuitem.grupotipotarjeta']}" action="grupotipotarjeta"                                      
+                                        icon="pi pi-wallet mr-2"/>
+                            <p:menuitem value="#{msg['menuitem.tipotarjeta']}" action="tipotarjeta"                                      
+                                        icon="pi pi-id-card mr-2"/>
+
+                        </p:submenu>-->
+
+
+
+
+                    </p:menu>
+
+                </li>
+
+                <div class="mb-3"></div>
+
+                <li class="relative">
+
+
+                    <p:commandButton id="leftMenuCommandButtonIA" iconPos="right" value="  " title="#{msg['menuitem.ia']}" 
+                                     icon="pi pi-prime mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-2xl" styleClass="ui-button-flat"
+                                     rendered="#{p:ifAnyGranted('DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD, COORDINADOR-FACULTAD, SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+
+
+                    </p:commandButton>
+
+                    <p:menu overlay="true" trigger="leftMenuCommandButtonIA" my="left top" at="left bottom">
+                        <p:submenu label="#{msg['submenu.prediccion']}" >
+
+                            <p:menuitem value="#{msg['menuitem.predicciontarjetas']}" action="proyecto"                                       
+                                        icon="pi pi-table mr-2"/>
+
+                            <p:menuitem value="#{msg['menuitem.prediccionduracion']}" action="proyecto"                                       
+                                        icon="pi pi-search mr-2"/>
+
+
+                        </p:submenu>
+                        <p:submenu label="#{msg['menuitem.otros']}">
+
+                            <p:menuitem value="#{msg['menuitem.predicciontipo']}" action="proyecto"                                       
+                                        icon="pi pi-id-card mr-2"/>
+
+                            <p:menuitem value="#{msg['menuitem.prediccionanomalias']}" action="proyecto"                                       
+                                        icon="pi pi-id-card mr-2"/>
+
+                        </p:submenu>
+
+
+
+
+                    </p:menu>
+
+                </li>
+
+
+<!--                <li class="relative" jsf:rendered="#{p:ifAnyGranted('DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD, COORDINADOR-FACULTAD, SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+                    <a class="flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center text-600 border-left-2 border-transparent hover:border-300 transition-duration-150 transition-colors"
+                       data-pb-styleclass="{ selector: '@next', enterClass: 'hidden', leaveToClass: 'hidden', hideOnOutsideClick: true }" 
+                       title="#{msg['menuitem.ia']}">
+                        <p:badge severity="info">
+                            <i class="pi pi-prime mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-2xl"/>
+                        </p:badge>
+                        <c:if test="#{loginFaces.showTextLeftMenu.get() eq true}">
+                            <span class="font-medium inline text-base lg:text-xs lg:block">#{msg['menuitem.ia']}</span>
+                        </c:if>
+                        <i class="pi pi-chevron-down ml-auto lg:hidden"></i>
+                    </a>
+                    <ul class="list-none pl-3 pr-0 py-0 lg:p-3 m-0 hidden overflow-y-hidden transition-all transition-duration-400 transition-ease-in-out static border-round-right lg:absolute left-100 top-0 z-1 surface-overlay shadow-none lg:shadow-2 w-full lg:w-15rem">
+                        <li>
+                            <a class="flex align-items-center cursor-pointer p-3 hover:surface-100 hover:text-900 border-round text-600 hover:text-700 transition-duration-150 transition-colors"
+                               data-pb-styleclass="{ selector: '@next', toggleClass: 'hidden'}" >
+                                <i class="pi pi-chart-line mr-2"></i>
+                                <span class="font-medium">#{msg['submenu.prediccion']}</span>
+                                <i class="pi pi-chevron-down ml-auto"></i>
+                            </a>
+                            <ul class="list-none py-0 pl-3 pr-0 m-0 hidden overflow-y-hidden transition-all transition-duration-400 transition-ease-in-out">
+                                <p:commandLink action="proyecto" class="flex align-items-center cursor-pointer p-3 hover:surface-100 hover:text-900 border-round text-600 hover:text-700 transition-duration-150 transition-colors"
+                                               rendered="#{p:ifAnyGranted('DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD, COORDINADOR-FACULTAD, SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}" >
+                                    <i class="pi pi-table mr-2"></i>
+                                    <span class="font-medium">#{msg['menuitem.predicciontarjetas']}</span>
+                                </p:commandLink>
+                                <p:commandLink action="proyecto" class="flex align-items-center cursor-pointer p-3 hover:surface-100 hover:text-900 border-round text-600 hover:text-700 transition-duration-150 transition-colors"
+                                               rendered="#{p:ifAnyGranted('DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD, COORDINADOR-FACULTAD, SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}" >
+                                    <i class="pi pi-search mr-2"></i>
+                                    <span class="font-medium">#{msg['menuitem.prediccionduracion']}</span>
+                                </p:commandLink>
+
+
+
+                            </ul>
+                            <p:commandLink action="tipotarjeta" class="flex align-items-center cursor-pointer p-3 hover:surface-100 hover:text-900 border-round text-600 hover:text-700 transition-duration-150 transition-colors"
+                                           rendered="#{p:ifAnyGranted('DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD, COORDINADOR-FACULTAD, SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}" >                                                                           
+                                <i class="pi pi-id-card mr-2"></i>
+                                <span class="font-medium" >#{msg['menuitem.predicciontipo']}</span>                                            
+                            </p:commandLink>
+                            <p:commandLink action="tipotarjeta" class="flex align-items-center cursor-pointer p-3 hover:surface-100 hover:text-900 border-round text-600 hover:text-700 transition-duration-150 transition-colors"
+                                           rendered="#{p:ifAnyGranted('DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD, COORDINADOR-FACULTAD, SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}" >                                                                           
+                                <i class="pi pi-id-card mr-2"></i>
+                                <span class="font-medium" >#{msg['menuitem.prediccionanomalias']}</span>                                            
+                            </p:commandLink>
+
+
+
+                        </li>
+                    </ul>
+                </li>-->
+
+
+
+
+            </ul>
+        </div>
+
+
+    </composite:implementation>
+</html>

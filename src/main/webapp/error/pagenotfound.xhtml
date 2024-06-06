@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:pb="http://xmlns.jcp.org/jsf/composite/primeblocks" template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">PrimeBlocks</ui:define>
+
+    <ui:define name="breadcrumb">
+        <li>
+            <div class="chevron">/</div>
+            <h:link outcome="/application">Application</h:link>
+        </li>
+        <li>
+            <div class="chevron">/</div>
+            <h:link outcome="/application/pagenotfound">Page Not Found</h:link>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="block-category-title">404 Pages</div>
+       
+
+                <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
+                <div class="flex flex-column lg:flex-row justify-content-center align-items-center gap-7">
+                    <div class="text-center lg:text-right">
+                        <div class="mt-6 mb-3 font-bold text-6xl text-900">Are you lost?</div>
+                        <p class="text-700 text-3xl mt-0 mb-6">Sorry, we couldn't find the page.</p>
+                        <p:commandButton type="button" value="Go back to home page" class="ui-button-outlined">
+                        </p:commandButton>
+                    </div>
+                    <div>
+                        <p:graphicImage library="primeblocks-app" name="images/blocks/feedback/404-rocket.png"
+                                        alt="Image" class="w-full md:w-28rem" />
+                    </div>
+                </div>
+            </div>
+      
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,171 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+     xmlns:papelerareciclaje="http://xmlns.jcp.org/jsf/composite/papelerareciclaje"
+      xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades"
+          xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf">
+
+    <composite:interface >
+        <composite:attribute name="pendiente" default="false"/>
+        <composite:attribute name="progreso" default="false"/>
+        <composite:attribute name="finalizado" default="false"/>
+        <composite:attribute name="id" default=""/> 
+    </composite:interface>
+
+    <composite:implementation >
+
+
+        
+        <p:dialog header="#{msg['dialog.tarjetaimpedimento']}" widgetVar="overlayPanelTarjetaImpedimento"  
+                         width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true"
+                  >
+                 <p:ajax event="close" update=":form:growl" listener="#{papeleraReciclajeFaces.handleCloseDialogImpedimento}" />
+            <p:outputPanel id="#{cc.attrs.id}" style="text-align:center;">
+                <jmoordbcorejsf:overlayPanelTarjetaHeader iconoheader="pi-megaphone" 
+                                                   titulo="#{msg['dialog.tarjetaimpedimento']}"
+                                                   entity="#{papeleraReciclajeFaces.tarjetaImpedimentoSelected}"
+                                                   icono="#{papeleraReciclajeFaces.tarjetaImpedimentoSelected.icono}"/>
+
+
+                <c:if test="${papeleraReciclajeFaces.fueCambiadoPorOtroUsuario == true}">
+
+
+
+                    <utilidades:sincronizacionrequeridacontroller onclick="PF('overlayPanelTarjetaImpedimento').hide()"
+                                                        message="#{papeleraReciclajeFaces.message}"
+                                                        controller="#{papeleraReciclajeFaces}"
+                                                        />
+
+                </c:if>
+
+                <c:if test="${papeleraReciclajeFaces.fueCambiadoPorOtroUsuario == false}">
+                    
+                        
+                      <div class="grid ui-fluid mt-3 floatlabel-demo">
+                            <div class="col-12 md:col-10">
+                                <div class="flex align-items-center ">
+                                    <p:inputTextarea id="inputTextImpedimento" value ="#{papeleraReciclajeFaces.inputTextImpedimento}" 
+                                                     placeholder="#{msg['label.ingreseimpedimento']}" 
+                                                 rendered="#{papeleraReciclajeFaces.isEditable}"
+                                                  rows="2"
+                                                 autoResize="false"
+
+                                                 onkeypress="if (event.keyCode == 13)
+                                                             return false;"/>
+                                </div>
+
+                            </div>
+                            <div class="col-12 md:col-2">
+                                <div class="flex align-items-center ">
+                                     <p:commandButton 
+                                        title="#{core['button.add']}"
+                                        rendered="#{papeleraReciclajeFaces.isEditable}"
+                                        update=":form:growl, dataTableImpedimento, inputTextImpedimento"
+                                        icon="pi pi-plus-circle" styleClass="rounded-button mr-2 ui-button-summary"
+                                        action="#{papeleraReciclajeFaces.agregarRowImpedimento()}" />
+                                </div>
+
+                            </div>
+                        </div>
+                          
+                        
+                        
+
+                    <p:dataTable style="border-style: none" value="#{papeleraReciclajeFaces.tarjetaImpedimentoSelected.impedimento}"
+                                 var="item"
+                                 paginator="true"
+                                 editMode="cell"
+                              resizableColumns="true" liveResize="true"
+                                 id="dataTableImpedimento"
+                                 widgetVar="dataTableImpedimento"
+                                 editable="true"
+                                  rows="#{papeleraReciclajeFaces.rowPageDialog.get()}"
+                                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                                 draggableRows="true"
+                                 >
+                        <p:ajax event="cellEdit" listener="#{papeleraReciclajeFaces.onCellEditImpedimento}" update=":form:growl, dataTableImpedimento"/>
+
+                        <p:column class="columnInputTextArea43" headerText="#{msg['field.impedimento']}" >
+
+
+                            <p:cellEditor >
+                                <f:facet name="output">
+                                  <p:inputTextarea  rows="#{item.impedimento.length() le 70?1:(item.impedimento.length()/70)+1}" style="width: 100% !important; float:left;text-decoration: line-through" autoResize="false" readonly="true" value="#{item.impedimento}"  rendered="#{item.completado eq true}"/>
+                                  <p:inputTextarea  rows="#{item.impedimento.length() le 70?1:(item.impedimento.length()/70)+1}" style="width: 100% !important;" autoResize="false" readonly="true" value="#{item.impedimento}" rendered="#{item.completado eq false}" />
+
+                                </f:facet>
+                                <f:facet name="input" >
+                                     <p:inputTextarea  rows="#{item.impedimento.length() le 70?1:(item.impedimento.length()/70)+1}" style="width: 100% !important;" autoResize="false"  value="#{item.impedimento}"  />
+                                </f:facet>
+                            </p:cellEditor>
+
+                        </p:column>
+
+
+
+
+                        <p:column class="column6">
+                            <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                             process="@this"
+                                             rendered="#{papeleraReciclajeFaces.isEditable}"
+                                             update=":form:growl, dataTableImpedimento"
+                                             action="#{papeleraReciclajeFaces.deleteImpedimento(item)}"
+                                             >
+                                <p:confirm type="popup" header="#{core['confirmdialog.header']}" message="#{core['confirmdialog.message']}" icon="pi pi-info-circle"/>
+                            </p:commandButton>
+                        </p:column>
+                      
+
+                        <f:facet name="footer">
+                            <div class="flex align-items-center ">
+                                <div class=" border-top-1 surface-border col-4 flex">
+
+                                    <p:commandButton  
+                                        title="#{core['button.close']}" icon="pi pi-times"
+                                        rendered="#{papeleraReciclajeFaces.isEditable}"
+                                        update=":form:growl"
+                                        action="#{papeleraReciclajeFaces.addImpedimento(papeleraReciclajeFaces.tarjetaImpedimentoSelected)}" 
+                                        styleClass="ui-button-raised ui-button-secondary"/>
+
+                                </div>
+                            
+
+
+
+                            </div>
+                        </f:facet>
+                    </p:dataTable>
+          
+                </c:if>
+
+
+
+            </p:outputPanel>
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+
+            </p:confirmPopup>
+
+
+
+        </p:dialog>
+
+
+
+
+    </composite:implementation>
+</html>

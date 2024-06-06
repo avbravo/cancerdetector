@@ -1,0 +1,298 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+
+                xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+
+        <p:commandLink action="departament" value="#{msg['breadcrumb.departament']}">
+        </p:commandLink>
+        
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted(' DEVELOPERS,SUPER-USER')}">
+            <p:growl id="growl"/>
+            <script type="text/javascript">
+                function setDataTableWithPageStart() {
+
+                    widgetVardataTable.getPaginator().setPage(0);
+                }
+            </script>
+<!--            <div class="block-category-title">#{msg['form.departament']}</div>-->
+
+            <!--<pb:blockViewerCore header="Sidebar" >-->
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+                <div class="min-h-screen flex flex-column relative flex-auto">
+<!--                    <dashboard:top/>-->
+                    <div class="surface-section , jmoordbcore-max-width2000">
+                        <div class="grid">
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+                                        <label  class="font-bold">#{msg['title.departament']}</label>
+
+                                    </div>
+
+                                </div>
+                                     <div class="field mb-4 col-4">
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:autoComplete id="departament" multiple="false" value="#{departamentFaces.departamentSelectedAutocomplete}"
+                                                            completeMethod="#{departamentFaces.completeDepartament}"
+                                                            var="departament" itemLabel="#{departament.departament}" 
+                                                            itemValue="#{departament}"
+                                                            forceSelection="true"
+                                                            title="#{msg['autocomplete.minimo3caracteres']}"
+                                                            dropdown="true"
+                                                            minQueryLength="3"
+                                                            scrollHeight="250"
+
+                                                            converter="#{departamentConverter}"
+                                                            >
+                                                <p:column>
+                                                    <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{departament.departament}"/>
+                                                </p:column>
+                                                <p:ajax event="itemSelect"   listener="#{departamentFaces.autocompleteSelectedEvent}"  update=":form:growl, departament, dataTable" />  
+                                                <p:ajax event="itemUnselect"  process="@this" listener="#{departamentFaces.autocompleteUnselectListener}" update=":form:growl, departament, dataTable" />
+                                            </p:autoComplete>
+
+                                            <p:message for="@previous" />
+
+                                            <p:outputLabel  value="#{msg['field.departament']}" />
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 lg:col-12">
+                                <p:dataTable style="border-style: none" var="item" value="#{departamentFaces.departamentLazyDataModel}"
+                                             binding="#{departamentFaces.dataTable}"
+                                             id="dataTable"
+                                             widgetVar="widgetVardataTable"
+                                             lazy="true"
+                                             paginator="true"
+                                             rows="#{departamentFaces.rowPageSmall.get()}"
+                                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                             paginatorPosition="both"
+                                  resizableColumns="true" liveResize="true"
+                                             
+                                             rowKey="#{item.iddepartament}"
+                                             selection="#{departamentFaces.departamentSelected}"
+                                             rowSelectMode="add"
+                                             >
+
+                                    <p:column class="column10" headerText="#{msg['field.departament']}" sortable="true" sortBy="#{item.departament}">
+                                        <p:outputLabel value="#{item.departament}" style="float:left"/>
+
+                                    </p:column>
+
+                                    <p:column class="column8" headerText="#{msg['field.iddepartament']}" sortable="true" sortBy="#{item.iddepartament}">
+                                        <p:outputLabel value="#{item.iddepartament}" style="float:left"/>
+
+                                    </p:column>
+
+                                    <p:column class="column2" headerText="#{msg['field.active']}" sortable="true">                                     
+                                        <p:selectBooleanCheckbox value="#{item.active}" disabled="true" style="float:left"/> 
+                                    </p:column>
+
+
+                                    <p:column class="column2" exportable="false">
+                                        <p:menuButton  icon="pi pi-ellipsis-v" buttonStyleClass="ui-button-flat ui-button-plain rounded-button" >
+
+                                            <p:menuitem 
+                                                icon="pi pi-pencil" 
+
+                                                value="#{core['button.update']}"
+                                                update=":form:growl, outputPanelDepartament"
+                                                oncomplete="PF('overlayPanelDepartament').show('#{component.clientId}')"
+                                                action="#{departamentFaces.prepareDepartament(item)}"
+                                                styleClass="edit-button rounded-button ui-button-success" process="@this"/>       
+
+
+
+
+                                        </p:menuButton>
+                                    </p:column>
+
+
+
+
+
+                                    <f:facet name="header">
+                                        <div class="grid mt-12">
+                                            <div class="col-2">
+                                                <p:commandButton 
+                                                    title="#{core['button.add']}" 
+                                                    rendered="#{departamentFaces.isEditable}"
+                                                    update=":form:growl, outputPanelDepartament"
+                                                    icon="pi pi-plus-circle" styleClass="rounded-button mr-2 ui-button-summary"
+                                                    oncomplete="PF('overlayPanelDepartament').show('#{component.clientId}')"
+                                                    action="#{departamentFaces.agregarRowDepartament()}" />
+
+                                            </div>
+                                            <div class="col-2">
+                                                <p:commandButton title="#{core['button.print']}"
+                                                                 icon="pi pi-print"
+                                                                 id="buttonPrint"
+                                                                 process="buttonPrint"
+                                                                 ajax="false"
+                                                                 immediate="true"
+                                                                 onclick="this.form.target = '_blank'"
+                                                                 action="#{departamentFaces.printAll()}"
+                                                                 update=":form:growl"
+                                                                 styleClass="rounded-button ui-button-secondary" 
+                                                                 style="margin-right: .5rem">
+
+                                                </p:commandButton>
+                                            </div>
+                                            <div class="col-2">
+
+
+                                                <p:commandButton  title="#{msg['button.refresh']}" icon="pi pi-refresh" styleClass="rounded-button ui-button-help mr-2"
+                                                                  action="#{departamentFaces.refresh()}"
+                                                                    process="@this"
+                                                                  update=":form:growl, dataTable"/>
+                                            </div>
+                                        </div>
+                                    </f:facet>
+
+                                </p:dataTable>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div> 
+
+                </div>
+            </div>
+
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+            </p:confirmPopup>
+
+
+
+            <p:dialog header="#{msg['dialog.departament']}" widgetVar="overlayPanelDepartament" 
+                      
+         width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true"
+                  >
+            <p:ajax event="close" update=":form:growl" listener="#{departamentFaces.handleCloseDialogRefresh}" />
+                
+                <p:outputPanel id="outputPanelDepartament" style="text-align:center;"  >
+                    <c:if test="${departamentFaces.showDialogContent == false}">
+
+
+                        <utilidades:sincronizacionrequeridacontroller onclick="PF('overlayPanelDepartament').hide()"
+                                                            message="#{departamentFaces.message}"
+                                                            controller="#{departamentFaces}"
+                                                            
+                                                            />
+                    </c:if>
+                    <c:if test="${departamentFaces.showDialogContent == true}">
+                        
+                        <div class="grid ui-fluid mt-12 floatlabel-demo">
+                            <div class="col-12 md:col-12">
+                            
+                                <div class="field">
+                                    <span class="ui-float-label">
+                                        <p:inputTextarea placeholder="#{msg['field.departament']}" value="#{departamentFaces.departamentSelected.departament}"  rows="3" autoResize="false"/>
+                                        <p:outputLabel for="@previous" value="#{msg['field.departament']}" />
+                                        <p:message for="@previous" />
+                                    </span>
+                                </div>
+                                <div class="field">
+                                    <span class="ui-float-label" jsf:rendered="#{departamentFaces.buttonNewPressed eq false}">
+
+                                        <p:selectBooleanCheckbox value="#{departamentFaces.departamentSelected.active}"/> 
+                                        <p:outputLabel for="@previous" value="#{msg['field.active']}" />
+                                        <p:message for="@previous" />
+                                    </span>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+
+
+
+
+                        <div class="flex align-items-center ">
+                            <div class=" border-top-1 surface-border col-6 flex">
+                                <p:commandButton  title="#{core['button.save']}" icon="pi pi-save"
+                                                  action="#{departamentFaces.save(departamentFaces.departamentSelected)}"
+                                                  update=":form:growl, dataTable"
+                                                   process="outputPanelDepartament"
+                                                  rendered="#{departamentFaces.buttonNewPressed}"
+                                                  styleClass="w-6 ml-2"/>
+                                <p:commandButton  title="#{core['button.update']}" 
+                                                  icon="pi pi-pencil" 
+                                                  process="outputPanelDepartament"
+                                                  rendered="#{departamentFaces.buttonNewPressed eq false}"
+                                                  action="#{departamentFaces.edit(departamentFaces.departamentSelected)}"
+                                                  update=":form:growl, dataTable"
+                                                  styleClass="w-6 ml-2"/>
+                            </div>
+
+                            <div class=" border-top-1 surface-border col-6 flex">
+                                <p:commandButton 
+                                    title="#{core['button.cancel']}" 
+                                    icon="pi pi-times" 
+                                    onclick="PF('overlayPanelDepartament').hide()"
+                                    update=":form:growl, dataTable"
+                                    styleClass="ui-button-outlined w-6 mr-2 ui-button-danger"
+                                    />
+
+                            </div>
+                        </div>
+                    </c:if>
+
+                </p:outputPanel>
+                <!--</p:overlayPanel>-->
+
+            </p:dialog>
+
+
+
+
+
+
+
+
+
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted(' DEVELOPERS,SUPER-USER')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

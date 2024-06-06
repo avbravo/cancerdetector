@@ -1,0 +1,639 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="jakarta.faces.html">
+
+    <composite:interface >
+
+    </composite:interface>
+
+    <composite:implementation>
+        <div class="surface-section p-5 shadow-6">
+            <div class="flex align-items-start flex-column lg:flex-row lg:justify-content-between">
+                <div class="flex align-items-start flex-column md:flex-row">
+                    <span class="inline-flex border-circle align-items-center justify-content-center bg-indigo-100 mr-3" style="width:38px;height:38px">
+                        <i class="#{tableroFaces.proyectoSelected.icono.icono} text-xl text-green-500"></i>
+                    </span>
+
+                    <div>
+
+
+                        <span class="text-900 font-medium text-2xl">#{tableroFaces.proyectoSelected.prefijo}</span>
+
+                        <p:selectBooleanButton value="#{tableroFaces.showDetallesProyecto}" onIcon="pi pi-caret-up" offIcon="pi pi-caret-down" 
+                                               title="#{msg['selectBooleanButton.detalles']}">
+                            <p:ajax update=":form" listener="#{tableroFaces.visualizarDetallesProyecto}" />
+                        </p:selectBooleanButton>
+
+                        <p:selectBooleanButton value="#{tableroFaces.showColapsado}" title="#{msg['selectBooleanButton.colapsar']}" offIcon="pi pi-eye" onIcon="pi pi-eye-slash">
+                            <p:ajax update=":form" listener="#{tableroFaces.visualizarColumna}" />
+                        </p:selectBooleanButton>
+
+                        <p:selectBooleanButton value="#{tableroFaces.showIcon}" title="#{msg['selectBooleanButton.icon']}" 
+                                               offIcon="pi pi-android" onIcon="pi pi-ban">
+                            <p:ajax update=":form" listener="#{tableroFaces.visualizarIcono}" />
+                        </p:selectBooleanButton>
+
+                        <p:selectBooleanButton value="#{tableroFaces.showMisTarjetas}" title="#{msg['selectBooleanButton.mistarjetas']}" 
+                                               onIcon="pi pi-user"
+                                               offIcon="pi pi-users" 
+                                               styleClass="ui-button-danger">
+                            <p:ajax update=":form" listener="#{tableroFaces.visualizarMisTarjetas}" />
+                        </p:selectBooleanButton>
+
+
+
+
+                        <p:menuButton title="#{msg['menubutton.ordenar']}"                                       
+                                      icon="#{tableroFaces.iconOrderBy} " style="font-size: 1.5rem"
+                                      buttonStyleClass="ui-button-raised ui-button-flat ui-button-help"
+                                      >
+
+
+                            <p:menuitem 
+                                value="#{msg['selectonemenu.idtarjeta']}"
+                                action="#{tableroFaces.changeOrder('idtarjeta','pi pi-sort-numeric-down-alt')}" 
+                                title="#{msg['selectonemenu.idtarjeta']}"
+                                process="@this"                                        
+                                icon="pi pi-sort-numeric-down-alt"
+                                class="menu-item-notext"
+                                update=":form"> </p:menuitem>
+
+
+
+                            <p:menuitem action="#{tableroFaces.changeOrder('lastModification','pi pi-hourglass')}"
+                                        value="#{msg['selectonemenu.tarjetaultimamodificacion']}"
+                                        title="#{msg['selectonemenu.tarjetaultimamodificacion']}"
+                                        process="@this"
+                                        class="menu-item-notext"
+                                        icon="pi pi-hourglass"
+                                        update=":form">
+
+                            </p:menuitem>
+                            <p:menuitem action="#{tableroFaces.changeOrder('tarjeta','pi pi-sort-alpha-up-alt')}"
+                                        value="#{msg['selectonemenu.tarjeta']}"
+                                        title="#{msg['selectonemenu.tarjeta']}"
+                                        process="@this"
+                                        class="menu-item-notext"
+                                        icon="pi pi-sort-alpha-up-alt"
+                                        update=":form">
+
+                            </p:menuitem>
+
+
+                            <p:menuitem action="#{tableroFaces.changeOrder('fechafinal','pi pi-calendar')}"
+                                        process="@this"
+                                        title="#{msg['selectonemenu.fechafinal']}"
+                                        value="#{msg['selectonemenu.fechafinal']}"
+                                        class="menu-item-notext"
+                                        icon="pi pi-calendar"
+                                        update=":form"/>
+
+                            <p:menuitem action="#{tableroFaces.changeOrder('fechainicial','pi pi-calendar')}"
+                                        process="@this"
+                                        title="#{msg['selectonemenu.fechainicial']}"
+                                        value="#{msg['selectonemenu.fechainicial']}"
+                                        class="menu-item-notext"
+                                        icon="pi pi-calendar"
+                                        update=":form"/>
+
+
+                            <p:menuitem action="#{tableroFaces.changeOrder('tipotarjeta','pi pi-box')}" 
+                                        process="@this"
+                                        title="#{msg['selectonemenu.tipotarjeta']}"
+                                        value="#{msg['selectonemenu.tipotarjeta']}"
+                                        class="menu-item-notext"
+                                        icon="pi pi-box"
+                                        update=":form">
+
+                            </p:menuitem>
+                            <p:separator/>
+                            <p:menuitem action="#{tableroFaces.changeOrder('prioridad','pi pi-flag')}" 
+                                        process="@this"
+                                        title="#{msg['selectonemenu.prioridad']}"                           
+                                        value="#{msg['selectonemenu.prioridad']}"                           
+                                        class="menu-item-notext"
+                                        icon="pi pi-flag" 
+                                        update=":form">
+
+                            </p:menuitem>
+                            <p:menuitem action="#{tableroFaces.changeOrder('user.iduser','pi pi-user')}"  
+                                        process="@this"
+                                        title="#{msg['selectonemenu.user']}"                           
+                                        value="#{msg['selectonemenu.user']}"                           
+                                        class="menu-item-notext"
+                                        icon="pi pi-user"
+                                        update=":form">
+
+                            </p:menuitem>
+
+
+
+
+
+                        </p:menuButton>
+                        <p:selectBooleanButton value="#{tableroFaces.descending}" 
+                                               title="#{msg['selectBooleanButton.ascendentedescendente']}" 
+                                               offIcon="pi pi-sort-amount-up" 
+                                               onIcon="pi pi-sort-amount-down"
+                                               styleClass="ui-button-flat ui-button-help">
+                            <p:ajax update=":form" listener="#{tableroFaces.descendenteChange}" />
+                        </p:selectBooleanButton>
+
+
+                        <c:if test="#{tableroFaces.showDetallesProyecto eq true}">
+                            <div class="flex align-items-center flex-wrap text-sm">
+                                <div class="mr-5 mt-3">
+                                    <span class="font-medium text-500">#{tableroFaces.cutText(tableroFaces.proyectoSelected.proyecto,tableroFaces.largeSizeOfTextForCut.get())}</span>
+                                    <div class="text-700 mt-2"></div>
+                                </div>
+                                <div class="mr-5 mt-3">
+                                    <span class="font-medium text-500">#{tableroFaces.proyectoSelected.prefijo}</span>
+                                    <div class="text-700 mt-2"></div>
+                                </div>
+                                <div class="mr-5 mt-3">
+                                    <span class="font-medium text-500">#{tableroFaces.cutText(tableroFaces.proyectoSelected.descripcion,tableroFaces.mediumSizeOfTextForCut.get())}</span>
+                                    <div class="text-700 mt-2"></div>
+                                </div>
+
+                            </div>
+                        </c:if>
+                        <c:if test="#{tableroFaces.showDetallesProyecto eq true}">
+                            <div class="flex align-items-center flex-wrap text-sm">
+                                <div class="mr-5 mt-3">
+                                    <span class="font-medium text-500">#{msg['field.sprint']}</span>
+                                    <div class="text-700 mt-2">#{tableroFaces.sprintSelected.sprint}</div>
+                                </div>
+                                <div class="mr-5 mt-3">
+                                    <span class="font-medium text-500">#{msg['field.fechainicial']}</span>
+                                    <div class="text-700 mt-2">#{tableroFaces.showDateWithHour(tableroFaces.sprintSelected.fechainicial)}</div>
+                                </div>
+                                <div class="mr-5 mt-3">
+                                    <span class="font-medium text-500">#{msg['field.fechafinal']}</span>
+                                    <div class="text-700 mt-2">#{tableroFaces.showDateWithHour(tableroFaces.sprintSelected.fechafinal)}</div>
+                                </div>
+                                <div class="mr-5 mt-3">
+                                    <span class="font-medium text-500">#{msg['field.perfil']}</span>
+                                    <div class="text-700 mt-2">#{tableroFaces.perfil}</div>
+                                </div>
+
+                            </div>
+                        </c:if>
+                    </div>
+
+                    <p:inputText value="#{tableroFaces.textToSearch}" size="35"
+                                 placeholder="#{msg['inputText.search']}"
+                                 >
+                        <p:ajax event="keyup" listener="#{tableroFaces.sugerirTarjetas}"
+                                update=":form:scrollPanelColumna,:form:growl"
+                                />
+                    </p:inputText>
+
+                </div>
+
+
+                <div class="mt-3 lg:mt-0">
+
+                    <p:badge value="#{tableroFaces.contadorNotificacionesWebsocket}"
+                             severity="danger">
+                        <p:commandLink  styleClass="ml-2" 
+                                        action="#{tableroFaces.refresh()}"
+                                        update=":form"
+                                        title="#{core['label.notificaciones']}"
+                                        >
+                            <i class="pi pi-bell" style="font-size: 2rem"/>
+
+                        </p:commandLink>
+                    </p:badge>
+                    <p:outputLabel value=" "/>
+
+                    <p:commandButton title="#{msg['button.tarjetaagregar']}" icon="pi pi-plus-circle" styleClass="rounded-button mr-2"
+                                     action="#{tableroFaces.prepareNew()}"
+                                     update="outputPanelTarjetaAgregar"                          
+                                     rendered="#{tableroFaces.showCommandButtonAgregarTarjeta() eq true and tableroFaces.isSprintVencido eq false and tableroFaces.isEditable}"
+                                     oncomplete="PF('overlayPanelTarjetaAgregar').show('#{component.clientId}')"
+                                     id="commandButtonTarjetaAdd"
+
+                                     />
+                    <p:commandButton title="#{msg['button.tarjetaagregardesdeplantilla']}" 
+                                     icon="pi pi-shopping-cart"
+                                     styleClass="rounded-button ui-button-warning mr-2"
+                                     action="#{tableroFaces.prepareAgregarDesdePlantilla()}"
+                                     update="outputPanelTarjetaAgregarDesdePlantilla"                          
+                                     rendered="#{tableroFaces.showCommandButtonAgregarTarjeta() eq true and tableroFaces.isSprintVencido eq false and tableroFaces.isEditable}"
+                                     oncomplete="PF('overlayPanelTarjetaAgregarDesdePlantilla').show('#{component.clientId}')"
+                                     id="commandButtonTarjetaAddFromPlantilla"
+
+                                     />
+
+
+                    <p:commandButton  title="#{msg['button.refresh']}" icon="pi pi-refresh" styleClass="rounded-button ui-button-help mr-2"
+                                      process="@this"
+                                      action="#{tableroFaces.refresh()}"
+                                      update=":form"/>
+
+                    <p:commandButton  title="#{core['button.graph']}" icon="pi pi-chart-bar" styleClass="rounded-button ui-button-success mr-2"
+                                      rendered="#{tableroFaces.showCommandButtonProfile() and tableroFaces.isSprintVencido eq false}"
+                                      update=":form:growl"
+
+                                      action="#{tableroFaces.goGraficaTotalesColumnasPorSprint()}"
+                                      id="commandButtonSprintGraph"
+                                      />
+
+
+                    <p:commandButton  title="#{core['button.tarjetas']}" 
+                                      icon="pi pi-credit-card" 
+                                      styleClass="rounded-button ui-button-primary mr-2"
+                                      update=":form:growl"     
+                                      rendered="#{tableroFaces.showCommandButtonProfile() and tableroFaces.isSprintVencido eq false}"
+                                      id="commandButtonDataTable"
+                                      action="#{tableroFaces.goTarjetas()}"
+                                      />
+                    <p:commandButton  title="#{core['button.backlog']}" 
+                                      icon="pi pi-fw pi-server"
+                                      rendered="#{tableroFaces.showCommandButtonProfile() and tableroFaces.isSprintVencido eq false}"
+                                      update=":form:growl" 
+                                      action="#{tableroFaces.goBacklog()}"
+                                      styleClass="rounded-button ui-button-success mr-2"/>
+
+
+                    <p:commandButton  title="#{msg['button.papelerareciclaje']}" 
+                                      icon="pi pi-fw pi-trash"
+                                      rendered="#{tableroFaces.showCommandButtonProfile()and tableroFaces.isSprintVencido eq false}"
+                                      update=":form:growl" 
+                                      action="#{tableroFaces.goPapeleraReciclaje()}"
+                                      styleClass="rounded-button ui-button-danger mr-2"/>
+
+
+                    <p:commandButton id="commandButtonSchedule"                             
+                                     action="#{tableroFaces.goSchedule()}"
+                                     rendered="#{tableroFaces.showCommandButtonProfile() and tableroFaces.isSprintVencido eq false}"
+                                     icon="pi pi-calendar-times"  title="#{core['button.schedule']}" 
+                                     styleClass="rounded-button ui-button-warning"/>
+
+
+                    <p:commandButton id="commandButtonTimeLine" 
+                                     action="#{tableroFaces.goTimeLine()}"
+                                     rendered="#{tableroFaces.showCommandButtonProfile() and tableroFaces.isSprintVencido eq false}"
+                                     icon="pi pi-clock"  title="#{msg['button.timeline']}" 
+                                     styleClass="rounded-button ui-button-help"/>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <p:dialog header="#{msg['dialog.tarjetaadd']}" widgetVar="overlayPanelTarjetaAgregar"
+
+                  width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true"
+                  >
+            <p:ajax event="close" update=":form:growl" listener="#{tableroFaces.handleCloseDialogRefresh}" />
+
+
+
+            <p:outputPanel  id="outputPanelTarjetaAgregar"  style="text-align:center;" >
+                <p:tabView >
+                    <p:tab title="#{msg['tab.tarjeta']}" >
+
+                        <div class="grid ui-fluid mt-3 floatlabel-demo">
+                            <div class="col-12 md:col-12">
+                                <div class="field">
+                                    <span class="ui-float-label">
+                                        <p:inputTextarea value="#{tableroFaces.tarjetaSelected.tarjeta}" 
+
+                                                         rows="2" cols="43" scrollHeight="43" autoResize="false" style="float:left" styleClass="py-2 px-0 text-lg"/>
+
+                                        <p:outputLabel for="@previous" value="#{msg['field.tarjeta']}" />
+                                        <p:message for="@previous" />
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid ui-fluid mt-3 floatlabel-demo">
+                            <div class="col-12 md:col-12">
+                                <div class="field">
+                                    <span class="ui-float-label">
+                                        <p:inputTextarea value="#{tableroFaces.tarjetaSelected.descripcion}" 
+
+                                                         rows="2" cols="43" scrollHeight="43" autoResize="false" style="float:left" styleClass="py-2 px-0 text-lg"/>
+
+                                        <p:outputLabel for="@previous" value="#{msg['field.descripcion']}" />
+                                        <p:message for="@previous" />
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid ui-fluid mt-3 floatlabel-demo">
+                            <div class="col-12 md:col-12">
+                                <div class="field">
+                                    <span class="ui-float-label">
+                                        <p:selectOneMenu  value="#{tableroFaces.tarjetaSelected.tipotarjeta}" var="item"
+
+                                                          >
+                                            <f:selectItems value="#{tipoTarjetaConverterServices.tipotarjetas}"  var="item" 
+                                                           itemLabel="#{item.tipotarjeta}"
+                                                           itemValue="#{item}"                                                        
+                                                           >
+
+                                            </f:selectItems>
+                                            <p:column><i class="#{item.tipotarjeta}" /> #{item.tipotarjeta} </p:column>
+
+                                        </p:selectOneMenu>
+                                        <p:outputLabel for="@previous" value="#{msg['field.tipotarjeta']}" />
+                                        <p:message for="@previous" />
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <c:if test="#{tableroFaces.isProyectoForaneo eq false}">
+
+                            <div class="grid ui-fluid mt-3 floatlabel-demo">
+
+                                <div class="col-6 md:col-6">
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:datePicker id="tarjetaAddfechainicial" 
+                                                          value="#{tableroFaces.tarjetaSelected.fechainicial}" showIcon="false"
+                                                          maxdate="#{tableroFaces.sprintSelected.fechafinal}" 
+                                                          mindate="#{tableroFaces.sprintSelected.fechainicial}"
+                                                          monthNavigator="true" yearNavigator="true"
+                                                          pattern="dd/MM/yyyy HH:mm a"
+                                                          timeInput="true"
+                                                          hourFormat="12"
+                                                          showTime="true"
+                                                          locale="es"
+                                                          >
+                                                <p:ajax event="dateSelect" listener="#{tableroFaces.onDateSelect}" update="growl, inputTextEstimacion" />
+                                            </p:datePicker>
+                                            <p:outputLabel for="@previous" value="#{msg['field.fechainicial']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 md:col-6">
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:datePicker id="tarjetaAddfechafinal" value="#{tableroFaces.tarjetaSelected.fechafinal}" showIcon="true"
+                                                          maxdate="#{tableroFaces.sprintSelected.fechafinal}" 
+                                                          mindate="#{tableroFaces.sprintSelected.fechainicial}"
+                                                          monthNavigator="true" yearNavigator="true"
+                                                          pattern="dd/MM/yyyy HH:mm a"
+                                                          timeInput="true"
+                                                          hourFormat="12"
+                                                          showTime="true"
+                                                          locale="es"
+                                                          >
+                                                <p:ajax event="dateSelect" listener="#{tableroFaces.onDateSelect}" update="growl, inputTextEstimacion" />
+                                            </p:datePicker>
+                                            <p:outputLabel for="@previous" value="#{msg['field.fechafinal']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="grid ui-fluid mt-3 floatlabel-demo">
+                                <div class="col-6 md:col-6">
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:inputText  value="#{tableroFaces.tarjetaSelected.estimacion}" 
+                                                          id="inputTextEstimacion"
+                                                          title="#{msg['inputmask.formatoestimacion']}"/>
+                                            <p:outputLabel for="@previous" value="#{msg['field.estimacion']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 md:col-6">
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:selectOneMenu value="#{tableroFaces.tarjetaSelected.prioridad}" filter="true" filterMatchMode="startsWith">
+                                                <f:selectItem itemLabel="#{msg['selectonemenu.prioridadmedia']}" itemValue="#{msg['selectonemenu.prioridadmediaValue']}"/>
+                                                <f:selectItem itemLabel="#{msg['selectonemenu.prioridadalta']}" itemValue="#{msg['selectonemenu.prioridadaltaValue']}"/>
+                                                <f:selectItem itemLabel="#{msg['selectonemenu.prioridadbaja']}" itemValue="#{msg['selectonemenu.prioridadbajaValue']}"/>
+                                                <f:selectItem itemLabel="#{msg['selectonemenu.prioridadurgente']}" itemValue="#{msg['selectonemenu.prioridadurgenteValue']}"/>
+                                            </p:selectOneMenu>
+                                            <p:outputLabel for="@previous" value="#{msg['field.prioridad']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </c:if>
+
+                        <div class="flex align-items-center ">
+                            <div class=" border-top-1 surface-border pt-3 flex">
+                                <p:commandButton  value="#{core['button.save']}" icon="pi pi-save"
+                                                  action="#{tableroFaces.save(tableroFaces.tarjetaSelected)}"
+                                                  update=":form:growl"
+                                                  process="#{cc.attrs.id}"
+                                                  styleClass="w-6 ml-2"/>
+
+                                <p:commandButton value="#{core['button.cancel']}" icon="pi pi-times" 
+                                                 onclick="PF('overlayPanelTarjetaAgregar').hide()"
+                                                 action="#{tableroFaces.refresh()}"
+                                                 update=":form"
+                                                 styleClass="ui-button-outlined w-6 mr-2"/>
+
+                            </div>
+                        </div>
+                    </p:tab>
+                    <p:tab title="#{msg['tab.colaborador']}" rendered="#{tableroFaces.isProyectoForaneo eq false}">
+                        <div class="flex align-items-center ">
+                            <div class="mr-5 mt-5">
+                                <!--<span class="font-medium my-3 text-500">#{msg['field.colaborador']}</span>-->
+
+                                <p:dataTable style="border-style: none" value="#{tableroFaces.userViewDomainForCreateList}"
+                                             var="item"
+                                             paginator="true"
+                                             editMode="cell"
+                                             resizableColumns="true" liveResize="true"
+
+                                             id="dataTableColaborador"
+                                             widgetVar="dataTableColaborador"
+                                             editable="true"
+                                             rows="#{tableroFaces.rowPageDialog.get()}"
+                                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                             draggableRows="true"
+                                             >
+                                    <p:ajax event="cellEdit" listener="#{tableroFaces.onCellEditColaborador}" update=":form:growl, dataTableColaborador"/>
+
+                                    <p:column  class="column2">
+                                        <p:cellEditor >
+                                            <f:facet name="output"><p:selectBooleanCheckbox value="#{item.selected}" disabled="true" style="float:left"/>  </f:facet>
+                                            <f:facet name="input" ><p:selectBooleanCheckbox value="#{item.selected}" style="float:left"/>  
+                                            </f:facet>
+                                        </p:cellEditor>
+
+                                    </p:column>
+
+                                    <p:column class="column30">
+                                        <p:outputLabel value="#{item.userView.name}" style="float:left"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                        </div>
+                    </p:tab>
+                </p:tabView>
+
+            </p:outputPanel>
+
+        </p:dialog>
+
+
+
+
+        <p:dialog header="#{msg['dialog.tarjetaaddfromplantilla']}" widgetVar="overlayPanelTarjetaAgregarDesdePlantilla"
+
+                  width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true"
+                  >
+            <p:ajax event="close" update=":form:growl" listener="#{tableroFaces.handleCloseDialogRefresh}" />
+            <p:outputPanel  id="outputPanelTarjetaAgregarDesdePlantilla"  style="text-align:center;" >
+                <div class="grid ui-fluid mt-3 floatlabel-demo">
+                    <div class="col-12 md:col-11">
+                        <p:inputText value="#{tableroFaces.textToSearchPlantilla}"
+                                     placeholder="#{msg['inputText.search']}"
+                                     >
+                            <p:ajax event="keyup" listener="#{tableroFaces.sugerirPlantillas}"
+                                    update="dataTablePlantilla,:form:growl"
+                                    />
+                        </p:inputText>
+                    </div>
+                </div>
+
+
+                <p:dataTable style="border-style: none" value="#{tableroFaces.plantillaTarjetaList}"
+                             var="item"
+                             paginator="true"
+                            
+                             editMode="cell"
+                             resizableColumns="true" liveResize="true"
+
+                             id="dataTablePlantilla"
+                             widgetVar="dataTablePlantilla"
+                             editable="true"
+                             rows="#{tableroFaces.rowPageDialog.get()}"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             draggableRows="true"
+                             >
+
+                    <p:column  class="column1">
+                        <p:commandButton class="ui-button-secondary rounded-button" icon="pi pi-plus"
+                                         process="@this"
+                                         title="#{msg['button.convertirentarjeta']}"
+                                         rendered="#{tableroFaces.isEditable}"
+                                         update=":form:growl, dataTablePlantilla"
+                                         action="#{tableroFaces.convertirTarjetaDesdePlantilla(item)}"
+                                         >
+                            <p:confirm type="popup" header="#{msg['confirmdialog.headerconvertirentarjeta']}" message="#{msg['confirmdialog.messageconvertirentarjeta']}" icon="pi pi-info-circle"/>
+                        </p:commandButton>
+
+                    </p:column>
+
+                    <p:column class="column15" headerText="#{msg['field.plantilla']}" >
+                        <p:cellEditor>
+                            <f:facet name="output"> <p:outputLabel value="#{item.plantilla}" title="#{item.descripcion}" style="float:left"/></f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{item.plantilla}" 
+                                             onkeypress="if (event.keyCode == 13) {
+                                                         return false;
+                                                     }"
+                                             style="float:left" />
+                                <p:commandButton class="ui-button-help rounded-button" icon="pi pi-save"
+                                                 process="@this"
+                                                 rendered="#{tableroFaces.isEditable}"
+
+                                                 update=":form:growl, dataTablePlantilla"
+                                                 action="#{tableroFaces.updatePlantillaTarjeta(item)}"
+                                                 >
+                                    <p:confirm type="popup" header="#{msg['confirmdialog.header']}" message="#{msg['confirmdialog.messageplantillaupdate']}" icon="pi pi-info-circle"/>
+                                </p:commandButton>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+                    <p:column class="column2">
+
+                        <p:commandButton update=":form, outputPanelTarjetaView" 
+                                         id="commandButtonTarjetaViewPlantilla"
+                                         styleClass="ui-button-flat"
+                                         rendered="#{tableroFaces.tienePrivilegiosParaTarjeta(tarjeta)}"
+                                         actionListener="#{tableroFaces.prepareViewFromPlantilla(item)}"
+                                         oncomplete="PF('overlayPanelTarjetaView').show('#{component.clientId}')"
+                                         icon="pi pi-fw pi-eye" title="#{core['menuitem.viewdetails']}">
+
+                        </p:commandButton>
+
+                        <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                         process="@this"
+                                         rendered="#{tableroFaces.isEditable}"
+
+                                         update=":form:growl, dataTablePlantilla"
+                                         action="#{tableroFaces.deletePlantillaTarjeta(item)}"
+                                         >
+                            <p:confirm type="popup" header="#{core['confirmdialog.header']}" message="#{core['confirmdialog.message']}" icon="pi pi-info-circle"/>
+                        </p:commandButton>
+
+
+                    </p:column>
+
+                </p:dataTable>
+
+
+            </p:outputPanel>
+
+        </p:dialog>
+
+
+
+
+        <p:dialog widgetVar="overlayPanelViewImage"  dynamic="true" 
+                  width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true">
+            <p:outputPanel id="outputPanelViewImage" style="text-align:center;" >
+                <p:media value="#{jmoordbCoreMediaManager.media}"
+                         width="550px" height="450px"
+                         cache="false" player="pdf"/>
+                <p:autoUpdate />
+            </p:outputPanel>
+        </p:dialog>
+
+
+    </composite:implementation>
+</html>

@@ -1,0 +1,212 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:tablero="http://xmlns.jcp.org/jsf/composite/tablero"
+      xmlns:dialogo="http://xmlns.jcp.org/jsf/composite/dialogo"
+      xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades"
+      xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf">
+
+    <composite:interface >
+        <composite:attribute name="pendiente" default="false"/>
+        <composite:attribute name="progreso" default="false"/>
+        <composite:attribute name="finalizado" default="false"/>
+        <composite:attribute name="id" default=""/> 
+    </composite:interface>
+
+    <composite:implementation >
+
+
+
+
+        <p:dialog header="#{msg['dialog.tarjetaetiqueta']}" widgetVar="overlayPanelTarjetaEtiqueta" 
+                  width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true"
+                  >
+            <p:ajax event="close" update=":form:growl" listener="#{tableroFaces.handleCloseDialogEtiqueta}" />
+
+
+            <p:outputPanel id="#{cc.attrs.id}" style="text-align:center;">
+
+                <jmoordbcorejsf:overlayPanelTarjetaHeader iconoheader="pi-hashtag" 
+                                                          titulo="#{msg['dialog.tarjetaetiqueta']}"
+                                                          entity="#{tableroFaces.tarjetaEtiquetaSelected}"
+                                                          icono="#{tableroFaces.tarjetaEtiquetaSelected.icono}"/>
+
+
+
+                <c:if test="${tableroFaces.fueCambiadoPorOtroUsuario == true}">
+
+
+
+                    <utilidades:sincronizacionrequeridacontroller onclick="PF('overlayPanelTarjetaEtiqueta').hide()"
+                                                                  message="#{tableroFaces.message}"
+                                                                  controller="#{tableroFaces}"
+
+                                                                  />
+
+
+                </c:if>
+
+                <c:if test="${tableroFaces.fueCambiadoPorOtroUsuario == false}">
+
+                    <p:remoteCommand  update=":form:growl, dataTableEtiqueta, inputTextEtiqueta"
+                                      name="remoteCommandInputTextAreaEtiqueta"
+                                      action="#{tableroFaces.agregarRowEtiqueta()}"/>
+
+                    <div class="grid ui-fluid mt-3 floatlabel-demo">
+                        <div class="col-12 md:col-11">
+                            <div class="flex align-items-center ">
+                                <p:inputText id="inputTextEtiqueta" 
+                                             value ="#{tableroFaces.inputTextEtiqueta}" 
+                                             placeholder="#{msg['label.ingreseetiqueta']}" 
+                                             rendered="#{tableroFaces.isEditable}"
+
+
+                                             onkeypress="if (event.keyCode == 13) {
+                                                             remoteCommandInputTextAreaEtiqueta();
+                                                             return false;
+                                                         }"
+                                             />
+                            </div>
+
+                        </div>
+                        <div class="col-12 md:col-1">
+                            <div class="flex align-items-center ">
+                                <p:commandButton 
+                                    title="#{core['button.add']}"
+                                    rendered="#{tableroFaces.isEditable}"
+                                    update=":form:growl, dataTableEtiqueta, inputTextEtiqueta"
+                                    icon="pi pi-plus-circle" styleClass="rounded-button mr-2 ui-button-summary"
+                                    action="#{tableroFaces.agregarRowEtiqueta()}" />
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <p:dataTable style="border-style: none" value="#{tableroFaces.tarjetaEtiquetaSelected.etiqueta}"
+                                 var="item"
+                                 paginator="true"
+                                 resizableColumns="true" liveResize="true"
+
+                                 editMode="cell"
+                                 id="dataTableEtiqueta"
+                                 widgetVar="dataTableEtiqueta"
+                                 editable="true"
+                                 rows="#{tableroFaces.rowPageDialog.get()}"
+                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                 draggableRows="true"
+                                 >
+
+                        <p:ajax event="cellEdit" listener="#{tableroFaces.onCellEditEtiqueta}" update=":form:growl, dataTableEtiqueta"/>
+                        <p:ajax event="rowReorder" listener="#{tableroFaces.onRowReorderEtiqueta}" update=":form:growl"/>
+
+                        <p:column class="columnInputTextArea43" headerText="#{msg['field.etiqueta']}">
+                            <p:cellEditor>
+                                <f:facet name="output"> 
+
+                                    <p:inputTextarea  rows="#{item.etiqueta.length() le 70?1:(item.etiqueta.length()/70)+1}" style="width: 100% !important;" autoResize="false" readonly="true" value="#{item.etiqueta}"  />
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputTextarea  rows="#{item.etiqueta.length() le 70?1:(item.etiqueta.length()/70)+1}" style="width: 100% !important;" autoResize="false"  value="#{item.etiqueta}"  />
+
+                                </f:facet>
+                            </p:cellEditor>
+
+                        </p:column>
+
+
+
+                        <p:column class="column1">
+                            <i class="pi pi-arrows-v"></i>
+                        </p:column>
+
+
+                        <p:column class="column6" headerText="#{msg['field.severity']}">
+                            <p:cellEditor>
+                                <f:facet name="output"> 
+
+
+                                    <p:tag severity="#{item.severity}" value="#{tableroFaces.showSeverityText(item.severity)}" rounded="true" style="float:left"/>
+                                </f:facet>
+
+                                <f:facet name="input">
+
+                                    <p:selectOneMenu value="#{item.severity}" filter="true" filterMatchMode="startsWith">
+
+
+                                        <f:selectItem itemLabel="#{core['selectonemenu.primary']}" itemValue="primary"/>
+                                        <f:selectItem itemLabel="#{core['selectonemenu.success']}" itemValue="success"/>
+                                        <f:selectItem itemLabel="#{core['selectonemenu.info']}" itemValue="info"/>
+                                        <f:selectItem itemLabel="#{core['selectonemenu.warning']}" itemValue="warning"/>
+                                        <f:selectItem itemLabel="#{core['selectonemenu.danger']}" itemValue="danger"/>
+
+                                    </p:selectOneMenu>
+
+
+                                </f:facet>
+                            </p:cellEditor>
+
+                        </p:column>
+
+
+
+                        <p:column class="column1">
+                            <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                             process="@this"
+                                             update=":form:growl, dataTableEtiqueta"
+                                             action="#{tableroFaces.deleteEtiqueta(item)}"
+                                             >
+                                <p:confirm type="popup" header="#{core['confirmdialog.header']}" message="#{core['confirmdialog.message']}" icon="pi pi-info-circle"/>
+                            </p:commandButton>
+                        </p:column>
+
+
+                        <f:facet name="footer">
+                            <div class="flex align-items-center ">
+                                <div class=" border-top-1 surface-border col-6 flex">
+
+                                    <p:commandButton  
+                                        title="#{core['button.close']}"
+                                        icon="pi pi-times"
+                                        update=":form:growl"
+                                        action="#{tableroFaces.addEtiqueta(tableroFaces.tarjetaEtiquetaSelected)}" 
+                                        styleClass="w-6 ml-2"/>
+
+                                </div>
+
+
+                            </div>
+
+                        </f:facet>
+                    </p:dataTable>
+                </c:if>
+            </p:outputPanel>
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+            </p:confirmPopup>
+
+
+        </p:dialog>
+
+
+
+
+
+
+
+
+    </composite:implementation>
+</html>

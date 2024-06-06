@@ -1,0 +1,44 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:dialogo="http://xmlns.jcp.org/jsf/composite/dialogo">
+
+    <composite:interface >
+        <composite:attribute name="onclick" default=""/> 
+        <composite:attribute name="message" default=""/> 
+   
+
+    </composite:interface>
+
+    <composite:implementation >
+
+        <div  class="flex align-items-start p-4 bg-orange-100 border-round border-1 border-orange-300">
+            <i class="pi pi-info-circle text-orange-900 text-2xl mr-3"/>
+            <div class="mr-3">
+                <div class="text-blue-900 font-medium bold text-xl mb-2 line-height-1">#{core['warning.warning']}</div>
+                <p:divider/>
+                <p class="m-0 p-0 text-black-alpha-90 mb-3 line-height-4">
+                    #{cc.attrs.message}
+
+                </p>
+
+
+                <p:toggleSwitch   onIcon="pi pi-times" offIcon="pi pi-times" >
+                    <p:ajax  oncomplete="#{cc.attrs.onclick}"/>
+                </p:toggleSwitch>
+            </div>
+            <div class="ml-auto">
+                <a class="inline-flex align-items-center justify-content-center ml-auto border-circle hover:bg-orange-50 no-underline cursor-pointer transition-colors transition-duration-150"
+                   style="width:1.5rem;height:1.5rem">
+
+
+                </a>
+            </div>
+        </div>
+
+    </composite:implementation>
+</html>

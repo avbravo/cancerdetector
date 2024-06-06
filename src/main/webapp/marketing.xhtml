@@ -1,0 +1,259 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+  <ui:define name="title">PrimeBlocks</ui:define>
+
+  <ui:define name="breadcrumb">
+    <li>
+      <div class="chevron">/</div>
+      <h:link outcome="/marketing">Marketing</h:link>
+    </li>
+  </ui:define>
+
+  <ui:define name="content">
+    <div id="marketing" class="block-category-title">Marketing</div>
+    <div class="block-category">
+      <div class="block-group">
+        <span class="block-group-title">Page Sections</span>
+        <div class="block-group-content">
+          <div class="grid">
+            <div class="col-12 md:col-3">
+              <h:link outcome="/marketing/hero">
+                <p:graphicImage name="images/placeholders/placeholder-hero#{app.darkMode ? '-dark.svg' : '.svg'}"
+                                library="primeblocks-app" styleClass="block-placeholder" alt="Hero"/>
+              </h:link>
+              <div class="flex align-items-start justify-content-between">
+                <div>
+                  <span class="block-name">Hero</span>
+                  <span class="block-count">6 Blocks</span>
+                </div>
+                <span class="badge-new">2 New</span>
+              </div>
+            </div>
+            
+            <div class="col-12 md:col-3">
+              <h:link outcome="/marketing/feature">
+                <p:graphicImage name="images/placeholders/placeholder-feature#{app.darkMode ? '-dark.svg' : '.svg'}"
+                                library="primeblocks-app" styleClass="block-placeholder" alt="Feature"/>
+              </h:link>
+              <div class="flex align-items-start justify-content-between">
+                <div>
+                  <span class="block-name">Feature</span>
+                  <span class="block-count">12 Blocks</span>
+                </div>
+                <span class="badge-new">6 New</span>
+              </div>
+            </div>
+            <div class="col-12 md:col-3">
+              <h:link outcome="/marketing/cta">
+                <p:graphicImage name="images/placeholders/placeholder-cta#{app.darkMode ? '-dark.svg' : '.svg'}"
+                                library="primeblocks-app" styleClass="block-placeholder" alt="CTA"/>
+              </h:link>
+              <div class="flex align-items-start justify-content-between">
+                <div>
+                  <span class="block-name">Call to Action</span>
+                  <span class="block-count">10 Blocks</span>
+                </div>
+                <span class="badge-new">2 New</span>
+              </div>
+            </div>
+            <div class="col-12 md:col-3">
+              <h:link outcome="/marketing/pricing">
+                <p:graphicImage name="images/placeholders/placeholder-pricing#{app.darkMode ? '-dark.svg' : '.svg'}"
+                                library="primeblocks-app" styleClass="block-placeholder" alt="Pricing"/>
+              </h:link>
+              <div class="flex align-items-start justify-content-between">
+                <div>
+                  <span class="block-name">Pricing</span>
+                  <span class="block-count">5 Blocks</span>
+                </div>
+                <span class="badge-new">3 New</span>
+              </div>
+            </div>
+            <div class="col-12 md:col-3">
+              <h:link outcome="/marketing/faq">
+                <p:graphicImage name="images/placeholders/placeholder-faq#{app.darkMode ? '-dark.svg' : '.svg'}"
+                                library="primeblocks-app" styleClass="block-placeholder" alt="FAQ"/>
+              </h:link>
+              <div class="flex align-items-start justify-content-between">
+                <div>
+                  <span class="block-name">FAQ</span>
+                  <span class="block-count">5 Blocks</span>
+                </div>
+                <span class="badge-new">3 New</span>
+              </div>
+            </div>
+            <div class="col-12 md:col-3">
+              <h:link outcome="/marketing/newsletter">
+                <p:graphicImage name="images/placeholders/placeholder-newsletter#{app.darkMode ? '-dark.svg' : '.svg'}"
+                                library="primeblocks-app" styleClass="block-placeholder" alt="Newsletter"/>
+              </h:link>
+              <div class="flex align-items-start justify-content-between">
+                <div>
+                  <span class="block-name">Newsletter</span>
+                  <span class="block-count">3 Blocks</span>
+                </div>
+                <span class="badge-new">1 New</span>
+              </div>
+            </div>
+            <div class="col-12 md:col-3">
+              <h:link outcome="/marketing/stats">
+                <p:graphicImage name="images/placeholders/placeholder-stats#{app.darkMode ? '-dark.svg' : '.svg'}"
+                                library="primeblocks-app" styleClass="block-placeholder" alt="Stats"/>
+              </h:link>
+              <div class="flex align-items-start justify-content-between">
+                <div>
+                  <span class="block-name">Stats</span>
+                  <span class="block-count">5 Blocks</span>
+                </div>
+                <span class="badge-new">2 New</span>
+              </div>
+            </div>
+            <div class="col-12 md:col-3">
+              <h:link outcome="/marketing/testimonials">
+                <p:graphicImage name="images/placeholders/placeholder-testimonials#{app.darkMode ? '-dark.svg' : '.svg'}"
+                                library="primeblocks-app" styleClass="block-placeholder" alt="Testimonial"/>
+              </h:link>
+              <div class="flex align-items-start justify-content-between">
+                <div>
+                  <span class="block-name">Testimonial</span>
+                  <span class="block-count">4 Blocks</span>
+                </div>
+                <span class="badge-new">2 New</span>
+              </div>
+            </div>
+            <div class="col-12 md:col-3">
+              <h:link outcome="/marketing/blog">
+                <p:graphicImage name="images/placeholders/placeholder-blogsections#{app.darkMode ? '-dark.svg' : '.svg'}"
+                                library="primeblocks-app" styleClass="block-placeholder" alt="Blog"/>
+              </h:link>
+              <div class="flex align-items-start justify-content-between">
+                <div>
+                  <span class="block-name">Blog</span>
+                  <span class="block-count">6 Blocks</span>
+                </div>
+                <span class="badge-new">3 New</span>
+              </div>
+            </div>
+            <div class="col-12 md:col-3">
+              <h:link outcome="/marketing/contact">
+                <p:graphicImage name="images/placeholders/placeholder-contactsections#{app.darkMode ? '-dark.svg' : '.svg'}"
+                                library="primeblocks-app" styleClass="block-placeholder" alt="Contact"/>
+              </h:link>
+              <div class="flex align-items-start justify-content-between">
+                <div>
+                  <span class="block-name">Contact</span>
+                  <span class="block-count">3 Blocks</span>
+                </div>
+                <span class="badge-new">1 New</span>
+              </div>
+            </div>
+            <div class="col-12 md:col-3">
+              <h:link outcome="/marketing/team">
+                <p:graphicImage name="images/placeholders/placeholder-teamsections#{app.darkMode ? '-dark.svg' : '.svg'}"
+                                library="primeblocks-app" styleClass="block-placeholder" alt="Team"/>
+              </h:link>
+              <div class="flex align-items-start justify-content-between">
+                <div>
+                  <span class="block-name">Team</span>
+                  <span class="block-count">5 Blocks</span>
+                </div>
+                <span class="badge-new">2 New</span>
+              </div>
+            </div>
+            <div class="col-12 md:col-3">
+              <h:link outcome="/marketing/content">
+                <p:graphicImage name="images/placeholders/placeholder-contentsections#{app.darkMode ? '-dark.svg' : '.svg'}"
+                                library="primeblocks-app" styleClass="block-placeholder" alt="Content"/>
+              </h:link>
+              <div class="flex align-items-start justify-content-between">
+                <div>
+                  <span class="block-name">Content</span>
+                  <span class="block-count">2 Blocks</span>
+                </div>
+                <span class="badge-new">1 New</span>
+              </div>
+            </div>
+            <div class="col-12 md:col-3">
+              <h:link outcome="/marketing/footer">
+                <p:graphicImage name="images/placeholders/placeholder-footer#{app.darkMode ? '-dark.svg' : '.svg'}"
+                                library="primeblocks-app" styleClass="block-placeholder" alt="Footer"/>
+              </h:link>
+              <div class="flex align-items-start justify-content-between">
+                <div>
+                  <span class="block-name">Footer</span>
+                  <span class="block-count">4 Blocks</span>
+                </div>
+                <span class="badge-new">2 New</span>
+              </div>
+            </div>
+            <div class="col-12 md:col-3">
+              <h:link outcome="/marketing/logocloud">
+                <p:graphicImage name="images/placeholders/placeholder-logocloud#{app.darkMode ? '-dark.svg' : '.svg'}"
+                                library="primeblocks-app" styleClass="block-placeholder" alt="Logo Cloud"/>
+              </h:link>
+              <div class="flex align-items-start justify-content-between">
+                <div>
+                  <span class="block-name">Logo Cloud</span>
+                  <span class="block-count">5 Blocks</span>
+                </div>
+                <span class="badge-new">3 New</span>
+              </div>
+            </div>
+            <div class="col-12 md:col-3">
+              <h:link outcome="/marketing/navbar">
+                <p:graphicImage name="images/placeholders/placeholder-marketing-navbar#{app.darkMode ? '-dark.svg' : '.svg'}"
+                                library="primeblocks-app" styleClass="block-placeholder" alt="NavBar"/>
+              </h:link>
+              <div class="flex align-items-start justify-content-between">
+                <div>
+                  <span class="block-name">NavBar</span>
+                  <span class="block-count">6 Blocks</span>
+                </div>
+                <span class="badge-new">4 New</span>
+              </div>
+            </div>
+            <div class="col-12 md:col-3">
+              <h:link outcome="/marketing/banner">
+                <p:graphicImage name="images/placeholders/placeholder-banner#{app.darkMode ? '-dark.svg' : '.svg'}"
+                                library="primeblocks-app" styleClass="block-placeholder" alt="Banners"/>
+              </h:link>
+              <div class="flex align-items-start justify-content-between">
+                <div>
+                  <span class="block-name">Banners</span>
+                  <span class="block-count">3 Blocks</span>
+                </div>
+                <span class="badge-new">1 New</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="block-group">
+        <span class="block-group-title">Samples</span>
+        <div class="block-group-content">
+          <div class="grid">
+            <div class="col-12 md:col-3">
+              <h:link outcome="/marketing/landing">
+                <p:graphicImage name="images/placeholders/placeholder-landingscreens#{app.darkMode ? '-dark.svg' : '.svg'}"
+                                library="primeblocks-app" styleClass="block-placeholder" alt="Landing"/>
+              </h:link>
+              <div class="flex align-items-start justify-content-between">
+                <div>
+                  <span class="block-name">Landing</span>
+                  <span class="block-count">2 Blocks</span>
+                </div>
+                <span class="badge-new">1 New</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ui:define>
+
+</ui:composition>

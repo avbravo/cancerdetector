@@ -1,0 +1,352 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:papelerareciclaje="http://xmlns.jcp.org/jsf/composite/papelerareciclaje"
+      xmlns:tablero="http://xmlns.jcp.org/jsf/composite/tablero" 
+      xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades"
+      xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf">
+
+    <composite:interface >
+        <composite:attribute name="pendiente" default="false"/>
+        <composite:attribute name="progreso" default="false"/>
+        <composite:attribute name="finalizado" default="false"/>
+        <composite:attribute name="id" default=""/> 
+    </composite:interface>
+
+    <composite:implementation >
+
+
+
+
+        <p:dialog header="#{msg['dialog.tarjetaview']}" widgetVar="overlayPanelTarjetaView" 
+                  width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true"
+                  >
+            <p:ajax event="close" update=":form:growl" listener="#{papeleraReciclajeFaces.handleCloseDialogRefresh}" />
+
+
+
+            <p:outputPanel id="#{cc.attrs.id}" style="text-align:center;">
+
+
+                <c:if test="${papeleraReciclajeFaces.fueCambiadoPorOtroUsuario == true}">
+
+                    <jmoordbcorejsf:overlayPanelTarjetaHeader iconoheader="pi-file-edit" titulo="#{msg['dialog.tarjetaview']}"
+                                                              entity="#{papeleraReciclajeFaces.tarjetaViewSelected}"
+                                                              icono="#{papeleraReciclajeFaces.tarjetaViewSelected.icono}"/>
+
+
+                    <utilidades:sincronizacionrequeridacontroller onclick="PF('overlayPanelTarjetaView').hide()"
+                                                                  message="#{papeleraReciclajeFaces.message}"
+                                                                  update=":form"                                                        
+                                                                  controller="#{papeleraReciclajeFaces}"/>
+
+                </c:if>
+
+                <c:if test="${papeleraReciclajeFaces.fueCambiadoPorOtroUsuario == false}">
+
+                    <p:tabView >
+                        <p:tab title="#{msg['tab.general']}">
+                            <div class="grid ui-fluid mt-3 floatlabel-demo">
+                                <div class="col-12 md:col-2">
+                                    <!--<i class="#{papeleraReciclajeFaces.tarjetaViewSelected.icono.icono} text-blue-500 text-xl mr-2"/>-->
+                                    <p:outputLabel value="#{msg['field.tarjeta']}:" />
+
+                                </div>
+                                <div class="col-12 md:col-10">
+                                    <p:outputLabel value="#{papeleraReciclajeFaces.tarjetaViewSelected.tarjeta}" />
+                                </div>
+                                <div class="col-12 md:col-12">
+
+                                    <div class="field">
+                                        <span class="ui-float-label ui-input-icon-left">
+                                            <i class="pi pi-pencil" />
+                                            <p:inputTextarea value="#{papeleraReciclajeFaces.tarjetaViewSelected.descripcion}" rows="4" autoResize="false" 
+                                                             readonly="true" />
+                                            <p:outputLabel for="@previous" value="#{msg['field.descripcion']}" styleClass="ml-4" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-12 md:col-2">
+                                    <p:outputLabel  value="#{msg['field.prioridad']}" />
+                                </div>
+                                <div class="col-12 md:col-4">
+                                    <p:outputLabel value="#{papeleraReciclajeFaces.tarjetaViewSelected.prioridad}"/>
+
+                                </div>
+
+
+                                <div class="col-12 md:col-2">
+                                    <p:outputLabel  value="#{msg['field.estimacion']}" />
+                                </div>
+
+                                <div class="col-12 md:col-4">
+
+                                    <p:outputLabel  value="#{papeleraReciclajeFaces.tarjetaViewSelected.estimacion}" 
+                                                    title="#{msg['inputmask.formatoestimacion']}" />
+
+                                </div>
+
+
+
+                                <div class="col-12 md:col-2">
+                                    <p:outputLabel  value="#{msg['field.inicio']}"  />
+                                </div>
+
+                                <div class="col-12 md:col-10">
+
+                                    <p:outputLabel  value="#{papeleraReciclajeFaces.showDateWithHour(papeleraReciclajeFaces.tarjetaViewSelected.fechainicial)}" />
+
+                                </div>
+                                <div class="col-12 md:col-2">
+                                    <p:outputLabel  value="#{msg['field.fin']}"  />
+                                </div>
+
+                                <div class="col-12 md:col-10">
+
+                                    <p:outputLabel  value="#{papeleraReciclajeFaces.showDateWithHour(papeleraReciclajeFaces.tarjetaViewSelected.fechafinal)}" />
+
+                                </div>
+
+                                <div class="col-12 md:col-2">
+                                    <p:outputLabel  value="#{msg['field.tipotarjeta']}" />
+                                </div>
+                                <div class="col-12 md:col-10">
+
+                                    <p:outputLabel  value="#{papeleraReciclajeFaces.tarjetaViewSelected.tipotarjeta.tipotarjeta}"/>
+
+                                </div>
+                            </div>
+
+
+
+                        </p:tab>
+                        <p:tab title="#{msg['tab.colaborador']}">
+                            <p:dataTable style="border-style: none" value="#{papeleraReciclajeFaces.tarjetaViewSelected.userView}"
+                                         var="item"
+                                         paginator="true"
+                                         resizableColumns="true" liveResize="true"
+                                         editable="false"
+                                         rows="#{papeleraReciclajeFaces.rowPageDialog.get()}"
+                                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                         draggableRows="true"
+                                         >
+                                <p:column class="column30" >
+
+                                    <p:outputLabel value="#{item.name}" style="float:left"/>
+
+                                </p:column>
+
+
+                            </p:dataTable>
+
+                        </p:tab>
+                        <p:tab title="#{msg['tab.tarea']}">
+                            <p:dataTable style="border-style: none" value="#{papeleraReciclajeFaces.tarjetaViewSelected.tarea}"
+                                         var="item"
+                                         paginator="true"
+                                         resizableColumns="true" liveResize="true"
+                                         editable="false"
+                                         rows="#{papeleraReciclajeFaces.rowPageDialog.get()}"
+                                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                         draggableRows="true"
+                                         >
+                                <p:column  class="column1" headerText="#{msg['field.hecho']}">
+                                    <p:selectBooleanCheckbox value="#{item.completado}" disabled="true" style="float:left"/>  
+                                </p:column>
+                                 <p:column class="columnInputTextArea43" headerText="#{msg['field.tarea']}">
+                                    <p:inputTextarea  rows="#{item.tarea.length() le 70?1:(item.tarea.length()/70)+1}" style="width: 100% !important;" autoResize="false" readonly="true" value="#{item.tarea}"  />
+                                </p:column> 
+
+
+                            </p:dataTable>
+                        </p:tab>
+                        <p:tab title="#{msg['tab.comentario']}">
+                            <p:dataTable style="border-style: none" value="#{papeleraReciclajeFaces.tarjetaViewSelected.comentario}"
+                                         var="item"
+                                         paginator="true"
+                                         resizableColumns="true" liveResize="true"
+                                         editable="false"
+                                         rows="#{papeleraReciclajeFaces.rowPageDialog.get()}"
+                                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                         draggableRows="true"
+                                         >
+                                <p:column class="column2" headerText="#{msg['field.por']}" >
+                                    <p:avatar shape="circle"
+                                              title="#{item.userView.name}"
+                                              label="#{item.userView.name}" styleClass="mr-2" size="small" />
+
+                                </p:column>
+                                <p:column class="column1" headerText="#{msg['field.privado']}" >
+
+                                    <p:toggleSwitch value="#{item.privado}" disabled="true" onIcon="pi pi-lock" offIcon="pi pi-unlock"   label="#{msg['label.privado']}" style="float:left"/>
+
+
+                                </p:column>
+
+
+
+                                <p:column class="columnInputTextArea43" headerText="#{msg['field.comentario']}">
+                   <p:inputTextarea  rows="#{item.comentario.length() le 70?1:(item.comentario.length()/70)+1}" style="width: 100% !important;" autoResize="false" readonly="true" value="#{item.comentario}"  />
+                                </p:column>
+
+
+                                <p:column class="columnDate10" headerText="#{msg['field.fecha']}" >
+                                    <div class="text-700 mt-2">#{papeleraReciclajeFaces.showDateWithHour(item.fecha)}</div>
+
+                                </p:column>
+
+
+
+                            </p:dataTable>
+
+                        </p:tab>
+                        <p:tab title="#{msg['tab.impedimento']}">
+                            <p:dataTable style="border-style: none" value="#{papeleraReciclajeFaces.tarjetaViewSelected.impedimento}"
+                                         var="item"
+                                         paginator="true"
+                                         resizableColumns="true" liveResize="true"
+                                         editable="false"
+                                         rows="#{papeleraReciclajeFaces.rowPageDialog.get()}"
+                                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                         draggableRows="true"
+                                         >
+<p:column  class="column1" headerText="#{msg['field.hecho']}">
+                                    <p:selectBooleanCheckbox value="#{item.completado}" disabled="true"/>  
+                                </p:column>
+                               
+ <p:column class="columnInputTextArea43" headerText="#{msg['field.impedimento']}">
+                                    <p:inputTextarea  rows="#{item.impedimento.length() le 70?1:(item.impedimento.length()/70)+1}" style="width: 100% !important;" autoResize="false" readonly="true" value="#{item.impedimento}"  />
+                                </p:column> 
+
+                            </p:dataTable>
+                        </p:tab>
+                        <p:tab title="#{msg['tab.archivo']}">
+
+                            <p:dataTable style="border-style: none" value="#{papeleraReciclajeFaces.tarjetaViewSelected.archivo}"
+                                         var="item"
+                                         paginator="true"
+                                         resizableColumns="true" liveResize="true"
+
+                                         editable="false"
+                                         rows="#{papeleraReciclajeFaces.rowPageDialog.get()}"
+                                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                         draggableRows="true"
+                                         >
+
+                                 <p:column class="columnInputTextArea43" headerText="#{msg['field.descripcion']}">
+                                    <p:inputTextarea  rows="#{item.descripcion.length() le 70?1:(item.descripcion.length()/70)+1}" style="width: 100% !important;" autoResize="false" readonly="true" value="#{item.descripcion}"  />
+                                </p:column>
+
+                                <p:column class="column1" >
+                                    <p:remoteCommand name="rc2" update=":form:growl" action="#{jmoordbCoreMediaManager.init()}">
+
+                                    </p:remoteCommand>
+
+                                    <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-eye"
+                                                     process="@this"
+
+                                                     update=":form:growl "                                                                                             
+                                                     oncomplete="rc2(),PF('overlayPanelViewImage').show('#{component.clientId}')"
+                                                     action="#{papeleraReciclajeFaces.saveToMediaContext(item.path,item.descripcion)}"
+                                                     >
+                                        <f:setPropertyActionListener value="#{item}" target="#{papeleraReciclajeFaces.selectedMediaArchivo}"/>
+                                    </p:commandButton>
+                                </p:column>
+
+                                <p:column class="column3">
+                                    <p:remoteCommand name="rc" update=":form:growl" action="#{jmoordbCoreMediaManager.init()}">
+                                        <p:fileDownload value="#{jmoordbCoreMediaManager.media}"/>
+                                    </p:remoteCommand>
+                                    <p:commandButton 
+                                        oncomplete="rc()"
+                                        id="commandButtonFileDownloadView"
+                                        title="#{core['button.download']}" 
+                                        icon="pi pi-arrow-down" styleClass="ui-button-outlined"
+                                        rendered="#{papeleraReciclajeFaces.jmoordbCoreMediaManager.existsFile(papeleraReciclajeFaces.repairPathOfFile(item.path))}"
+                                        action="#{papeleraReciclajeFaces.saveToMediaContext(item.path,item.descripcion)}">
+
+                                    </p:commandButton>
+
+                                </p:column>  
+
+                            </p:dataTable>
+
+                        </p:tab>
+                        <p:tab title="#{msg['tab.historial']}">
+                            <p:dataTable style="border-style: none" value="#{papeleraReciclajeFaces.tarjetaViewSelected.actionHistory}"
+                                         var="item"
+                                         paginator="true"
+                                         resizableColumns="true" liveResize="true"
+
+                                         editable="false"
+                                         rows="#{papeleraReciclajeFaces.rowPageDialog.get()}"
+                                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                         draggableRows="true"
+                                         >
+
+                                <p:column class="columnDate11" headerText="#{msg['field.fecha']}" >
+                                    <p:outputLabel  value="#{papeleraReciclajeFaces.showDateWithHour(item.fecha)}" style="float:left"/>
+
+
+                                </p:column>
+                                <p:column class="column12" headerText="#{msg['field.evento']}" >
+                                    <p:outputLabel  value="#{item.evento}" style="float:left"/>
+
+
+                                </p:column>
+                                <p:column class="column12" headerText="#{msg['field.colaborador']}" >
+                                    <p:outputLabel  value="#{papeleraReciclajeFaces.nameOfColaborador(item.iduser,papeleraReciclajeFaces.tarjetaViewSelected)}" style="float:left" />
+
+
+                                </p:column>
+
+
+
+                            </p:dataTable>
+                        </p:tab>
+
+                    </p:tabView>
+                    <div class="flex align-items-center ">
+
+                        <div class=" border-top-1 surface-border col-6 flex">
+
+
+                            <p:commandButton 
+                                title="#{core['button.cancel']}" 
+                                icon="pi pi-times" 
+                                oncomplete="PF('overlayPanelTarjetaView').hide()"
+                                action="#{papeleraReciclajeFaces.refreshCache(papeleraReciclajeFaces.tarjetaViewSelected,'view')}"
+                                update=":form:growl,:form"
+                                styleClass="ui-button-raised ui-button-secondary"
+                                />
+                        </div>
+
+                    </div>
+
+                </c:if>
+            </p:outputPanel>
+        </p:dialog>
+
+
+
+
+
+
+
+
+    </composite:implementation>
+</html>

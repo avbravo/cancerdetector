@@ -1,0 +1,189 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:tablero="http://xmlns.jcp.org/jsf/composite/tablero"
+      xmlns:dialogo="http://xmlns.jcp.org/jsf/composite/dialogo"
+      xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades"
+          xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf">
+
+    <composite:interface >
+        <composite:attribute name="pendiente" default="false"/>
+        <composite:attribute name="progreso" default="false"/>
+        <composite:attribute name="finalizado" default="false"/>
+        <composite:attribute name="id" default=""/> 
+    </composite:interface>
+
+    <composite:implementation >
+
+
+  
+        <p:dialog header="#{msg['dialog.tarjetacomentario']}" widgetVar="overlayPanelTarjetaComentario"
+                   width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true">
+    <p:ajax event="close" update=":form:growl" listener="#{backlogFaces.handleCloseDialogComentario}" />
+
+            <p:outputPanel id="#{cc.attrs.id}" style="text-align:center;">
+                <jmoordbcorejsf:overlayPanelTarjetaHeader iconoheader="pi-megaphone" 
+                                                   titulo="#{msg['dialog.tarjetacomentario']}"
+                                                   entity="#{backlogFaces.tarjetaComentarioSelected}"
+                                                   icono="#{backlogFaces.tarjetaComentarioSelected.icono}"/>
+
+                <c:if test="${backlogFaces.fueCambiadoPorOtroUsuario == true}">
+
+
+                    <utilidades:sincronizacionrequeridacontroller onclick="PF('overlayPanelTarjetaComentario').hide()"
+                                                                  message="#{backlogFaces.message}"
+                                                                  controller="#{backlogFaces}"
+                                                                  />
+
+                </c:if>
+
+                <c:if test="${backlogFaces.fueCambiadoPorOtroUsuario == false}">
+                    <p:remoteCommand        update=":form:growl, dataTableComentario, inputTextComentario"
+                                            name="remoteCommandInputTextAreaComentario"
+                                            action="#{backlogFaces.agregarRowComentario()}"/>
+                    
+                        <div class="grid ui-fluid mt-3 floatlabel-demo">
+                            <div class="col-12 md:col-10">
+                                <div class="flex align-items-center ">
+                                    <p:inputTextarea id="inputTextComentario" value ="#{backlogFaces.inputTextComentario}" placeholder="#{msg['label.ingresecomentario']}" 
+                                                     rendered="#{backlogFaces.isEditable}"
+                                                     rows="2"
+                                                     autoResize="false"
+                                                     onkeypress="if (event.keyCode == 13) {
+                                                                 remoteCommandInputTextAreaComentario();
+                                                                 return false;
+                                                             }"/>
+                                </div>
+
+                            </div>
+                            <div class="col-12 md:col-2">
+                                <div class="flex align-items-center ">
+                                    <p:commandButton 
+                                        title="#{core['button.add']}"
+                                        rendered="#{backlogFaces.isEditable}"
+                                        update=":form:growl, dataTableComentario, inputTextComentario"
+                                        icon="pi pi-plus-circle" styleClass="ui-button-raised ui-button-secondary"
+                                        action="#{backlogFaces.agregarRowComentario()}" />
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <p:dataTable style="border-style: none" value="#{backlogFaces.tarjetaComentarioSelected.comentario}"
+                                     var="item"
+                                     paginator="true"
+                                     editMode="cell"
+                                     resizableColumns="true" liveResize="true"
+                                     id="dataTableComentario"
+                                     widgetVar="dataTableComentario"
+                                     editable="true"
+                                                                     rows="#{backlogFaces.rowPageDialog.get()}"
+                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                     draggableRows="true"
+                                     >
+
+                            <p:ajax event="cellEdit" listener="#{backlogFaces.onCellEditComentario}" update=":form:growl, dataTableComentario"/>
+
+
+                            <p:column class="column2" headerText="#{msg['field.por']}" >
+                                <p:avatar shape="circle"
+                                          title="#{item.userView.name}"
+                                          label="#{item.userView.name}" styleClass="mr-2" size="small" />
+
+                            </p:column>
+
+
+                            <p:column class="column1" headerText="#{msg['field.privado']}" >
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <i class="pi pi-lock-open" jsf:rendered="#{item.privado eq false}" jsf:title="#{msg['label.publico']}"></i>
+                                        <i class="pi pi-lock" jsf:rendered="#{item.privado eq true}" jsf:title="#{msg['label.privado']}"></i>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:toggleSwitch value="#{item.privado}" onIcon="pi pi-lock" offIcon="pi pi-unlock"   label="#{msg['label.privado']}" style="float:left"/>
+
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+
+
+                          <p:column class="columnInputTextArea43" headerText="#{msg['field.comentario']}">
+                            <p:cellEditor>
+                                <f:facet name="output"> 
+                                    
+                                    <p:inputTextarea  rows="#{item.comentario.length() le 70?1:(item.comentario.length()/70)+1}" style="width: 100% !important;" autoResize="false" readonly="true" value="#{item.comentario}"  />
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputTextarea  rows="#{item.comentario.length() le 70?1:(item.comentario.length()/70)+1}" style="width: 100% !important;" autoResize="false"  value="#{item.comentario}"  />
+                               
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+
+
+                            <p:column class="columnDate11" headerText="#{msg['field.fecha']}">
+                                <div class="text-700 mt-2">#{backlogFaces.showDateWithHour(item.fecha)}</div>
+
+                            </p:column>
+
+
+
+                            <p:column class="column1" >
+                                <p:commandButton styleClass="ui-button-raised ui-button-secondary" icon="pi pi-trash"
+                                                 process="@this"
+                                                 rendered="#{item.userView.iduser eq backlogFaces.userLogged.iduser}"
+                                                 update=":form:growl, dataTableComentario"
+                                                 action="#{backlogFaces.deleteComentario(item)}"
+                                                 >
+                                    <p:confirm type="popup" header="#{core['confirmdialog.header']}" message="#{core['confirmdialog.message']}" icon="pi pi-info-circle"/>
+                                </p:commandButton>
+                            </p:column>
+
+
+                            <f:facet name="footer">
+                                <div class="flex align-items-center ">
+                                    <div class=" border-top-1 surface-border col-4 flex">
+
+                                        <p:commandButton  
+                                            title="#{core['button.close']}" icon="pi pi-times"
+                                            update=":form:growl"
+                                            rendered="#{backlogFaces.isEditable}"
+                                            action="#{backlogFaces.addComentario(backlogFaces.tarjetaComentarioSelected)}"  
+                                           styleClass="ui-button-raised ui-button-secondary"/>
+                                    </div>
+
+
+                                </div>
+
+
+                            </f:facet>
+                        </p:dataTable>
+
+ 
+                </c:if>
+
+
+            </p:outputPanel>
+
+        </p:dialog>
+
+
+    </composite:implementation>
+</html>

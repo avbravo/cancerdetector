@@ -1,0 +1,85 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:f = "http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite = "http://java.sun.com/jsf/composite">
+
+    <composite:interface >
+
+    </composite:interface>
+
+    <composite:implementation>
+        <div class="surface-section p-5">
+            <div class="flex align-items-start flex-column lg:flex-row lg:justify-content-between">
+                <div class="flex align-items-start flex-column md:flex-row">
+                    <span class="inline-flex border-circle align-items-center justify-content-center bg-green-100 mr-3" style="width:38px;height:38px">
+                        <i class="#{scheduleTableroFaces.proyectoSelected.icono.icono} text-xl text-green-600"></i>
+                    </span>
+
+                    <div>
+
+
+                        <span class="text-900 font-medium text-3xl">#{scheduleTableroFaces.proyectoSelected.prefijo}</span>
+
+
+
+                        <i class="pi pi-star text-2xl ml-4 text-yellow-500"/>
+
+                        <div class="flex align-items-center flex-wrap text-sm">
+                            <div class="mr-5 mt-3">
+                                <span class="font-medium text-500">#{scheduleTableroFaces.cutText(scheduleTableroFaces.proyectoSelected.proyecto,scheduleTableroFaces.mediumSizeOfTextForCut.get())}</span>
+                                <div class="text-700 mt-2"></div>
+                            </div>
+                            <div class="mr-5 mt-3">
+                                <span class="font-medium text-500">#{scheduleTableroFaces.cutText(scheduleTableroFaces.proyectoSelected.descripcion,scheduleTableroFaces.mediumSizeOfTextForCut.get())}</span>
+                                <div class="text-700 mt-2"></div>
+                            </div>
+
+                        </div>
+
+                        <div class="flex align-items-center flex-wrap text-sm">
+                            <div class="mr-5 mt-3">
+                                <span class="font-medium text-500">#{msg['field.sprint']}</span>
+                                <div class="text-700 mt-2">#{scheduleTableroFaces.sprintSelected.sprint}</div>
+                            </div>
+                            <div class="mr-5 mt-3">
+                                <span class="font-medium text-500">#{msg['field.fechainicial']}</span>
+                                <div class="text-700 mt-2">#{scheduleTableroFaces.showDateWithHour(scheduleTableroFaces.sprintSelected.fechainicial)}</div>
+                            </div>
+                            <div class="mr-5 mt-3">
+                                <span class="font-medium text-500">#{msg['field.fechafinal']}</span>
+                                <div class="text-700 mt-2">#{scheduleTableroFaces.showDateWithHour(scheduleTableroFaces.sprintSelected.fechafinal)}</div>
+                            </div>
+                            <div class="mr-5 mt-3">
+                                <span class="font-medium text-500">#{msg['field.perfil']}</span>
+                                <div class="text-700 mt-2">#{scheduleTableroFaces.perfil}</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3 lg:mt-0">
+
+              
+
+                    <p:commandButton  title="#{msg['button.refresh']}" icon="pi pi-refresh" styleClass="rounded-button ui-button-help mr-2"
+                                      action="#{scheduleTableroFaces.refresh()}"
+                                      process="@this"
+                                      update=":form"/>
+
+          
+                  
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+       
+    </composite:implementation>
+</html>

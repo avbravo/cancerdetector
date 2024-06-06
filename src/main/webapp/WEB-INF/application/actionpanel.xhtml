@@ -1,0 +1,107 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pb="http://xmlns.jcp.org/jsf/composite/primeblocks"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">PrimeBlocks</ui:define>
+
+    <ui:define name="breadcrumb">
+        <li>
+            <div class="chevron">/</div>
+            <h:link outcome="/application">Application</h:link>
+        </li>
+        <li>
+            <div class="chevron">/</div>
+            <h:link outcome="/application/actionpanel">Action Panel</h:link>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="block-category-title">Action Panel</div>
+        <pb:blockViewer header="Simple" code="#{actionPanelView.block1}"
+                        containerClass="px-4 py-8 md:px-6 lg:px-8 flex justify-content-center align-items-center">
+            <div class="surface-card border-round shadow-2 p-4">
+                <div class="text-900 font-medium mb-3 text-xl">Title Placeholder</div>
+                <p class="mt-0 mb-4 p-0 line-height-3">Nunc mi ipsum faucibus vitae aliquet nec. Lacus sed viverra tellus in hac habitasse platea dictumst.</p>
+                <p:commandButton type="button" value="Save Changes"/>
+            </div>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="With Button at Top Right" code="#{actionPanelView.block2}"
+                        containerClass="px-4 py-8 md:px-6 lg:px-8 flex justify-content-center align-items-center">
+            <div class="surface-card border-round shadow-2 p-4 flex flex-column lg:flex-row align-items-start">
+                <div>
+                    <div class="text-900 font-medium mb-3 text-xl">Title Placeholder</div>
+                    <p class="mt-0 mb-4 lg:mb-0 p-0 line-height-3">Nunc mi ipsum faucibus vitae aliquet nec. Lacus sed viverra tellus in hac habitasse platea dictumst.</p>
+                </div>
+                <p:commandButton type="button" value="Save" icon="pi pi-check ml-2" styleClass="ml-0 lg:ml-5 pl-2"/>
+            </div>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="Info and Button" code="#{actionPanelView.block3}"
+                        containerClass="px-4 py-8 md:px-6 lg:px-8 flex justify-content-center align-items-center">
+            <div class="surface-card border-round shadow-2 p-4">
+                <div class="text-900 font-medium mb-3 text-xl">Title Placeholder</div>
+                <p class="mt-0 mb-4 p-0 line-height-3">Nunc mi ipsum faucibus vitae aliquet nec. Lacus sed viverra tellus in hac habitasse platea dictumst.</p>
+                <div class="flex mb-4 flex-column lg:flex-row">
+                    <div class="surface-50 p-3 flex-auto">
+                        <div class="text-600 mb-3">Guests</div>
+                        <span class="text-blue-600 font-medium text-xl">4</span>
+                    </div>
+                    <div class="surface-50 p-3 flex-auto mx-0 my-3 lg:my-0 lg:mx-3">
+                        <div class="text-600 mb-3">Date</div>
+                        <span class="text-blue-600 font-medium text-xl">24/05/2021</span>
+                    </div>
+                    <div class="surface-50 p-3 flex-auto">
+                        <div class="text-600 mb-3">Time</div>
+                        <span class="text-blue-600 font-medium text-xl">14:30</span>
+                    </div>
+                </div>
+                <p:commandButton type="button" value="Save Changes"/>
+            </div>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="With Input" code="#{actionPanelView.block4}"
+                        containerClass="px-4 py-8 md:px-6 lg:px-8 flex justify-content-center align-items-center">
+            <div class="surface-card border-round shadow-2 p-4">
+                <div class="text-900 font-medium mb-3 text-xl">Change Phone</div>
+                <p class="mt-0 mb-4 p-0 line-height-3">Nunc mi ipsum faucibus vitae aliquet nec.</p>
+                <div class="flex">
+                    <p:inputText styleClass="flex-auto mr-3"/>
+                    <p:commandButton type="button" value="Update"/>
+                </div>
+            </div>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="With Illustration" code="#{actionPanelView.block5}"
+                        containerClass="px-4 py-8 md:px-6 lg:px-8 flex justify-content-center align-items-center">
+            <div class="surface-card border-round shadow-2 p-4 text-center">
+                <p:graphicImage name="images/blocks/illustration/subscribe.svg" library="primeblocks-app" alt="Image"
+                                styleClass="mx-auto block mb-4"/>
+                <div class="text-900 font-medium mb-3 text-xl">Title Placeholder</div>
+                <p class="mt-0 mb-4 p-0 line-height-3">Nunc mi ipsum faucibus vitae aliquet nec. Lacus sed viverra tellus in hac habitasse platea dictumst.</p>
+                <p:commandButton type="button" value="Learn More" icon="pi pi-arrow-right mr-2"
+                                 styleClass="rounded-button pr-2" iconPos="right"/>
+            </div>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="Inline Illustration" code="#{actionPanelView.block6}" newFeature="true"
+                        containerClass="px-4 py-8 md:px-6 lg:px-8 flex justify-content-center align-items-center">
+            <div class="surface-card border-round flex shadow-2">
+                <div class="bg-blue-50 flex align-items-center justify-content-center py-3 px-5">
+                    <p:graphicImage name="images/blocks/illustration/live-collaboration.svg" library="primeblocks-app" alt="Image"
+                                styleClass="mx-auto block mb-4 w-full"/>
+                </div>
+                <div class="py-3 px-5 flex flex-column align-items-start">
+                    <div class="text-900 font-medium mb-3 text-xl">Title Placeholder</div>
+                    <p class="mt-0 mb-4 p-0 line-height-3">Nunc mi ipsum faucibus vitae aliquet nec.</p>
+                    <p:commandButton type="button" value="Proceed" styleClass="mt-auto" iconPos="right"/>
+                </div>
+            </div>
+        </pb:blockViewer>
+
+    </ui:define>
+
+</ui:composition>

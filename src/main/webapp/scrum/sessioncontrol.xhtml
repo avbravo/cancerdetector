@@ -1,0 +1,266 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades"
+                xmlns:user="http://xmlns.jcp.org/jsf/composite/user"
+                xmlns:primeblocks="http://xmlns.jcp.org/jsf/composite/primeblocks">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+
+        <c:if test="${userFaces.callerLevel0 eq 'dashboard'}">
+            <p:commandLink action="dashboard" value="#{msg['breadcrumb.dashboard']}">
+            </p:commandLink>
+        </c:if>
+        <i class="pi pi-angle-right"></i>
+        <p:commandLink action="sesioncontrol" value="#{msg['breadcrumb.sesioncontrol']}">
+        </p:commandLink>
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('DEVELOPERS,SUPER-USER')}">
+
+            <p:growl id="growl"/>
+            <script type="text/javascript">
+                function setDataTableWithPageStart() {
+
+                    widgetVardataTable.getPaginator().setPage(0);
+                }
+            </script>
+<!--            <div class="block-category-title">#{msg['form.user']}</div>-->
+
+            <!--<pb:blockViewerCore header="Sidebar" >-->
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+                <div class="min-h-screen flex flex-column relative flex-auto">
+<!--                    <dashboard:top/>-->
+                    <div class="surface-section , jmoordbcore-max-width2000">
+                        <div class="grid">
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+                                        <label  class="font-bold">#{msg['label.sesioncontrol']}</label>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+
+
+                                    </div>
+                                </div>
+                                <div class="field mb-4 col-4">
+                                    <div class="field">
+                                                     <p:outputLabel  value="#{msg['field.user']}" />
+                                        <!--<span class="ui-float-label">-->
+                                            <p:autoComplete id="user" multiple="false" value="#{userFaces.userViewSelected}"
+                                                            completeMethod="#{userFaces.completeUserView}"
+                                                            var="userView" itemLabel="#{userView.name}" itemValue="#{userView}"
+                                                            forceSelection="true"
+                                                            title="#{msg['autocomplete.minimo3caracteres']}"
+                                                            dropdown="true"
+                                                            minQueryLength="3"
+                                                            scrollHeight="250"
+
+                                                            converter="#{userViewConverter}"
+                                                            >
+                                                <p:column>
+                                                    <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{userView.name}"/>
+                                                </p:column>
+                                                <p:ajax event="itemSelect"   listener="#{userFaces.autocompleteSelectedEvent}"  update=":form:growl, user, dataTable" />  
+                                                <p:ajax event="itemUnselect"  process="@this" listener="#{userFaces.autocompleteUnselectListener}" update=":form:growl, user, dataTable" />
+                                            </p:autoComplete>
+
+                                            <!--<p:message for="@previous" />-->
+
+                               
+                                        <!--</span>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 lg:col-12">
+
+                                <div class="flex justify-content-between">
+
+
+                                    <p:dataTable style="border-style: none" var="item" value="#{userFaces.userLazyDataModel}"
+                                                 binding="#{userFaces.dataTable}"
+                                                 id="dataTable"
+                                                 widgetVar="widgetVardataTable"
+                                                 lazy="true"
+                                                 paginator="true"
+                                                 rows="#{userFaces.rowPageSmall.get()}"
+                                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                                 paginatorPosition="both"
+                                             resizableColumns="true" liveResize="true"
+
+                                                 rowKey="#{item.iduser}"
+                                                 selection="#{userFaces.userSelected}"
+                                                 rowSelectMode="add"
+                                                 styleClass="mt-2"
+                                                 >
+
+                                        <p:column class="column2">
+                                            <p:rowToggler/>
+                                        </p:column>
+
+                                        <p:column class="column10" headerText="#{msg['field.name']}" sortable="true" sortBy="#{item.name}">
+                                            <p:outputLabel value="#{item.name}" style="float:left"/>
+                                        </p:column>
+
+
+
+                                        <p:column class="column10" headerText="#{msg['field.username']}" sortable="true" sortBy="#{item.username}">
+                                            <p:outputLabel value="#{item.username}" style="float:left"/>
+
+                                        </p:column>
+
+
+                                        <p:column class="column10" headerText="#{msg['field.email']}" sortable="true" sortBy="#{item.iduser}">
+                                            <p:outputLabel value="#{item.email}" style="float:left"/>
+
+                                        </p:column>
+
+                                        <p:column class="column2" exportable="false">
+                                            <p:menuButton  icon="pi pi-ellipsis-v" buttonStyleClass="ui-button-outlined" buttonStyle="border-radius: 0 1rem">
+
+                                                <p:menuitem 
+                                                    icon="pi pi-pencil" 
+
+                                                    value="#{core['button.update']}"
+                                                    update=":form, outputPanelUserEdit"
+                                                    oncomplete="PF('overlayPanelUserEdit').show('#{component.clientId}')"
+                                                    action="#{userFaces.prepareUser(item)}"
+                                                    styleClass="edit-button rounded-button ui-button-success" process="@this"/>       
+
+
+
+
+
+                                            </p:menuButton>
+                                        </p:column>
+
+                                        <p:rowExpansion >
+                                            <p:dataTable
+                                                rowKey="#{profile.id}"
+                                                value="#{item.profile}" var="profile" 
+                                              resizableColumns="true" liveResize="true"
+                                                >
+
+                                                <p:column class="column10" headerText="#{msg['label.departament']}" 
+                                                          rendered="#{userFaces.isRoleOfApplicative(profile.applicativeView.idapplicative)}">
+                                                    <p:outputLabel value="#{profile.departamentView.departament}"/>
+                                                </p:column>
+                                                <p:column class="column10" headerText="#{msg['label.role']}"
+                                                          rendered="#{userFaces.isRoleOfApplicative(profile.applicativeView.idapplicative)}">
+                                                    <p:outputLabel value="#{profile.role.role}"/>
+                                                </p:column>
+                                                <p:column class="column10" headerText="#{msg['label.active']}"
+                                                          rendered="#{userFaces.isRoleOfApplicative(profile.applicativeView.idapplicative)}">
+                                                    <p:toggleSwitch value="#{profile.active}" onIcon="pi pi-check" offIcon="pi pi-times"
+                                                                    disabled="true" />
+                                                </p:column>
+
+                                            </p:dataTable>
+
+
+                                        </p:rowExpansion>
+
+
+
+
+
+
+                                        <f:facet name="header">
+
+                                            <div class="grid mt-12">
+                                                <div class="col-2">
+                                                    <p:commandButton 
+                                                        title="#{core['button.add']}" 
+
+                                                        update=":form:growl,form,outputPanelUser"
+                                                        icon="pi pi-plus-circle" styleClass="rounded-button mr-2 ui-button-summary"
+                                                        oncomplete="PF('overlayPanelUser').show('#{component.clientId}')"
+                                                        action="#{userFaces.agregarRowUser()}" />
+
+                                                </div>
+                                                <div class="col-2">
+                                                    <p:commandButton title="#{core['button.print']}"
+                                                                     icon="pi pi-print"
+                                                                     id="buttonPrint"
+                                                                     process="buttonPrint"
+                                                                     ajax="false"
+                                                                     immediate="true"
+                                                                     onclick="this.form.target = '_blank'"
+                                                                     action="#{userFaces.printAll()}"
+                                                                     update=":form:growl"
+                                                                     styleClass="rounded-button ui-button-secondary" 
+                                                                     style="margin-right: .5rem">
+
+                                                    </p:commandButton>
+                                                </div>
+
+                                                <div class="col-2">
+
+
+                                                    <p:commandButton  title="#{msg['button.refresh']}" icon="pi pi-refresh" styleClass="rounded-button ui-button-help mr-2"
+                                                                      action="#{userFaces.refresh()}"
+                                                                      process="@this"
+                                                                      update=":form:growl, dataTable"/>
+                                                </div>
+
+                                            </div>
+                                        </f:facet>
+
+                                    </p:dataTable>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div> 
+
+                </div>
+            </div>
+
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+            </p:confirmPopup>
+
+            <user:create id="outputPanelUser"/>
+            <user:edit id="outputPanelUserEdit"/>
+
+
+
+
+
+
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('DEVELOPERS,SUPER-USER')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

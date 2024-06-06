@@ -1,0 +1,296 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pb="http://xmlns.jcp.org/jsf/composite/primeblocks"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">PrimeBlocks</ui:define>
+
+    <ui:define name="breadcrumb">
+        <li>
+            <div class="chevron">/</div>
+            <h:link outcome="/application">Application</h:link>
+        </li>
+        <li>
+            <div class="chevron">/</div>
+            <h:link outcome="/application/tabs">Tabs</h:link>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="block-category-title">Tabs</div>
+
+        <pb:blockViewer header="Underline" code="#{tabsView.block1}" containerClass="px-3 py-8 md:px-6 lg:px-8">
+            <ul class="surface-card p-0 m-0 list-none flex overflow-x-auto select-none">
+                <li>
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center border-bottom-2 hover:border-500 transition-colors transition-duration-150 #{tabsView.activeTab eq 0 ? ' border-blue-500 text-blue-500 hover:border-blue-500 ' : ' text-700 border-transparent '}"
+                       onclick="rc([{name:'value', value:0}])">
+                        <i class="pi pi-home mr-2"/>
+                        <span class="font-medium">Overview</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center border-bottom-2 hover:border-500 transition-colors transition-duration-150 #{tabsView.activeTab eq 1 ? ' border-blue-500 text-blue-500 hover:border-blue-500 ' : ' text-700 border-transparent '}"
+                       onclick="rc([{name:'value', value:1}])">
+                        <i class="pi pi-users mr-2"/>
+                        <span class="font-medium">Members</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center border-bottom-2 hover:border-500 transition-colors transition-duration-150 #{tabsView.activeTab eq 2 ? ' border-blue-500 text-blue-500 hover:border-blue-500 ' : ' text-700 border-transparent '}"
+                       onclick="rc([{name:'value', value:2}])">
+                        <i class="pi pi-shopping-cart mr-2"/>
+                        <span class="font-medium">Sales</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center border-bottom-2 hover:border-500 transition-colors transition-duration-150 #{tabsView.activeTab eq 3 ? ' border-blue-500 text-blue-500 hover:border-blue-500 ' : ' text-700 border-transparent '}"
+                       onclick="rc([{name:'value', value:3}])">
+                        <i class="pi pi-user mr-2"/>
+                        <span class="font-medium">Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center border-bottom-2 hover:border-500 transition-colors transition-duration-150 #{tabsView.activeTab eq 4 ? ' border-blue-500 text-blue-500 hover:border-blue-500 ' : ' text-700 border-transparent '}"
+                       onclick="rc([{name:'value', value:4}])">
+                        <i class="pi pi-cog mr-2"/>
+                        <span class="font-medium">Settings</span>
+                    </a>
+                </li>
+            </ul>
+            <p:remoteCommand name="rc" update="@form" action="#{tabsView.changeTab}"/>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="Pills" code="#{tabsView.block2}" containerClass="px-3 py-8 md:px-6 lg:px-8">
+            <ul class="surface-card p-2 m-0 list-none flex overflow-x-auto select-none">
+                <li class="mr-2">
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors #{tabsView.activeTab2 eq 0 ? ' bg-primary hover:bg-primary ' : ' text-700 '}"
+                       onclick="rc2([{name:'value', value:0}])">
+                        <i class="pi pi-home mr-2"/>
+                        <span class="font-medium">Overview</span>
+                    </a>
+                </li>
+                <li class="mr-2">
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 #{tabsView.activeTab2 eq 1 ? ' bg-primary hover:bg-primary ' : ' text-700 '}"
+                       onclick="rc2([{name:'value', value:1}])">
+                        <i class="pi pi-users mr-2"/>
+                        <span class="font-medium">Members</span>
+                    </a>
+                </li>
+                <li class="mr-2">
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 #{tabsView.activeTab2 eq 2 ? ' bg-primary hover:bg-primary ' : ' text-700 '}"
+                       onclick="rc2([{name:'value', value:2}])">
+                        <i class="pi pi-shopping-cart mr-2"/>
+                        <span class="font-medium">Sales</span>
+                    </a>
+                </li>
+                <li class="mr-2">
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 #{tabsView.activeTab2 eq 3 ? ' bg-primary hover:bg-primary ' : ' text-700 '}"
+                       onclick="rc2([{name:'value', value:3}])">
+                        <i class="pi pi-user mr-2"/>
+                        <span class="font-medium">Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 #{tabsView.activeTab2 eq 4 ? ' bg-primary hover:bg-primary ' : ' text-700 '}"
+                       onclick="rc2([{name:'value', value:4}])">
+                        <i class="pi pi-cog mr-2"/>
+                        <span class="font-medium">Settings</span>
+                    </a>
+                </li>
+            </ul>
+            <p:remoteCommand name="rc2" update="@form" action="#{tabsView.changeTab2}"/>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="Underline with Separators" code="#{tabsView.block3}" containerClass="px-3 py-8 md:px-6 lg:px-8" newFeature="true">
+            <ul class="surface-card p-0 m-0 list-none flex overflow-x-auto select-none">
+                <li class="px-3">
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center border-bottom-2 hover:border-500 transition-colors transition-duration-150 #{tabsView.activeTab3 eq 0 ? ' border-blue-500 text-blue-500 hover:border-blue-500 ' : ' text-700 border-transparent '}" 
+                        onclick="rc3([{name:'value', value:0}])">
+                        <i class="pi pi-home mr-2"></i>
+                        <span class="font-medium">Overview</span>
+                    </a>
+                </li>
+                <li class="flex align-items-center">
+                    <div style="width:1px; height: 50%" class="border-right-1 surface-border"></div>
+                </li>
+                <li class="px-3">
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center border-bottom-2 hover:border-500 transition-colors transition-duration-150 #{tabsView.activeTab3 eq 1 ? ' border-blue-500 text-blue-500 hover:border-blue-500 ' : ' text-700 border-transparent '}" 
+                        onclick="rc3([{name:'value', value:1}])">
+                        <i class="pi pi-users mr-2"></i>
+                        <span class="font-medium">Members</span>
+                    </a>
+                </li>
+                <li class="flex align-items-center">
+                    <div style="width:1px; height: 50%" class="border-right-1 surface-border"></div>
+                </li>
+                <li class="px-3">
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center border-bottom-2 hover:border-500 transition-colors transition-duration-150 #{tabsView.activeTab3 eq 2 ? ' border-blue-500 text-blue-500 hover:border-blue-500 ' : ' text-700 border-transparent '}" 
+                        onclick="rc3([{name:'value', value:2}])">
+                        <i class="pi pi-shopping-cart mr-2"></i>
+                        <span class="font-medium">Sales</span>
+                    </a>
+                </li>
+                <li class="flex align-items-center">
+                    <div style="width:1px; height: 50%" class="border-right-1 surface-border"></div>
+                </li>
+                <li class="px-3">
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center border-bottom-2 hover:border-500 transition-colors transition-duration-150 #{tabsView.activeTab3 eq 3 ? ' border-blue-500 text-blue-500 hover:border-blue-500 ' : ' text-700 border-transparent '}" 
+                        onclick="rc3([{name:'value', value:3}])">
+                        <i class="pi pi-user mr-2"></i>
+                        <span class="font-medium">Profile</span>
+                    </a>
+                </li>
+                <li class="flex align-items-center">
+                    <div style="width:1px; height: 50%" class="border-right-1 surface-border"></div>
+                </li>
+                <li class="px-3">
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center border-bottom-2 hover:border-500 transition-colors transition-duration-150 #{tabsView.activeTab3 eq 4 ? ' bg-primary hover:bg-primary ' : ' text-700 border-transparent '}" 
+                        onclick="rc3([{name:'value', value:4}])">
+                        <i class="pi pi-cog mr-2"></i>
+                        <span class="font-medium">Settings</span>
+                    </a>
+                </li>
+            </ul>
+            <p:remoteCommand name="rc3" update="@form" action="#{tabsView.changeTab3}"/>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="Pills with Separators" code="#{tabsView.block4}" containerClass="px-3 py-8 md:px-6 lg:px-8" newFeature="true">
+            <ul class="surface-card p-2 m-0 list-none flex overflow-x-auto select-none">
+                <li class="pr-3">
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 #{tabsView.activeTab4 eq 0 ? ' bg-primary hover:bg-primary ' : ' text-700 '}" 
+                        onclick="rc4([{name:'value', value:0}])">
+                        <i class="pi pi-home mr-2"></i>
+                        <span class="font-medium">Overview</span>
+                    </a>
+                </li>
+                <li class="flex align-items-center">
+                    <div style="width:1px; height: 50%" class="border-right-1 surface-border"></div>
+                </li>
+                <li class="px-3">
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 #{tabsView.activeTab4 eq 1 ? ' bg-primary hover:bg-primary ' : ' text-700 '}" 
+                        onclick="rc4([{name:'value', value:1}])">
+                        <i class="pi pi-users mr-2"></i>
+                        <span class="font-medium">Members</span>
+                    </a>
+                </li>
+                <li class="flex align-items-center">
+                    <div style="width:1px; height: 50%" class="border-right-1 surface-border"></div>
+                </li>
+                <li class="px-3">
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 #{tabsView.activeTab4 eq 2 ? ' bg-primary hover:bg-primary ' : ' text-700 '}" 
+                        onclick="rc4([{name:'value', value:2}])">
+                        <i class="pi pi-shopping-cart mr-2"></i>
+                        <span class="font-medium">Sales</span>
+                    </a>
+                </li>
+                <li class="flex align-items-center">
+                    <div style="width:1px; height: 50%" class="border-right-1 surface-border"></div>
+                </li>
+                <li class="px-3">
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 #{tabsView.activeTab4 eq 3? ' bg-primary hover:bg-primary ' : ' text-700 '}" 
+                        onclick="rc4([{name:'value', value:3}])">
+                        <i class="pi pi-user mr-2"></i>
+                        <span class="font-medium">Profile</span>
+                    </a>
+                </li>
+                <li class="flex align-items-center">
+                    <div style="width:1px; height: 50%" class="border-right-1 surface-border"></div>
+                </li>
+                <li class="px-3">
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 #{tabsView.activeTab4 eq 4 ? ' bg-primary hover:bg-primary ' : ' text-700 '}" 
+                        onclick="rc4([{name:'value', value:4}])">
+                        <i class="pi pi-cog mr-2"></i>
+                        <span class="font-medium">Settings</span>
+                    </a>
+                </li>
+            </ul>
+            <p:remoteCommand name="rc4" update="@form" action="#{tabsView.changeTab4}"/>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="Full Width Underline" code="#{tabsView.block5}" containerClass="px-3 py-8 md:px-6 lg:px-8" newFeature="true">
+            <ul class="surface-card p-0 m-0 list-none flex overflow-x-auto select-none">
+                <li class="flex-1">
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center justify-content-center border-bottom-2 hover:border-500 transition-colors transition-duration-150 #{tabsView.activeTab5 eq 0 ? ' border-blue-500 text-blue-500 hover:border-blue-500 ' : ' text-700 border-transparent '}" 
+                        onclick="rc5([{name:'value', value:0}])">
+                        <i class="pi pi-home mr-2"></i>
+                        <span class="font-medium">Overview</span>
+                    </a>
+                </li>
+                <li class="flex-1">
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center justify-content-center border-bottom-2 hover:border-500 transition-colors transition-duration-150 #{tabsView.activeTab5 eq 1 ? ' border-blue-500 text-blue-500 hover:border-blue-500 ' : ' text-700 border-transparent '}" 
+                        onclick="rc5([{name:'value', value:1}])">
+                        <i class="pi pi-users mr-2"></i>
+                        <span class="font-medium">Members</span>
+                    </a>
+                </li>
+                <li class="flex-1">
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center justify-content-center border-bottom-2 hover:border-500 transition-colors transition-duration-150 #{tabsView.activeTab5 eq 2 ? ' border-blue-500 text-blue-500 hover:border-blue-500 ' : ' text-700 border-transparent '}" 
+                        onclick="rc5([{name:'value', value:2}])">
+                        <i class="pi pi-shopping-cart mr-2"></i>
+                        <span class="font-medium">Sales</span>
+                    </a>
+                </li>
+                <li class="flex-1">
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center justify-content-center border-bottom-2 hover:border-500 transition-colors transition-duration-150 #{tabsView.activeTab5 eq 3 ? ' border-blue-500 text-blue-500 hover:border-blue-500 ' : ' text-700 border-transparent '}" 
+                        onclick="rc5([{name:'value', value:3}])">
+                        <i class="pi pi-user mr-2"></i>
+                        <span class="font-medium">Profile</span>
+                    </a>
+                </li>
+                <li class="flex-1">
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center justify-content-center border-bottom-2 hover:border-500 transition-colors transition-duration-150 #{tabsView.activeTab5 eq 4 ? ' border-blue-500 text-blue-500 hover:border-blue-500 ' : ' text-700 border-transparent '}" 
+                        onclick="rc5([{name:'value', value:4}])">
+                        <i class="pi pi-cog mr-2"></i>
+                        <span class="font-medium">Settings</span>
+                    </a>
+                </li>
+            </ul>
+            <p:remoteCommand name="rc5" update="@form" action="#{tabsView.changeTab5}"/>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="Colored Pills" code="#{tabsView.block6}" containerClass="px-3 py-8 md:px-6 lg:px-8" newFeature="true">
+            <ul class="bg-indigo-500 p-2 m-0 list-none flex overflow-x-auto select-none" style="border-radius: 30px">
+                <li class="mr-2">
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center hover:bg-indigo-400 transition-colors transition-duration-150 #{tabsView.activeTab6 eq 0 ? ' bg-white hover:bg-white text-indigo-900 ' : ' text-white '}" 
+                        onclick="rc6([{name:'value', value:0}])" style="border-radius: 30px">
+                        <i class="pi pi-home mr-2"></i>
+                        <span class="font-medium">Overview</span>
+                    </a>
+                </li>
+                <li class="mr-2">
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center hover:bg-indigo-400 transition-colors transition-duration-150 #{tabsView.activeTab6 eq 1 ? ' bg-white hover:bg-white text-indigo-900 ' : ' text-white '}" 
+                        onclick="rc6([{name:'value', value:1}])" style="border-radius: 30px">
+                        <i class="pi pi-users mr-2"></i>
+                        <span class="font-medium">Members</span>
+                    </a>
+                </li>
+                <li class="mr-2">
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center hover:bg-indigo-400 transition-colors transition-duration-150 #{tabsView.activeTab6 eq 2 ? ' bg-white hover:bg-white text-indigo-900 ' : ' text-white '}" 
+                        onclick="rc6([{name:'value', value:2}])" style="border-radius: 30px">
+                        <i class="pi pi-shopping-cart mr-2"></i>
+                        <span class="font-medium">Sales</span>
+                    </a>
+                </li>
+                <li class="mr-2">
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center hover:bg-indigo-400 transition-colors transition-duration-150 #{tabsView.activeTab6 eq 3 ? ' bg-white hover:bg-white text-indigo-900 ' : ' text-white '}" 
+                        onclick="rc6([{name:'value', value:3}])" style="border-radius: 30px">
+                        <i class="pi pi-user mr-2"></i>
+                        <span class="font-medium">Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="cursor-pointer px-4 py-3 flex align-items-center hover:bg-indigo-400 transition-colors transition-duration-150 #{tabsView.activeTab6 eq 4 ? ' bg-white hover:bg-white text-indigo-900 ' : ' text-white '}" 
+                        onclick="rc6([{name:'value', value:4}])" style="border-radius: 30px">
+                        <i class="pi pi-cog mr-2"></i>
+                        <span class="font-medium">Settings</span>
+                    </a>
+                </li>
+            </ul>
+            <p:remoteCommand name="rc6" update="@form" action="#{tabsView.changeTab6}"/>
+        </pb:blockViewer>
+
+    </ui:define>
+
+</ui:composition>

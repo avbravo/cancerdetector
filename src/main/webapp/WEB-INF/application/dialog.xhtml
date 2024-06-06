@@ -1,0 +1,105 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pb="http://xmlns.jcp.org/jsf/composite/primeblocks"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">PrimeBlocks</ui:define>
+
+    <ui:define name="breadcrumb">
+        <li>
+            <div class="chevron">/</div>
+            <h:link outcome="/application">Application</h:link>
+        </li>
+        <li>
+            <div class="chevron">/</div>
+            <h:link outcome="/application/dialog">Dialog</h:link>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="block-category-title">Dialog</div>
+
+        <pb:blockViewer header="Left Aligned Header Icon" code="#{dialogView.block1}"
+                        containerClass="surface-section px-4 py-8 md:px-6 lg:px-8 flex align-items-center justify-content-center">
+            <p:commandButton value="Display" type="button" onclick="PF('dlg1').show()"/>
+
+            <p:dialog widgetVar="dlg1" modal="true" width="40vw" responsive="true" closable="false">
+                <f:facet name="header">
+                    <div class="flex align-items-center">
+                        <span class="flex align-items-center justify-content-center bg-cyan-100 text-cyan-800 mr-3 border-circle"
+                              style="width:32px;height:32px">
+                          <i class="pi pi-info text-lg"/>
+                        </span>
+                        <span class="font-medium text-2xl text-900">Modal Title Placeholder</span>
+                    </div>
+                </f:facet>
+
+                <p class="line-height-3 p-0 m-0">
+                    Sagittis eu volutpat odio facilisis mauris sit amet. Sed velit dignissim sodales ut eu sem integer.
+                    Sed risus pretium quam vulputate. At tellus at urna condimentum mattis pellentesque.
+                </p>
+
+                <f:facet name="footer">
+                    <p:commandButton type="button" value="Cancel" icon="pi pi-times" onclick="PF('dlg1').hide()"
+                                     styleClass="ui-button-flat"/>
+                    <p:commandButton type="button" value="Save" icon="pi pi-check" onclick="PF('dlg1').hide()"/>
+                </f:facet>
+            </p:dialog>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="Centered Header Icon" code="#{dialogView.block2}"
+                        containerClass="surface-section px-4 py-8 md:px-6 lg:px-8 flex align-items-center justify-content-center">
+            <p:commandButton value="Display" type="button" onclick="PF('dlg2').show()"/>
+
+            <p:dialog widgetVar="dlg2" modal="true" width="40vw" responsive="true" closable="false" showHeader="false">
+                <div class="flex flex-column align-items-center my-4">
+                    <span class="flex align-items-center justify-content-center bg-cyan-100 text-cyan-800 mr-3 border-circle mb-3"
+                          style="width:64px;height:64px">
+                        <i class="pi pi-check text-5xl"/>
+                    </span>
+                    <div class="font-medium text-2xl text-900">Modal Title Placeholder</div>
+                </div>
+
+                <p class="line-height-3 p-0 m-0">
+                    Sagittis eu volutpat odio facilisis mauris sit amet. Sed velit dignissim sodales ut eu sem integer.
+                    Sed risus pretium quam vulputate. At tellus at urna condimentum mattis pellentesque.
+                </p>
+
+                <f:facet name="footer">
+                    <div class=" border-top-1 surface-border pt-3 flex">
+                        <p:commandButton type="button" value="Cancel" icon="pi pi-times" onclick="PF('dlg2').hide()"
+                                         styleClass="ui-button-outlined w-6 mr-2"/>
+                        <p:commandButton type="button" value="Save" icon="pi pi-check" onclick="PF('dlg2').hide()"
+                                         styleClass="w-6 ml-2"/>
+                    </div>
+                </f:facet>
+            </p:dialog>
+        </pb:blockViewer>
+
+        <pb:blockViewer header="With Illustration" code="#{dialogView.block3}" newFeature="true"
+                        containerClass="surface-section px-4 py-8 md:px-6 lg:px-8 flex align-items-center justify-content-center">
+            <p:commandButton value="Display" type="button" onclick="PF('dlg3').show()"/>
+            <p:dialog widgetVar="dlg3" modal="true" width="40vw" responsive="true" closable="false">
+                <f:facet name="header">Title Placeholder</f:facet>
+                <div class="flex flex-wrap border-top-1 surface-border pt-4">
+                    <div class="bg-blue-50 flex align-items-center justify-content-center py-3 px-0 w-full md:w-4 border-round">
+                        <p:graphicImage name="images/blocks/illustration/security.svg" library="primeblocks-app" alt="Image" styleClass="w-9"/>
+                    </div>
+                    <p class="text-700 line-height-3 m-0 p-5 w-full md:w-8">
+                        Sagittis eu volutpat odio facilisis mauris sit amet. Sed velit dignissim sodales ut eu sem integer. Sed risus pretium quam vulputate. At tellus at urna condimentum mattis pellentesque.
+                    </p>
+                </div>
+                <f:facet name="footer">
+                    <div class=" border-top-1 surface-border pt-3">
+                        <p:commandButton type="button" value="Cancel" icon="pi pi-times" onclick="PF('dlg3').hide()" styleClass="ui-button-flat"/>
+                        <p:commandButton type="button" value="Save" icon="pi pi-check" onclick="PF('dlg3').hide()"/>
+                    </div>
+                </f:facet>
+            </p:dialog>
+        </pb:blockViewer>
+    </ui:define>
+
+</ui:composition>

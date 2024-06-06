@@ -1,0 +1,189 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:role="http://xmlns.jcp.org/jsf/composite/role"
+                xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+
+        <p:commandLink action="chat" value="#{msg['breadcrumb.chat']}">
+        </p:commandLink>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+            <p:growl id="growl"/>
+            <script type="text/javascript">
+                function setDataTableWithPageStart() {
+
+                    widgetVardataTable.getPaginator().setPage(0);
+                }
+            </script>
+<!--            <div class="block-category-title">#{msg['form.role']}</div>-->
+
+            <!--<pb:blockViewerCore header="Sidebar" >-->
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+                <div class="min-h-screen flex flex-column relative flex-auto">
+                    <!--                    <dashboard:top/>-->
+                    <div class="surface-section">
+                        <div class="grid">
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+                                        <label  class="font-bold">#{msg['title.role']}</label>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-10 lg:col-10">
+                                <p:outputPanel id="chatPanel" styleClass="chat-panel">
+                                    <p:outputLabel value="Chat Room" />
+                                    <p:outputPanel id="messages" styleClass="chat-messages">
+                                        <p:outputLabel value="#{chatFaces.chatMessages}" escape="false" />
+                                    </p:outputPanel>
+                                    <p:inputText id="message" value="#{chatFaces.message}" />
+                                    <p:commandButton value="Send" action="#{chatFaces.sendMessage}">
+                                        <p:ajax update="messages" />
+                                    </p:commandButton>
+                                </p:outputPanel>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div> 
+
+                </div>
+            </div>
+
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+            </p:confirmPopup>
+
+
+
+            <p:dialog header="#{msg['dialog.role']}" widgetVar="overlayPanelRole"
+                      
+                   width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true"
+                  >
+            <p:ajax event="close" update=":form:growl" listener="#{roleFaces.handleCloseDialogRefresh}" />
+                <p:outputPanel id="outputPanelRole" style="text-align:center;"  >
+                    <c:if test="${roleFaces.showDialogContent == false}">
+
+
+                        <utilidades:sincronizacionrequeridacontroller onclick="PF('overlayPanelRole').hide()"
+                                                                      message="#{roleFaces.message}"
+                                                                      controller="#{roleFaces}"/>
+                    </c:if>
+                    <c:if test="${roleFaces.showDialogContent == true}">
+                        
+
+
+                        <!--<p:outputLabel  value="#{msg['field.idrole']}: #{roleFaces.roleSelected.idrole}" />-->                           
+                            <div class="grid ui-fluid mt-3 floatlabel-demo">
+                                <div class="col-12 md:col-6">
+                                    <!--                                <div class="field">
+                                                                        <p:outputLabel  value="#{msg['field.role']}: #{roleFaces.roleSelected.role}" />                           
+                                    
+                                                                    </div>-->
+                                    <!--<p:divider/>-->
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:inputText placeholder="#{msg['field.role']}" value="#{roleFaces.roleSelected.role}"  />
+                                            <p:outputLabel for="@previous" value="#{msg['field.role']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+                                    <div class="field">
+                                        <span class="ui-float-label" jsf:rendered="#{roleFaces.buttonNewPressed eq false}">
+
+                                            <p:selectBooleanCheckbox value="#{roleFaces.roleSelected.active}"/> 
+                                            <p:outputLabel for="@previous" value="#{msg['field.active']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+
+
+
+
+                            <div class="flex align-items-center ">
+                                <div class=" border-top-1 surface-border col-6 flex">
+                                    <p:commandButton  title="#{core['button.save']}" icon="pi pi-save"
+                                                      action="#{roleFaces.save(roleFaces.roleSelected)}"
+                                                      update=":form:growl, dataTable"
+                                                      rendered="#{roleFaces.buttonNewPressed}"
+                                                      styleClass="w-6 ml-2"/>
+                                    <p:commandButton  title="#{core['button.update']}" 
+                                                      icon="pi pi-pencil" 
+                                                      rendered="#{roleFaces.buttonNewPressed eq false}"
+                                                      action="#{roleFaces.edit(roleFaces.roleSelected)}"
+                                                      update=":form:growl, dataTable"
+                                                      styleClass="w-6 ml-2"/>
+                                </div>
+
+                                <div class=" border-top-1 surface-border col-6 flex">
+                                    <p:commandButton 
+                                        title="#{core['button.cancel']}" 
+                                        icon="pi pi-times" 
+                                        onclick="PF('overlayPanelRole').hide()"
+                                        update=":form:growl, dataTable"
+                                        styleClass="ui-button-outlined w-6 mr-2 ui-button-danger"
+                                        />
+
+                                </div>
+                            </div>
+                        
+                    </c:if>
+
+                </p:outputPanel>
+                <!--</p:overlayPanel>-->
+            </p:dialog>
+
+
+
+
+
+
+
+
+
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

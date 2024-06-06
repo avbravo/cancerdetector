@@ -1,0 +1,362 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+
+        <c:if test="${estadisticaCierreSprintColaboradorFaces.callerLevel0 eq 'dashboard'}">
+            <p:commandLink action="dashboard" value="#{msg['breadcrumb.dashboard']}">
+            </p:commandLink>
+
+        </c:if>
+        <c:if test="${estadisticaCierreSprintColaboradorFaces.callerLevel0 eq 'proyecto'}">
+            <p:commandLink action="misproyecto" value="#{msg['breadcrumb.misproyecto']}">
+            </p:commandLink>
+
+
+        </c:if>
+
+        <c:if test="${estadisticaCierreSprintColaboradorFaces.callerLevel0 eq 'reportedepartamental'}">
+            <p:commandLink action="reportedepartamental" value="#{msg['breadcrumb.reportedepartamental']}">
+            </p:commandLink>
+
+        </c:if>
+        <c:if test="${estadisticaCierreSprintColaboradorFaces.callerLevel0 eq 'reportecolaboradordepartamental'}">
+            <p:commandLink action="reportecolaboradordepartamental" value="#{msg['breadcrumb.reportecolaboradordepartamental']}">
+            </p:commandLink>
+
+        </c:if>
+        <i class="pi pi-angle-right"></i>
+        <p:commandLink action="estadisticacierresprintcolaborador" value="#{msg['breadcrumb.estadisticacierresprintcolaborador']}">
+        </p:commandLink>
+
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+            <p:growl id="growl"/>
+            <script type="text/javascript">
+                function setDataTableWithPageStart() {
+
+                    widgetVardataTable.getPaginator().setPage(0);
+                }
+            </script>
+<!--            <div class="block-category-title">#{msg['form.estadisticacierresprintcolaborador']}</div>-->
+
+            <!--<pb:blockViewerCore header="Sidebar" >-->
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+                <div class="min-h-screen flex flex-column relative flex-auto">
+                    <!--                    <dashboard:top/>-->
+
+                    <div class="surface-section , jmoordbcore-max-width2000">
+                        <div class="grid">
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+                                        <label  class="font-bold">#{msg['form.estadisticacierresprintcolaborador']}</label>
+
+                                    </div>
+                                    <div class="field mb-4 col-8">
+                                        <label for="proyecto" class="font-medium">#{msg['field.proyecto']}: #{estadisticaCierreSprintColaboradorFaces.proyectoSelected.proyecto}</label>
+
+                                    </div>
+
+                                    <div class="field mb-4 col-6">
+                                        <label  class="font-medium">#{msg['field.fechainicial']}: #{estadisticaCierreSprintColaboradorFaces.showDateWithHour(estadisticaCierreSprintColaboradorFaces.proyectoSelected.fechainicial)}</label>
+                                    </div>
+                                    <div class="field mb-4 col-6">
+                                        <label  class="font-medium">#{msg['field.fechafinal']}: #{estadisticaCierreSprintColaboradorFaces.showDateWithHour(estadisticaCierreSprintColaboradorFaces.proyectoSelected.fechafinal)}</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 lg:col-12">
+                                <p:dataTable style="border-style: none" var="item" value="#{estadisticaCierreSprintColaboradorFaces.sprintLazyDataModel}"
+                                             binding="#{estadisticaCierreSprintFaces.dataTable}"
+                                             id="dataTable"
+                                             widgetVar="widgetVardataTable"                                            
+                                             paginator="true"
+                                             rows="#{estadisticaCierreSprintColaboradorFaces.rowPageSmall.get()}"
+                                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                             paginatorPosition="both"
+                                          resizableColumns="true" liveResize="true"
+
+                                             rowKey="#{item.idsprint}"
+
+
+
+                                             >
+
+                                    <p:column class="column2">
+                                        <p:rowToggler/>
+                                    </p:column>            
+
+
+
+
+
+                                    <p:column class="column4" headerText="#{msg['field.sprint']}" sortable="true" sortBy="#{item.sprint}">
+                                        <p:outputLabel value="#{item.sprint}" style="float:left"/>
+
+                                    </p:column>
+
+
+                                    <p:column class="column8" headerText="#{msg['label.pendiente']}">
+                                        <p:outputLabel value="#{item.estadisticaCierre.pendiente}" style="float:left"/>
+
+                                    </p:column>
+                                    <p:column class="column8" headerText="#{msg['label.progreso']}">
+                                        <p:outputLabel value="#{item.estadisticaCierre.progreso}" style="float:left"/>
+
+                                    </p:column>
+                                    <p:column class="column8" headerText="#{msg['label.finalizado']}">
+                                        <p:outputLabel value="#{item.estadisticaCierre.finalizado}" style="float:left"/>
+
+                                    </p:column>
+
+                                    <p:column class="column8" headerText="#{msg['label.simboloporcentaje']}">
+                                        <p:outputLabel value="#{item.estadisticaCierre.avance}" style="float:left"/>
+
+                                    </p:column>
+                                    <p:column class="columnDate11" headerText="#{msg['field.fechainicial']}">
+                                        <p:outputLabel value="#{estadisticaCierreSprintColaboradorFaces.showDateWithHour(item.fechainicial)}" style="float:left"/>
+
+                                    </p:column>
+                                    <p:column class="columnDate11" headerText="#{msg['field.fechafinal']}" >
+                                        <p:outputLabel value="#{estadisticaCierreSprintColaboradorFaces.showDateWithHour(item.fechafinal)}" style="float:left"/>
+
+                                    </p:column>
+                                    <p:rowExpansion >
+                                        <p:dataTable
+                                            value="#{item.estadisticaCierreColaborador}" var="colaborador"                              
+                                       resizableColumns="true" liveResize="true"
+                                            
+                                            >
+                                            <!--                                            <f:facet name="header">
+                                                                                            <p:outputLabel value="#{msg['datatabletitle.estadisticacolaborador']}"/>
+                                                                                        </f:facet>-->
+
+                                            <p:column class="column10" headerText="#{msg['label.colaborador']}"
+                                                      rendered="#{estadisticaCierreSprintColaboradorFaces.renderedShowColumn(colaborador)}">
+                                                <p:outputLabel value="#{estadisticaCierreSprintColaboradorFaces.showNombreColaborador(colaborador.iduser)}" style="float:left"/>
+                                            </p:column>
+                                            <p:column class="column10" headerText="#{msg['label.pendiente']}"
+                                                      rendered="#{estadisticaCierreSprintColaboradorFaces.renderedShowColumn(colaborador)}" >
+                                                <p:outputLabel value="#{colaborador.pendiente}" style="float:left"/>
+                                            </p:column>
+                                            <p:column class="column10" headerText="#{msg['label.progreso']}"
+                                                      rendered="#{estadisticaCierreSprintColaboradorFaces.renderedShowColumn(colaborador)}">
+                                                <p:outputLabel value="#{colaborador.progreso}" style="float:left"/>
+                                            </p:column>
+                                            <p:column class="column10" headerText="#{msg['label.finalizado']}"
+                                                      rendered="#{estadisticaCierreSprintColaboradorFaces.renderedShowColumn(colaborador)}">
+                                                <p:outputLabel value="#{colaborador.finalizado}" style="float:left"/>
+                                            </p:column>
+                                            <p:column class="column10" headerText="#{msg['label.simboloporcentaje']}"
+                                                      rendered="#{estadisticaCierreSprintColaboradorFaces.renderedShowColumn(colaborador)}">
+                                                <p:outputLabel value="#{colaborador.avance}" style="float:left"/>
+                                            </p:column>
+                                        </p:dataTable>
+
+
+                                    </p:rowExpansion>
+
+
+
+                                    <f:facet name="header">
+                                        <div class="grid mt-12">
+
+                                            <div class="col-2">
+                                                <p:commandButton title="#{core['button.print']}"
+                                                                 icon="pi pi-print"
+                                                                 id="buttonPrint"
+                                                                 process="buttonPrint"
+                                                                 ajax="false"
+                                                                 immediate="true"
+                                                                 rendered="#{estadisticaCierreSprintColaboradorFaces.sprintDataTableList.size() gt 0}"
+                                                                 onclick="this.form.target = '_blank'"
+                                                                 action="#{estadisticaCierreSprintColaboradorFaces.printAll()}"
+                                                                 update=":form:growl"
+                                                                 styleClass="rounded-button ui-button-secondary" 
+                                                                 style="margin-right: .5rem">
+
+                                                </p:commandButton>
+                                            </div>
+                                            <div class="col-2">
+
+
+                                                <p:commandButton  title="#{msg['button.refresh']}" icon="pi pi-refresh" styleClass="rounded-button ui-button-help mr-2"
+                                                                  action="#{estadisticaCierreSprintColaboradorFaces.refresh()}"
+                                                                  process="@this"
+                                                                  update=":form"/>
+                                            </div>
+                                        </div>
+                                    </f:facet>
+                                    <f:facet name="footer">
+                                        <div class="grid mt-12">
+
+                                            <div class="col-12">
+                                                <p:outputLabel value="#{msg['footer.estadisticacierresprint']}"/>
+                                            </div>
+                                        </div>
+                                    </f:facet>
+
+                                </p:dataTable>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div> 
+
+                </div>
+            </div>
+
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+            </p:confirmPopup>
+
+
+
+            <p:dialog header="#{msg['dialog.sprint']}" widgetVar="overlayPanelSprint" 
+                      
+                     width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true"
+                  >
+            <p:ajax event="close" update=":form:growl" listener="#{estadisticaCierreSprintColaboradorFaces.handleCloseDialogRefresh}" />
+                
+
+                    <p:outputPanel id="outputPanelSprint" style="text-align:center;"  >
+                        <c:if test="${estadisticaCierreSprintColaboradorFaces.showDialogContent == false}">
+
+                            <utilidades:sincronizacionrequeridacontroller onclick="PF('overlayPanelSprint').hide()"
+                                                                          message="#{estadisticaCierreSprintColaboradorFaces.message}"
+                                                                          controller="#{estadisticaCierreSprintColaboradorFaces}"
+
+                                                                          />
+
+                        </c:if>
+                        <c:if test="${estadisticaCierreSprintColaboradorFaces.showDialogContent == true}">
+                            <p:outputLabel  value="#{msg['field.sprint']}: #{estadisticaCierreSprintColaboradorFaces.sprintSelected.sprint}" />                           
+                            <div class="grid ui-fluid mt-3 floatlabel-demo">
+                                <div class="col-12 md:col-6">
+                                    <!--                                <div class="field">
+                                                                        <p:outputLabel  value="#{msg['field.sprint']}: #{estadisticaCierreSprintColaboradorFaces.sprintSelected.sprint}" />                           
+                                    
+                                                                    </div>-->
+                                    <!--<p:divider/>-->
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:inputTextarea placeholder="#{msg['field.objetivosprint']}" value="#{estadisticaCierreSprintColaboradorFaces.sprintSelected.descripcion}" rows="5" 
+                                                             autoResize="false"/>
+                                            <p:outputLabel for="@previous" value="#{msg['field.objetivosprint']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-12 md:col-6">
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:datePicker  value="#{estadisticaCierreSprintColaboradorFaces.sprintSelected.fechainicial}" showIcon="true"
+                                                           mindate="#{estadisticaCierreSprintColaboradorFaces.proyectoSelected.fechainicial}"
+                                                           maxdate="#{estadisticaCierreSprintColaboradorFaces.proyectoSelected.fechafinal}"
+                                                           monthNavigator="true" yearNavigator="true"/>
+                                            <p:outputLabel for="@previous" value="#{msg['field.fechainicial']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:datePicker  value="#{estadisticaCierreSprintColaboradorFaces.sprintSelected.fechafinal}" showIcon="true"
+                                                           mindate="#{estadisticaCierreSprintColaboradorFaces.proyectoSelected.fechainicial}"
+                                                           maxdate="#{estadisticaCierreSprintColaboradorFaces.proyectoSelected.fechafinal}"
+                                                           monthNavigator="true" yearNavigator="true"
+                                                           />
+                                            <p:outputLabel for="@previous" value="#{msg['field.fechafinal']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+                            <div class="flex align-items-center ">
+                                <div class=" border-top-1 surface-border col-6 flex">
+                                    <p:commandButton  title="#{core['button.save']}" icon="pi pi-save"
+                                                      action="#{estadisticaCierreSprintColaboradorFaces.saveSprint(estadisticaCierreSprintColaboradorFaces.sprintSelected)}"
+                                                      update=":form:growl, dataTable"
+                                                      process="outputPanelSprint"
+                                                      rendered="#{estadisticaCierreSprintColaboradorFaces.buttonNewPressed}"
+                                                      styleClass="w-6 ml-2"/>
+                                    <p:commandButton  title="#{core['button.update']}" 
+                                                      icon="pi pi-pencil" 
+                                                      process="outputPanelSprint"
+                                                      rendered="#{estadisticaCierreSprintColaboradorFaces.buttonNewPressed eq false}"
+                                                      action="#{estadisticaCierreSprintColaboradorFaces.editSprint(estadisticaCierreSprintColaboradorFaces.sprintSelected)}"
+                                                      update=":form:growl, dataTable"
+                                                      styleClass="w-6 ml-2"/>
+                                </div>
+
+                                <div class=" border-top-1 surface-border col-6 flex">
+                                    <p:commandButton 
+                                        title="#{core['button.cancel']}" 
+                                        icon="pi pi-times" 
+                                        onclick="PF('overlayPanelSprint').hide()"
+                                        update=":form:growl, dataTable"
+                                        styleClass="ui-button-outlined w-6 mr-2 ui-button-danger"
+                                        />
+
+                                </div>
+                            </div>
+                        </c:if>
+
+                    </p:outputPanel>
+                    <!--</p:overlayPanel>-->
+
+    
+            </p:dialog>
+
+
+
+
+
+
+
+
+
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,335 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:district="http://xmlns.jcp.org/jsf/composite/district"
+                xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+
+        <p:commandLink action="district" value="#{msg['breadcrumb.district']}">
+        </p:commandLink>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('DEVELOPERS,SUPER-USER,DIRECTOR')}">
+            <p:growl id="growl"/>
+            <script type="text/javascript">
+                function setDataTableWithPageStart() {
+
+                    widgetVardataTable.getPaginator().setPage(0);
+                }
+            </script>
+<!--            <div class="block-category-title">#{msg['form.district']}</div>-->
+
+            <!--<pb:blockViewerCore header="Sidebar" >-->
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+                <div class="min-h-screen flex flex-column relative flex-auto">
+                    <!--                    <dashboard:top/>-->
+                    <div class="surface-section , jmoordbcore-max-width2000">
+                        <div class="grid">
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+                                        <label  class="font-bold">#{msg['label.district']}</label>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+
+
+                                    </div>
+                                </div>
+                                <div class="field mb-4 col-8">
+                                    <div class="field">
+                                        <p:outputLabel  value="#{msg['field.district']}" />
+                                        <!--<span class="ui-float-label">-->
+                                        <p:autoComplete id="district" multiple="false" value="#{districtFaces.districtSelectedAutocomplete}"
+                                                        completeMethod="#{districtFaces.completeDistrict}"
+                                                        var="district"
+                                                        itemLabel="#{district.district}" 
+                                                        itemValue="#{district}"
+                                                        forceSelection="true"
+                                                        title="#{msg['autocomplete.minimo3caracteres']}"
+                                                        dropdown="true"
+                                                        minQueryLength="3"
+                                                        scrollHeight="250"
+
+                                                        converter="#{districtConverter}"
+                                                        >
+                                            <p:column>
+                                                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{district.district} - #{district.province.province}"/>
+                                            </p:column>
+                                            <p:ajax event="itemSelect"   listener="#{districtFaces.autocompleteSelectedEvent}"  update=":form:growl, district, dataTable" />  
+                                            <p:ajax event="itemUnselect"  process="@this" listener="#{districtFaces.autocompleteUnselectListener}" update=":form:growl, district, dataTable" />
+                                        </p:autoComplete>
+
+                                        <p:message for="@previous" />
+
+
+                                        <!--</span>-->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 lg:col-12">
+                                <p:dataTable style="border-style: none" var="item" value="#{districtFaces.districtLazyDataModel}"
+                                             binding="#{districtFaces.dataTable}"
+                                             id="dataTable"
+                                             widgetVar="widgetVardataTable"
+                                             lazy="true"
+                                             paginator="true"
+                                             rows="#{districtFaces.rowPageSmall.get()}"
+                                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                             paginatorPosition="both"
+                                             resizableColumns="true" liveResize="true"
+
+                                             rowKey="#{item.iddistrict}"
+                                             selection="#{districtFaces.districtSelected}"
+                                             rowSelectMode="add"
+                                             >
+
+
+                                    <p:column class="column10" headerText="#{msg['field.iddistrict']}" >
+                                        <p:outputLabel value="#{item.iddistrict}" style="float:left"/>
+
+                                    </p:column>
+
+
+                                    <p:column class="column10" headerText="#{msg['field.district']}" >
+                                        <p:outputLabel value="#{item.district}" style="float:left"/>
+
+                                    </p:column>
+                                    <p:column class="column10" headerText="#{msg['field.province']}" >
+                                        <p:outputLabel value="#{item.province.province}" style="float:left"/>
+
+                                    </p:column>
+                                    <p:column class="column3" headerText="#{msg['field.active']}" >                                     
+                                        <p:selectBooleanCheckbox value="#{item.active}" disabled="true" style="float:left"/> 
+                                    </p:column>
+
+
+                                    <p:column class="column2" exportable="false">
+                                        <p:menuButton  icon="pi pi-ellipsis-v" buttonStyleClass="ui-button-flat ui-button-plain rounded-button" >
+
+                                            <p:menuitem 
+                                                icon="pi pi-pencil" 
+
+                                                value="#{core['button.update']}"
+                                                update=":form:growl, outputPanelDistrict"
+                                                oncomplete="PF('overlayPanelDistrict').show('#{component.clientId}')"
+                                                action="#{districtFaces.prepareDistrict(item)}"
+                                                styleClass="edit-button rounded-button ui-button-success" process="@this"/>       
+
+
+
+
+                                        </p:menuButton>
+                                    </p:column>
+
+
+
+
+
+                                    <f:facet name="header">
+                                        <div class="grid mt-12">
+                                            <div class="col-2">
+                                                <p:commandButton 
+                                                    title="#{core['button.add']}" 
+                                                    rendered="#{districtFaces.isEditable}"
+                                                    update=":form:growl, outputPanelDistrict"
+                                                    icon="pi pi-plus-circle" styleClass="rounded-button mr-2 ui-button-summary"
+                                                    oncomplete="PF('overlayPanelDistrict').show('#{component.clientId}')"
+                                                    action="#{districtFaces.agregarRowDistrict()}" />
+
+                                            </div>
+                                            <div class="col-2">
+                                                <p:commandButton title="#{core['button.print']}"
+                                                                 icon="pi pi-print"
+                                                                 id="buttonPrint"
+                                                                 process="buttonPrint"
+                                                                 ajax="false"
+                                                                 immediate="true"
+                                                                 onclick="this.form.target = '_blank'"
+                                                                 action="#{districtFaces.printAll()}"
+                                                                 update=":form:growl"
+                                                                 styleClass="rounded-button ui-button-secondary" 
+                                                                 style="margin-right: .5rem">
+
+                                                </p:commandButton>
+                                            </div>
+                                            <div class="col-2">
+
+
+                                                <p:commandButton  title="#{msg['button.refresh']}" icon="pi pi-refresh" styleClass="rounded-button ui-button-help mr-2"
+                                                                  action="#{districtFaces.refresh()}"
+                                                                  process="@this"
+                                                                  update=":form:growl, dataTable"/>
+                                            </div>
+                                        </div>
+                                    </f:facet>
+
+                                </p:dataTable>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div> 
+
+                </div>
+            </div>
+
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+            </p:confirmPopup>
+
+
+
+            
+            <p:dialog header="#{msg['dialog.district']}" widgetVar="overlayPanelDistrict" 
+                       width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true"
+                  >
+            <p:ajax event="close" update=":form:growl" listener="#{districtFaces.handleCloseDialogRefresh}" />
+                <p:outputPanel id="outputPanelDistrict" style="text-align:center;"  >
+                    <c:if test="${districtFaces.showDialogContent == false}">
+
+
+                        <utilidades:sincronizacionrequeridacontroller onclick="PF('overlayPanelDistrict').hide()"
+                                                                      message="#{districtFaces.message}"
+                                                                      controller="#{districtFaces}"
+                                                                      />
+                    </c:if>
+                    <c:if test="${districtFaces.showDialogContent == true}">
+                        
+                        <!--<p:outputLabel  value="#{msg['field.iddistrict']}: #{districtFaces.districtSelected.iddistrict}" />-->                           
+                            <div class="grid ui-fluid mt-3 floatlabel-demo">
+                                <div class="col-12 md:col-12">
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:selectOneMenu  value="#{districtFaces.districtSelected.province}"
+                                                              var="item" autoWidth="false">
+                                                <f:selectItems value="#{provinceConverterServices.provinces}"  var="item" 
+                                                               itemLabel="#{item.province}"
+                                                               itemValue="#{item}" />
+                                                <p:column>#{item.province} 
+                                                </p:column>
+
+
+                                            </p:selectOneMenu>
+
+                                            <p:outputLabel for="@previous" value="#{msg['field.province']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+
+
+
+
+                                   
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:inputText value="#{districtFaces.districtSelected.district}"  />
+                                            <p:outputLabel for="@previous" value="#{msg['field.district']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+                                    <div class="field">
+                                        <span class="ui-float-label" jsf:rendered="#{districtFaces.buttonNewPressed eq false}">
+
+                                            <p:selectBooleanCheckbox value="#{districtFaces.districtSelected.active}"/> 
+                                            <p:outputLabel for="@previous" value="#{msg['field.active']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+
+
+
+
+                            <div class="flex align-items-center ">
+                                <div class=" border-top-1 surface-border col-6 flex">
+                                    <p:commandButton  title="#{core['button.save']}" icon="pi pi-save"
+                                                      action="#{districtFaces.save(districtFaces.districtSelected)}"
+                                                      update=":form:growl, dataTable"
+                                                      rendered="#{districtFaces.buttonNewPressed}"
+                                                      process="outputPanelDistrict"
+                                                      styleClass="w-6 ml-2"/>
+                                    
+                                    <p:commandButton  title="#{core['button.update']}" 
+                                                      icon="pi pi-pencil" 
+                                                      rendered="#{districtFaces.buttonNewPressed eq false}"
+                                                      action="#{districtFaces.edit(districtFaces.districtSelected)}"
+                                                      update=":form:growl, dataTable"
+                                                      process="outputPanelDistrict"
+                                                      styleClass="w-6 ml-2"/>
+                                </div>
+
+                                <div class=" border-top-1 surface-border col-6 flex">
+                                    <p:commandButton 
+                                        title="#{core['button.cancel']}" 
+                                        icon="pi pi-times" 
+                                        onclick="PF('overlayPanelDistrict').hide()"
+                                        update=":form:growl, dataTable"
+                                        styleClass="ui-button-outlined w-6 mr-2 ui-button-danger"
+                                        />
+
+                                </div>
+                            </div>
+                        
+                    </c:if>
+
+                </p:outputPanel>
+                <!--</p:overlayPanel>-->
+            </p:dialog>
+
+
+
+
+
+
+
+
+
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('DEVELOPERS,SUPER-USER')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

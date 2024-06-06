@@ -1,0 +1,152 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:tablero="http://xmlns.jcp.org/jsf/composite/tablero"
+                xmlns:sprint="http://xmlns.jcp.org/jsf/composite/sprint"
+                xmlns:dialogo="http://xmlns.jcp.org/jsf/composite/dialogo">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+        <c:if test="${graficaLogrosInteractive.callerLevel0 eq 'dashboard'}">
+            <p:commandLink action="dashboard" value="#{msg['breadcrumb.dashboard']}">
+            </p:commandLink>
+        </c:if>
+        <c:if test="${graficaLogrosInteractive.callerLevel0 eq 'proyecto'}">
+            <p:commandLink action="misproyecto" value="#{msg['breadcrumb.misproyecto']}">
+            </p:commandLink>
+        </c:if>
+
+        <c:if test="${graficaLogrosInteractive.callerLevel0 eq 'reportedepartamental'}">
+            <p:commandLink action="reportedepartamental" value="#{msg['breadcrumb.reportedepartamental']}">
+            </p:commandLink>
+        </c:if>
+        <c:if test="${graficaLogrosInteractive.callerLevel0 eq 'reportecolaboradordepartamental'}">
+            <p:commandLink action="reportecolaboradordepartamental" value="#{msg['breadcrumb.reportecolaboradordepartamental']}">
+            </p:commandLink>
+        </c:if>
+
+        <c:if test="${graficaLogrosInteractive.callerLevel1 eq 'tablero'}">
+            <p:commandLink action="tablero" value="#{core['breadcrumb.tablero']}">
+            </p:commandLink>
+        </c:if>
+
+        <c:if test="${graficaLogrosInteractive.callerLevel1 eq 'sprint'}">
+            <p:commandLink action="sprint" value="#{msg['breadcrumb.sprint']}">
+            </p:commandLink>
+
+
+        </c:if>
+        <i class="pi pi-angle-right"></i>
+        <p:commandLink action="graficalogros" value="#{msg['breadcrumb.graficalogros']}">
+        </p:commandLink>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+            <p:growl id="growl"/>
+            <script type="text/javascript">
+                function setDataTableWithPageStart() {
+
+                    widgetVardataTable.getPaginator().setPage(0);
+                }
+            </script>
+<!--            <div class="block-category-title">#{msg['form.logros']}</div>-->
+
+            <!--<pb:blockViewerCore header="Sidebar" >-->
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+                <div class="min-h-screen flex flex-column relative flex-auto">
+                    <!--                    <dashboard:top/>-->
+                    <div class="surface-section jmoordbcore-max-width2000">
+                        <div class="grid">
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+                                        <label  class="font-bold">#{msg['label.logros']}</label>
+
+                                    </div>
+                                    <div class="field mb-4 col-8">
+                                        <label for="proyecto" class="font-medium">#{msg['field.proyecto']}: #{graficaLogrosInteractive.proyectoSelected.proyecto}</label>
+
+                                    </div>
+
+                                    <div class="field mb-4 col-6">
+                                        <label  class="font-medium">#{msg['field.fechainicial']}: #{graficaLogrosInteractive.showDateWithHour(graficaLogrosInteractive.proyectoSelected.fechainicial)}</label>
+                                    </div>
+                                    <div class="field mb-4 col-6">
+                                        <label  class="font-medium">#{msg['field.fechafinal']}: #{graficaLogrosInteractive.showDateWithHour(graficaLogrosInteractive.proyectoSelected.fechafinal)}</label>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+                            <c:if test="#{graficaLogrosInteractive.sprintList.size() eq 0}">
+                                <div class="card">
+                                    <div class="grid">
+                                        <div class="col-12 md:col-12">
+                                            <p:staticMessage severity="warn" summary="" 
+                                                             detail="#{graficaLogrosInteractive.message}" style="width: 100%"/>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </c:if>
+
+
+                            <div class="card">
+
+                                <p:barChart 
+                                    model="#{graficaLogrosInteractive.stackedBarModel}" style="width: 100%; height: 500px;"/>
+                            </div>
+
+
+
+                        </div>
+                        <!--</div>-->
+
+
+
+
+
+                    </div> 
+
+                </div>
+            </div>
+
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+            </p:confirmPopup>
+
+
+
+
+
+
+
+
+
+
+
+
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

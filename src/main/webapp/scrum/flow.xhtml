@@ -1,0 +1,263 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:tablero="http://xmlns.jcp.org/jsf/composite/tablero"
+                xmlns:sprint="http://xmlns.jcp.org/jsf/composite/sprint"
+                xmlns:dialogo="http://xmlns.jcp.org/jsf/composite/dialogo">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+        <c:if test="${graficaLogros.callerLevel0 eq 'dashboard'}">
+            <p:commandLink action="dashboard" value="#{msg['breadcrumb.dashboard']}">
+            </p:commandLink>
+        </c:if>
+        <c:if test="${graficaLogros.callerLevel0 eq 'proyecto'}">
+            <p:commandLink action="misproyecto" value="#{msg['breadcrumb.misproyecto']}">
+            </p:commandLink>
+        </c:if>
+        <c:if test="${graficaLogros.callerLevel1 eq 'tablero'}">
+            <p:commandLink action="tablero" value="#{core['breadcrumb.tablero']}">
+            </p:commandLink>
+        </c:if>
+
+        <c:if test="${graficaLogros.callerLevel1 eq 'sprint'}">
+            <p:commandLink action="sprint" value="#{msg['breadcrumb.sprint']}">
+            </p:commandLink>
+
+
+        </c:if>
+        <i class="pi pi-angle-right"></i>
+        <p:commandLink action="flow" value="#{msg['breadcrumb.flow']}">
+        </p:commandLink>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+            <style>
+                .ui-diagram-element {
+                    width: 14em;
+                    height: 4em;
+                    line-height: 4em;
+                    text-align: center;
+                    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+                    border-radius: 4px;
+                    border: 1px solid #646D7E;
+                    background-color: #646D7E;
+                    color: #ffffff;
+                }
+
+                .ui-diagram-element:hover {
+                    background-color: #828B9C;
+                }
+
+                .start-node {
+                    width: 4em;
+                    border-radius: 6px;
+                    background-color: #000000 !important;
+                }
+
+                .flow-label {
+                    color: #464F60;
+                    font-size: 18px;
+                    font-weight: bold;
+                }
+            </style>
+            <style>
+                .ui-diagram-element {
+                    border: 0.1em dotted #E5E4E2;
+                    background-color: #EFEEEC;
+                    width: 10em;
+                    height: 8em;
+                    text-align: center;
+                    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+                    user-select: none;
+                }
+
+                .ui-diagram-element:hover {
+                    background-color: #C7C6C4;
+                }
+            </style>
+            <style>
+                .ui-diagram-element {
+                    border: 0.1em dotted #E5E4E2;
+                    background-color: #646D7E;
+                    width: 10em;
+                    height: 8em;
+                    text-align: center;
+                    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+                    user-select: none;
+                }
+
+                .ui-diagram-element:hover {
+                    background-color: #C7C6C4;
+                }
+            </style>
+            <style>
+                body {
+                    background: #222;
+                    color: #fff;
+                    font-family: 'Arvo', serif;
+                    font-weight: 700;
+                    font-style: italic;
+                }
+                .actor {
+                    stroke-width: 2;
+                    stroke: #fff;
+                    fill: #222;
+                    font-family: 'Arvo', serif;
+                    font-weight: 700;
+                    font-style: italic;
+                }
+                text.actor {
+                    fill: #fff;
+                    stroke: none;
+                }
+                .actor-line {
+                    stroke: #fff;
+                }
+                .messageLine0 {
+                    stroke-width: 1;
+                    marker-end: "url(#arrowhead)";
+                    stroke: #fff;
+                }
+                .messageLine1 {
+                    stroke-width: 1;
+                    stroke-dasharray: "2 2";
+                    stroke: #fff;
+                }
+                #arrowhead {
+                    fill: #fff;
+                }
+                .messageText {
+                    fill: #222;
+                    stroke: #fff;
+                }
+            </style>
+
+
+            <p:growl id="growl"/>
+            <script type="text/javascript">
+                mermaid.initialize({
+                    startOnLoad: true
+                });
+            </script>
+            <script type="text/javascript">
+                function setDataTableWithPageStart() {
+
+                    widgetVardataTable.getPaginator().setPage(0);
+                }
+            </script>
+<!--            <div class="block-category-title">#{msg['form.flow']}</div>-->
+
+            <!--<pb:blockViewerCore header="Sidebar" >-->
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+                <div class="min-h-screen flex flex-column relative flex-auto">
+<!--                    <dashboard:top/>-->
+                    <div class="surface-section">
+                        <div class="grid">
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+                                        <label  class="font-bold">#{msg['label.flow']}</label>
+
+                                    </div>
+                                    <div class="field mb-4 col-8">
+                                        <label for="proyecto" class="font-medium">#{msg['field.proyecto']}: #{graficaLogros.proyectoSelected.proyecto}</label>
+
+                                    </div>
+
+                                    <div class="field mb-4 col-6">
+                                        <label  class="font-medium">#{msg['field.fechainicial']}: #{graficaLogros.showDateWithHour(graficaLogros.proyectoSelected.fechainicial)}</label>
+                                    </div>
+                                    <div class="field mb-4 col-6">
+                                        <label  class="font-medium">#{msg['field.fechafinal']}: #{graficaLogros.showDateWithHour(graficaLogros.proyectoSelected.fechafinal)}</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!--                            <div class="col-12 lg:col-12">
+                            
+                            
+                            
+                                                            <div class="card">
+                            
+                                                                <p:outputLabel value="Hola mundo"/>
+                            
+                                                                <p:diagram value="#{flowFaces.model}" style=" height: 700px;" styleClass="ui-widget-content"/>
+                            
+                                                            </div>
+                            
+                                                        </div>-->
+                        </div>
+                        <!--<div class="col-12 lg:col-12">-->
+
+
+
+                        <div class="card">
+
+
+
+                            <p:diagram value="#{flowFaces.modelEditable}" style="height:600px" styleClass="ui-widget-content"
+                                       var="el">
+                                <f:facet name="element">
+                                    <h:outputText value="#{el.name}" style="display:block;margin-top:1em;"/>
+                                    <p:graphicImage name="demo/images/#{el.image}"/>
+                                </f:facet>
+                                <p:ajax event="connect" listener="#{flowFaces.onConnect}"/>
+                                <p:ajax event="disconnect" listener="#{flowFaces.onDisconnect}"/>
+                                <p:ajax event="connectionChange" listener="#{flowFaces.onConnectionChange}"/>
+                            </p:diagram>
+
+                        </div>
+                  
+
+              
+
+                    </div>
+                    <!--</div>-->
+
+
+
+
+
+                </div> 
+
+            </div>
+
+
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+            </p:confirmPopup>
+
+
+
+
+
+
+
+
+
+
+
+
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

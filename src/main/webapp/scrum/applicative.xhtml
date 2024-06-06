@@ -1,0 +1,565 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:applicative="http://xmlns.jcp.org/jsf/composite/applicative"
+                xmlns:utilidades="http://xmlns.jcp.org/jsf/composite/utilidades">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+
+        <p:commandLink action="applicative" value="#{msg['breadcrumb.applicative']}">
+        </p:commandLink>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('DEVELOPERS,SUPER-USER,DIRECTOR')}">
+            <p:growl id="growl"/>
+            <script type="text/javascript">
+                function setDataTableWithPageStart() {
+
+                    widgetVardataTable.getPaginator().setPage(0);
+                }
+            </script>
+<!--            <div class="block-category-title">#{msg['form.applicative']}</div>-->
+
+            <!--<pb:blockViewerCore header="Sidebar" >-->
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+                <div class="min-h-screen flex flex-column relative flex-auto">
+                    <!--                    <dashboard:top/>-->
+                    <div class="surface-section , jmoordbcore-max-width2000">
+                        <div class="grid">
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+                                        <label  class="font-bold">#{msg['label.applicative']}</label>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-12 lg:col-10">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-12">
+
+
+                                    </div>
+                                </div>
+                                <div class="field mb-4 col-8">
+                                    <div class="field">
+                                        <p:outputLabel  value="#{msg['field.applicative']}" />
+                                        <!--<span class="ui-float-label">-->
+                                        <p:autoComplete id="applicative" multiple="false" value="#{applicativeFaces.applicativeSelectedAutocomplete}"
+                                                        completeMethod="#{applicativeFaces.completeApplicative}"
+                                                        var="applicative" itemLabel="#{applicative.applicative}" 
+                                                        itemValue="#{applicative}"
+                                                        forceSelection="true"
+                                                        title="#{msg['autocomplete.minimo3caracteres']}"
+                                                        dropdown="true"
+                                                        minQueryLength="3"
+                                                        scrollHeight="250"
+
+                                                        converter="#{applicativeConverter}"
+                                                        >
+                                            <p:column>
+                                                <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{applicative.applicative} - #{applicative.central.central}"/>
+                                            </p:column>
+                                            <p:ajax event="itemSelect"   listener="#{applicativeFaces.autocompleteSelectedEvent}"  update=":form:growl, applicative, dataTable" />  
+                                            <p:ajax event="itemUnselect"  process="@this" listener="#{applicativeFaces.autocompleteUnselectListener}" update=":form:growl, applicative, dataTable" />
+                                        </p:autoComplete>
+
+                                        <p:message for="@previous" />
+
+
+                                        <!--</span>-->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 lg:col-12">
+                                <p:dataTable style="border-style: none" var="item" value="#{applicativeFaces.applicativeLazyDataModel}"
+                                             binding="#{applicativeFaces.dataTable}"
+                                             id="dataTable"
+                                             widgetVar="widgetVardataTable"
+                                             lazy="true"
+                                             paginator="true"
+                                             rows="#{applicativeFaces.rowPageSmall.get()}"
+                                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                             paginatorPosition="both"
+                                             resizableColumns="true" liveResize="true"
+
+                                             rowKey="#{item.idapplicative}"
+                                             selection="#{applicativeFaces.applicativeSelected}"
+                                             rowSelectMode="add"
+                                             >
+
+                                    <p:column class="column1">
+                                        <p:rowToggler/>
+                                    </p:column>
+                                    <p:column class="column10" headerText="#{msg['field.idapplicative']}" >
+                                        <p:outputLabel value="#{item.idapplicative}" style="float:left"/>
+
+                                    </p:column>
+
+
+                                    <p:column class="column10" headerText="#{msg['field.applicative']}" >
+                                        <p:outputLabel value="#{item.applicative}" style="float:left"/>
+
+                                    </p:column>
+                                    <p:column class="column10" headerText="#{msg['field.shortname']}" >
+                                        <p:outputLabel value="#{item.shortname}" style="float:left"/>
+
+                                    </p:column>
+                                    <p:column class="column10" headerText="#{msg['field.description']}" >
+                                        <p:outputLabel value="#{item.description}" style="float:left"/>
+
+                                    </p:column>
+                                    <p:column class="column10" headerText="#{msg['field.image']}" >
+                                        <p:outputLabel value="#{item.image}" style="float:left"/>
+
+                                    </p:column>
+                                    <p:column class="column10" headerText="#{msg['field.path']}" >
+                                        <p:outputLabel value="#{item.path}" style="float:left"/>
+
+                                    </p:column>
+                                    <p:column class="column3" headerText="#{msg['field.active']}" >                                     
+                                        <p:selectBooleanCheckbox value="#{item.active}" disabled="true" style="float:left"/> 
+                                    </p:column>
+
+
+                                    <p:column class="column2" exportable="false">
+                                        <p:menuButton  icon="pi pi-ellipsis-v" buttonStyleClass="ui-button-flat ui-button-plain rounded-button" >
+
+                                            <p:menuitem 
+                                                icon="pi pi-pencil" 
+
+                                                value="#{core['button.update']}"
+                                                update=":form:growl, outputPanelApplicative"
+                                                oncomplete="PF('overlayPanelApplicative').show('#{component.clientId}')"
+                                                action="#{applicativeFaces.prepareApplicative(item)}"
+                                                styleClass="edit-button rounded-button ui-button-success" process="@this"/>       
+
+
+
+
+                                        </p:menuButton>
+                                    </p:column>
+
+                                    <p:rowExpansion>
+
+                                        <div class="card">
+                                            <h4><p:outputLabel value="#{msg['header.applicativerole']}"/></h4>
+                                            <p:carousel var="applicativerole" value="#{item.applicativerole}" 
+                                                        paginator="true"
+                                                        numVisible="3" numScroll="3"
+                                                        orientation="horizontal"
+                                                        >
+                                                <div class="flex align-items-center flex-wrap text-sm">
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{msg['field.role']}"/>
+                                                    </div>
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{applicativeFaces.findByIdrole(applicativerole.idrole).role}" style="float:left; font-style: italic"/>
+
+                                                    </div>
+                                                </div>
+                                                <div class="flex align-items-center flex-wrap text-sm">
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{msg['field.path']}"/>
+                                                    </div>
+
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{applicativeFaces.cutText(applicativerole.path,applicativeFaces.mediumSizeOfTextForCut.get())}"/>
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="flex align-items-center flex-wrap text-sm">
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{msg['field.active']}"/>
+                                                    </div>
+
+                                                    <div class="mr-5 mt-5">
+                                                        <p:selectBooleanCheckbox   value="#{applicativerole.active}" style="float:left" disabled="true" />
+                                                    </div>
+                                                </div>
+
+
+
+                                            </p:carousel>
+
+
+                                        </div>
+
+
+
+
+
+                                        <div class="card">
+                                            <h4><p:outputLabel value="#{msg['header.emailconfiguration']}"/></h4>
+                                            <p:carousel var="emailconfiguration" value="#{item.emailconfiguration}" 
+                                                        paginator="true"
+                                                        numVisible="3" numScroll="3"
+                                                        orientation="horizontal"
+                                                        >
+                                                <div class="flex align-items-center flex-wrap text-sm">
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{msg['field.email']}"/>
+                                                    </div>
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{emailconfiguration.email}" style="float:left; font-style: italic"/>
+
+                                                    </div>
+                                                </div>
+                                                <div class="flex align-items-center flex-wrap text-sm">
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{msg['field.mailSmtpHost']}"/>
+                                                    </div>
+
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{emailconfiguration.mailSmtpHost}" style="float:left; font-style: italic"/>
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="flex align-items-center flex-wrap text-sm">
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{msg['field.mailSmtpAuth']}"/>
+                                                    </div>
+
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{emailconfiguration.mailSmtpAuth}" style="float:left; font-style: italic"/>
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="flex align-items-center flex-wrap text-sm">
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{msg['field.mailSmtpStarttlsEnable']}"/>
+                                                    </div>
+
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{emailconfiguration.mailSmtpStarttlsEnable}" style="float:left; font-style: italic"/>
+
+                                                    </div>
+
+                                                </div>
+
+
+
+                                                <div class="flex align-items-center flex-wrap text-sm">
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{msg['field.active']}"/>
+                                                    </div>
+
+                                                    <div class="mr-5 mt-5">
+                                                        <p:selectBooleanCheckbox   value="#{emailconfiguration.active}" style="float:left" disabled="true" />
+                                                    </div>
+                                                </div>
+
+
+
+                                            </p:carousel>
+
+
+                                        </div>
+
+                                        <div class="card">
+                                            <h4><p:outputLabel value="#{msg['header.applicativeprivilege']}"/></h4>
+                                            <p:carousel var="applicativeprivilege" value="#{item.applicativeprivilege}" 
+                                                        paginator="true"
+                                                        numVisible="3" numScroll="3"
+                                                        orientation="horizontal"
+                                                        >
+                                                <div class="flex align-items-center flex-wrap text-sm">
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{msg['field.role']}"/>
+                                                    </div>
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{applicativeFaces.findByIdrole(applicativeprivilege.idrole).role}" style="float:left; font-style: italic"/>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="flex align-items-center flex-wrap text-sm">
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{msg['field.event']}"/>
+                                                    </div>
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{applicativeprivilege.event}" style="float:left; font-style: italic"/>
+
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="flex align-items-center flex-wrap text-sm">
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{msg['field.create']}"/>
+                                                    </div>
+
+                                                    <div class="mr-5 mt-5">
+                                                        <p:selectBooleanCheckbox   value="#{applicativeprivilege.create}" style="float:left" disabled="true" />
+                                                    </div>
+                                                </div>
+                                                <div class="flex align-items-center flex-wrap text-sm">
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{msg['field.read']}"/>
+                                                    </div>
+
+                                                    <div class="mr-5 mt-5">
+                                                        <p:selectBooleanCheckbox   value="#{applicativeprivilege.read}" style="float:left" disabled="true" />
+                                                    </div>
+                                                </div>
+                                                <div class="flex align-items-center flex-wrap text-sm">
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{msg['field.update']}"/>
+                                                    </div>
+
+                                                    <div class="mr-5 mt-5">
+                                                        <p:selectBooleanCheckbox   value="#{applicativeprivilege.update}" style="float:left" disabled="true" />
+                                                    </div>
+                                                </div>
+                                                <div class="flex align-items-center flex-wrap text-sm">
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{msg['field.delete']}"/>
+                                                    </div>
+
+                                                    <div class="mr-5 mt-5">
+                                                        <p:selectBooleanCheckbox   value="#{applicativeprivilege.delete}" style="float:left" disabled="true" />
+                                                    </div>
+                                                </div>
+
+
+
+
+                                                <div class="flex align-items-center flex-wrap text-sm">
+                                                    <div class="mr-5 mt-5">
+                                                        <p:outputLabel value="#{msg['field.active']}"/>
+                                                    </div>
+
+                                                    <div class="mr-5 mt-5">
+                                                        <p:selectBooleanCheckbox   value="#{applicativeprivilege.active}" style="float:left" disabled="true" />
+                                                    </div>
+                                                </div>
+
+
+
+                                            </p:carousel>
+
+
+                                        </div>
+                                    </p:rowExpansion>
+
+
+
+                                    <f:facet name="header">
+                                        <div class="grid mt-12">
+                                            <div class="col-2">
+                                                <p:commandButton 
+                                                    title="#{core['button.add']}" 
+                                                    rendered="#{applicativeFaces.isEditable}"
+                                                    update=":form:growl, outputPanelApplicative"
+                                                    icon="pi pi-plus-circle" styleClass="rounded-button mr-2 ui-button-summary"
+                                                    oncomplete="PF('overlayPanelApplicative').show('#{component.clientId}')"
+                                                    action="#{applicativeFaces.agregarRowApplicative()}" />
+
+                                            </div>
+                                            <div class="col-2">
+                                                <p:commandButton title="#{core['button.print']}"
+                                                                 icon="pi pi-print"
+                                                                 id="buttonPrint"
+                                                                 process="buttonPrint"
+                                                                 ajax="false"
+                                                                 immediate="true"
+                                                                 onclick="this.form.target = '_blank'"
+                                                                 action="#{applicativeFaces.printAll()}"
+                                                                 update=":form:growl"
+                                                                 styleClass="rounded-button ui-button-secondary" 
+                                                                 style="margin-right: .5rem">
+
+                                                </p:commandButton>
+                                            </div>
+                                            <div class="col-2">
+
+
+                                                <p:commandButton  title="#{msg['button.refresh']}" icon="pi pi-refresh" styleClass="rounded-button ui-button-help mr-2"
+                                                                  action="#{applicativeFaces.refresh()}"
+                                                                  process="@this"
+                                                                  update=":form:growl, dataTable"/>
+                                            </div>
+                                        </div>
+                                    </f:facet>
+
+                                </p:dataTable>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div> 
+
+                </div>
+            </div>
+
+            <p:confirmPopup global="true">
+                <p:commandButton value="#{core['button.no']}" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                <p:commandButton value="#{core['button.yes']}" type="button" styleClass="ui-confirm-popup-yes" />
+            </p:confirmPopup>
+
+
+
+
+            <p:dialog header="#{msg['dialog.applicative']}" widgetVar="overlayPanelApplicative" 
+                      
+                width="50vw" 
+                  responsive="true"
+                  showEffect="fade" 
+                  modal="true" 
+                  closable="true"
+                  resizable="true"
+                  maximizable="true"
+                  minimizable="true"
+                  >
+            <p:ajax event="close" update=":form:growl" listener="#{applicativeFaces.handleCloseDialogRefresh}" />
+                
+                <p:outputPanel id="outputPanelApplicative" style="text-align:center;"  >
+                    <c:if test="${applicativeFaces.showDialogContent == false}">
+
+
+                        <utilidades:sincronizacionrequeridacontroller onclick="PF('overlayPanelApplicative').hide()"
+                                                                      message="#{applicativeFaces.message}"
+                                                                      controller="#{applicativeFaces}"
+                                                                      />
+                    </c:if>
+                    <c:if test="${applicativeFaces.showDialogContent == true}">
+                       
+                        <!--<p:outputLabel  value="#{msg['field.idapplicative']}: #{applicativeFaces.applicativeSelected.idapplicative}" />-->                           
+                            <div class="grid ui-fluid mt-3 floatlabel-demo">
+                                <div class="col-12 md:col-12">
+
+
+
+
+
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:inputText value="#{applicativeFaces.applicativeSelected.applicative}"  />
+                                            <p:outputLabel for="@previous" value="#{msg['field.applicative']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:inputText value="#{applicativeFaces.applicativeSelected.description}"  />
+                                            <p:outputLabel for="@previous" value="#{msg['field.description']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:inputText value="#{applicativeFaces.applicativeSelected.shortname}"  />
+                                            <p:outputLabel for="@previous" value="#{msg['field.shortname']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:inputText value="#{applicativeFaces.applicativeSelected.image}"  />
+                                            <p:outputLabel for="@previous" value="#{msg['field.image']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+                                    <div class="field">
+                                        <span class="ui-float-label">
+                                            <p:inputText value="#{applicativeFaces.applicativeSelected.path}"  />
+                                            <p:outputLabel for="@previous" value="#{msg['field.path']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+                                    <div class="field">
+                                        <span class="ui-float-label" jsf:rendered="#{applicativeFaces.buttonNewPressed eq false}">
+
+                                            <p:selectBooleanCheckbox value="#{applicativeFaces.applicativeSelected.active}"/> 
+                                            <p:outputLabel for="@previous" value="#{msg['field.active']}" />
+                                            <p:message for="@previous" />
+                                        </span>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+
+
+
+
+                            <div class="flex align-items-center ">
+                                <div class=" border-top-1 surface-border col-6 flex">
+                                    <p:commandButton  title="#{core['button.save']}" icon="pi pi-save"
+                                                      action="#{applicativeFaces.save(applicativeFaces.applicativeSelected)}"
+                                                      update=":form:growl, dataTable"
+                                                      rendered="#{applicativeFaces.buttonNewPressed}"
+                                                      process="outputPanelApplicative"
+                                                      styleClass="w-6 ml-2"/>
+
+                                    <p:commandButton  title="#{core['button.update']}" 
+                                                      icon="pi pi-pencil" 
+                                                      rendered="#{applicativeFaces.buttonNewPressed eq false}"
+                                                      action="#{applicativeFaces.edit(applicativeFaces.applicativeSelected)}"
+                                                      update=":form:growl, dataTable"
+                                                      process="outputPanelApplicative"
+                                                      styleClass="w-6 ml-2"/>
+                                </div>
+
+                                <div class=" border-top-1 surface-border col-6 flex">
+                                    <p:commandButton 
+                                        title="#{core['button.cancel']}" 
+                                        icon="pi pi-times" 
+                                        onclick="PF('overlayPanelApplicative').hide()"
+                                        update=":form:growl, dataTable"
+                                        styleClass="ui-button-outlined w-6 mr-2 ui-button-danger"
+                                        />
+
+                                </div>
+                            </div>
+ 
+                    </c:if>
+
+                </p:outputPanel>
+                <!--</p:overlayPanel>-->
+            </p:dialog>
+
+
+
+
+
+
+
+
+
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('DEVELOPERS,SUPER-USER')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

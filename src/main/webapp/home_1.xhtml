@@ -1,0 +1,36 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">#{information['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+        <li>
+            <div class="chevron">/</div>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="introduction">
+            <div class="introduction-content shadow-2">
+                
+                <div class="introduction-title text-900">#{information['application.title']}</div>
+                <div class="introduction-subtitle">Desarrollado por  U.T.I.C.A</div>
+                <p><strong>S.F.T.</strong>Permite organizar su trabajo en Proyectos y tareas</p>
+                <div class="flex flex-nowrap flex-column align-items-center sm:flex-row sm:justify-content-center">
+                    <p:commandButton type="button" value="Ingresar"
+                                    action="login.xhtml"
+                                     styleClass="w-full sm:w-auto font-bold py-2 mb-3 sm:mb-0 sm:mr-3"/>
+<!--                    <p:button value="Free Blocks" href="free.xhtml"
+                              styleClass="w-full sm:w-auto ui-button-outlined font-bold py-2"/>-->
+                </div>
+            </div>
+        </div>
+
+       
+        
+    </ui:define>
+
+</ui:composition>
