@@ -143,7 +143,7 @@ public class MotivoServicesImpl implements MotivoServices {
     public List<Motivo> lookup(Bson filter, Document sort, Integer page, Integer size) {
         List<Motivo> motivoList = new ArrayList<>();
         try {
-            ConsoleUtil.test("\t{filter.toBsonDocument().toJson()} :"+filter.toBsonDocument().toJson());
+          
             motivoList = motivoRestClient.lookup(
                     EncodeUtil.encodeBson(filter),
                     EncodeUtil.encodeBson(sort),

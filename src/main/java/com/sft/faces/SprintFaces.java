@@ -284,7 +284,7 @@ public class SprintFaces implements Serializable, JmoordbCoreXHTMLUtil, IPaginat
                 
                 
                  isColaborador = proyectoServices.isColaborador(proyectoSelected, userLogged.getIduser());
-                 ConsoleUtil.test("\t"+ FacesUtil.nameOfClassAndMethod() + " " +  isColaborador);
+                 
             }
             if (JmoordbCoreContext.get("DashboardFaces.callerLevel0") != null) {
                 callerLevel0 = (String) JmoordbCoreContext.get("DashboardFaces.callerLevel0");
@@ -419,7 +419,7 @@ public class SprintFaces implements Serializable, JmoordbCoreXHTMLUtil, IPaginat
                     eq("active", Boolean.TRUE)
             );
           if(isColaborador){
-              ConsoleUtil.test("\t ");
+            
             filter = and(filter,eq("programado",Boolean.TRUE));
         }
             
@@ -942,13 +942,10 @@ public class SprintFaces implements Serializable, JmoordbCoreXHTMLUtil, IPaginat
             ishaveOpenSprint = haveOpenSprint();
  showDialogContent = Boolean.TRUE;
             if (ishaveOpenSprint) {
-              ConsoleUtil.test("\t paso 1");
+            
                 message = rf.fromMessage("warning.tienesprintabiertosnosepuedencrearnuevoshastacerrarlos");
                
-            } else {
-                ConsoleUtil.test("\t paso 2");
-//                showDialogContent = Boolean.TRUE;
-            }
+            } 
             if (JmoordbCoreDateUtil.fechaMayor(JmoordbCoreDateUtil.getFechaHoraActual(), proyectoSelected.getFechafinal())) {
                 showDialogContent = Boolean.FALSE;
                 message = rf.fromMessage("warning.proyectofechafinalmenoractual");
@@ -1222,7 +1219,7 @@ public class SprintFaces implements Serializable, JmoordbCoreXHTMLUtil, IPaginat
 
     public String prepareSprintIniciarProgramado(Sprint sprint) {
         try {
-            ConsoleUtil.test("\t "+FacesUtil.nameOfClassAndMethod());
+            
             dialogVisibleWebSocket = Boolean.TRUE;
             sprintSelectedIniciarProgramado = new Sprint();
             showDialogContent = Boolean.TRUE;

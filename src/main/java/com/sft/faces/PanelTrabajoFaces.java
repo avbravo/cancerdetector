@@ -544,7 +544,7 @@ public class PanelTrabajoFaces implements Serializable, JmoordbCoreXHTMLUtil, Ta
             finalizadoTarjetaListSearch = new ArrayList<>();
 
             if (loadProyectosDelColaborador()) {
-                ConsoleUtil.test("\t tiene proyectos : "+proyectoPorColaboradorList.size());
+                
                 sprintPorColaboradorList = new ArrayList<>();
                 proyectoPorColaboradorList.forEach(p -> {
 
@@ -552,9 +552,9 @@ public class PanelTrabajoFaces implements Serializable, JmoordbCoreXHTMLUtil, Ta
                 });
 
                 if (sprintPorColaboradorList == null || sprintPorColaboradorList.isEmpty()) {
-                    ConsoleUtil.test("\t**- no hay nada de sprintPorColaboradorList");
+                    
                 } else {
-                    ConsoleUtil.test("\t** Voy a buscar las tarjetas del colaborador....");
+                    
                     for (Sprint s : sprintPorColaboradorList) {
 
                         loadTarjetaPendiente(s);
@@ -655,9 +655,9 @@ public class PanelTrabajoFaces implements Serializable, JmoordbCoreXHTMLUtil, Ta
                 for (Sprint s : sprintList) {
 
                     if (!sprintServices.isOpenSprintBetweenDateNow(s)) {
-                        ConsoleUtil.test("\t\t [sprint ]"+s.getIdsprint() + " {isOpenSprintBetweenDataNow == false}");
+                        
                     } else {
-ConsoleUtil.test("\t\t [sprint ]"+s.getIdsprint() + " {isOpenSprintBetweenDataNow == true}");
+
                         sprintPorColaboradorList.add(s);
                     }
 
@@ -665,9 +665,9 @@ ConsoleUtil.test("\t\t [sprint ]"+s.getIdsprint() + " {isOpenSprintBetweenDataNo
 
             }
             if (sprintPorColaboradorList == null || sprintPorColaboradorList.isEmpty()) {
-                ConsoleUtil.test("\t\t** No tiene sprint abiertos en esas fechas");
+                
             } else {
-       ConsoleUtil.test("\t\t** SI tiene sprint abiertos en esas fechas");
+       
                 result = Boolean.TRUE;
             }
         } catch (Exception e) {

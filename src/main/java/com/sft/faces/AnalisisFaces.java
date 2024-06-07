@@ -188,7 +188,7 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
 
             motivos = motivoServices.lookup(filter, sort, 0, 0);
             
-            ConsoleUtil.test("\t[motivos.size()] "+motivos.size());
+            
         } catch (Exception e) {
             // FacesUtil.errorMessage(FacesUtil.nameOfMethod() + "() : " + e.getLocalizedMessage());
         }

@@ -1847,14 +1847,13 @@ public class BacklogFaces implements Serializable, JmoordbCoreXHTMLUtil, Tablero
     // <editor-fold defaultstate="collapsed" desc="void changeColaborador(Tarjeta tarjeta)">
     public void changeColaborador(Tarjeta tarjeta) {
         try {
-            ConsoleUtil.test("\t"+FacesUtil.nameOfClassAndMethod() + " paso 1");
-            ConsoleUtil.test("\t isChangeInRowDatatableColaborado"+isChangeInRowDatatableColaborador + "isButtonSavePressed"+isButtonSavePressed);
+            
             if (!isChangeInRowDatatableColaborador && isButtonSavePressed) {
- ConsoleUtil.test("\t"+FacesUtil.nameOfClassAndMethod() + " paso 2");
+ 
                 closeAddColaborador(tarjeta);
                 return;
             }
-             ConsoleUtil.test("\t"+FacesUtil.nameOfClassAndMethod() + " paso 3");
+             
             Tarjeta tarjetaDBNow = tarjetaServices.findByIdtarjeta(tarjeta.getIdtarjeta(), proyectoSelected.getIdproyecto()).get();
             if (!tarjetaDBNow.equals(tarjetaDB)) {
                 FacesUtil.warningDialog(rf.fromCore("warning.warning"), rf.fromMessage("warning.otrousuarioactualizodocumentosincronicesusdatosprimero"));
@@ -1862,7 +1861,7 @@ public class BacklogFaces implements Serializable, JmoordbCoreXHTMLUtil, Tablero
                 return;
 
             }
-             ConsoleUtil.test("\t"+FacesUtil.nameOfClassAndMethod() + " paso 4");
+             
             if (tarjeta.getTarjeta() == null || tarjeta.getTarjeta().equals("")) {
 
                 FacesUtil.warningDialog(rf.fromCore("warning.warning"), rf.fromMessage("warning.nombretarjeta"));
@@ -1873,7 +1872,7 @@ public class BacklogFaces implements Serializable, JmoordbCoreXHTMLUtil, Tablero
                 FacesUtil.warningDialog(rf.fromCore("warning.save"), rf.fromMessage("warning.debeseleccionaralmenosuncolaborador"));
                 return;
             }
- ConsoleUtil.test("\t"+FacesUtil.nameOfClassAndMethod() + " paso 5");
+ 
             /**
              * Quita los que no estan marcados
              */
@@ -1909,7 +1908,7 @@ public class BacklogFaces implements Serializable, JmoordbCoreXHTMLUtil, Tablero
                 }
 
             }
- ConsoleUtil.test("\t"+FacesUtil.nameOfClassAndMethod() + " paso 6");
+ 
             userViewSelectedList = new ArrayList<>();
             for (UserViewDomain uvd : userViewDomainList) {
                 userViewSelectedList.add(uvd.getUserView());
@@ -1929,7 +1928,7 @@ public class BacklogFaces implements Serializable, JmoordbCoreXHTMLUtil, Tablero
                     .metodo(FacesUtil.nameOfMethod())
                     .build();
 
-             ConsoleUtil.test("\t"+FacesUtil.nameOfClassAndMethod() + " paso 7");
+             
             tarjeta.getActionHistory().add(actionHistory);
             tarjeta.setLastModification(actionHistory.getFecha());
             if (!tarjetaServices.update(tarjeta)) {
@@ -1937,7 +1936,7 @@ public class BacklogFaces implements Serializable, JmoordbCoreXHTMLUtil, Tablero
                 FacesUtil.warningDialog(rf.fromCore("warning.warning"), rf.fromCore("warning.cambiarcolaborador"));
 
             } else {
-                 ConsoleUtil.test("\t"+FacesUtil.nameOfClassAndMethod() + " paso 8");
+                 
                 isOverlayPanelOpen = Boolean.FALSE;
                 isButtonSavePressed = Boolean.FALSE;
                 sendEmailChangeColaborador(tarjeta);
@@ -2972,12 +2971,9 @@ public class BacklogFaces implements Serializable, JmoordbCoreXHTMLUtil, Tablero
         Object newValue = event.getNewValue();
 
         if (newValue != null && !newValue.equals(oldValue)) {
-            ConsoleUtil.test("\t\t....+onCellEditColaborador-<a");
+            
             isChangeInRowDatatableColaborador = Boolean.TRUE;
-        }else{
-            ConsoleUtil.test("\t\t...+onCellEditColaborador-<b");
         }
-        //    PrimeFaces.current().ajax().update("datatableTareaFooter");
 
     }
     // </editor-fold>
@@ -4070,16 +4066,11 @@ public class BacklogFaces implements Serializable, JmoordbCoreXHTMLUtil, Tablero
                 return;
             }
         
-            ConsoleUtil.test("\t......................................"); 
-            ConsoleUtil.test("\tidsprint "+sprintProgramadoMoveSelectedToPass.getIdsprint());
-            ConsoleUtil.test("\tsprint "+sprintProgramadoMoveSelectedToPass.getSprint());
-            ConsoleUtil.test("\t......................................"); 
-            
+          
             tarjeta.setFechainicial(sprintProgramadoMoveSelectedToPass.getFechainicial());
             tarjeta.setFechafinal(sprintProgramadoMoveSelectedToPass.getFechafinal());
             tarjeta.setIdsprint(sprintProgramadoMoveSelectedToPass.getIdsprint());
-            //tarjeta.setColumna("pendiente");
-//            tarjeta.setBacklog(Boolean.FALSE);
+          
 
             if (!proyectoSelected.getAgregarTarjetaDuplicada()) {
                 Optional<Tarjeta> tarjetaOptional = tarjetaServices.tarjetaConIgualNombreInSprint(tarjeta.getTarjeta(), proyectoSelected.getIdproyecto(), sprintSelected.getIdsprint());
