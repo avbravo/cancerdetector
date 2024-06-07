@@ -54,9 +54,9 @@
                                             <p:menuitem  styleClass="ui-button-flat"
                                                          value="#{msg['menuitem.programar']}"
                                                          title="#{msg['menuitem.programar']}"
-                                                          rendered="#{dashboardFaces.validDateProject(proyectoSprintOpen.proyecto) and proyectoSprintOpen.proyecto.showTodasReserva eq true and p:ifAnyGranted('COLABORADOR') eq true}"
+                                                         rendered="#{dashboardFaces.validDateProject(proyectoSprintOpen.proyecto) and proyectoSprintOpen.proyecto.showTodasReserva eq true and p:ifAnyGranted('COLABORADOR') eq true}"
                                                          action="#{dashboardFaces.go(proyectoSprintOpen.proyecto,'sprint.xhtml',false,true)}"
-                                                        
+
 
                                                          icon="pi pi-fw pi-calendar-clock" >
                                             </p:menuitem>
@@ -358,17 +358,27 @@
 
 
                             <div class="px-1 py-3 surface-100 text-right">
-                           
+
                                 <p:badge severity="danger" value ="#{proyectoSprintOpen.proyecto.estado}" rendered="#{dashboardFaces.isProjectDetenido(proyectoSprintOpen.proyecto) eq true}">
                                     <i class="pi pi-bell" style="font-size: 2rem"/>
                                 </p:badge>
-                            
+
+             
 
                                 <p:commandButton  icon="pi pi-th-large" title="#{core['button.board']}"                                              
-value="#{core['button.board']}" 
-                                                  rendered="#{proyectoSprintOpen.sprintOpen.open and dashboardFaces.validDateProject(proyectoSprintOpen.proyecto)}"
+                                                  value="#{core['button.board']}" 
+
+                                               
                                                   action="#{dashboardFaces.go(proyectoSprintOpen.proyecto,'tablero.xhtml',false,true)}"
                                                   styleClass="ui-button-rounded ui-button-secondary"/>
+                                <p:commandButton  icon="pi pi-th-large" title="#{core['button.board']}"                                              
+                                                  value="#{core['button.board']}" 
+
+                                                  rendered="#{dashboardFaces.haveOpenSprintAndDateIsLessOrEqualsAndEstadoIniciado(proyectoSprintOpen.proyecto, 'iniciado') and dashboardFaces.validDateProject(proyectoSprintOpen.proyecto)}"
+                                                  action="#{dashboardFaces.go(proyectoSprintOpen.proyecto,'tablero.xhtml',false,true)}"
+                                                  styleClass="ui-button-rounded ui-button-secondary"/>
+                                
+                                
                                 <p:menuButton  icon="pi pi-chart-line" buttonStyleClass="ui-button-outlined ui-button-plain rounded-button">
 
                                     <p:menuitem id="commandButtonLogros" 
