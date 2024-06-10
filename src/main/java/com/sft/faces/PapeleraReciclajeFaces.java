@@ -4,6 +4,7 @@
  */
 package com.sft.faces;
 
+import com.avbravo.jmoordbutils.ConsoleUtil;
 import com.avbravo.jmoordbutils.DateUtil;
 import com.avbravo.jmoordbutils.FacesUtil;
 import com.avbravo.jmoordbutils.JmoordbCoreContext;
@@ -3816,6 +3817,14 @@ sprintProgramadoMoveSelected = new Sprint();
 
     public void pasarAlSprintProgramado(Tarjeta tarjeta) {
         try {
+            ConsoleUtil.test("\t__________________________________________________________________________________");
+            ConsoleUtil.test("\t paso 1");
+            ConsoleUtil.test("\ttarjeta "+tarjeta.toString());
+            ConsoleUtil.test("\tsprintProgramadoMoveSelectedToPass "+sprintProgramadoMoveSelectedToPass.toString());
+            if(sprintProgramadoMoveSelectedToPass == null || sprintProgramadoMoveSelectedToPass.getIdsprint() == null){
+                 FacesUtil.warningDialog(rf.fromCore("warning.warning"), rf.fromMessage("warning.seleccionesprintprogramado"));
+                return;
+            }
             Tarjeta tarjetaDBNow = tarjetaServices.findByIdtarjeta(tarjeta.getIdtarjeta(), proyectoSelected.getIdproyecto()).get();
             if (!tarjetaDBNow.equals(tarjeta)) {
                 FacesUtil.warningDialog(rf.fromCore("warning.warning"), rf.fromMessage("warning.otrousuarioactualizodocumentosincronicesusdatosprimero"));
@@ -3831,9 +3840,10 @@ sprintProgramadoMoveSelected = new Sprint();
             tarjeta.setFechafinal(sprintProgramadoMoveSelectedToPass.getFechafinal());
             tarjeta.setIdsprint(sprintProgramadoMoveSelectedToPass.getIdsprint());
              tarjeta.setActive(Boolean.TRUE);
-            //tarjeta.setColumna("pendiente");
-//            tarjeta.setBacklog(Boolean.FALSE);
-
+            tarjeta.setColumna("pendiente");
+           tarjeta.setBacklog(Boolean.TRUE);
+           tarjeta.set
+ConsoleUtil.test("\t paso 2");
             if (!proyectoSelected.getAgregarTarjetaDuplicada()) {
                 Optional<Tarjeta> tarjetaOptional = tarjetaServices.tarjetaConIgualNombreInSprint(tarjeta.getTarjeta(), proyectoSelected.getIdproyecto(), sprintSelected.getIdsprint());
                 if (tarjetaOptional.isPresent()) {
@@ -3846,16 +3856,16 @@ sprintProgramadoMoveSelected = new Sprint();
 
                 }
             }
-
-            if (tarjeta.getFechafinal() == null || tarjeta.getFechafinal().equals("")) {
-
-                FacesUtil.warningDialog(rf.fromCore("warning.warning"), rf.fromMessage("warning.ingresefechafinal"));
-                return;
-            }
+ConsoleUtil.test("\t paso 3");
+//            if (tarjeta.getFechafinal() == null || tarjeta.getFechafinal().equals("")) {
+//
+//                FacesUtil.warningDialog(rf.fromCore("warning.warning"), rf.fromMessage("warning.ingresefechafinal"));
+//                return;
+//            }
             ActionHistory actionHistory = new ActionHistory.Builder()
                     .iduser(userLogged.getIduser())
                     .fecha(JmoordbCoreDateUtil.fechaHoraActual())
-                    .evento("pasar tarjeta al sprint")
+                    .evento("pasar tarjeta al sprint programado")
                     .clase(FacesUtil.nameOfClass())
                     .metodo(FacesUtil.nameOfMethod())
                     .build();
@@ -3917,6 +3927,7 @@ sprintProgramadoMoveSelected = new Sprint();
           
           
           sprintConverterServices.add(sprintServices.lookup(filter,sort,page, size));
+          sprintProgramadoMoveSelected=sprintConverterServices.getSprints().getFirst();
       } catch (Exception e) {
             FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
