@@ -61,27 +61,24 @@ public interface MotivoRestClient {
                 + Base64.getEncoder().encodeToString((userDecrypted + ":" + passwordDecrypted).getBytes());
     }
 // </editor-fold>
-    
-    
-     // <editor-fold defaultstate="collapsed" desc="findAll">
+
+    // <editor-fold defaultstate="collapsed" desc="findAll">
     @GET
-        @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-       public List<Motivo> findAll();
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Motivo> findAll();
 // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Motivo findByIdmotivo">
     @GET
     @Path("{idmotivo}")
-   
-    public Motivo findByIdmotivo(
-            @Parameter(description = "El idmotivo", required = true, example = "1", schema = @Schema(type = SchemaType.NUMBER)) @PathParam("idmotivo") Long idmotivo) ;
 
-     
+    public Motivo findByIdmotivo(
+            @Parameter(description = "El idmotivo", required = true, example = "1", schema = @Schema(type = SchemaType.NUMBER)) @PathParam("idmotivo") Long idmotivo);
+
 // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Motivo findByMotivo">
-
     @GET
-   @Path("motivo")
+    @Path("motivo")
     public Motivo findByMotivo(@Parameter(description = "El motivo", required = true, example = "1", schema = @Schema(type = SchemaType.STRING)) @QueryParam("motivo") final String motivo);
 //// </editor-fold>
 
@@ -91,27 +88,28 @@ public interface MotivoRestClient {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 
     public List<Motivo> lookup(@QueryParam("filter") String filter, @QueryParam("sort") String sort, @QueryParam("page") Integer page, @QueryParam("size") Integer size);
+
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Response save">
     @POST
-     public Response save(
-            @RequestBody(description = "Crea un nuevo motivo.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Motivo.class))) Motivo motivo) ;
+    public Response save(
+            @RequestBody(description = "Crea un nuevo motivo.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Motivo.class))) Motivo motivo);
 // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Response update">
 
     @PUT
- 
+
     public Response update(
-            @RequestBody(description = "Crea un nuevo motivo.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Motivo.class))) Motivo motivo) ;
+            @RequestBody(description = "Crea un nuevo motivo.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Motivo.class))) Motivo motivo);
 // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Response delete">
     @DELETE
- 
+
     @Path("{idmotivo}")
- 
+
     public Response delete(
-            @Parameter(description = "El elemento idmotivo", required = true, example = "1", schema = @Schema(type = SchemaType.NUMBER)) @PathParam("idmotivo") Long idmotivo) ;
+            @Parameter(description = "El elemento idmotivo", required = true, example = "1", schema = @Schema(type = SchemaType.NUMBER)) @PathParam("idmotivo") Long idmotivo);
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Long count(@QueryParam("filter") String filter, @QueryParam("sort") String sort, @QueryParam("page") Integer page, @QueryParam("size") Integer size)">
@@ -119,10 +117,9 @@ public interface MotivoRestClient {
     @Path("count")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 
-    public Long count(@QueryParam("filter") String filter, @QueryParam("sort") String sort, @QueryParam("page") Integer page, @QueryParam("size") Integer size) ;
+    public Long count(@QueryParam("filter") String filter, @QueryParam("sort") String sort, @QueryParam("page") Integer page, @QueryParam("size") Integer size);
 
     // </editor-fold>
-
 // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc=" List<MotivoView> likeByName(@QueryParam("name") String name)">
     @GET
@@ -130,7 +127,7 @@ public interface MotivoRestClient {
 
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 
-    public List<Motivo> likeByName(@QueryParam("motivo") String motivo) ;
+    public List<Motivo> likeByName(@QueryParam("motivo") String motivo);
 
     // </editor-fold>
 }

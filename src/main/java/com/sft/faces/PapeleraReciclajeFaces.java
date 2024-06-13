@@ -3842,7 +3842,7 @@ sprintProgramadoMoveSelected = new Sprint();
              tarjeta.setActive(Boolean.TRUE);
             tarjeta.setColumna("pendiente");
            tarjeta.setBacklog(Boolean.TRUE);
-           tarjeta.set
+
 ConsoleUtil.test("\t paso 2");
             if (!proyectoSelected.getAgregarTarjetaDuplicada()) {
                 Optional<Tarjeta> tarjetaOptional = tarjetaServices.tarjetaConIgualNombreInSprint(tarjeta.getTarjeta(), proyectoSelected.getIdproyecto(), sprintSelected.getIdsprint());
