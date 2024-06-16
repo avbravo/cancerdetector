@@ -8,6 +8,9 @@ import com.avbravo.jmoordbutils.ConsoleUtil;
 import com.avbravo.jmoordbutils.FacesUtil;
 import com.avbravo.jmoordbutils.JmoordbCoreDateUtil;
 import com.avbravo.jmoordbutils.JmoordbCoreXHTMLUtil;
+import com.avbravo.jmoordbutils.JmoordbResourcesFiles;
+import com.avbravo.jmoordbutils.media.JmoordbCoreMediaContext;
+import com.avbravo.jmoordbutils.media.JmoordbCoreMediaManager;
 import com.avbravo.jmoordbutils.paginator.IPaginator;
 import com.avbravo.jmoordbutils.paginator.Paginator;
 import static com.mongodb.client.model.Filters.eq;
@@ -55,7 +58,15 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
 
     private static final long serialVersionUID = 1L;
 
- 
+   // <editor-fold defaultstate="collapsed" desc="@Inject">
+    @Inject
+    JmoordbResourcesFiles rf;
+    @Inject
+    JmoordbCoreMediaManager jmoordbCoreMediaManager;
+    @Inject
+    JmoordbCoreMediaContext jmoordbCoreMediaContext;
+
+// </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="paginator ">
     Paginator paginator = new Paginator();
@@ -306,7 +317,14 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
     
     public String save(Analisis analisis){
         try{
-  analisisServices.save(analisis);
+  if( !analisisServices.save(analisis).isPresent()){
+          FacesUtil.warningDialog(rf.fromCore("warning.save"), rf.fromCore("warning.save"));
+             ConsoleUtil.test("\tNo se guardo.");
+     
+  }else{
+        FacesUtil.successMessage(rf.fromCore("info.save"));
+    ConsoleUtil.test("\t Guardado existosamente");
+  }
   prepareNew();
           } catch (Exception e) {
             FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());

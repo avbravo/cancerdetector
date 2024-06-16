@@ -151,7 +151,7 @@
 
 
 
-                        <!--<pb:blockViewer header="#{msg['blockviewer.iavaginal']}" containerClass="px-4 py-8 md:px-6 lg:px-8">-->
+                        <pb:blockViewer header="#{msg['blockviewer.iavaginal']}" containerClass="px-4 py-8 md:px-6 lg:px-8">
                             <div>
                                 <div class="text-900 font-medium text-xl mb-3">Proyecto IA Vaginal - Imágenes</div>
 <!--                                <p class="m-0 mb-4 p-0 text-600 line-height-3 mr-3">Odio euismod lacinia at quis risus sed vulputate odio. Non nisi est sit amet.
@@ -510,12 +510,12 @@
 
                                         <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
                                         <div class="col-12">
-                                            <p:commandButton action="#{analisisFaces.save(analisisFaces.analisisSelected)}" value="Save Changes" styleClass="w-auto mt-3"/>
+                                            <p:commandButton type="button" value="Save Changes" styleClass="w-auto mt-3"/>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        <!--</pb:blockViewer>-->
+                        </pb:blockViewer>
 
 
 
@@ -530,8 +530,183 @@
                 </div>
             </div>
 
-       
-       
+            <p:overlayPanel widgetVar="overlayPanelResumen" dismissable="false" modal="true" showCloseIcon="true" dynamic="true" 
+                            style="width:270px">
+                <p:outputPanel id="outputPanelResumen" style="text-align:center;">
+                    <div class="flex align-items-center ">
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium my-3 text-500">#{msg['label.resumenproyecto']}</span>
+
+                        </div>
+                    </div>
+                    <p:divider/>
+                    <div class="flex align-items-center ">
+                        <div class="mr-4 mt-2">
+
+                            <span class="font-bold my-3 text-500">#{msg['label.sprints']}: #{dashboardFaces.proyectoEstadisticaResumen.totalSprint}</span>
+                        </div>
+                    </div>
+
+
+                    <div class="flex align-items-center ">
+
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium text-500">#{msg['label.pendiente']}</span>
+                            <div class="text-500 mt-2">#{dashboardFaces.proyectoEstadisticaResumen.totalTarjetasPendiente}</div>
+                        </div>
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium text-500">#{msg['label.progreso']}</span>
+                            <div class="text-500 mt-2">#{dashboardFaces.proyectoEstadisticaResumen.totalTarjetasProgreso}</div>
+                        </div>
+                    </div>
+                    <div class="flex align-items-center ">
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium text-500">#{msg['label.finalizado']}</span>
+                            <div class="text-500 mt-2">#{dashboardFaces.proyectoEstadisticaResumen.totalTarjetasFinalizado}</div>
+                        </div>
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium text-500">#{msg['label.backlog']}</span>
+                            <div class="text-500 mt-2">#{dashboardFaces.proyectoEstadisticaResumen.totalTarjetasBacklog}</div>
+                        </div>
+                    </div>
+                </p:outputPanel>
+            </p:overlayPanel>
+            <p:overlayPanel widgetVar="overlayPanelMyResumen" dismissable="false" modal="true" showCloseIcon="true" dynamic="true" 
+                            style="width:270px">
+                <p:outputPanel id="outputPanelMyResumen" style="text-align:center;">
+                    <div class="flex align-items-center ">
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium my-3 text-500">#{msg['label.miresumen']}</span>
+                        </div>
+                    </div>
+                    <p:divider/>
+                    <div class="flex align-items-center ">
+                        <div class="mr-4 mt-2">
+
+                            <span class="font-bold my-3 text-500">#{msg['label.sprints']}: #{dashboardFaces.proyectoEstadisticaResumen.totalSprint}</span>
+                        </div>
+                    </div>
+
+
+                    <div class="flex align-items-center ">
+
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium text-500">#{msg['label.pendiente']}</span>
+                            <div class="text-500 mt-2">#{dashboardFaces.proyectoEstadisticaResumen.totalTarjetasPendiente}</div>
+                        </div>
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium text-500">#{msg['label.progreso']}</span>
+                            <div class="text-500 mt-2">#{dashboardFaces.proyectoEstadisticaResumen.totalTarjetasProgreso}</div>
+                        </div>
+                    </div>
+                    <div class="flex align-items-center ">
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium text-500">#{msg['label.finalizado']}</span>
+                            <div class="text-500 mt-2">#{dashboardFaces.proyectoEstadisticaResumen.totalTarjetasFinalizado}</div>
+                        </div>
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium text-500">#{msg['label.backlog']}</span>
+                            <div class="text-500 mt-2">#{dashboardFaces.proyectoEstadisticaResumen.totalTarjetasBacklog}</div>
+                        </div>
+                    </div>
+                </p:outputPanel>
+            </p:overlayPanel>
+
+
+            <p:overlayPanel widgetVar="overlayPanelSprintOpen" dismissable="false" modal="true" showCloseIcon="true" dynamic="true" 
+                            style="width:270px">
+                <p:outputPanel id="outputPanelSprintOpen" style="text-align:center;">
+                    <div class="flex align-items-center ">
+                        <div class="mr-4 mt-2">
+                            <span class="font-medium my-3 text-500">#{msg['button.sprintopen']}: #{dashboardFaces.sprintOpenSelected.sprint}</span>
+                        </div>
+                    </div>
+                    <p:divider/>
+                    <div class="flex align-items-left">
+
+                        <div class="mr-4 mt-4">
+                            <span class="font-medium text-500">#{msg['field.fechainicial']}</span>
+                            <div class="text-500 mt-2">#{dashboardFaces.showDateWithHour(dashboardFaces.sprintOpenSelected.fechainicial)}</div>
+                        </div>
+
+                    </div>
+
+                    <div class="flex align-items-left">
+
+                        <div class="mr-4 mt-4">
+                            <span class="font-medium text-500">#{msg['field.fechafinal']}</span>
+                            <div class="text-500 mt-2">#{dashboardFaces.showDateWithHour(dashboardFaces.sprintOpenSelected.fechafinal)}</div>
+                        </div>
+                    </div>
+
+                </p:outputPanel>
+            </p:overlayPanel>
+            <scrumdialogo:proyectoeditar id="outputPanelProyectoEditar" />
+            <scrumdialogo:proyectoclonar id="outputPanelProyectoClonar" />
+            <scrumdialogo:proyectoarchivar id="outputPanelProyectoArchivar"/>
+            <scrumdialogo:proyectoeliminar id="outputPanelProyectoEliminar"/>
+
+            <p:dialog header="#{msg['dialog.tarjeta']}" widgetVar="overlayPanelTarjetaView"  
+                      width="50vw" 
+                      responsive="true"
+                      showEffect="fade" 
+                      modal="true" 
+                      closable="true"
+                      resizable="true"
+                      maximizable="true"
+                      minimizable="true"
+                      >
+                <p:ajax event="close" update=":form:growl" listener="#{dashboardFaces.handleCloseDialogRefresh}" />
+                <p:outputPanel id="ouputPanelTarjetaView" style="text-align:center;">
+
+                    <p:dataTable style="border-style: none" var="item" value="#{dashboardFaces.tarjetaLazyDataModel}"
+                                 binding="#{dashboardFaces.dataTable}"
+                                 id="dataTable"
+                                 widgetVar="widgetVardataTable"
+                                 lazy="true"
+                                 paginator="true"
+                                 rows="#{dashboardFaces.rowPageSmall.get()}"
+                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                 paginatorPosition="both"
+                                 resizableColumns="true" liveResize="true"
+                                 rowKey="#{item.idtarjeta}"
+                                 selection="#{dashboardFaces.tarjetaSelected}"
+                                 rowSelectMode="add"
+
+                                 >
+
+
+                        <p:column class="column8" headerText="#{msg['field.idtarjeta']}">
+                            <p:outputLabel value="#{item.idtarjeta}" style="float:left"/>
+                        </p:column>
+                        <p:column class="column25" headerText="#{msg['field.tarjeta']}">
+
+                            <p:inputTextarea  rows="#{item.tarjeta.length() le 70?1:(item.tarjeta.length()/70)+1}" style="width: 100% !important;" autoResize="false" readonly="true" value="#{item.tarjeta}"  
+
+
+                                              />
+                        </p:column>
+
+                    </p:dataTable>
+
+
+
+                    <div class="flex align-items-center ">
+                        <div class=" border-top-1 surface-border pt-6 flex">
+
+
+
+                            <p:commandButton title="#{core['button.cancel']}" icon="pi pi-times" 
+                                             onclick="PF('overlayPanelTarjetaView').hide()"
+                                             update=":form"
+                                             styleClass="ui-button-outlined w-6 mr-2"/>
+
+
+                        </div>
+                    </div>
+                </p:outputPanel>
+
+            </p:dialog>
 
 
         </h:form>
