@@ -510,7 +510,9 @@
 
                                         <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
                                         <div class="col-12">
-                                            <p:commandButton action="#{analisisFaces.save(analisisFaces.analisisSelected)}" value="Save Changes" styleClass="w-auto mt-3"/>
+                                            <p:commandButton action="#{analisisFaces.save(analisisFaces.analisisSelected)}" value="Save Changes" 
+                                                             update=":form:growl"
+                                                             styleClass="w-auto mt-3"/>
                                         </div>
                                     </div>
                                 </div>
