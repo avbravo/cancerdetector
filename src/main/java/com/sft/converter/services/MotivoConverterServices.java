@@ -62,6 +62,29 @@ public class MotivoConverterServices implements Serializable {
 
     }
 // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="Optional<Motivo> get(String id)">
+    public Optional<Motivo> get(String id) {
+        Optional<Motivo> result;
+
+        try {
+            result = motivos.stream().filter(x -> x.getMotivo().equals(id)).findFirst();
+            if (!result.isPresent()) {
+                Optional<Motivo> motivo = motivoServices.findByMotivo(id);
+                if (motivo.isPresent()) {
+                    motivos.add(motivo.get());
+                    return motivo;
+                }
+                result = Optional.empty();
+            }
+            return result;
+        } catch (Exception e) {
+
+            FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+        }
+        return Optional.empty();
+
+    }
+// </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="void add(List<Motivo> motivos)">
 
     public void add(List<Motivo> motivos) {

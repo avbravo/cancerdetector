@@ -191,7 +191,8 @@
 
                                         <div class="field mb-4 col-6">
                                             <label for="motivo" class="font-medium">Motivo de petición</label>
-                                            <p:selectOneRadio id="motivo" value="#{analisisFaces.motivoSelected}" layout="grid" columns="2" styleClass="grid-radio">
+                                            <p:selectOneRadio   id="motivo" value="#{analisisFaces.motivoSelectedString}" layout="grid" columns="2" styleClass="grid-radio">
+                                     
                                                 <f:selectItems value="#{analisisFaces.motivos}" var="motivo" itemLabel="#{motivo.motivo}" itemValue="#{motivo.motivo}"/>
                                             </p:selectOneRadio>
                                             <p:inputText value="#{analisisFaces.otroMotivo}" required="#{analisisFaces.motivoSelected.motivo eq 'Other'}"

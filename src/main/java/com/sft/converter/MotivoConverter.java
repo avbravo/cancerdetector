@@ -34,14 +34,15 @@ public class MotivoConverter implements Converter<Motivo> {
     @Override
     public String getAsString(FacesContext fc, UIComponent uic, Motivo t) {
         try {
-
+ConsoleUtil.test(FacesUtil.nameOfClassAndMethod()+"\t[Motivo ] "+t.toString());
             if (t == null) {
 
+                ConsoleUtil.test("\t{t == null}");
                 return "";
             }
 
             if (t.getIdmotivo() != null) {
-
+       ConsoleUtil.test("\t{ t.getIdmotivo() != null } "+t.toString());
                 return t.getIdmotivo().toString();
             } else {
 
@@ -63,13 +64,14 @@ public class MotivoConverter implements Converter<Motivo> {
 
         try {
             // String idUser =submittedValue;
+ConsoleUtil.test(FacesUtil.nameOfClassAndMethod()+"\t[submittedValue] "+submittedValue);
+//            Integer id = Integer.parseInt(submittedValue);
 
-            Integer id = Integer.parseInt(submittedValue);
+//            Long idMotivo = id.longValue();
 
-            Long idMotivo = id.longValue();
-
-            Optional<Motivo> optional = motivoConverterServices.get(idMotivo);
-
+//            Optional<Motivo> optional = motivoConverterServices.get(idMotivo);
+            Optional<Motivo> optional = motivoConverterServices.get(submittedValue.trim());
+            ConsoleUtil.test("\toptional.get( "+optional.get());
             if (!optional.isEmpty()) {
 
                return optional.get();

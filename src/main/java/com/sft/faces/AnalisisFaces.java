@@ -133,6 +133,7 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
 
     private List<Motivo> motivos = new ArrayList<>();
     private Motivo motivoSelected = new Motivo();
+    private String motivoSelectedString = new String("");
     private String otroMotivo = "";
 
     private List<Diagnostico> diagnosticos = new ArrayList<>();
@@ -317,6 +318,9 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
 
     public String save(Analisis analisis) {
         try {
+            ConsoleUtil.test("\t{motivoSelectedString~{} "+motivoSelectedString);
+            var motivo =motivoServices.findByMotivo(motivoSelectedString);
+            analisis.setMotivo(motivoSelected);
             if (!analisisServices.save(analisis).isPresent()) {
                 FacesUtil.warningDialog(rf.fromCore("warning.save"), rf.fromCore("warning.save"));
                 ConsoleUtil.test("\tNo se guardo.");
