@@ -14,11 +14,9 @@ import java.util.Objects;
  * @author avbravo
  */
 @DocumentEmbeddable
-public class Presencia {
+public class PresenciaLeucocitos {
 
-    @Id(commentary = "leucocitos,levaduras,epiteliales")
-    private String tipo;
-
+  
     @Column
     private Boolean zero;
 
@@ -40,11 +38,10 @@ public class Presencia {
     @Column
     private Double valor;
 
-    public Presencia() {
+    public PresenciaLeucocitos() {
     }
 
-    public Presencia(String tipo, Boolean zero, Boolean one, Boolean twofour, Boolean fivetwentynine, Boolean greaterthan30, Boolean activo, Double valor) {
-        this.tipo = tipo;
+    public PresenciaLeucocitos(Boolean zero, Boolean one, Boolean twofour, Boolean fivetwentynine, Boolean greaterthan30, Boolean activo, Double valor) {
         this.zero = zero;
         this.one = one;
         this.twofour = twofour;
@@ -52,14 +49,6 @@ public class Presencia {
         this.greaterthan30 = greaterthan30;
         this.activo = activo;
         this.valor = valor;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
     }
 
     public Boolean getZero() {
@@ -121,14 +110,13 @@ public class Presencia {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 13 * hash + Objects.hashCode(this.tipo);
-        hash = 13 * hash + Objects.hashCode(this.zero);
-        hash = 13 * hash + Objects.hashCode(this.one);
-        hash = 13 * hash + Objects.hashCode(this.twofour);
-        hash = 13 * hash + Objects.hashCode(this.fivetwentynine);
-        hash = 13 * hash + Objects.hashCode(this.greaterthan30);
-        hash = 13 * hash + Objects.hashCode(this.activo);
-        hash = 13 * hash + Objects.hashCode(this.valor);
+        hash = 89 * hash + Objects.hashCode(this.zero);
+        hash = 89 * hash + Objects.hashCode(this.one);
+        hash = 89 * hash + Objects.hashCode(this.twofour);
+        hash = 89 * hash + Objects.hashCode(this.fivetwentynine);
+        hash = 89 * hash + Objects.hashCode(this.greaterthan30);
+        hash = 89 * hash + Objects.hashCode(this.activo);
+        hash = 89 * hash + Objects.hashCode(this.valor);
         return hash;
     }
 
@@ -143,10 +131,7 @@ public class Presencia {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Presencia other = (Presencia) obj;
-        if (!Objects.equals(this.tipo, other.tipo)) {
-            return false;
-        }
+        final PresenciaLeucocitos other = (PresenciaLeucocitos) obj;
         if (!Objects.equals(this.zero, other.zero)) {
             return false;
         }
@@ -170,7 +155,11 @@ public class Presencia {
 
     @Override
     public String toString() {
-        return "Presencia{" + "tipo=" + tipo + ", zero=" + zero + ", one=" + one + ", twofour=" + twofour + ", fivetwentynine=" + fivetwentynine + ", greaterthan30=" + greaterthan30 + ", activo=" + activo + ", valor=" + valor + '}';
+        return "PresenciaLeucocitos{" + "zero=" + zero + ", one=" + one + ", twofour=" + twofour + ", fivetwentynine=" + fivetwentynine + ", greaterthan30=" + greaterthan30 + ", activo=" + activo + ", valor=" + valor + '}';
     }
 
+    
+    
+    
+    
 }

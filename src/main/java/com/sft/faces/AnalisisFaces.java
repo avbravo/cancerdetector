@@ -14,7 +14,11 @@ import com.avbravo.jmoordbutils.media.JmoordbCoreMediaManager;
 import com.avbravo.jmoordbutils.paginator.IPaginator;
 import com.avbravo.jmoordbutils.paginator.Paginator;
 import static com.mongodb.client.model.Filters.eq;
+import com.sft.converter.services.DiagnosticoConverterServices;
+import com.sft.converter.services.EtiquetadoimagenConverterServices;
 import com.sft.converter.services.MotivoConverterServices;
+import com.sft.converter.services.PcritsConverterServices;
+import com.sft.converter.services.ResultadocultivoConverterServices;
 import com.sft.faces.services.FacesServices;
 import com.sft.faces.services.implementation.AnalisisFacesServices;
 import com.sft.model.Analisis;
@@ -22,6 +26,9 @@ import com.sft.model.Diagnostico;
 import com.sft.model.Etiquetadoimagen;
 import com.sft.model.Motivo;
 import com.sft.model.Pcrits;
+import com.sft.model.PresenciaEpitales;
+import com.sft.model.PresenciaLeucocitos;
+import com.sft.model.PresenciaLevaduras;
 import com.sft.model.Resultadocultivo;
 import com.sft.services.AnalisisServices;
 import com.sft.services.DiagnosticoServices;
@@ -63,6 +70,15 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
 
     @Inject
     MotivoConverterServices motivoConverterServices;
+    @Inject
+    DiagnosticoConverterServices diagnosticoConverterServices;
+    @Inject
+    PcritsConverterServices pcritsConverterServices;
+    @Inject
+    EtiquetadoimagenConverterServices etiquetadoimagenConverterServices;
+    
+    @Inject
+    ResultadocultivoConverterServices resultadocultivoConverterServices;
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="@Inject">
@@ -138,15 +154,19 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
 
     private List<Diagnostico> diagnosticos = new ArrayList<>();
     private Diagnostico diagnosticoSelected = new Diagnostico();
+    private String diagnosticoSelectedString = new String("");
 
     private List<Pcrits> pcritss = new ArrayList<>();
+   
     private List<Pcrits> pcritsSelected = new ArrayList<>();
-
+ private List<String> pcritssSelectedString = new ArrayList<>();
     private List<Etiquetadoimagen> etiquetadoimagens = new ArrayList<>();
     private List<Etiquetadoimagen> etiquetadoimagenSelected = new ArrayList<>();
+    private List<String> etiquetadoimagenSelectedString = new ArrayList<>();
 
     private List<Resultadocultivo> resultadocultivos = new ArrayList<>();
     private List<Resultadocultivo> resultadocultivoSelected = new ArrayList<>();
+    private List<String> resultadocultivoSelectedString = new ArrayList<>();
 
 // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="selected For Dialog()">
@@ -164,11 +184,17 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
             prepareNew();
 
             otroMotivo = "";
-            findAllMotivo();
+            findAllMotivo();         
             findAllDiagnostico();
             findAllPcrits();
             findAllEtiquetadoimagen();
             findAllResultadocultivo();
+             motivoSelectedString=motivos.getFirst().getMotivo();
+             diagnosticoSelectedString=diagnosticos.getFirst().getDiagnostico();
+             pcritssSelectedString.add(pcritss.getFirst().getPcrits());
+             etiquetadoimagenSelectedString.add(etiquetadoimagens.getFirst().getEtiquetadoimagen());
+             resultadocultivoSelectedString.add(resultadocultivos.getFirst().getResultadocultivo());
+            
             prepareNew();
 
         } catch (Exception e) {
@@ -181,6 +207,15 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
     public String prepareNew() {
         try {
             analisisSelected = new Analisis();
+            analisisSelected.setEdad(0.0);
+            analisisSelected.setNumeromuestra(0L);
+            analisisSelected.setCtpcrpositiva(0.0);
+            PresenciaLeucocitos presenciaLeucocitos = new PresenciaLeucocitos(Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, 0.0);
+            PresenciaEpitales presenciaEpitales = new PresenciaEpitales(Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, 0.0);
+            PresenciaLevaduras presenciaLevaduras = new PresenciaLevaduras(Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, 0.0);
+            analisisSelected.setPresenciaLeucocitos(presenciaLeucocitos);
+            analisisSelected.setPresenciaEpitales(presenciaEpitales);
+            analisisSelected.setPresenciaLevaduras(presenciaLevaduras);
             analisisSelected.setEscalanuggetobservador(2);
             analisisSelected.setFecha(JmoordbCoreDateUtil.fechaHoraActual());
 
@@ -222,6 +257,11 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
             Document sort = new Document("iddiagnostico", 1);
 
             diagnosticos = diagnosticoServices.lookup(filter, sort, 0, 0);
+            
+             diagnosticoConverterServices.add(diagnosticos.subList(0,
+                    calcularConverterMaxNumberOfElements(diagnosticos.size(), diagnosticos.size()))
+            );
+            
         } catch (Exception e) {
             // FacesUtil.errorMessage(FacesUtil.nameOfMethod() + "() : " + e.getLocalizedMessage());
         }
@@ -239,6 +279,9 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
             Document sort = new Document("idpcrits", 1);
 
             pcritss = pcritsServices.lookup(filter, sort, 0, 0);
+            pcritsConverterServices.add(pcritss.subList(0,
+                    calcularConverterMaxNumberOfElements(pcritss.size(), pcritss.size()))
+            );
         } catch (Exception e) {
             // FacesUtil.errorMessage(FacesUtil.nameOfMethod() + "() : " + e.getLocalizedMessage());
         }
@@ -256,6 +299,10 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
             Document sort = new Document("idetiquetadoimagen", 1);
 
             etiquetadoimagens = etiquetadoimagenServices.lookup(filter, sort, 0, 0);
+            
+             etiquetadoimagenConverterServices.add(etiquetadoimagens.subList(0,
+                    calcularConverterMaxNumberOfElements(etiquetadoimagens.size(), etiquetadoimagens.size()))
+            );
         } catch (Exception e) {
             // FacesUtil.errorMessage(FacesUtil.nameOfMethod() + "() : " + e.getLocalizedMessage());
         }
@@ -273,6 +320,11 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
             Document sort = new Document("idresultadocultivo", 1);
 
             resultadocultivos = resultadocultivoServices.lookup(filter, sort, 0, 0);
+            
+             
+             etiquetadoimagenConverterServices.add(etiquetadoimagens.subList(0,
+                    calcularConverterMaxNumberOfElements(etiquetadoimagens.size(), etiquetadoimagens.size()))
+            );
         } catch (Exception e) {
             FacesUtil.errorMessage(FacesUtil.nameOfMethod() + "() : " + e.getLocalizedMessage());
         }
@@ -319,8 +371,42 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
     public String save(Analisis analisis) {
         try {
             ConsoleUtil.test("\t{motivoSelectedString~{} "+motivoSelectedString);
-            var motivo =motivoServices.findByMotivo(motivoSelectedString);
-            analisis.setMotivo(motivoSelected);
+            var motivo = motivoConverterServices.get(motivoSelectedString);
+            analisis.setMotivo(motivo.get());
+            
+            var diagnostico = diagnosticoConverterServices.get(diagnosticoSelectedString); 
+            analisis.setDiagnostico(diagnostico.get());
+            
+            List<Pcrits> pcriptsList = new ArrayList<>();
+            for(String s:pcritssSelectedString){
+                var pcrits =pcritsConverterServices.get(s); 
+                pcriptsList.add(pcrits.get());
+                
+            }   
+            analisis.setPcrits(pcriptsList);
+            
+            List<Etiquetadoimagen> etiquetadoimagenList = new ArrayList<>();
+            for(String s:etiquetadoimagenSelectedString){
+                var etiquetadoimagen =etiquetadoimagenConverterServices.get(s); 
+               etiquetadoimagenList.add(etiquetadoimagen.get());
+                
+            }
+            
+            
+            analisis.setEtiquetadoimagen(etiquetadoimagenList);
+            
+            
+            List<Resultadocultivo> resultadocultivoList = new ArrayList<>();
+            for(String s:resultadocultivoSelectedString){
+                var resultadocultivo =resultadocultivoConverterServices.get(s); 
+              resultadocultivoList.add(resultadocultivo.get());
+                
+            }
+            
+            
+            analisis.setResultadocultivo(resultadocultivoList);
+            
+            
             if (!analisisServices.save(analisis).isPresent()) {
                 FacesUtil.warningDialog(rf.fromCore("warning.save"), rf.fromCore("warning.save"));
                 ConsoleUtil.test("\tNo se guardo.");

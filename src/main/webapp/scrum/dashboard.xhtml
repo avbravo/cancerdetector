@@ -201,7 +201,7 @@
                                         </div>
                                         <div class="field mb-4 col-6">
                                             <label for="diagnostico" class="font-medium">Diagnostico</label>
-                                            <p:selectOneRadio id="diagnostico" value="#{analisisFaces.diagnosticoSelected}" layout="grid" columns="2" styleClass="grid-radio">
+                                            <p:selectOneRadio id="diagnostico" value="#{analisisFaces.diagnosticoSelectedString}" layout="grid" columns="2" styleClass="grid-radio">
                                                 <f:selectItems value="#{analisisFaces.diagnosticos}" var="diagnostico" 
                                                                itemLabel="#{diagnostico.diagnostico}" itemValue="#{diagnostico.diagnostico}"/>
                                             </p:selectOneRadio>
@@ -211,7 +211,7 @@
 
                                         <div class="field mb-4 col-6">
                                             <label for="motivo" class="font-medium">Pcrits</label>
-                                            <p:selectManyCheckbox id="pcrits" value="#{analisisFaces.pcritsSelected}" layout="grid" columns="2" styleClass="grid-checkbox"
+                                            <p:selectManyCheckbox id="pcrits" value="#{analisisFaces.pcritssSelectedString}" layout="grid" columns="2" styleClass="grid-checkbox"
                                                                   >
                                                 <f:selectItems value="#{analisisFaces.pcritss}" var="pcrits"
                                                                itemLabel="#{pcrits.pcrits}" itemValue="#{pcrits.pcrits}"/>
@@ -228,7 +228,7 @@
                                         <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
                                         <div class="field mb-4 col-6">
                                             <label for="motivo" class="font-medium">Datos referidos a IMG 1</label>
-                                            <p:selectManyCheckbox id="etiquetadoimagen" value="#{analisisFaces.etiquetadoimagenSelected}" layout="grid" columns="2" styleClass="grid-checkbox"
+                                            <p:selectManyCheckbox id="etiquetadoimagen" value="#{analisisFaces.etiquetadoimagenSelectedString}" layout="grid" columns="2" styleClass="grid-checkbox"
                                                                   >
                                                 <f:selectItems value="#{analisisFaces.etiquetadoimagens}" var="etiquetadoimagen"
                                                                itemLabel="#{etiquetadoimagen.etiquetadoimagen}" itemValue="#{etiquetadoimagen.etiquetadoimagen}"/>
@@ -300,7 +300,7 @@
                                         </div>
                                         <div class="field mb-4 col-6">
                                             <label for="diagnostico" class="font-medium">Resultado cultivo</label>
-                                            <p:selectManyCheckbox id="resultadocultivo" value="#{analisisFaces.resultadocultivoSelected}" layout="grid" columns="2" styleClass="grid-checkbox"
+                                            <p:selectManyCheckbox id="resultadocultivo" value="#{analisisFaces.resultadocultivoSelectedString}" layout="grid" columns="2" styleClass="grid-checkbox"
                                                                   >
                                                 <f:selectItems value="#{analisisFaces.resultadocultivos}" var="resultadocultivo"
                                                                itemLabel="#{resultadocultivo.resultadocultivo}" itemValue="#{resultadocultivo.resultadocultivo}"/>
