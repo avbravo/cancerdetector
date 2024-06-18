@@ -14,6 +14,7 @@ import com.avbravo.jmoordbutils.media.JmoordbCoreMediaManager;
 import com.avbravo.jmoordbutils.paginator.IPaginator;
 import com.avbravo.jmoordbutils.paginator.Paginator;
 import static com.mongodb.client.model.Filters.eq;
+import com.sft.converter.services.MotivoConverterServices;
 import com.sft.faces.services.FacesServices;
 import com.sft.faces.services.implementation.AnalisisFacesServices;
 import com.sft.model.Analisis;
@@ -29,6 +30,7 @@ import com.sft.services.MotivoServices;
 import com.sft.services.PcritsServices;
 import com.sft.services.ResultadocultivoServices;
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
@@ -57,8 +59,13 @@ import org.primefaces.event.SlideEndEvent;
 public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPaginator, AnalisisFacesServices, FacesServices {
 
     private static final long serialVersionUID = 1L;
+// <editor-fold defaultstate="collapsed" desc="ConverterServices">
 
-   // <editor-fold defaultstate="collapsed" desc="@Inject">
+    @Inject
+    MotivoConverterServices motivoConverterServices;
+
+    // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="@Inject">
     @Inject
     JmoordbResourcesFiles rf;
     @Inject
@@ -67,7 +74,6 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
     JmoordbCoreMediaContext jmoordbCoreMediaContext;
 
 // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="paginator ">
     Paginator paginator = new Paginator();
     Paginator paginatorOld = new Paginator();
@@ -117,7 +123,7 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
 
     @Inject
     PcritsServices pcritsServices;
-    
+
     @Inject
     ResultadocultivoServices resultadocultivoServices;
 // </editor-fold>
@@ -137,13 +143,11 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
 
     private List<Etiquetadoimagen> etiquetadoimagens = new ArrayList<>();
     private List<Etiquetadoimagen> etiquetadoimagenSelected = new ArrayList<>();
-    
+
     private List<Resultadocultivo> resultadocultivos = new ArrayList<>();
     private List<Resultadocultivo> resultadocultivoSelected = new ArrayList<>();
 
-
 // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="selected For Dialog()">
     public Analisis getAnalisisSelected() {
         if (analisisSelected == null) {
@@ -157,7 +161,7 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
     public void init() {
         try {
             prepareNew();
-    
+
             otroMotivo = "";
             findAllMotivo();
             findAllDiagnostico();
@@ -165,7 +169,6 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
             findAllEtiquetadoimagen();
             findAllResultadocultivo();
             prepareNew();
-
 
         } catch (Exception e) {
             FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
@@ -187,9 +190,7 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
     }
 
     // </editor-fold>
-   
     // <editor-fold defaultstate="collapsed" desc="String findAllMotivo()">
-
     public String findAllMotivo() {
         try {
 
@@ -199,7 +200,10 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
 
             motivos = motivoServices.lookup(filter, sort, 0, 0);
             
-            
+              motivoConverterServices.add(motivos.subList(0,
+                    calcularConverterMaxNumberOfElements(motivos.size(), motivos.size()))
+            );
+
         } catch (Exception e) {
             // FacesUtil.errorMessage(FacesUtil.nameOfMethod() + "() : " + e.getLocalizedMessage());
         }
@@ -269,25 +273,22 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
 
             resultadocultivos = resultadocultivoServices.lookup(filter, sort, 0, 0);
         } catch (Exception e) {
-           FacesUtil.errorMessage(FacesUtil.nameOfMethod() + "() : " + e.getLocalizedMessage());
+            FacesUtil.errorMessage(FacesUtil.nameOfMethod() + "() : " + e.getLocalizedMessage());
         }
 
         return "";
     }
 // </editor-fold>
 
-    
-
+    @PreDestroy
     @Override
     public void preDestroy() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        motivoConverterServices.destroyed();
     }
 
     @Override
     public String refresh() {
         try {
-
-          
 
             PrimeFaces.current().ajax().update("form");
             PrimeFaces.current().ajax().update("dataTable");
@@ -305,28 +306,27 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
 
     public void onSlideEnd(SlideEndEvent event) {
         FacesMessage message = new FacesMessage("Slide Ended", "Value: " + event.getValue());
-         FacesContext.getCurrentInstance().addMessage(null, message);
+        FacesContext.getCurrentInstance().addMessage(null, message);
         int n = (int) event.getValue();
         if (n < 1 || n > 10) {
             analisisSelected.setEscalanuggetobservador(2);
             FacesUtil.errorMessage("Valores deben estar entre 1 y 10");
         }
 
-       
     }
-    
-    public String save(Analisis analisis){
-        try{
-  if( !analisisServices.save(analisis).isPresent()){
-          FacesUtil.warningDialog(rf.fromCore("warning.save"), rf.fromCore("warning.save"));
-             ConsoleUtil.test("\tNo se guardo.");
-     
-  }else{
-        FacesUtil.successMessage(rf.fromCore("info.save"));
-    ConsoleUtil.test("\t Guardado existosamente");
-  }
-  prepareNew();
-          } catch (Exception e) {
+
+    public String save(Analisis analisis) {
+        try {
+            if (!analisisServices.save(analisis).isPresent()) {
+                FacesUtil.warningDialog(rf.fromCore("warning.save"), rf.fromCore("warning.save"));
+                ConsoleUtil.test("\tNo se guardo.");
+
+            } else {
+                FacesUtil.successMessage(rf.fromCore("info.save"));
+                ConsoleUtil.test("\t Guardado existosamente");
+            }
+            prepareNew();
+        } catch (Exception e) {
             FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
         return "";
