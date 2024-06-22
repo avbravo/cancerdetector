@@ -40,6 +40,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.event.ValueChangeEvent;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -420,5 +421,10 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
             FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
         return "";
+    }
+    
+     public void onInputChanged(ValueChangeEvent event) {
+//        FacesMessage message = new FacesMessage("Input Changed", "Value: " + event.getNewValue());
+//        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 }
