@@ -25,13 +25,13 @@ import org.primefaces.model.StreamedContent;
 @RequestScoped
 
 //https://primefaces.github.io/primefaces/11_0_0/#/core/dynamiccontent?id=dynamic-content-rendering-via-data-uri-streamfalse-currently-only-supported-by-pgraphicimage
-public class ImageView4 {
+public class ImageView8 {
 
     private StreamedContent image;
     InputStream is = null;
-       String position = "4";
+       String position = "8";
        
-    public ImageView4() {
+    public ImageView8() {
         StreamedContent result;
         try {
 
