@@ -677,7 +677,7 @@ saveToMediaContext(archivo2.getPath(),archivo2.getDescripcion(),2);
         return "";
     }
 // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="String String fileUploadListener(FileUploadEvent event)">
+    // <editor-fold defaultstate="collapsed" desc="String String fileUploadListener3(FileUploadEvent event)">
     public String fileUploadListener3(FileUploadEvent event) {
         try {
 
@@ -744,6 +744,80 @@ saveToMediaContext(archivo3.getPath(),archivo3.getDescripcion(),3);
                     FacesUtil.successMessage(rf.fromMessage("info.archivosubido"));
                 } else {
                     ConsoleUtil.test("\t no fue subido.");
+                }
+            }
+        } catch (Exception e) {
+            ConsoleUtil.test("\tfileUploadListener() error: "+e.getLocalizedMessage()); 
+            FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+        }
+
+        return "";
+    }
+// </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="String String fileUploadListener4(FileUploadEvent event)">
+    public String fileUploadListener4(FileUploadEvent event) {
+        try {
+
+            fileWasUploaded = false;
+            isFileImagen = Boolean.FALSE;
+            file = event.getFile();
+           archivo4 = new Archivo("", JmoordbCoreDateUtil.fechaHoraActual(), "", "", Boolean.FALSE);
+            if (file != null) {
+
+                String description = file.getFileName().substring(0, file.getFileName().indexOf("."));
+                archivo3.setDescripcion(description);
+                String fileExt = FacesUtil.getFileExt(file);
+                archivo3.setExtension(fileExt);
+
+                if (fileExt.equals(".gif")
+                        || fileExt.equals(".jpg")
+                        || fileExt.equals(".jpeg")
+                        || fileExt.equals(".png")) {
+
+                    if (!FacesUtil.checkImage(file)) {
+                        FacesUtil.errorMessage(rf.fromCore("field.noimagen"));
+
+                        return "";
+                    } else {
+
+                        isFileImagen = Boolean.TRUE;
+                    }
+                }
+
+                fileWasUploaded = Boolean.TRUE;
+
+                // isFileImagen = Boolean.TRUE;
+                if (isFileImagen) {
+                
+                    archivo4.setPath(FacesUtil.saveImage(file, archivo4.getPath(), fileRepositoryDirectory));
+                    if (!pathBaseLinuxAddUserHomeStoreInCollections.get()) {
+                        archivo4.setPath(archivo4.getPath().replaceAll(FacesUtil.userHome(), ""));
+                    } else {
+
+                    }
+
+                    //  agregarRowArchivo(archivo);
+                } else {
+                  
+             createFile(file, archivo4);
+
+                    if (!pathBaseLinuxAddUserHomeStoreInCollections.get()) {
+
+                        archivo4.setPath(archivo4.getPath().replaceAll(FacesUtil.userHome(), ""));
+
+                    } else {
+
+                    }
+
+                    //agregarRowArchivo(archivo);
+                }
+
+                if (fileWasUploaded) {
+                  
+saveToMediaContext(archivo4.getPath(),archivo4.getDescripcion(),4);
+                    FacesUtil.successMessage(rf.fromMessage("info.archivosubido"));
+                } else {
+//                    ConsoleUtil.test("\t no fue subido.");
                 }
             }
         } catch (Exception e) {
