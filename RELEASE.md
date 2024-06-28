@@ -25,3 +25,4 @@ https://itecnote.com/tecnote/r-jsf-performance-improvement/
 *Fecha:xx/03/2024
 - [] Converter
 - [] Etiquetadoimagen
+ - Revisar el converir valores a selectOneRadio y vicersa de un valor actualiza el inputText

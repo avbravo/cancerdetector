@@ -245,16 +245,24 @@
 
                                     <div class="field mb-4 col-6">
                                         <label for="diagnostico" class="font-medium">Presencia leucocitos (Imagen 1)</label>
-                                        <p:inputText  value="#{analisisFaces.analisisSelected.ctpcrpositiva}" 
-                                                      id="presencialeucocitos" placeholder="#" size="5"/>  
+                                        <p:inputText  value="#{analisisFaces.analisisSelected.presenciaLeucocitos.valor}" 
+                                                      id="presencialeucocitos" placeholder="#" size="5">  
+                                            <p:ajax event="keyup" listener="#{analisisFaces.selectOneRadioLeucocitos}"
+                                                    update="selectOneRadioLeucocitos"
+                                                    />
+                                        </p:inputText>
 
-                                        <p:selectOneRadio id="line1" value="#{analisisFaces.analisisSelected.ctpcrpositiva}"   layout="responsive"
+                                        <p:selectOneRadio id="selectOneRadioLeucocitos" value="#{analisisFaces.selectOneRadioLeucocitos}"   layout="responsive"
                                                           columns="1">
 
                                             <f:selectItem itemLabel="0" itemValue="0"/>
-                                            <f:selectItem itemLabel="1" itemValue="2-4"/>
+                                            <f:selectItem itemLabel="1" itemValue="1"/>
                                             <f:selectItem itemLabel="5-29" itemValue="5-29"/>
                                             <f:selectItem itemLabel=">30" itemValue=">30"/>
+                                            
+                                               <p:ajax event="change" listener="#{analisisFaces.changeSelectOneRadioLeucocitos}"
+                                                    update="selectOneRadioLeucocitos"
+                                                    />
                                         </p:selectOneRadio>
                                     </div>
 
@@ -267,10 +275,13 @@
 
                                     <div class="field mb-4 col-6">
                                         <label for="motivo" class="font-medium">Presencia levaduras (Imagen 1)</label>
-                                        <p:inputText  value="#{analisisFaces.analisisSelected.ctpcrpositiva}"
-                                                      id="presencialevaduras" placeholder="#" size="5"/>  
-
-                                        <p:selectOneRadio id="line2" value="#{analisisFaces.analisisSelected.ctpcrpositiva}" 
+                                        <p:inputText  value="#{analisisFaces.analisisSelected.presenciaLevaduras.valor}"
+                                                      id="presencialevaduras" placeholder="#" size="5">  
+                                            <p:ajax event="keyup" listener="#{analisisFaces.selectOneRadioLevaduras}"
+                                                    update="selectOneRadioLevaduras"
+                                                    />
+                                        </p:inputText>
+                                        <p:selectOneRadio id="selectOneRadioLevaduras" value="#{analisisFaces.selectOneRadioLevaduras}" 
                                                           layout="responsive"
                                                           columns="1">
 
@@ -278,6 +289,10 @@
                                             <f:selectItem itemLabel="1" itemValue="1"/>
                                             <f:selectItem itemLabel="5-29" itemValue="5"/>
                                             <f:selectItem itemLabel=">30" itemValue=">30"/>
+                                          
+                                               <p:ajax event="change" listener="#{analisisFaces.changeSelectOneRadioLevaduras}"
+                                                    update="presencialevaduras"
+                                                    />
                                         </p:selectOneRadio>
                                     </div>
 
@@ -286,9 +301,14 @@
                                     <div class="field mb-4 col-6
                                          ">
                                         <label for="diagnostico" class="font-medium">Presencia epiteliales(Imagen 1</label>
-                                        <p:inputText  value="#{analisisFaces.analisisSelected.ctpcrpositiva}" id="presenciaepiteliales" placeholder="#" size="5"/>  
+                                        <p:inputText  value="#{analisisFaces.analisisSelected.presenciaEpitales.valor}"
+                                                      id="presenciaepiteliales" placeholder="#" size="5">  
+                                            <p:ajax event="keyup" listener="#{analisisFaces.selectOneRadioEpitales}"
+                                                    update="selectOneRadioEpitales"
+                                                    />
+                                        </p:inputText>
 
-                                        <p:selectOneRadio id="line3" value="#{analisisFaces.analisisSelected.ctpcrpositiva}" 
+                                        <p:selectOneRadio id="selectOneRadioEpitales" value="#{analisisFaces.selectOneRadioEpitales}" 
                                                           layout="responsive"
                                                           columns="1">
 
@@ -297,6 +317,10 @@
                                             <f:selectItem itemLabel="1" itemValue="2-4"/>
                                             <f:selectItem itemLabel="5-29" itemValue="5-29"/>
                                             <f:selectItem itemLabel=">30" itemValue=">30"/>
+                                            
+                                               <p:ajax event="change" listener="#{analisisFaces.changeSelectOneRadioEpitales}"
+                                                    update="presenciaepiteliales"
+                                                    />
                                         </p:selectOneRadio>
                                     </div>
 
@@ -339,15 +363,17 @@
 
                                     <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
 
+
+
                                     <div class="field mb-4 col-12 md:col-6">
-                                        <label class="font-medium">Prueba de archivo</label>
+                                        <label class="font-medium">Imagen Tinción Gram 1</label>
                                         <div class="flex align-items-center">
-                                            <!--                                            <p:graphicImage id="file1x" name="images/blocks/avatars/circle/avatar-f-4.png"
-                                                                                                        library="primeblocks-app" alt="Image"
-                                                                                                        styleClass="mr-4"/>-->
-
-
-                                            <p:fileUpload listener="#{analisisFaces.fileUploadListener}"
+                                            <p:graphicImage value="#{imageView1.image}"
+                                                            style="width:200px;width:200px;display: block;  border-radius: 10px;"
+                                                            cache="false"
+                                                            styleClass="mr-4"
+                                                            id="file1"/>
+                                            <p:fileUpload listener="#{analisisFaces.fileUploadListener1}"
 
                                                           skinSimple="true"
                                                           mode="simple"
@@ -363,30 +389,16 @@
                                                           invalidSizeMessage="#{core['fileupload.tamanoinvalido']}"
                                                           auto="true"
                                                           update=":form:growl, file1"/>
-
-
-                                            <p:outputPanel id="file1" style="text-align:center;" ><!-- comment -->
-                                                <p:media value="#{jmoordbCoreMediaManager.media}"
-                                                         width="150px" height="150px"
-
-                                                         cache="false" player="pdf"/>
-
-                                            </p:outputPanel>     
-
                                         </div>
-                                    </div>
-
-
-                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
-
+                                    </div> 
                                     <div class="field mb-4 col-12 md:col-6">
                                         <label class="font-medium">Imagen Tinción Gram 2</label>
                                         <div class="flex align-items-center">
-                                            <!--                                            <p:graphicImage id="file1x" name="images/blocks/avatars/circle/avatar-f-4.png"
-                                                                                                        library="primeblocks-app" alt="Image"
-                                                                                                        styleClass="mr-4"/>-->
-
-
+                                            <p:graphicImage value="#{imageView2.image}"
+                                                            style="width:200px;width:200px;display: block;  border-radius: 10px;"
+                                                            cache="false"
+                                                            styleClass="mr-4"
+                                                            id="file2"/>
                                             <p:fileUpload listener="#{analisisFaces.fileUploadListener2}"
 
                                                           skinSimple="true"
@@ -403,30 +415,17 @@
                                                           invalidSizeMessage="#{core['fileupload.tamanoinvalido']}"
                                                           auto="true"
                                                           update=":form:growl, file2"/>
-
-
-                                            <p:outputPanel id="file2" style="text-align:center;" ><!-- comment -->
-
-
-                                                <p:graphicImage value="#{imageView2.image}">
-
-
-                                                </p:graphicImage>
-
-                                            </p:outputPanel>     
-
                                         </div>
-                                    </div>
-                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+                                    </div> 
 
                                     <div class="field mb-4 col-12 md:col-6">
                                         <label class="font-medium">Imagen Tinción Gram 3</label>
                                         <div class="flex align-items-center">
-                                            <!--                                            <p:graphicImage id="file1x" name="images/blocks/avatars/circle/avatar-f-4.png"
-                                                                                                        library="primeblocks-app" alt="Image"
-                                                                                                        styleClass="mr-4"/>-->
-
-
+                                            <p:graphicImage value="#{imageView3.image}"
+                                                            style="width:200px;width:200px;display: block;  border-radius: 10px;"
+                                                            cache="false"
+                                                            styleClass="mr-4" 
+                                                            id="file3"/>
                                             <p:fileUpload listener="#{analisisFaces.fileUploadListener3}"
 
                                                           skinSimple="true"
@@ -443,30 +442,17 @@
                                                           invalidSizeMessage="#{core['fileupload.tamanoinvalido']}"
                                                           auto="true"
                                                           update=":form:growl, file3"/>
-
-
-                                            <p:outputPanel id="file3" style="text-align:center;" ><!-- comment -->
-
-
-                                                <p:graphicImage value="#{imageView3.image}">
-
-
-                                                </p:graphicImage>
-
-                                            </p:outputPanel>     
-
                                         </div>
-                                    </div>
-                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+                                    </div> 
 
                                     <div class="field mb-4 col-12 md:col-6">
                                         <label class="font-medium">Imagen Tinción Gram 4</label>
                                         <div class="flex align-items-center">
-                                            <!--                                            <p:graphicImage id="file1x" name="images/blocks/avatars/circle/avatar-f-4.png"
-                                                                                                        library="primeblocks-app" alt="Image"
-                                                                                                        styleClass="mr-4"/>-->
-
-
+                                            <p:graphicImage value="#{imageView4.image}"
+                                                            style="width:200px;width:200px;display: block;  border-radius: 10px;"
+                                                            cache="false"
+                                                            styleClass="mr-4"
+                                                            id="file4"/>
                                             <p:fileUpload listener="#{analisisFaces.fileUploadListener4}"
 
                                                           skinSimple="true"
@@ -483,32 +469,102 @@
                                                           invalidSizeMessage="#{core['fileupload.tamanoinvalido']}"
                                                           auto="true"
                                                           update=":form:growl, file4"/>
-
-
-                                            <p:outputPanel id="file4" style="text-align:center;" ><!-- comment -->
-
-
-                                                <p:graphicImage value="#{imageView4.image}">
-
-
-                                                </p:graphicImage>
-
-                                            </p:outputPanel>     
-
                                         </div>
-                                    </div>
-                                    
-                                    
-                                      <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+                                    </div> 
+
+
+
+                                    <div class="field mb-4 col-12 md:col-6">
+                                        <label class="font-medium">Imagen Tinción Gram 5</label>
+                                        <div class="flex align-items-center">
+                                            <p:graphicImage value="#{imageView5.image}"
+                                                            style="width:200px;width:200px;display: block;  border-radius: 10px;"
+                                                            cache="false"
+                                                            styleClass="mr-4"
+                                                            id="file5"/>
+                                            <p:fileUpload listener="#{analisisFaces.fileUploadListener5}"
+
+                                                          skinSimple="true"
+                                                          mode="simple"
+                                                          title="#{msg['fileupload.extension']}"
+                                                          uploadIcon="pi pi-fw pi-upload"
+                                                          label="#{core['button.file']}"
+                                                          uploadLabel="#{core['button.upload']}"
+                                                          cancelLabel="#{core['button.uploadcancell']}"
+                                                          sizeLimit="12800000"
+                                                          allowTypes="/(\.|\/)(gif|jpe?g|png|docx?|pdf|txt|json|xml|xls|xlsx|txt|cvs|dot)$/"
+                                                          validateContentType="true"
+                                                          invalidFileMessage="#{core['fileupload.filetypeinvalido']}"
+                                                          invalidSizeMessage="#{core['fileupload.tamanoinvalido']}"
+                                                          auto="true"
+                                                          update=":form:growl, file5"/>
+                                        </div>
+                                    </div> 
+
+
+                                    <div class="field mb-4 col-12 md:col-6">
+                                        <label class="font-medium">Imagen Tinción Gram 6</label>
+                                        <div class="flex align-items-center">
+                                            <p:graphicImage value="#{imageView6.image}"
+                                                            style="width:200px;width:200px;display: block;  border-radius: 10px;"
+                                                            cache="false"
+                                                            styleClass="mr-4"
+                                                            id="file6"/>
+                                            <p:fileUpload listener="#{analisisFaces.fileUploadListener6}"
+
+                                                          skinSimple="true"
+                                                          mode="simple"
+                                                          title="#{msg['fileupload.extension']}"
+                                                          uploadIcon="pi pi-fw pi-upload"
+                                                          label="#{core['button.file']}"
+                                                          uploadLabel="#{core['button.upload']}"
+                                                          cancelLabel="#{core['button.uploadcancell']}"
+                                                          sizeLimit="12800000"
+                                                          allowTypes="/(\.|\/)(gif|jpe?g|png|docx?|pdf|txt|json|xml|xls|xlsx|txt|cvs|dot)$/"
+                                                          validateContentType="true"
+                                                          invalidFileMessage="#{core['fileupload.filetypeinvalido']}"
+                                                          invalidSizeMessage="#{core['fileupload.tamanoinvalido']}"
+                                                          auto="true"
+                                                          update=":form:growl, file6"/>
+                                        </div>
+                                    </div> 
+
+                                    <div class="field mb-4 col-12 md:col-6">
+                                        <label class="font-medium">Imagen Tinción Gram 7</label>
+                                        <div class="flex align-items-center">
+                                            <p:graphicImage value="#{imageView7.image}"
+                                                            style="width:200px;width:200px;display: block;  border-radius: 10px;"
+                                                            cache="false"
+                                                            styleClass="mr-4"
+                                                            id="file7"/>
+                                            <p:fileUpload listener="#{analisisFaces.fileUploadListener7}"
+
+                                                          skinSimple="true"
+                                                          mode="simple"
+                                                          title="#{msg['fileupload.extension']}"
+                                                          uploadIcon="pi pi-fw pi-upload"
+                                                          label="#{core['button.file']}"
+                                                          uploadLabel="#{core['button.upload']}"
+                                                          cancelLabel="#{core['button.uploadcancell']}"
+                                                          sizeLimit="12800000"
+                                                          allowTypes="/(\.|\/)(gif|jpe?g|png|docx?|pdf|txt|json|xml|xls|xlsx|txt|cvs|dot)$/"
+                                                          validateContentType="true"
+                                                          invalidFileMessage="#{core['fileupload.filetypeinvalido']}"
+                                                          invalidSizeMessage="#{core['fileupload.tamanoinvalido']}"
+                                                          auto="true"
+                                                          update=":form:growl, file7"/>
+                                        </div>
+                                    </div> 
+
 
                                     <div class="field mb-4 col-12 md:col-6">
                                         <label class="font-medium">Imagen Tinción Gram 8</label>
                                         <div class="flex align-items-center">
-                                            <!--                                            <p:graphicImage id="file1x" name="images/blocks/avatars/circle/avatar-f-4.png"
-                                                                                                        library="primeblocks-app" alt="Image"
-                                                                                                        styleClass="mr-4"/>-->
-
-
+                                            <p:graphicImage value="#{imageView8.image}"
+                                                            style="width:200px;width:200px;display: block;  border-radius: 10px;"
+                                                            cache="false"
+                                                            styleClass="mr-4"
+                                                            id="file8"/>
                                             <p:fileUpload listener="#{analisisFaces.fileUploadListener8}"
 
                                                           skinSimple="true"
@@ -525,31 +581,17 @@
                                                           invalidSizeMessage="#{core['fileupload.tamanoinvalido']}"
                                                           auto="true"
                                                           update=":form:growl, file8"/>
-
-
-                                            <p:outputPanel id="file8" style="text-align:center;" ><!-- comment -->
-
-
-                                                <p:graphicImage value="#{imageView8.image}">
-
-
-                                                </p:graphicImage>
-
-                                            </p:outputPanel>     
-
                                         </div>
-                                    </div>
-                                     
-                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+                                    </div> 
 
                                     <div class="field mb-4 col-12 md:col-6">
                                         <label class="font-medium">Imagen Tinción Gram 9</label>
                                         <div class="flex align-items-center">
-                                            <!--                                            <p:graphicImage id="file1x" name="images/blocks/avatars/circle/avatar-f-4.png"
-                                                                                                        library="primeblocks-app" alt="Image"
-                                                                                                        styleClass="mr-4"/>-->
-
-
+                                            <p:graphicImage value="#{imageView9.image}"
+                                                            style="width:200px;width:200px;display: block;  border-radius: 10px;"
+                                                            cache="false"
+                                                            styleClass="mr-4"
+                                                            id="file9"/>
                                             <p:fileUpload listener="#{analisisFaces.fileUploadListener9}"
 
                                                           skinSimple="true"
@@ -566,30 +608,16 @@
                                                           invalidSizeMessage="#{core['fileupload.tamanoinvalido']}"
                                                           auto="true"
                                                           update=":form:growl, file9"/>
-
-
-                                            <p:outputPanel id="file9" style="text-align:center;" ><!-- comment -->
-
-
-                                                <p:graphicImage value="#{imageView9.image}">
-
-
-                                                </p:graphicImage>
-
-                                            </p:outputPanel>     
-
                                         </div>
-                                    </div>
-                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
-
+                                    </div> 
                                     <div class="field mb-4 col-12 md:col-6">
                                         <label class="font-medium">Imagen Tinción Gram 10</label>
                                         <div class="flex align-items-center">
-                                            <!--                                            <p:graphicImage id="file1x" name="images/blocks/avatars/circle/avatar-f-4.png"
-                                                                                                        library="primeblocks-app" alt="Image"
-                                                                                                        styleClass="mr-4"/>-->
-
-
+                                            <p:graphicImage value="#{imageView10.image}"
+                                                            style="width:200px;width:200px;display: block;  border-radius: 10px;"
+                                                            cache="false"
+                                                            styleClass="mr-4"
+                                                            id="file10"/>
                                             <p:fileUpload listener="#{analisisFaces.fileUploadListener10}"
 
                                                           skinSimple="true"
@@ -606,147 +634,18 @@
                                                           invalidSizeMessage="#{core['fileupload.tamanoinvalido']}"
                                                           auto="true"
                                                           update=":form:growl, file10"/>
-
-
-                                            <p:outputPanel id="file10" style="text-align:center;" ><!-- comment -->
-
-
-                                                <p:graphicImage value="#{imageView10.image}">
-
-
-                                                </p:graphicImage>
-
-                                            </p:outputPanel>     
-
                                         </div>
-                                    </div>
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
+                                    </div> 
+
+
+
+
 
 
 
                                     <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
 
-                                    <div class="field mb-4 col-12 md:col-6">
-                                        <label class="font-medium">Imagen Tinción Gram 1</label>
-                                        <div class="flex align-items-center">
-                                            <p:graphicImage name="images/blocks/avatars/circle/avatar-f-4.png"
-                                                            library="primeblocks-app" alt="Image"
-                                                            styleClass="mr-4"/>
-                                            <p:fileUpload mode="simple" skinSimple="true" label="Upload Image" auto="true"
-                                                          process="@this"/>
-                                        </div>
-                                    </div>
-                                    <div class="field mb-4 col-12 md:col-6">
-                                        <label class="font-medium">Imagen Tinción Gram 2</label>
-                                        <div class="flex align-items-center">
-                                            <p:graphicImage name="images/blocks/avatars/circle/avatar-f-4.png"
-                                                            library="primeblocks-app" alt="Image"
-                                                            styleClass="mr-4"/>
-                                            <p:fileUpload mode="simple" skinSimple="true" label="Upload Image" auto="true"
-                                                          process="@this"/>
-                                        </div>
-                                    </div>
 
-
-                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
-
-                                    <div class="field mb-4 col-12 md:col-6">
-                                        <label class="font-medium">Imagen Tinción Gram 3</label>
-                                        <div class="flex align-items-center">
-                                            <p:graphicImage name="images/blocks/avatars/circle/avatar-f-4.png"
-                                                            library="primeblocks-app" alt="Image"
-                                                            styleClass="mr-4"/>
-                                            <p:fileUpload mode="simple" skinSimple="true" label="Upload Image" auto="true"
-                                                          process="@this"/>
-                                        </div>
-                                    </div>
-                                    <div class="field mb-4 col-12 md:col-6">
-                                        <label class="font-medium">Imagen Tinción Gram 4</label>
-                                        <div class="flex align-items-center">
-                                            <p:graphicImage name="images/blocks/avatars/circle/avatar-f-4.png"
-                                                            library="primeblocks-app" alt="Image"
-                                                            styleClass="mr-4"/>
-                                            <p:fileUpload mode="simple" skinSimple="true" label="Upload Image" auto="true"
-                                                          process="@this"/>
-                                        </div>
-                                    </div>
-                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
-
-                                    <div class="field mb-4 col-12 md:col-6">
-                                        <label class="font-medium">Imagen Tinción Gram 5</label>
-                                        <div class="flex align-items-center">
-                                            <p:graphicImage name="images/blocks/avatars/circle/avatar-f-4.png"
-                                                            library="primeblocks-app" alt="Image"
-                                                            styleClass="mr-4"/>
-                                            <p:fileUpload mode="simple" skinSimple="true" label="Upload Image" auto="true"
-                                                          process="@this"/>
-                                        </div>
-                                    </div>
-                                    <div class="field mb-4 col-12 md:col-6">
-                                        <label class="font-medium">Imagen Tinción Gram 6</label>
-                                        <div class="flex align-items-center">
-                                            <p:graphicImage name="images/blocks/avatars/circle/avatar-f-4.png"
-                                                            library="primeblocks-app" alt="Image"
-                                                            styleClass="mr-4"/>
-                                            <p:fileUpload mode="simple" skinSimple="true" label="Upload Image" auto="true"
-                                                          process="@this"/>
-                                        </div>
-                                    </div>
-                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
-
-                                    <div class="field mb-4 col-12 md:col-6">
-                                        <label class="font-medium">Imagen Tinción Gram 7</label>
-                                        <div class="flex align-items-center">
-                                            <p:graphicImage name="images/blocks/avatars/circle/avatar-f-4.png"
-                                                            library="primeblocks-app" alt="Image"
-                                                            styleClass="mr-4"/>
-                                            <p:fileUpload mode="simple" skinSimple="true" label="Upload Image" auto="true"
-                                                          process="@this"/>
-                                        </div>
-                                    </div>
-                                    <div class="field mb-4 col-12 md:col-6">
-                                        <label class="font-medium">Imagen Tinción Gram 8</label>
-                                        <div class="flex align-items-center">
-                                            <p:graphicImage name="images/blocks/avatars/circle/avatar-f-4.png"
-                                                            library="primeblocks-app" alt="Image"
-                                                            styleClass="mr-4"/>
-                                            <p:fileUpload mode="simple" skinSimple="true" label="Upload Image" auto="true"
-                                                          process="@this"/>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
-
-                                    <div class="field mb-4 col-12 md:col-6">
-                                        <label class="font-medium">Imagen Tinción Gram 9</label>
-                                        <div class="flex align-items-center">
-                                            <p:graphicImage name="images/blocks/avatars/circle/avatar-f-4.png"
-                                                            library="primeblocks-app" alt="Image"
-                                                            styleClass="mr-4"/>
-                                            <p:fileUpload mode="simple" skinSimple="true" label="Upload Image" auto="true"
-                                                          process="@this"/>
-                                        </div>
-                                    </div>
-                                    <div class="field mb-4 col-12 md:col-6">
-                                        <label class="font-medium">Imagen Tinción Gram 10</label>
-                                        <div class="flex align-items-center">
-                                            <p:graphicImage name="images/blocks/avatars/circle/avatar-f-4.png"
-                                                            library="primeblocks-app" alt="Image"
-                                                            styleClass="mr-4"/>
-                                            <p:fileUpload mode="simple" skinSimple="true" label="Upload Image" auto="true"
-                                                          process="@this"/>
-                                        </div>
-                                    </div>
 
                                     <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
 
@@ -754,16 +653,40 @@
                                         <label class="font-medium">¿Imagen 11 cultivo?</label>
                                         <p:toggleSwitch value="#{analisisFaces.analisisSelected.imagen11cultivo}" itemLabel="Si"/>
                                     </div>
+
+
+
                                     <div class="field mb-4 col-12 md:col-6">
                                         <label class="font-medium">Imagen PLACA recuento levaduras</label>
                                         <div class="flex align-items-center">
-                                            <p:graphicImage name="images/blocks/avatars/circle/avatar-f-4.png"
-                                                            library="primeblocks-app" alt="Image"
-                                                            styleClass="mr-4"/>
-                                            <p:fileUpload mode="simple" skinSimple="true" label="Upload Image" auto="true"
-                                                          process="@this"/>
+                                            <p:graphicImage value="#{imageView11.image}"
+                                                            style="width:200px;width:200px;display: block;  border-radius: 10px;"
+                                                            cache="false"
+                                                            styleClass="mr-4"
+                                                            id="file11"/>
+
+                                            <p:fileUpload listener="#{analisisFaces.fileUploadListener11}"
+
+                                                          skinSimple="true"
+                                                          mode="simple"
+                                                          title="#{msg['fileupload.extension']}"
+                                                          uploadIcon="pi pi-fw pi-upload"
+                                                          label="#{core['button.file']}"
+                                                          uploadLabel="#{core['button.upload']}"
+                                                          cancelLabel="#{core['button.uploadcancell']}"
+                                                          sizeLimit="12800000"
+                                                          allowTypes="/(\.|\/)(gif|jpe?g|png|docx?|pdf|txt|json|xml|xls|xlsx|txt|cvs|dot)$/"
+                                                          validateContentType="true"
+                                                          invalidFileMessage="#{core['fileupload.filetypeinvalido']}"
+                                                          invalidSizeMessage="#{core['fileupload.tamanoinvalido']}"
+                                                          auto="true"
+                                                          update=":form:growl, file11"/>
                                         </div>
-                                    </div>
+                                    </div> 
+
+
+
+
 
                                     <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
                                     <p:outputLabel value="Recuento crecimiento de la placa de hongos"/>  

@@ -44,6 +44,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.event.AjaxBehaviorEvent;
 import jakarta.faces.event.ValueChangeEvent;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -52,6 +53,7 @@ import jakarta.inject.Provider;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import lombok.Data;
 import org.bson.Document;
@@ -266,9 +268,14 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
     Archivo archivo8 = new Archivo("", JmoordbCoreDateUtil.fechaHoraActual(), "", "", Boolean.FALSE);
     Archivo archivo9 = new Archivo("", JmoordbCoreDateUtil.fechaHoraActual(), "", "", Boolean.FALSE);
     Archivo archivo10 = new Archivo("", JmoordbCoreDateUtil.fechaHoraActual(), "", "", Boolean.FALSE);
+    Archivo archivo11 = new Archivo("", JmoordbCoreDateUtil.fechaHoraActual(), "", "", Boolean.FALSE);
 
+    private String selectOneRadioEpitales = "0";
+    private String selectOneRadioLevaduras = "0";
+    private String selectOneRadioLeucocitos = "0";
 // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="selected For Dialog()">
+
     public Analisis getAnalisisSelected() {
         if (analisisSelected == null) {
             analisisSelected = new Analisis();
@@ -280,7 +287,6 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
     @PostConstruct
     public void init() {
         try {
-            prepareNew();
 
             otroMotivo = "";
             findAllMotivo();
@@ -305,6 +311,10 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
     // <editor-fold defaultstate="collapsed" desc="String prepareNew()">
     public String prepareNew() {
         try {
+            selectOneRadioEpitales = "0";
+            selectOneRadioLevaduras = "0";
+            selectOneRadioLeucocitos = "0";
+
             analisisSelected = new Analisis();
             analisisSelected.setEdad(0.0);
             analisisSelected.setNumeromuestra(0L);
@@ -501,6 +511,11 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
 
             analisis.setResultadocultivo(resultadocultivoList);
 
+            /**
+             * Archivo
+             */
+            List<Archivo> archivos = Arrays.asList(archivo1, archivo2, archivo3, archivo4, archivo5, archivo6, archivo7, archivo8, archivo9, archivo10, archivo11);
+            analisis.setArchivo(archivos);
             if (!analisisServices.save(analisis).isPresent()) {
                 FacesUtil.warningDialog(rf.fromCore("warning.save"), rf.fromCore("warning.save"));
                 ConsoleUtil.test("\tNo se guardo.");
@@ -521,79 +536,13 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
 //        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="String String fileUploadListener(FileUploadEvent event)">
-    public String fileUploadListener(FileUploadEvent event) {
+    // <editor-fold defaultstate="collapsed" desc="String String fileUploadListener1(FileUploadEvent event)">
+    public String fileUploadListener1(FileUploadEvent event) {
         try {
 
-            fileWasUploaded = false;
-            isFileImagen = Boolean.FALSE;
-            file = event.getFile();
-            Archivo archivo = new Archivo("", JmoordbCoreDateUtil.fechaHoraActual(), "", "", Boolean.FALSE);
-            if (file != null) {
-
-                String description = file.getFileName().substring(0, file.getFileName().indexOf("."));
-//                archivo.setDescripcion(file.getFileName());
-                archivo.setDescripcion(description);
-                String fileExt = FacesUtil.getFileExt(file);
-                archivo.setExtension(fileExt);
-
-                if (fileExt.equals(".gif")
-                        || fileExt.equals(".jpg")
-                        || fileExt.equals(".jpeg")
-                        || fileExt.equals(".png")) {
-
-                    if (!FacesUtil.checkImage(file)) {
-                        FacesUtil.errorMessage(rf.fromCore("field.noimagen"));
-
-                        return "";
-                    } else {
-
-                        isFileImagen = Boolean.TRUE;
-                    }
-                }
-
-                fileWasUploaded = Boolean.TRUE;
-
-                // isFileImagen = Boolean.TRUE;
-                if (isFileImagen) {
-                    ConsoleUtil.test("\t{es una imagen}");
-                    archivo.setPath(FacesUtil.saveImage(file, archivo.getPath(), fileRepositoryDirectory));
-                    if (!pathBaseLinuxAddUserHomeStoreInCollections.get()) {
-                        archivo.setPath(archivo.getPath().replaceAll(FacesUtil.userHome(), ""));
-                    } else {
-
-                    }
-
-                    //  agregarRowArchivo(archivo);
-                } else {
-                    ConsoleUtil.test("\t{nO es una imagen}");
-                    //  archivo.setPath(FacesUtil.saveImage(file, archivo.getPath(), fileRepositoryDirectory));
-                    ConsoleUtil.test("\t llamando a createFile");
-                    createFile(file, archivo);
-
-                    if (!pathBaseLinuxAddUserHomeStoreInCollections.get()) {
-
-                        archivo.setPath(archivo.getPath().replaceAll(FacesUtil.userHome(), ""));
-
-                    } else {
-
-                    }
-
-                    //agregarRowArchivo(archivo);
-                }
-
-                if (fileWasUploaded) {
-                    ConsoleUtil.test("\t incovare saveToMediaContext( ");
-                    ConsoleUtil.test("\t archivo.getPath() " + archivo.getPath());
-                    ConsoleUtil.test("\t archivo.getDescripcion() " + archivo.getDescripcion());
-                    saveToMediaContext(archivo.getPath(), archivo.getDescripcion());
-                    FacesUtil.successMessage(rf.fromMessage("info.archivosubido"));
-                } else {
-                    ConsoleUtil.test("\t no fue subido.");
-                }
-            }
+            JmoordbCoreUtil.copyBeans(archivo1, fileUploadListenerGeneric(event, 1));
         } catch (Exception e) {
-            ConsoleUtil.test("\tfileUploadListener() error: " + e.getLocalizedMessage());
+
             FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
@@ -601,454 +550,83 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
     }
 // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="String String fileUploadListener(FileUploadEvent event)">
+    // <editor-fold defaultstate="collapsed" desc="String String fileUploadListener2(FileUploadEvent event)">
     public String fileUploadListener2(FileUploadEvent event) {
         try {
 
-            fileWasUploaded = false;
-            isFileImagen = Boolean.FALSE;
-            file = event.getFile();
-            archivo2 = new Archivo("", JmoordbCoreDateUtil.fechaHoraActual(), "", "", Boolean.FALSE);
-            if (file != null) {
-
-                String description = file.getFileName().substring(0, file.getFileName().indexOf("."));
-//                archivo.setDescripcion(file.getFileName());
-                archivo2.setDescripcion(description);
-                String fileExt = FacesUtil.getFileExt(file);
-                archivo2.setExtension(fileExt);
-
-                if (fileExt.equals(".gif")
-                        || fileExt.equals(".jpg")
-                        || fileExt.equals(".jpeg")
-                        || fileExt.equals(".png")) {
-
-                    if (!FacesUtil.checkImage(file)) {
-                        FacesUtil.errorMessage(rf.fromCore("field.noimagen"));
-
-                        return "";
-                    } else {
-
-                        isFileImagen = Boolean.TRUE;
-                    }
-                }
-
-                fileWasUploaded = Boolean.TRUE;
-
-                // isFileImagen = Boolean.TRUE;
-                if (isFileImagen) {
-                    ConsoleUtil.test("\t{es una imagen}");
-                    archivo2.setPath(FacesUtil.saveImage(file, archivo2.getPath(), fileRepositoryDirectory));
-                    if (!pathBaseLinuxAddUserHomeStoreInCollections.get()) {
-                        archivo2.setPath(archivo2.getPath().replaceAll(FacesUtil.userHome(), ""));
-                    } else {
-
-                    }
-
-                    //  agregarRowArchivo(archivo);
-                } else {
-
-                    //  archivo.setPath(FacesUtil.saveImage(file, archivo.getPath(), fileRepositoryDirectory));
-                    createFile(file, archivo2);
-
-                    if (!pathBaseLinuxAddUserHomeStoreInCollections.get()) {
-
-                        archivo2.setPath(archivo2.getPath().replaceAll(FacesUtil.userHome(), ""));
-
-                    } else {
-
-                    }
-
-                    //agregarRowArchivo(archivo);
-                }
-
-                if (fileWasUploaded) {
-
-                    saveToMediaContext(archivo2.getPath(), archivo2.getDescripcion(), 2);
-                    FacesUtil.successMessage(rf.fromMessage("info.archivosubido"));
-                } else {
-                    ConsoleUtil.test("\t no fue subido.");
-                }
-            }
+            JmoordbCoreUtil.copyBeans(archivo2, fileUploadListenerGeneric(event, 2));
         } catch (Exception e) {
-            ConsoleUtil.test("\tfileUploadListener() error: " + e.getLocalizedMessage());
+
             FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return "";
     }
 // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="String String fileUploadListener3(FileUploadEvent event)">
 
+    // <editor-fold defaultstate="collapsed" desc="String String fileUploadListener3(FileUploadEvent event)">
     public String fileUploadListener3(FileUploadEvent event) {
         try {
 
-            fileWasUploaded = false;
-            isFileImagen = Boolean.FALSE;
-            file = event.getFile();
-            archivo3 = new Archivo("", JmoordbCoreDateUtil.fechaHoraActual(), "", "", Boolean.FALSE);
-            if (file != null) {
-
-                String description = file.getFileName().substring(0, file.getFileName().indexOf("."));
-//                archivo.setDescripcion(file.getFileName());
-                archivo3.setDescripcion(description);
-                String fileExt = FacesUtil.getFileExt(file);
-                archivo3.setExtension(fileExt);
-
-                if (fileExt.equals(".gif")
-                        || fileExt.equals(".jpg")
-                        || fileExt.equals(".jpeg")
-                        || fileExt.equals(".png")) {
-
-                    if (!FacesUtil.checkImage(file)) {
-                        FacesUtil.errorMessage(rf.fromCore("field.noimagen"));
-
-                        return "";
-                    } else {
-
-                        isFileImagen = Boolean.TRUE;
-                    }
-                }
-
-                fileWasUploaded = Boolean.TRUE;
-
-                // isFileImagen = Boolean.TRUE;
-                if (isFileImagen) {
-
-                    archivo3.setPath(FacesUtil.saveImage(file, archivo3.getPath(), fileRepositoryDirectory));
-                    if (!pathBaseLinuxAddUserHomeStoreInCollections.get()) {
-                        archivo3.setPath(archivo3.getPath().replaceAll(FacesUtil.userHome(), ""));
-                    } else {
-
-                    }
-
-                    //  agregarRowArchivo(archivo);
-                } else {
-                    ConsoleUtil.test("\t{nO es una imagen}");
-                    //  archivo.setPath(FacesUtil.saveImage(file, archivo.getPath(), fileRepositoryDirectory));
-                    ConsoleUtil.test("\t llamando a createFile");
-                    createFile(file, archivo3);
-
-                    if (!pathBaseLinuxAddUserHomeStoreInCollections.get()) {
-
-                        archivo3.setPath(archivo3.getPath().replaceAll(FacesUtil.userHome(), ""));
-
-                    } else {
-
-                    }
-
-                    //agregarRowArchivo(archivo);
-                }
-
-                if (fileWasUploaded) {
-
-                    saveToMediaContext(archivo3.getPath(), archivo3.getDescripcion(), 3);
-                    FacesUtil.successMessage(rf.fromMessage("info.archivosubido"));
-                } else {
-                    ConsoleUtil.test("\t no fue subido.");
-                }
-            }
+            JmoordbCoreUtil.copyBeans(archivo3, fileUploadListenerGeneric(event, 3));
         } catch (Exception e) {
-            ConsoleUtil.test("\tfileUploadListener() error: " + e.getLocalizedMessage());
+
             FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return "";
     }
 // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="String String fileUploadListener4(FileUploadEvent event)">
 
+    // <editor-fold defaultstate="collapsed" desc="String String fileUploadListener4(FileUploadEvent event)">
     public String fileUploadListener4(FileUploadEvent event) {
         try {
 
-            fileWasUploaded = false;
-            isFileImagen = Boolean.FALSE;
-            file = event.getFile();
-            archivo4 = new Archivo("", JmoordbCoreDateUtil.fechaHoraActual(), "", "", Boolean.FALSE);
-            if (file != null) {
-
-                String description = file.getFileName().substring(0, file.getFileName().indexOf("."));
-                archivo4.setDescripcion(description);
-                String fileExt = FacesUtil.getFileExt(file);
-                archivo4.setExtension(fileExt);
-
-                if (fileExt.equals(".gif")
-                        || fileExt.equals(".jpg")
-                        || fileExt.equals(".jpeg")
-                        || fileExt.equals(".png")) {
-
-                    if (!FacesUtil.checkImage(file)) {
-                        FacesUtil.errorMessage(rf.fromCore("field.noimagen"));
-
-                        return "";
-                    } else {
-
-                        isFileImagen = Boolean.TRUE;
-                    }
-                }
-
-                fileWasUploaded = Boolean.TRUE;
-
-                // isFileImagen = Boolean.TRUE;
-                if (isFileImagen) {
-
-                    archivo4.setPath(FacesUtil.saveImage(file, archivo4.getPath(), fileRepositoryDirectory));
-                    if (!pathBaseLinuxAddUserHomeStoreInCollections.get()) {
-                        archivo4.setPath(archivo4.getPath().replaceAll(FacesUtil.userHome(), ""));
-                    } else {
-
-                    }
-
-                    //  agregarRowArchivo(archivo);
-                } else {
-
-                    createFile(file, archivo4);
-
-                    if (!pathBaseLinuxAddUserHomeStoreInCollections.get()) {
-
-                        archivo4.setPath(archivo4.getPath().replaceAll(FacesUtil.userHome(), ""));
-
-                    } else {
-
-                    }
-
-                    //agregarRowArchivo(archivo);
-                }
-
-                if (fileWasUploaded) {
-
-                    saveToMediaContext(archivo4.getPath(), archivo4.getDescripcion(), 4);
-                    FacesUtil.successMessage(rf.fromMessage("info.archivosubido"));
-                } else {
-//                    ConsoleUtil.test("\t no fue subido.");
-                }
-            }
+            JmoordbCoreUtil.copyBeans(archivo4, fileUploadListenerGeneric(event, 4));
         } catch (Exception e) {
-            ConsoleUtil.test("\tfileUploadListener() error: " + e.getLocalizedMessage());
+
             FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return "";
     }
 // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="String String fileUploadListener5(FileUploadEvent event)">
 
+    // <editor-fold defaultstate="collapsed" desc="String String fileUploadListener5(FileUploadEvent event)">
     public String fileUploadListener5(FileUploadEvent event) {
         try {
 
-            fileWasUploaded = false;
-            isFileImagen = Boolean.FALSE;
-            file = event.getFile();
-            archivo5 = new Archivo("", JmoordbCoreDateUtil.fechaHoraActual(), "", "", Boolean.FALSE);
-            if (file != null) {
-
-                String description = file.getFileName().substring(0, file.getFileName().indexOf("."));
-                archivo5.setDescripcion(description);
-                String fileExt = FacesUtil.getFileExt(file);
-                archivo5.setExtension(fileExt);
-
-                if (fileExt.equals(".gif")
-                        || fileExt.equals(".jpg")
-                        || fileExt.equals(".jpeg")
-                        || fileExt.equals(".png")) {
-
-                    if (!FacesUtil.checkImage(file)) {
-                        FacesUtil.errorMessage(rf.fromCore("field.noimagen"));
-
-                        return "";
-                    } else {
-
-                        isFileImagen = Boolean.TRUE;
-                    }
-                }
-
-                fileWasUploaded = Boolean.TRUE;
-
-                // isFileImagen = Boolean.TRUE;
-                if (isFileImagen) {
-
-                    archivo5.setPath(FacesUtil.saveImage(file, archivo5.getPath(), fileRepositoryDirectory));
-                    if (!pathBaseLinuxAddUserHomeStoreInCollections.get()) {
-                        archivo5.setPath(archivo5.getPath().replaceAll(FacesUtil.userHome(), ""));
-                    } else {
-
-                    }
-
-                    //  agregarRowArchivo(archivo);
-                } else {
-
-                    createFile(file, archivo5);
-
-                    if (!pathBaseLinuxAddUserHomeStoreInCollections.get()) {
-
-                        archivo5.setPath(archivo5.getPath().replaceAll(FacesUtil.userHome(), ""));
-
-                    } else {
-
-                    }
-
-                    //agregarRowArchivo(archivo);
-                }
-
-                if (fileWasUploaded) {
-
-                    saveToMediaContext(archivo5.getPath(), archivo5.getDescripcion(), 5);
-                    FacesUtil.successMessage(rf.fromMessage("info.archivosubido"));
-                } else {
-//                    ConsoleUtil.test("\t no fue subido.");
-                }
-            }
+            JmoordbCoreUtil.copyBeans(archivo5, fileUploadListenerGeneric(event, 5));
         } catch (Exception e) {
-            ConsoleUtil.test("\tfileUploadListener() error: " + e.getLocalizedMessage());
+
             FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return "";
     }
 // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="String String fileUploadListener6(FileUploadEvent event)">
 
+    // <editor-fold defaultstate="collapsed" desc="String String fileUploadListener6(FileUploadEvent event)">
     public String fileUploadListener6(FileUploadEvent event) {
         try {
 
-            fileWasUploaded = false;
-            isFileImagen = Boolean.FALSE;
-            file = event.getFile();
-            archivo6 = new Archivo("", JmoordbCoreDateUtil.fechaHoraActual(), "", "", Boolean.FALSE);
-            if (file != null) {
-
-                String description = file.getFileName().substring(0, file.getFileName().indexOf("."));
-                archivo6.setDescripcion(description);
-                String fileExt = FacesUtil.getFileExt(file);
-                archivo6.setExtension(fileExt);
-
-                if (fileExt.equals(".gif")
-                        || fileExt.equals(".jpg")
-                        || fileExt.equals(".jpeg")
-                        || fileExt.equals(".png")) {
-
-                    if (!FacesUtil.checkImage(file)) {
-                        FacesUtil.errorMessage(rf.fromCore("field.noimagen"));
-
-                        return "";
-                    } else {
-
-                        isFileImagen = Boolean.TRUE;
-                    }
-                }
-
-                fileWasUploaded = Boolean.TRUE;
-
-                // isFileImagen = Boolean.TRUE;
-                if (isFileImagen) {
-
-                    archivo6.setPath(FacesUtil.saveImage(file, archivo6.getPath(), fileRepositoryDirectory));
-                    if (!pathBaseLinuxAddUserHomeStoreInCollections.get()) {
-                        archivo6.setPath(archivo6.getPath().replaceAll(FacesUtil.userHome(), ""));
-                    } else {
-
-                    }
-
-                    //  agregarRowArchivo(archivo);
-                } else {
-
-                    createFile(file, archivo6);
-
-                    if (!pathBaseLinuxAddUserHomeStoreInCollections.get()) {
-
-                        archivo6.setPath(archivo6.getPath().replaceAll(FacesUtil.userHome(), ""));
-
-                    } else {
-
-                    }
-
-                    //agregarRowArchivo(archivo);
-                }
-
-                if (fileWasUploaded) {
-
-                    saveToMediaContext(archivo6.getPath(), archivo6.getDescripcion(), 6);
-                    FacesUtil.successMessage(rf.fromMessage("info.archivosubido"));
-                } else {
-//                    ConsoleUtil.test("\t no fue subido.");
-                }
-            }
+            JmoordbCoreUtil.copyBeans(archivo6, fileUploadListenerGeneric(event, 6));
         } catch (Exception e) {
-            ConsoleUtil.test("\tfileUploadListener() error: " + e.getLocalizedMessage());
+
             FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return "";
     }
 // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="String String fileUploadListener7(FileUploadEvent event)">
 
+    // <editor-fold defaultstate="collapsed" desc="String String fileUploadListener7(FileUploadEvent event)">
     public String fileUploadListener7(FileUploadEvent event) {
         try {
 
-            fileWasUploaded = false;
-            isFileImagen = Boolean.FALSE;
-            file = event.getFile();
-            archivo7 = new Archivo("", JmoordbCoreDateUtil.fechaHoraActual(), "", "", Boolean.FALSE);
-            if (file != null) {
-
-                String description = file.getFileName().substring(0, file.getFileName().indexOf("."));
-                archivo7.setDescripcion(description);
-                String fileExt = FacesUtil.getFileExt(file);
-                archivo7.setExtension(fileExt);
-
-                if (fileExt.equals(".gif")
-                        || fileExt.equals(".jpg")
-                        || fileExt.equals(".jpeg")
-                        || fileExt.equals(".png")) {
-
-                    if (!FacesUtil.checkImage(file)) {
-                        FacesUtil.errorMessage(rf.fromCore("field.noimagen"));
-
-                        return "";
-                    } else {
-
-                        isFileImagen = Boolean.TRUE;
-                    }
-                }
-
-                fileWasUploaded = Boolean.TRUE;
-
-                // isFileImagen = Boolean.TRUE;
-                if (isFileImagen) {
-
-                    archivo7.setPath(FacesUtil.saveImage(file, archivo7.getPath(), fileRepositoryDirectory));
-                    if (!pathBaseLinuxAddUserHomeStoreInCollections.get()) {
-                        archivo7.setPath(archivo7.getPath().replaceAll(FacesUtil.userHome(), ""));
-                    } else {
-
-                    }
-
-                    //  agregarRowArchivo(archivo);
-                } else {
-
-                    createFile(file, archivo7);
-
-                    if (!pathBaseLinuxAddUserHomeStoreInCollections.get()) {
-
-                        archivo7.setPath(archivo7.getPath().replaceAll(FacesUtil.userHome(), ""));
-
-                    } else {
-
-                    }
-
-                    //agregarRowArchivo(archivo);
-                }
-
-                if (fileWasUploaded) {
-
-                    saveToMediaContext(archivo7.getPath(), archivo7.getDescripcion(), 7);
-                    FacesUtil.successMessage(rf.fromMessage("info.archivosubido"));
-                } else {
-//                    ConsoleUtil.test("\t no fue subido.");
-                }
-            }
+            JmoordbCoreUtil.copyBeans(archivo7, fileUploadListenerGeneric(event, 7));
         } catch (Exception e) {
-            ConsoleUtil.test("\tfileUploadListener() error: " + e.getLocalizedMessage());
+
             FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
@@ -1060,9 +638,9 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
     public String fileUploadListener8(FileUploadEvent event) {
         try {
 
-             JmoordbCoreUtil.copyBeans(archivo8, fileUploadListenerGeneric(event, 8));
+            JmoordbCoreUtil.copyBeans(archivo8, fileUploadListenerGeneric(event, 8));
         } catch (Exception e) {
-            ConsoleUtil.test("\tfileUploadListener() error: " + e.getLocalizedMessage());
+
             FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
@@ -1075,11 +653,9 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
         try {
 
             JmoordbCoreUtil.copyBeans(archivo9, fileUploadListenerGeneric(event, 9));
-                      
-       
 
         } catch (Exception e) {
-            ConsoleUtil.test("\tfileUploadListener() error: " + e.getLocalizedMessage());
+
             FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
@@ -1091,22 +667,35 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
     public String fileUploadListener10(FileUploadEvent event) {
         try {
 //archivo10
-        JmoordbCoreUtil.copyBeans(archivo10, fileUploadListenerGeneric(event, 10));
-                      
+            JmoordbCoreUtil.copyBeans(archivo10, fileUploadListenerGeneric(event, 10));
+
         } catch (Exception e) {
-            ConsoleUtil.test("\tfileUploadListener() error: " + e.getLocalizedMessage());
+
             FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return "";
     }
 // </editor-fold>
-    
-    
- // <editor-fold defaultstate="collapsed" desc="String String fileUploadListener10(FileUploadEvent event, Integer imagePosition))">
 
+    // <editor-fold defaultstate="collapsed" desc="String String fileUploadListener11(FileUploadEvent event)">
+    public String fileUploadListener11(FileUploadEvent event) {
+        try {
+//archivo10
+            JmoordbCoreUtil.copyBeans(archivo11, fileUploadListenerGeneric(event, 11));
+
+        } catch (Exception e) {
+
+            FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+        }
+
+        return "";
+    }
+// </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="String String fileUploadListener10(FileUploadEvent event, Integer imagePosition))">
     public Archivo fileUploadListenerGeneric(FileUploadEvent event, Integer imagePosition) {
-        Archivo result =new Archivo("", JmoordbCoreDateUtil.fechaHoraActual(), "", "", Boolean.FALSE);
+        Archivo result = new Archivo("", JmoordbCoreDateUtil.fechaHoraActual(), "", "", Boolean.FALSE);
         try {
 
             fileWasUploaded = false;
@@ -1165,21 +754,20 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
 
                 if (fileWasUploaded) {
 
-                    saveToMediaContext(result.getPath(), result.getDescripcion(),imagePosition);
+                    saveToMediaContext(result.getPath(), result.getDescripcion(), imagePosition);
                     FacesUtil.successMessage(rf.fromMessage("info.archivosubido"));
                 } else {
 //                    ConsoleUtil.test("\t no fue subido.");
                 }
             }
         } catch (Exception e) {
-            ConsoleUtil.test("\tfileUploadListener() error: " + e.getLocalizedMessage());
+
             FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
 
         return result;
     }
 // </editor-fold>
-    
 
     // <editor-fold defaultstate="collapsed" desc="void createFile(UploadedFile file) ">
     private void createFile(UploadedFile file, Archivo archivo) {
@@ -1247,7 +835,6 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
             JmoordbCoreContext.put("pathOfFile" + positionOfImage, pathOfFile);
             JmoordbCoreContext.put("nameOfFile" + positionOfImage, nameOfFile);
 
-//            jmoordbCoreMediaManager.init();
             PrimeFaces.current().ajax().update("file" + positionOfImage);
         } catch (Exception e) {
             FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
@@ -1257,4 +844,244 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
     }
 
     // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="void selectOneRadioLeucocitos(AjaxBehaviorEvent event)">
+    public void selectOneRadioLeucocitos(AjaxBehaviorEvent event) {
+        try {
+            var valor = analisisSelected.getPresenciaLeucocitos().getValor();
+            selectOneRadioLeucocitos = "0";
+
+            analisisSelected.getPresenciaLeucocitos().setActivo(Boolean.TRUE);
+            analisisSelected.getPresenciaLeucocitos().setFivetwentynine(Boolean.FALSE);
+            analisisSelected.getPresenciaLeucocitos().setTwofour(Boolean.FALSE);
+            analisisSelected.getPresenciaLeucocitos().setGreaterthan30(Boolean.FALSE);
+            analisisSelected.getPresenciaLeucocitos().setOne(Boolean.FALSE);
+            analisisSelected.getPresenciaLeucocitos().setZero(Boolean.FALSE);
+           
+            if (valor.equals(0)) {
+                analisisSelected.getPresenciaLeucocitos().setZero(Boolean.TRUE);
+            } else {
+                if (valor.equals(1.0)) {
+                    selectOneRadioLeucocitos = "1";
+                    analisisSelected.getPresenciaLeucocitos().setOne(Boolean.TRUE);
+                } else {
+                    if (valor >= 5 && valor <= 29) {
+                        selectOneRadioLeucocitos = "5-29";
+                        analisisSelected.getPresenciaLeucocitos().setFivetwentynine(Boolean.TRUE);
+                    } else {
+                        if (valor >= 30) {
+                            selectOneRadioLeucocitos = ">30";
+                            analisisSelected.getPresenciaLeucocitos().setGreaterthan30(Boolean.TRUE);
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+        }
+
+    }
+// </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="void selectOneRadioLevadura(AjaxBehaviorEvent event)">
+
+    public void selectOneRadioLevaduras(AjaxBehaviorEvent event) {
+        try {
+            var valor = analisisSelected.getPresenciaLevaduras().getValor();
+            analisisSelected.getPresenciaLevaduras().setActivo(Boolean.TRUE);
+            analisisSelected.getPresenciaLevaduras().setFivetwentynine(Boolean.FALSE);
+            analisisSelected.getPresenciaLevaduras().setTwofour(Boolean.FALSE);
+            analisisSelected.getPresenciaLevaduras().setGreaterthan30(Boolean.FALSE);
+            analisisSelected.getPresenciaLevaduras().setOne(Boolean.FALSE);
+            analisisSelected.getPresenciaLevaduras().setZero(Boolean.FALSE);
+            selectOneRadioLevaduras = "0";
+
+            if (valor.equals(0)) {
+                analisisSelected.getPresenciaLevaduras().setZero(Boolean.TRUE);
+            } else {
+                if (valor.equals(1.0)) {
+                    selectOneRadioLevaduras = "1";
+                    analisisSelected.getPresenciaLevaduras().setOne(Boolean.TRUE);
+                } else {
+                    if (valor >= 5 && valor <= 29) {
+                        selectOneRadioLevaduras = "5-29";
+                        analisisSelected.getPresenciaLevaduras().setFivetwentynine(Boolean.TRUE);
+                    } else {
+                        if (valor >= 30) {
+                            selectOneRadioLevaduras = ">30";
+                            analisisSelected.getPresenciaLevaduras().setGreaterthan30(Boolean.TRUE);
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+        }
+
+    }
+// </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="void selectOneRadioEpitales(AjaxBehaviorEvent event)">
+
+    public void selectOneRadioEpitales(AjaxBehaviorEvent event) {
+        try {
+            var valor = analisisSelected.getPresenciaEpitales().getValor();
+            selectOneRadioEpitales = "0";
+            analisisSelected.getPresenciaEpitales().setActivo(Boolean.TRUE);
+            analisisSelected.getPresenciaEpitales().setFivetwentynine(Boolean.FALSE);
+            analisisSelected.getPresenciaEpitales().setTwofour(Boolean.FALSE);
+            analisisSelected.getPresenciaEpitales().setGreaterthan30(Boolean.FALSE);
+            analisisSelected.getPresenciaEpitales().setOne(Boolean.FALSE);
+            analisisSelected.getPresenciaEpitales().setZero(Boolean.FALSE);
+
+            if (valor.equals(0)) {
+                analisisSelected.getPresenciaEpitales().setZero(Boolean.TRUE);
+            } else {
+                if (valor.equals(1.0)) {
+                    selectOneRadioEpitales = "1";
+                    analisisSelected.getPresenciaEpitales().setOne(Boolean.TRUE);
+                } else {
+                    if (valor >= 5 && valor <= 29) {
+                        selectOneRadioEpitales = "5-29";
+                        analisisSelected.getPresenciaEpitales().setFivetwentynine(Boolean.TRUE);
+                    } else {
+                        if (valor >= 30) {
+                            selectOneRadioEpitales = ">30";
+                            analisisSelected.getPresenciaEpitales().setGreaterthan30(Boolean.TRUE);
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+        }
+
+    }
+// </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="changeSelectOneRadioLeucocitos(AjaxBehaviorEvent event)">
+    public void changeSelectOneRadioLeucocitos(AjaxBehaviorEvent event) {
+        try {
+            analisisSelected.getPresenciaLeucocitos().setActivo(Boolean.TRUE);
+            analisisSelected.getPresenciaLeucocitos().setFivetwentynine(Boolean.FALSE);
+            analisisSelected.getPresenciaLeucocitos().setTwofour(Boolean.FALSE);
+            analisisSelected.getPresenciaLeucocitos().setGreaterthan30(Boolean.FALSE);
+            analisisSelected.getPresenciaLeucocitos().setOne(Boolean.FALSE);
+            analisisSelected.getPresenciaLeucocitos().setZero(Boolean.FALSE);
+            Double valor = 0.0;
+            if (selectOneRadioLeucocitos.equals(">30")) {
+                valor = 30.0;
+            } else {
+                valor = Double.parseDouble(selectOneRadioLeucocitos);
+            }
+
+            analisisSelected.getPresenciaLeucocitos().setValor(valor);
+            if (valor.equals(0)) {
+                analisisSelected.getPresenciaLeucocitos().setZero(Boolean.TRUE);
+            } else {
+                if (valor.equals(1.0)) {
+                  
+                    analisisSelected.getPresenciaLeucocitos().setOne(Boolean.TRUE);
+                } else {
+                    if (valor >= 5 && valor <= 29) {
+                       
+                        analisisSelected.getPresenciaLeucocitos().setFivetwentynine(Boolean.TRUE);
+                    } else {
+                        if (valor >= 30) {
+                            
+                            analisisSelected.getPresenciaLeucocitos().setGreaterthan30(Boolean.TRUE);
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+        }
+
+    }
+// </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="changeSelectOneRadioLevaduras(AjaxBehaviorEvent event)">
+    public void changeSelectOneRadioLevaduras(AjaxBehaviorEvent event) {
+        try {
+            analisisSelected.getPresenciaLevaduras().setActivo(Boolean.TRUE);
+            analisisSelected.getPresenciaLevaduras().setFivetwentynine(Boolean.FALSE);
+            analisisSelected.getPresenciaLevaduras().setTwofour(Boolean.FALSE);
+            analisisSelected.getPresenciaLevaduras().setGreaterthan30(Boolean.FALSE);
+            analisisSelected.getPresenciaLevaduras().setOne(Boolean.FALSE);
+            analisisSelected.getPresenciaLevaduras().setZero(Boolean.FALSE);
+            Double valor = 0.0;
+            if (selectOneRadioLevaduras.equals(">30")) {
+                valor = 30.0;
+            } else {
+                valor = Double.parseDouble(selectOneRadioLevaduras);
+            }
+
+            analisisSelected.getPresenciaLevaduras().setValor(valor);
+            if (valor.equals(0)) {
+                analisisSelected.getPresenciaLevaduras().setZero(Boolean.TRUE);
+            } else {
+                if (valor.equals(1.0)) {
+                   
+                    analisisSelected.getPresenciaLevaduras().setOne(Boolean.TRUE);
+                } else {
+                    if (valor >= 5 && valor <= 29) {
+                      
+                        analisisSelected.getPresenciaLevaduras().setFivetwentynine(Boolean.TRUE);
+                    } else {
+                        if (valor >= 30) {  selectOneRadioLevaduras = ">30";
+                            analisisSelected.getPresenciaLevaduras().setGreaterthan30(Boolean.TRUE);
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+        }
+
+    }
+// </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="changeSelectOneRadioLevaduras(AjaxBehaviorEvent event)">
+    public void changeSelectOneRadioEpitales(AjaxBehaviorEvent event) {
+        try {
+            analisisSelected.getPresenciaEpitales().setActivo(Boolean.TRUE);
+            analisisSelected.getPresenciaEpitales().setFivetwentynine(Boolean.FALSE);
+            analisisSelected.getPresenciaEpitales().setTwofour(Boolean.FALSE);
+            analisisSelected.getPresenciaEpitales().setGreaterthan30(Boolean.FALSE);
+            analisisSelected.getPresenciaEpitales().setOne(Boolean.FALSE);
+            analisisSelected.getPresenciaEpitales().setZero(Boolean.FALSE);
+            Double valor = 0.0;
+            if (selectOneRadioEpitales.equals(">30")) {
+                valor = 30.0;
+            } else {
+                valor = Double.parseDouble(selectOneRadioEpitales);
+            }
+
+            analisisSelected.getPresenciaEpitales().setValor(valor);
+            if (valor.equals(0)) {
+                analisisSelected.getPresenciaEpitales().setZero(Boolean.TRUE);
+            } else {
+                if (valor.equals(1.0)) {
+                   
+                    analisisSelected.getPresenciaEpitales().setOne(Boolean.TRUE);
+                } else {
+                    if (valor >= 5 && valor <= 29) {
+                       
+                        analisisSelected.getPresenciaLevaduras().setFivetwentynine(Boolean.TRUE);
+                    } else {
+                        if (valor >= 30) {
+                          
+                            analisisSelected.getPresenciaEpitales().setGreaterthan30(Boolean.TRUE);
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+        }
+
+    }
+// </editor-fold>
 }

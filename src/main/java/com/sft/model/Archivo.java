@@ -23,14 +23,13 @@ public class Archivo {
     private Date fecha;
     @Column
     private String descripcion;
-    
-  @Column
-  private String extension;
+
+    @Column
+    private String extension;
 
     @Column
     private Boolean active;
-    
-    
+
     public Archivo() {
     }
 
@@ -133,9 +132,4 @@ public class Archivo {
         return Objects.equals(this.active, other.active);
     }
 
- 
-   
-  
-
-   
 }

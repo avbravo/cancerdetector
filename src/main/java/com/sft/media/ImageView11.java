@@ -7,9 +7,10 @@ package com.sft.media;
 import com.avbravo.jmoordbutils.ConsoleUtil;
 import com.avbravo.jmoordbutils.FacesUtil;
 import com.avbravo.jmoordbutils.JmoordbCoreContext;
+import com.avbravo.jmoordbutils.JmoordbCoreDateUtil;
 import static com.sft.media.JmoordbCoreMediaManagerX.typeOfMimeTypeForDownload;
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
-import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import java.io.File;
 import java.io.FileInputStream;
@@ -35,7 +36,8 @@ public class ImageView11 {
         StreamedContent result;
         try {
 
-     
+       ConsoleUtil.test("\t"+FacesUtil.nameOfClassAndMethod() + " at " +JmoordbCoreDateUtil.fechaHoraActual());
+       
             String pathOfFile = (String) JmoordbCoreContext.get("pathOfFile" + position);
             String nameFile = (String) JmoordbCoreContext.get("nameOfFile" + position);
             String extensionOfFileInPath = extensionOfFileInPath(pathOfFile);
@@ -73,6 +75,15 @@ public class ImageView11 {
 
     }
 
+        @PostConstruct
+    public void init() {
+        try {
+            ConsoleUtil.test("\t"+FacesUtil.nameOfClassAndMethod() + " at " +JmoordbCoreDateUtil.fechaHoraActual());
+            generate();
+} catch (Exception e) {
+            FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+        }
+    }
     public StreamedContent getImage() {
         image =generate();
         return image;
@@ -83,17 +94,14 @@ public class ImageView11 {
       public StreamedContent generate() {
         StreamedContent result;
         try {
-
+ ConsoleUtil.test("\t\t--->"+FacesUtil.nameOfClassAndMethod() + " at " +JmoordbCoreDateUtil.fechaHoraActual());
      
             String pathOfFile = (String) JmoordbCoreContext.get("pathOfFile" + position);
             String nameFile = (String) JmoordbCoreContext.get("nameOfFile" + position);
             String extensionOfFileInPath = extensionOfFileInPath(pathOfFile);
 
             File filet = new File(pathOfFile);
-//          if(filet.isDirectory()){
-//             
-//              return result;
-//          }
+
             if (!filet.exists()) {
 
             } else {

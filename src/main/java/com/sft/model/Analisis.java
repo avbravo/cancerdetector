@@ -74,9 +74,11 @@ public class Analisis {
     @Embedded
     private List<Resultadocultivo> resultadocultivo;
     
-    @Embedded
-    private List<Foto> foto;
+//    @Embedded
+//    private List<Foto> foto;
     
+    @Embedded
+    private List<Archivo> archivo;
     @Column
     private Boolean imagen11cultivo;
     
@@ -98,7 +100,7 @@ public class Analisis {
     public Analisis() {
     }
 
-    public Analisis(Long idanalisis, Date fecha, Double nhc, Especialista especialista, Long numeromuestra, Double edad, Motivo motivo, Coordenadas coordenadas, Diagnostico diagnostico, List<Pcrits> pcrits, Double ctpcrpositiva, List<Etiquetadoimagen> etiquetadoimagen, PresenciaLeucocitos presenciaLeucocitos, PresenciaEpitales presenciaEpitales, PresenciaLevaduras presenciaLevaduras, Integer escalanuggetobservador, List<Resultadocultivo> resultadocultivo, List<Foto> foto, Boolean imagen11cultivo, String calidadtincion, String cultivoorina, Boolean imagencondiscrepancia, String recuentocrecimientoplacahongos) {
+    public Analisis(Long idanalisis, Date fecha, Double nhc, Especialista especialista, Long numeromuestra, Double edad, Motivo motivo, Coordenadas coordenadas, Diagnostico diagnostico, List<Pcrits> pcrits, Double ctpcrpositiva, List<Etiquetadoimagen> etiquetadoimagen, PresenciaLeucocitos presenciaLeucocitos, PresenciaEpitales presenciaEpitales, PresenciaLevaduras presenciaLevaduras, Integer escalanuggetobservador, List<Resultadocultivo> resultadocultivo, List<Archivo> archivo, Boolean imagen11cultivo, String calidadtincion, String cultivoorina, Boolean imagencondiscrepancia, String recuentocrecimientoplacahongos) {
         this.idanalisis = idanalisis;
         this.fecha = fecha;
         this.nhc = nhc;
@@ -116,7 +118,7 @@ public class Analisis {
         this.presenciaLevaduras = presenciaLevaduras;
         this.escalanuggetobservador = escalanuggetobservador;
         this.resultadocultivo = resultadocultivo;
-        this.foto = foto;
+        this.archivo = archivo;
         this.imagen11cultivo = imagen11cultivo;
         this.calidadtincion = calidadtincion;
         this.cultivoorina = cultivoorina;
@@ -260,12 +262,12 @@ public class Analisis {
         this.resultadocultivo = resultadocultivo;
     }
 
-    public List<Foto> getFoto() {
-        return foto;
+    public List<Archivo> getArchivo() {
+        return archivo;
     }
 
-    public void setFoto(List<Foto> foto) {
-        this.foto = foto;
+    public void setArchivo(List<Archivo> archivo) {
+        this.archivo = archivo;
     }
 
     public Boolean getImagen11cultivo() {
@@ -310,30 +312,30 @@ public class Analisis {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 13 * hash + Objects.hashCode(this.idanalisis);
-        hash = 13 * hash + Objects.hashCode(this.fecha);
-        hash = 13 * hash + Objects.hashCode(this.nhc);
-        hash = 13 * hash + Objects.hashCode(this.especialista);
-        hash = 13 * hash + Objects.hashCode(this.numeromuestra);
-        hash = 13 * hash + Objects.hashCode(this.edad);
-        hash = 13 * hash + Objects.hashCode(this.motivo);
-        hash = 13 * hash + Objects.hashCode(this.coordenadas);
-        hash = 13 * hash + Objects.hashCode(this.diagnostico);
-        hash = 13 * hash + Objects.hashCode(this.pcrits);
-        hash = 13 * hash + Objects.hashCode(this.ctpcrpositiva);
-        hash = 13 * hash + Objects.hashCode(this.etiquetadoimagen);
-        hash = 13 * hash + Objects.hashCode(this.presenciaLeucocitos);
-        hash = 13 * hash + Objects.hashCode(this.presenciaEpitales);
-        hash = 13 * hash + Objects.hashCode(this.presenciaLevaduras);
-        hash = 13 * hash + Objects.hashCode(this.escalanuggetobservador);
-        hash = 13 * hash + Objects.hashCode(this.resultadocultivo);
-        hash = 13 * hash + Objects.hashCode(this.foto);
-        hash = 13 * hash + Objects.hashCode(this.imagen11cultivo);
-        hash = 13 * hash + Objects.hashCode(this.calidadtincion);
-        hash = 13 * hash + Objects.hashCode(this.cultivoorina);
-        hash = 13 * hash + Objects.hashCode(this.imagencondiscrepancia);
-        hash = 13 * hash + Objects.hashCode(this.recuentocrecimientoplacahongos);
+        int hash = 7;
+        hash = 67 * hash + Objects.hashCode(this.idanalisis);
+        hash = 67 * hash + Objects.hashCode(this.fecha);
+        hash = 67 * hash + Objects.hashCode(this.nhc);
+        hash = 67 * hash + Objects.hashCode(this.especialista);
+        hash = 67 * hash + Objects.hashCode(this.numeromuestra);
+        hash = 67 * hash + Objects.hashCode(this.edad);
+        hash = 67 * hash + Objects.hashCode(this.motivo);
+        hash = 67 * hash + Objects.hashCode(this.coordenadas);
+        hash = 67 * hash + Objects.hashCode(this.diagnostico);
+        hash = 67 * hash + Objects.hashCode(this.pcrits);
+        hash = 67 * hash + Objects.hashCode(this.ctpcrpositiva);
+        hash = 67 * hash + Objects.hashCode(this.etiquetadoimagen);
+        hash = 67 * hash + Objects.hashCode(this.presenciaLeucocitos);
+        hash = 67 * hash + Objects.hashCode(this.presenciaEpitales);
+        hash = 67 * hash + Objects.hashCode(this.presenciaLevaduras);
+        hash = 67 * hash + Objects.hashCode(this.escalanuggetobservador);
+        hash = 67 * hash + Objects.hashCode(this.resultadocultivo);
+        hash = 67 * hash + Objects.hashCode(this.archivo);
+        hash = 67 * hash + Objects.hashCode(this.imagen11cultivo);
+        hash = 67 * hash + Objects.hashCode(this.calidadtincion);
+        hash = 67 * hash + Objects.hashCode(this.cultivoorina);
+        hash = 67 * hash + Objects.hashCode(this.imagencondiscrepancia);
+        hash = 67 * hash + Objects.hashCode(this.recuentocrecimientoplacahongos);
         return hash;
     }
 
@@ -409,7 +411,7 @@ public class Analisis {
         if (!Objects.equals(this.resultadocultivo, other.resultadocultivo)) {
             return false;
         }
-        if (!Objects.equals(this.foto, other.foto)) {
+        if (!Objects.equals(this.archivo, other.archivo)) {
             return false;
         }
         if (!Objects.equals(this.imagen11cultivo, other.imagen11cultivo)) {
@@ -420,11 +422,10 @@ public class Analisis {
 
     @Override
     public String toString() {
-        return "Analisis{" + "idanalisis=" + idanalisis + ", fecha=" + fecha + ", nhc=" + nhc + ", especialista=" + especialista + ", numeromuestra=" + numeromuestra + ", edad=" + edad + ", motivo=" + motivo + ", coordenadas=" + coordenadas + ", diagnostico=" + diagnostico + ", pcrits=" + pcrits + ", ctpcrpositiva=" + ctpcrpositiva + ", etiquetadoimagen=" + etiquetadoimagen + ", presenciaLeucocitos=" + presenciaLeucocitos + ", presenciaEpitales=" + presenciaEpitales + ", presenciaLevaduras=" + presenciaLevaduras + ", escalanuggetobservador=" + escalanuggetobservador + ", resultadocultivo=" + resultadocultivo + ", foto=" + foto + ", imagen11cultivo=" + imagen11cultivo + ", calidadtincion=" + calidadtincion + ", cultivoorina=" + cultivoorina + ", imagencondiscrepancia=" + imagencondiscrepancia + ", recuentocrecimientoplacahongos=" + recuentocrecimientoplacahongos + '}';
+        return "Analisis{" + "idanalisis=" + idanalisis + ", fecha=" + fecha + ", nhc=" + nhc + ", especialista=" + especialista + ", numeromuestra=" + numeromuestra + ", edad=" + edad + ", motivo=" + motivo + ", coordenadas=" + coordenadas + ", diagnostico=" + diagnostico + ", pcrits=" + pcrits + ", ctpcrpositiva=" + ctpcrpositiva + ", etiquetadoimagen=" + etiquetadoimagen + ", presenciaLeucocitos=" + presenciaLeucocitos + ", presenciaEpitales=" + presenciaEpitales + ", presenciaLevaduras=" + presenciaLevaduras + ", escalanuggetobservador=" + escalanuggetobservador + ", resultadocultivo=" + resultadocultivo + ", archivo=" + archivo + ", imagen11cultivo=" + imagen11cultivo + ", calidadtincion=" + calidadtincion + ", cultivoorina=" + cultivoorina + ", imagencondiscrepancia=" + imagencondiscrepancia + ", recuentocrecimientoplacahongos=" + recuentocrecimientoplacahongos + '}';
     }
 
-    
-    
+   
 
     
 }
