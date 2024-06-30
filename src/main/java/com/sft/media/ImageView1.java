@@ -29,7 +29,7 @@ public class ImageView1 {
 
     private StreamedContent image;
     InputStream is = null;
-       String position = "2";
+       String position = "1";
        
     public ImageView1() {
         StreamedContent result;
@@ -41,10 +41,7 @@ public class ImageView1 {
             String extensionOfFileInPath = extensionOfFileInPath(pathOfFile);
 
             File filet = new File(pathOfFile);
-//          if(filet.isDirectory()){
-//             
-//              return result;
-//          }
+
             if (!filet.exists()) {
 
             } else {

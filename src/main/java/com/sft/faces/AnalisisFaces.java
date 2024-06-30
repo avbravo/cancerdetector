@@ -856,7 +856,7 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
             analisisSelected.getPresenciaLeucocitos().setGreaterthan30(Boolean.FALSE);
             analisisSelected.getPresenciaLeucocitos().setOne(Boolean.FALSE);
             analisisSelected.getPresenciaLeucocitos().setZero(Boolean.FALSE);
-           
+
             if (valor.equals(0)) {
                 analisisSelected.getPresenciaLeucocitos().setZero(Boolean.TRUE);
             } else {
@@ -895,6 +895,7 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
             analisisSelected.getPresenciaLevaduras().setZero(Boolean.FALSE);
             selectOneRadioLevaduras = "0";
 
+            ConsoleUtil.test("\t[[valor de veladuras]]" +analisisSelected.getPresenciaLevaduras().getValor());
             if (valor.equals(0)) {
                 analisisSelected.getPresenciaLevaduras().setZero(Boolean.TRUE);
             } else {
@@ -972,7 +973,12 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
             if (selectOneRadioLeucocitos.equals(">30")) {
                 valor = 30.0;
             } else {
-                valor = Double.parseDouble(selectOneRadioLeucocitos);
+                if (selectOneRadioLeucocitos.equals("5-29")) {
+                    valor = 5.0;
+                } else {
+                    valor = Double.parseDouble(selectOneRadioLeucocitos);
+                }
+
             }
 
             analisisSelected.getPresenciaLeucocitos().setValor(valor);
@@ -980,15 +986,15 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
                 analisisSelected.getPresenciaLeucocitos().setZero(Boolean.TRUE);
             } else {
                 if (valor.equals(1.0)) {
-                  
+
                     analisisSelected.getPresenciaLeucocitos().setOne(Boolean.TRUE);
                 } else {
                     if (valor >= 5 && valor <= 29) {
-                       
+
                         analisisSelected.getPresenciaLeucocitos().setFivetwentynine(Boolean.TRUE);
                     } else {
                         if (valor >= 30) {
-                            
+
                             analisisSelected.getPresenciaLeucocitos().setGreaterthan30(Boolean.TRUE);
                         }
                     }
@@ -1002,6 +1008,7 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
     }
 // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="changeSelectOneRadioLevaduras(AjaxBehaviorEvent event)">
+
     public void changeSelectOneRadioLevaduras(AjaxBehaviorEvent event) {
         try {
             analisisSelected.getPresenciaLevaduras().setActivo(Boolean.TRUE);
@@ -1014,7 +1021,12 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
             if (selectOneRadioLevaduras.equals(">30")) {
                 valor = 30.0;
             } else {
-                valor = Double.parseDouble(selectOneRadioLevaduras);
+                if (selectOneRadioLevaduras.equals("5-29")) {
+                    valor = 5.0;
+                } else {
+                    valor = Double.parseDouble(selectOneRadioLevaduras);
+                }
+
             }
 
             analisisSelected.getPresenciaLevaduras().setValor(valor);
@@ -1022,14 +1034,15 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
                 analisisSelected.getPresenciaLevaduras().setZero(Boolean.TRUE);
             } else {
                 if (valor.equals(1.0)) {
-                   
+
                     analisisSelected.getPresenciaLevaduras().setOne(Boolean.TRUE);
                 } else {
                     if (valor >= 5 && valor <= 29) {
-                      
+
                         analisisSelected.getPresenciaLevaduras().setFivetwentynine(Boolean.TRUE);
                     } else {
-                        if (valor >= 30) {  selectOneRadioLevaduras = ">30";
+                        if (valor >= 30) {
+                            selectOneRadioLevaduras = ">30";
                             analisisSelected.getPresenciaLevaduras().setGreaterthan30(Boolean.TRUE);
                         }
                     }
@@ -1043,6 +1056,7 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
     }
 // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="changeSelectOneRadioLevaduras(AjaxBehaviorEvent event)">
+
     public void changeSelectOneRadioEpitales(AjaxBehaviorEvent event) {
         try {
             analisisSelected.getPresenciaEpitales().setActivo(Boolean.TRUE);
@@ -1052,26 +1066,33 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
             analisisSelected.getPresenciaEpitales().setOne(Boolean.FALSE);
             analisisSelected.getPresenciaEpitales().setZero(Boolean.FALSE);
             Double valor = 0.0;
+            
+            ConsoleUtil.test("\t{selectOneRadioEpitales}"+selectOneRadioEpitales);
             if (selectOneRadioEpitales.equals(">30")) {
                 valor = 30.0;
             } else {
-                valor = Double.parseDouble(selectOneRadioEpitales);
-            }
+                if (selectOneRadioEpitales.equals("5-29")) {
+                    valor = 5.0;
+                } else {
+                    valor = Double.parseDouble(selectOneRadioEpitales);
+                }
 
+            }
+            ConsoleUtil.test("\t:::>>>>{valor }"+valor);
             analisisSelected.getPresenciaEpitales().setValor(valor);
             if (valor.equals(0)) {
                 analisisSelected.getPresenciaEpitales().setZero(Boolean.TRUE);
             } else {
                 if (valor.equals(1.0)) {
-                   
+
                     analisisSelected.getPresenciaEpitales().setOne(Boolean.TRUE);
                 } else {
                     if (valor >= 5 && valor <= 29) {
-                       
+
                         analisisSelected.getPresenciaLevaduras().setFivetwentynine(Boolean.TRUE);
                     } else {
                         if (valor >= 30) {
-                          
+
                             analisisSelected.getPresenciaEpitales().setGreaterthan30(Boolean.TRUE);
                         }
                     }
