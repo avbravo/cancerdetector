@@ -903,7 +903,7 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
                     selectOneRadioLevaduras = "1";
                     analisisSelected.getPresenciaLevaduras().setOne(Boolean.TRUE);
                 } else {
-                    if (valor >= 5 && valor <= 29) {
+                    if (valor >= 5.0 && valor <= 29.0) {
                         selectOneRadioLevaduras = "5-29";
                         analisisSelected.getPresenciaLevaduras().setFivetwentynine(Boolean.TRUE);
                     } else {
