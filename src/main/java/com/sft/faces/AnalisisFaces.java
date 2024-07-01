@@ -844,8 +844,8 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
     }
 
     // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="void selectOneRadioLeucocitos(AjaxBehaviorEvent event)">
-    public void selectOneRadioLeucocitos(AjaxBehaviorEvent event) {
+    // <editor-fold defaultstate="collapsed" desc="void inputTextLeucocitos(AjaxBehaviorEvent event)">
+    public void inputTextLeucocitos(AjaxBehaviorEvent event) {
         try {
             var valor = analisisSelected.getPresenciaLeucocitos().getValor();
             selectOneRadioLeucocitos = "0";
@@ -882,9 +882,9 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
 
     }
 // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="void selectOneRadioLevadura(AjaxBehaviorEvent event)">
+    // <editor-fold defaultstate="collapsed" desc="void inputTextLevadura(AjaxBehaviorEvent event)">
 
-    public void selectOneRadioLevaduras(AjaxBehaviorEvent event) {
+    public void inputTextLevaduras(AjaxBehaviorEvent event) {
         try {
             var valor = analisisSelected.getPresenciaLevaduras().getValor();
             analisisSelected.getPresenciaLevaduras().setActivo(Boolean.TRUE);
@@ -921,9 +921,9 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
 
     }
 // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="void selectOneRadioEpitales(AjaxBehaviorEvent event)">
+    // <editor-fold defaultstate="collapsed" desc="void inputTextEpitales(AjaxBehaviorEvent event)">
 
-    public void selectOneRadioEpitales(AjaxBehaviorEvent event) {
+    public void inputTextEpitales(AjaxBehaviorEvent event) {
         try {
             var valor = analisisSelected.getPresenciaEpitales().getValor();
             selectOneRadioEpitales = "0";

@@ -247,7 +247,7 @@
                                         <label for="diagnostico" class="font-medium">Presencia leucocitos (Imagen 1)</label>
                                         <p:inputText  value="#{analisisFaces.analisisSelected.presenciaLeucocitos.valor}" 
                                                       id="presencialeucocitos" placeholder="#" size="5">  
-                                            <p:ajax event="keyup" listener="#{analisisFaces.selectOneRadioLeucocitos}"
+                                            <p:ajax event="keyup" listener="#{analisisFaces.inputTextLeucocitos}"
                                                     update="selectOneRadioLeucocitos"
                                                     />
                                         </p:inputText>
@@ -277,7 +277,7 @@
                                         <label for="motivo" class="font-medium">Presencia levaduras (Imagen 1)</label>
                                         <p:inputText  value="#{analisisFaces.analisisSelected.presenciaLevaduras.valor}"
                                                       id="presencialevaduras" placeholder="#" size="5">  
-                                            <p:ajax event="keyup" listener="#{analisisFaces.selectOneRadioLevaduras}"
+                                            <p:ajax event="keyup" listener="#{analisisFaces.inputTextLevaduras}"
                                                     update="selectOneRadioLevaduras"
                                                     />
                                         </p:inputText>
@@ -303,7 +303,7 @@
                                         <label for="diagnostico" class="font-medium">Presencia epiteliales(Imagen 1</label>
                                         <p:inputText  value="#{analisisFaces.analisisSelected.presenciaEpitales.valor}"
                                                       id="presenciaepiteliales" placeholder="#" size="5">  
-                                            <p:ajax event="keyup" listener="#{analisisFaces.selectOneRadioEpitales}"
+                                            <p:ajax event="keyup" listener="#{analisisFaces.inputTextEpitales}"
                                                     update="selectOneRadioEpitales"
                                                     />
                                         </p:inputText>
