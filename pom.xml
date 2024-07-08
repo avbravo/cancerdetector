@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.cancerdetector</groupId>
     <artifactId>cancerdetector</artifactId>
-    <version>1.39.2</version>
+    <version>1.39.3</version>
     <packaging>war</packaging>
     <name>cancerdetector</name>
     
@@ -29,7 +29,7 @@
         <final.name>cancerdetector</final.name>
 
         <version.jmoordbfaces>1.5.1</version.jmoordbfaces>
-        <version.jmoordbutilfaces>3.2</version.jmoordbutilfaces>
+        <version.jmoordbutilfaces>3.4</version.jmoordbutilfaces>
         <version.jmoordbencripter>2.0</version.jmoordbencripter>
         <version.jmoordb-core-annotations>1.5</version.jmoordb-core-annotations>
     
