@@ -478,7 +478,38 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
 
     public String save(Analisis analisis) {
         try {
-            ConsoleUtil.test("\t{motivoSelectedString~{} " + motivoSelectedString);
+           
+            if(analisis.getNhc()== null){
+                FacesUtil.warningDialog(rf.fromMessage("warning.warning"), rf.fromCore("warning.ingresenhc"));
+                return "";
+            }
+            if(analisis.getNumeromuestra()== null){
+                FacesUtil.warningDialog(rf.fromMessage("warning.warning"), rf.fromCore("warning.ingresenumeromuestra"));
+                return "";
+            }
+            if(analisis.getEdad()== null){
+                FacesUtil.warningDialog(rf.fromMessage("warning.warning"), rf.fromCore("warning.ingreseedad"));
+                return "";
+            }
+            if(motivoSelectedString == null || motivoSelectedString.equals("")){
+                FacesUtil.warningDialog(rf.fromMessage("warning.warning"), rf.fromCore("warning.seleccionemotivo"));
+                return "";
+            }
+            if(diagnosticoSelectedString == null || diagnosticoSelectedString.equals("")){
+                FacesUtil.warningDialog(rf.fromMessage("warning.warning"), rf.fromCore("warning.seleccionediagnostico"));
+                return "";
+            }
+            if(analisis.getCultivoorina() == null || analisis.getCultivoorina().equals("")){
+                FacesUtil.warningDialog(rf.fromMessage("warning.warning"), rf.fromCore("warning.seleccionecultivoorina"));
+                return "";
+            }
+           
+            if(analisis.getImagencondiscrepancia()== null || analisis.getImagencondiscrepancia().equals("")){
+                FacesUtil.warningDialog(rf.fromMessage("warning.warning"), rf.fromCore("warning.seleccioneimagencondiscrepancia"));
+                return "";
+            }
+            
+            
             var motivo = motivoConverterServices.get(motivoSelectedString);
             analisis.setMotivo(motivo.get());
 
