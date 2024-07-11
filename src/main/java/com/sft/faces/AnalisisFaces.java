@@ -33,7 +33,9 @@ import com.sft.model.Pcrits;
 import com.sft.model.PresenciaEpitales;
 import com.sft.model.PresenciaLeucocitos;
 import com.sft.model.PresenciaLevaduras;
+import com.sft.model.Profile;
 import com.sft.model.Resultadocultivo;
+import com.sft.model.User;
 import com.sft.services.AnalisisServices;
 import com.sft.services.DiagnosticoServices;
 import com.sft.services.EtiquetadoimagenServices;
@@ -221,6 +223,9 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
 // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="fields()">
+    
+    private User userLogged = new User();
+        private Profile profileLogged = new Profile();
     private Analisis analisisSelected = new Analisis();
 
     private List<Motivo> motivos = new ArrayList<>();
@@ -287,7 +292,8 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
     @PostConstruct
     public void init() {
         try {
-
+        userLogged = (User) JmoordbCoreContext.get("LoginFaces.userLogged");
+            profileLogged = (Profile) JmoordbCoreContext.get("LoginFaces.profileLogged");
             otroMotivo = "";
             findAllMotivo();
             findAllDiagnostico();
@@ -509,6 +515,8 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
                 return "";
             }
             
+            
+            analisis.setUser(user);
             
             var motivo = motivoConverterServices.get(motivoSelectedString);
             analisis.setMotivo(motivo.get());

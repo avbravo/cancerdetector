@@ -32,7 +32,7 @@ public class Analisis {
 
 
     @Embedded
-    private Especialista especialista;
+    private User user;
 
     @Column
     private Long numeromuestra;
@@ -74,8 +74,7 @@ public class Analisis {
     @Embedded
     private List<Resultadocultivo> resultadocultivo;
     
-//    @Embedded
-//    private List<Foto> foto;
+
     
     @Embedded
     private List<Archivo> archivo;
@@ -100,11 +99,11 @@ public class Analisis {
     public Analisis() {
     }
 
-    public Analisis(Long idanalisis, Date fecha, Double nhc, Especialista especialista, Long numeromuestra, Double edad, Motivo motivo, Coordenadas coordenadas, Diagnostico diagnostico, List<Pcrits> pcrits, Double ctpcrpositiva, List<Etiquetadoimagen> etiquetadoimagen, PresenciaLeucocitos presenciaLeucocitos, PresenciaEpitales presenciaEpitales, PresenciaLevaduras presenciaLevaduras, Integer escalanuggetobservador, List<Resultadocultivo> resultadocultivo, List<Archivo> archivo, Boolean imagen11cultivo, String calidadtincion, String cultivoorina, Boolean imagencondiscrepancia, String recuentocrecimientoplacahongos) {
+    public Analisis(Long idanalisis, Date fecha, Double nhc, User user, Long numeromuestra, Double edad, Motivo motivo, Coordenadas coordenadas, Diagnostico diagnostico, List<Pcrits> pcrits, Double ctpcrpositiva, List<Etiquetadoimagen> etiquetadoimagen, PresenciaLeucocitos presenciaLeucocitos, PresenciaEpitales presenciaEpitales, PresenciaLevaduras presenciaLevaduras, Integer escalanuggetobservador, List<Resultadocultivo> resultadocultivo, List<Archivo> archivo, Boolean imagen11cultivo, String calidadtincion, String cultivoorina, Boolean imagencondiscrepancia, String recuentocrecimientoplacahongos) {
         this.idanalisis = idanalisis;
         this.fecha = fecha;
         this.nhc = nhc;
-        this.especialista = especialista;
+        this.user = user;
         this.numeromuestra = numeromuestra;
         this.edad = edad;
         this.motivo = motivo;
@@ -150,12 +149,12 @@ public class Analisis {
         this.nhc = nhc;
     }
 
-    public Especialista getEspecialista() {
-        return especialista;
+    public User getUser() {
+        return user;
     }
 
-    public void setEspecialista(Especialista especialista) {
-        this.especialista = especialista;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Long getNumeromuestra() {
@@ -312,30 +311,30 @@ public class Analisis {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 67 * hash + Objects.hashCode(this.idanalisis);
-        hash = 67 * hash + Objects.hashCode(this.fecha);
-        hash = 67 * hash + Objects.hashCode(this.nhc);
-        hash = 67 * hash + Objects.hashCode(this.especialista);
-        hash = 67 * hash + Objects.hashCode(this.numeromuestra);
-        hash = 67 * hash + Objects.hashCode(this.edad);
-        hash = 67 * hash + Objects.hashCode(this.motivo);
-        hash = 67 * hash + Objects.hashCode(this.coordenadas);
-        hash = 67 * hash + Objects.hashCode(this.diagnostico);
-        hash = 67 * hash + Objects.hashCode(this.pcrits);
-        hash = 67 * hash + Objects.hashCode(this.ctpcrpositiva);
-        hash = 67 * hash + Objects.hashCode(this.etiquetadoimagen);
-        hash = 67 * hash + Objects.hashCode(this.presenciaLeucocitos);
-        hash = 67 * hash + Objects.hashCode(this.presenciaEpitales);
-        hash = 67 * hash + Objects.hashCode(this.presenciaLevaduras);
-        hash = 67 * hash + Objects.hashCode(this.escalanuggetobservador);
-        hash = 67 * hash + Objects.hashCode(this.resultadocultivo);
-        hash = 67 * hash + Objects.hashCode(this.archivo);
-        hash = 67 * hash + Objects.hashCode(this.imagen11cultivo);
-        hash = 67 * hash + Objects.hashCode(this.calidadtincion);
-        hash = 67 * hash + Objects.hashCode(this.cultivoorina);
-        hash = 67 * hash + Objects.hashCode(this.imagencondiscrepancia);
-        hash = 67 * hash + Objects.hashCode(this.recuentocrecimientoplacahongos);
+        int hash = 3;
+        hash = 73 * hash + Objects.hashCode(this.idanalisis);
+        hash = 73 * hash + Objects.hashCode(this.fecha);
+        hash = 73 * hash + Objects.hashCode(this.nhc);
+        hash = 73 * hash + Objects.hashCode(this.user);
+        hash = 73 * hash + Objects.hashCode(this.numeromuestra);
+        hash = 73 * hash + Objects.hashCode(this.edad);
+        hash = 73 * hash + Objects.hashCode(this.motivo);
+        hash = 73 * hash + Objects.hashCode(this.coordenadas);
+        hash = 73 * hash + Objects.hashCode(this.diagnostico);
+        hash = 73 * hash + Objects.hashCode(this.pcrits);
+        hash = 73 * hash + Objects.hashCode(this.ctpcrpositiva);
+        hash = 73 * hash + Objects.hashCode(this.etiquetadoimagen);
+        hash = 73 * hash + Objects.hashCode(this.presenciaLeucocitos);
+        hash = 73 * hash + Objects.hashCode(this.presenciaEpitales);
+        hash = 73 * hash + Objects.hashCode(this.presenciaLevaduras);
+        hash = 73 * hash + Objects.hashCode(this.escalanuggetobservador);
+        hash = 73 * hash + Objects.hashCode(this.resultadocultivo);
+        hash = 73 * hash + Objects.hashCode(this.archivo);
+        hash = 73 * hash + Objects.hashCode(this.imagen11cultivo);
+        hash = 73 * hash + Objects.hashCode(this.calidadtincion);
+        hash = 73 * hash + Objects.hashCode(this.cultivoorina);
+        hash = 73 * hash + Objects.hashCode(this.imagencondiscrepancia);
+        hash = 73 * hash + Objects.hashCode(this.recuentocrecimientoplacahongos);
         return hash;
     }
 
@@ -369,7 +368,7 @@ public class Analisis {
         if (!Objects.equals(this.nhc, other.nhc)) {
             return false;
         }
-        if (!Objects.equals(this.especialista, other.especialista)) {
+        if (!Objects.equals(this.user, other.user)) {
             return false;
         }
         if (!Objects.equals(this.numeromuestra, other.numeromuestra)) {
@@ -422,7 +421,7 @@ public class Analisis {
 
     @Override
     public String toString() {
-        return "Analisis{" + "idanalisis=" + idanalisis + ", fecha=" + fecha + ", nhc=" + nhc + ", especialista=" + especialista + ", numeromuestra=" + numeromuestra + ", edad=" + edad + ", motivo=" + motivo + ", coordenadas=" + coordenadas + ", diagnostico=" + diagnostico + ", pcrits=" + pcrits + ", ctpcrpositiva=" + ctpcrpositiva + ", etiquetadoimagen=" + etiquetadoimagen + ", presenciaLeucocitos=" + presenciaLeucocitos + ", presenciaEpitales=" + presenciaEpitales + ", presenciaLevaduras=" + presenciaLevaduras + ", escalanuggetobservador=" + escalanuggetobservador + ", resultadocultivo=" + resultadocultivo + ", archivo=" + archivo + ", imagen11cultivo=" + imagen11cultivo + ", calidadtincion=" + calidadtincion + ", cultivoorina=" + cultivoorina + ", imagencondiscrepancia=" + imagencondiscrepancia + ", recuentocrecimientoplacahongos=" + recuentocrecimientoplacahongos + '}';
+        return "Analisis{" + "idanalisis=" + idanalisis + ", fecha=" + fecha + ", nhc=" + nhc + ", user=" + user + ", numeromuestra=" + numeromuestra + ", edad=" + edad + ", motivo=" + motivo + ", coordenadas=" + coordenadas + ", diagnostico=" + diagnostico + ", pcrits=" + pcrits + ", ctpcrpositiva=" + ctpcrpositiva + ", etiquetadoimagen=" + etiquetadoimagen + ", presenciaLeucocitos=" + presenciaLeucocitos + ", presenciaEpitales=" + presenciaEpitales + ", presenciaLevaduras=" + presenciaLevaduras + ", escalanuggetobservador=" + escalanuggetobservador + ", resultadocultivo=" + resultadocultivo + ", archivo=" + archivo + ", imagen11cultivo=" + imagen11cultivo + ", calidadtincion=" + calidadtincion + ", cultivoorina=" + cultivoorina + ", imagencondiscrepancia=" + imagencondiscrepancia + ", recuentocrecimientoplacahongos=" + recuentocrecimientoplacahongos + '}';
     }
 
    
