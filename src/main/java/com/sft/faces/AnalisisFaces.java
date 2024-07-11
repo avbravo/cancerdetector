@@ -516,7 +516,7 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
             }
             
             
-            analisis.setUser(user);
+            analisis.setUser(userLogged);
             
             var motivo = motivoConverterServices.get(motivoSelectedString);
             analisis.setMotivo(motivo.get());
