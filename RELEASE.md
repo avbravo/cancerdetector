@@ -1,28 +1,11 @@
 # RELEASE
 
-Project Code: SFT
-
-accreditation
-sft
-sftalert
-
-## JSF PERFORMANCE
-https://stackoverflow.com/questions/2090033/why-jsf-calls-getters-multiple-times
-
-https://itecnote.com/tecnote/r-jsf-performance-improvement/
+- [] Eliminar modelos que no se usan 
+- [] Eliminar los services que no se usan
+- [] Eliminar los rest que no se usan
 
 
 
 
 ---
 
-
-
-
-
-
-
-*Fecha:xx/03/2024
-- [] Converter
-- [] Etiquetadoimagen
- - Revisar el converir valores a selectOneRadio y vicersa de un valor actualiza el inputText
