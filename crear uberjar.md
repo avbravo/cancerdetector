@@ -12,19 +12,19 @@ java -jar -Xmx512m target/sft.jar
 
 
 Para ejecutar uberjar
-java -jar payara-micro-6.2024.6.jar --deploy sft.war --outputUberJar sft.jar
+java -jar payara-micro-6.2024.7.jar --deploy sft.war --outputUberJar sft.jar
 
 
 #Ejecutar el war
 
 
-java -jar /home/avbravo/software/payara/payara-micro-6.2024.6.jar  --deploy /home/avbravo/NetBeansProjects/u/utp/sftdynamics/sftdynamics/target/sft.war --nocluster --logo --port 8080
+java -jar /home/avbravo/software/payara/payara-micro-6.2024.7.jar  --deploy /home/avbravo/NetBeansProjects/u/utp/sftdynamics/sftdynamics/target/sft.war --nocluster --logo --port 8080
 
-java -jar /home/avbravo/software/payara/payara-micro-6.2024.6.jar  --deploy  /home/avbravo/NetBeansProjects/u/utp/sftdynamics/sftdynamics/target/sft.war --noHazelcast --logo --port 8080
+java -jar /home/avbravo/software/payara/payara-micro-6.2024.7.jar  --deploy  /home/avbravo/NetBeansProjects/u/utp/sftdynamics/sftdynamics/target/sft.war --noHazelcast --logo --port 8080
 
 
 #Crear  el Uberjar
-java -jar   /home/avbravo/software/payara/payara-micro-6.2024.6.jar --deploy /home/avbravo/NetBeansProjects/u/utp/sftdynamics/sftdynamics/target/sft.war --outputUberJar /home/avbravo/Descargas/sft.jar 
+java -jar   /home/avbravo/software/payara/payara-micro-6.2024.7.jar --deploy /home/avbravo/NetBeansProjects/u/utp/sftdynamics/sftdynamics/target/sft.war --outputUberJar /home/avbravo/Descargas/sft.jar 
 
 
 
