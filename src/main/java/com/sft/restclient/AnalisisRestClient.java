@@ -75,7 +75,7 @@ public interface AnalisisRestClient {
     @Path("{idanalisis}")
    
     public Analisis findByIdanalisis(
-            @Parameter(description = "El idanalisis", required = true, example = "1", schema = @Schema(type = SchemaType.NUMBER)) @PathParam("idanalisis") Long idanalisis) ;
+            @Parameter(description = "El idanalisis", required = true, example = "1", schema = @Schema(type = SchemaType.STRING)) @PathParam("id") String id) ;
 
      
 // </editor-fold>
@@ -112,7 +112,7 @@ public interface AnalisisRestClient {
     @Path("{idanalisis}")
  
     public Response delete(
-            @Parameter(description = "El elemento idanalisis", required = true, example = "1", schema = @Schema(type = SchemaType.NUMBER)) @PathParam("idanalisis") Long idanalisis) ;
+            @Parameter(description = "El elemento idanalisis", required = true, example = "1", schema = @Schema(type = SchemaType.STRING)) @PathParam("id") String id) ;
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Long count(@QueryParam("filter") String filter, @QueryParam("sort") String sort, @QueryParam("page") Integer page, @QueryParam("size") Integer size)">

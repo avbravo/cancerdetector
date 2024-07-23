@@ -16,7 +16,7 @@ import org.bson.conversions.Bson;
  */
 public interface AnalisisServices {
         public List<Analisis> findAll();
-        public Optional<Analisis> findByIdanalisis( Long idanalisis);
+        public Optional<Analisis> findByIdanalisis( String id);
        public Optional<Analisis> findByNhc(String nhc) ;
   
     public Optional<Analisis> save( Analisis analisis);
@@ -28,7 +28,7 @@ public interface AnalisisServices {
 
    
 
-    public Boolean delete(Long idanalisis);
+    public Boolean delete(String id);
 
    
     public List<Analisis> lookup( Bson filter, Document sort, Integer page, Integer size);

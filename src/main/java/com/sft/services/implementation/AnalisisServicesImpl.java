@@ -41,10 +41,10 @@ public class AnalisisServicesImpl implements AnalisisServices {
     }
 
     @Override
-    public Optional<Analisis> findByIdanalisis(Long idanalisis) {
+    public Optional<Analisis> findByIdanalisis(String id) {
         try {
-            Analisis result = analisisRestClient.findByIdanalisis(idanalisis);
-            if (result == null || result.getIdanalisis() == null) {
+            Analisis result = analisisRestClient.findByIdanalisis(id);
+            if (result == null || result.getId() == null) {
 
             } else {
                 return Optional.of(result);
@@ -59,7 +59,7 @@ public class AnalisisServicesImpl implements AnalisisServices {
     public Optional<Analisis> findByNhc(String nhc) {
         try {
             Analisis result = analisisRestClient.findByNhc(nhc);
-            if (result == null || result.getIdanalisis() == null) {
+            if (result == null || result.getId() == null) {
 
             } else {
                 return Optional.of(result);
@@ -118,13 +118,13 @@ public class AnalisisServicesImpl implements AnalisisServices {
     }
 
     // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Boolean delete(Long idanalisis)">
+    // <editor-fold defaultstate="collapsed" desc="Boolean delete(String id)">
     @Override
-    public Boolean delete(Long idanalisis) {
+    public Boolean delete(String id) {
         Boolean result = Boolean.FALSE;
         try {
 
-            Integer status = analisisRestClient.delete(idanalisis).getStatus();
+            Integer status = analisisRestClient.delete(id).getStatus();
 
             if (status == 201) {
                 result = Boolean.TRUE;

@@ -25,7 +25,7 @@ public interface AnalisisFacesServices {
         // <editor-fold defaultstate="collapsed" desc=" Optional<Analisis> analisisFindFirst(List<Analisis> analisisList, String search)">
     public default Optional<Analisis> analisisFindFirst(List<Analisis> analisisList, String search) {
         try {
-          return analisisList.stream().filter(x -> x.getIdanalisis().equals(search)).findFirst();
+          return analisisList.stream().filter(x -> x.getId().equals(search)).findFirst();
 
         } catch (Exception e) {
             FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());

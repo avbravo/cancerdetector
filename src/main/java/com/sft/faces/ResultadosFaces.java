@@ -231,17 +231,17 @@ public class ResultadosFaces implements Serializable, JmoordbCoreXHTMLUtil, IPag
 
                 @Override
                 public String getRowKey(Analisis object) {
-                    if (object == null || object.getIdanalisis() == null) {
+                    if (object == null || object.getId() == null) {
                         return "";
                     }
-                    return object.getIdanalisis().toString();
+                    return object.getId().toString();
                 }
 
                 @Override
                 public Analisis getRowData(String rowKey) {
                     for (Analisis t : analisisList) {
                         if (t != null) {
-                            if (t.getIdanalisis().equals(rowKey)) {
+                            if (t.getId().equals(rowKey)) {
                                 return t;
                             }
                         }
