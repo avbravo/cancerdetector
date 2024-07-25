@@ -147,6 +147,8 @@
             <url-pattern>/scrum/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
+            <role-name>BIOTECNOLOGO</role-name>
+            <role-name>MEDICO</role-name>
             <role-name>COLABORADOR</role-name>
             <role-name>COORDINADOR-FACULTAD</role-name>
             <role-name>DEVELOPERS</role-name>
@@ -165,6 +167,9 @@
             <url-pattern>/autoridad/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
+              <role-name>BIOTECNOLOGO</role-name>
+            <role-name>MEDICO</role-name>
+
             <role-name>DIRECTOR</role-name>
             <role-name>SUBDIRECTOR-ADMINISTRATIVO</role-name>
             <role-name>SUBDIRECTOR-INVESTIGACION</role-name>
@@ -195,6 +200,9 @@
             <url-pattern>/jefeunidad/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
+              <role-name>BIOTECNOLOGO</role-name>
+            <role-name>MEDICO</role-name>
+
             <role-name>JEFE-UNIDAD</role-name>
             <role-name>COORDINADOR-FACULTAD</role-name>
             <role-name>DEVELOPERS</role-name>
@@ -212,6 +220,12 @@
         </web-resource-collection>
     </security-constraint>
     
+    <security-role>
+        <role-name>BIOTECNOLOGO</role-name>
+    </security-role>
+    <security-role>
+        <role-name>MEDICO</role-name>
+    </security-role>
     <security-role>
         <role-name>AUTORIDAD</role-name>
     </security-role>
