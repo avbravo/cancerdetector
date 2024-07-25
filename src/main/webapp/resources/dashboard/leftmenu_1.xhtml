@@ -27,15 +27,15 @@
                 </p:commandLink>
 
 
-                <p:commandLink action="perfil" class="flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center text-cyan-600 border-left-2 border-cyan-600 hover:border-300 transition-duration-150 transition-colors"
+<!--                <p:commandLink action="perfil" class="flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center text-cyan-600 border-left-2 border-cyan-600 hover:border-300 transition-duration-150 transition-colors"
                                title="#{msg['menuitem.perfil']}"
-                               rendered="#{p:ifAnyGranted('COORDINADOR-FACULTAD,DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD, SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}" >
+                               rendered="#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD,DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD, SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}" >
                     <i class="pi pi-user-edit mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-2xl"></i>
                     <c:if test="#{loginFaces.showTextLeftMenu.get() eq true}">
                         <span class="font-medium">#{msg['menuitem.perfil']}</span>
                     </c:if>
-                </p:commandLink>
-
+                </p:commandLink>-->
+<!--
                 <p:commandLink action="organigram" class="flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center text-cyan-600 border-left-2 border-cyan-600 hover:border-300 transition-duration-150 transition-colors"
                                title="#{msg['menuitem.organigram']}"
 
@@ -49,24 +49,24 @@
                 <p:commandLink action="buscadortarjetas" class="flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center text-cyan-600 border-left-2 border-cyan-600 hover:border-300 transition-duration-150 transition-colors"
                                title="#{msg['menuitem.busquedas']}"
 
-                               rendered="#{p:ifAnyGranted('COORDINADOR-FACULTAD,DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD, SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}" >
+                               rendered="#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD,DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD, SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}" >
                     <i class="pi pi-search mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-2xl"></i>
                     <c:if test="#{loginFaces.showTextLeftMenu.get() eq true}">
                         <span class="font-medium"> #{msg['menuitem.busquedas']}</span>
                     </c:if>
-                </p:commandLink>
+                </p:commandLink>-->
 
-
+<!--
                 <p:commandLink action="schedulebylogged" 
                                class="flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center text-cyan-600 border-left-2 border-cyan-600 hover:border-300 transition-duration-150 transition-colors"
                                title="#{msg['menuitem.schedulebylogged']}"
 
-                               rendered="#{p:ifAnyGranted('COORDINADOR-FACULTAD,DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD, SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}" >
+                               rendered="#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD,DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD, SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}" >
                     <i class="pi pi-calendar-times mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-2xl"></i>
                     <c:if test="#{loginFaces.showTextLeftMenu.get() eq true}">
                         <span class="font-medium"> #{msg['menuitem.schedulebylogged']}</span>
                     </c:if>
-                </p:commandLink>
+                </p:commandLink>-->
                 
                 
                   
@@ -78,7 +78,7 @@
             
                 <!--<div class="mb-3"></div>-->
 
-
+<!--
                 <p:commandLink action="grupotipotarjeta" 
                                class="flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center text-cyan-600 border-left-2 border-cyan-600 hover:border-300 transition-duration-150 transition-colors"
                                title="#{msg['menuitem.grupotipotarjeta']}"
@@ -102,8 +102,8 @@
                         <span class="font-medium"> #{msg['menuitem.tipotarjeta']}</span>
                     </c:if>
                 </p:commandLink>
-                
-                <p:commandLink action="reabrirproyecto" 
+                -->
+<!--                <p:commandLink action="reabrirproyecto" 
                                class="flex flex-row lg:flex-column align-items-center cursor-pointer p-3 lg:justify-content-center text-cyan-600 border-left-2 border-cyan-600 hover:border-300 transition-duration-150 transition-colors"
                                title="#{msg['menuitem.reabrirproyecto']}"
 
@@ -123,11 +123,11 @@
                         <span class="font-medium"> #{msg['menuitem.papelerareciclajeproyecto']}</span>
                     </c:if>
                 </p:commandLink>
-                
+                -->
                 
                     <li class="relative">
 
-                    <p:commandButton id="leftMenuCommandButtonReportes" iconPos="right" value="  " title="#{msg['menubar.reportes']}"  
+<!--                    <p:commandButton id="leftMenuCommandButtonReportes" iconPos="right" value="  " title="#{msg['menubar.reportes']}"  
                                      icon="pi pi-print  mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-2xl" styleClass="ui-button-flat">
 
                     </p:commandButton>
@@ -135,7 +135,7 @@
                         <p:submenu label="#{msg['submenu.proyecto']}">
 
                             <p:menuitem value="#{msg['menuitem.misproyectos']}" action="misproyecto"
-                                        rendered="#{p:ifAnyGranted('COORDINADOR-FACULTAD,DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD, SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}"
+                                        rendered="#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD,DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD, SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}"
                                         icon="pi pi-folder mr-2"/>
 
                         </p:submenu>
@@ -155,16 +155,16 @@
 
 
 
-                    </p:menu>
+                    </p:menu>-->
 
                 </li>
                 
                 <li class="relative">
 
-                    <p:commandButton id="leftMenuCommandButtonSetting" iconPos="right" value="  " title="#{msg['menubar.settings']}" 
+<!--                    <p:commandButton id="leftMenuCommandButtonSetting" iconPos="right" value="  " title="#{msg['menubar.settings']}" 
                                      icon="pi pi-cog mr-2 lg:mr-0 mb-0 lg:mb-2 text-base lg:text-2xl" styleClass="ui-button-flat"
                                      rendered="#{p:ifAnyGranted('DEVELOPERS,SUPER-USER')}">
-                    </p:commandButton>
+                    </p:commandButton>-->
 
                     <p:menu overlay="true" trigger="leftMenuCommandButtonSetting" my="left top" at="left bottom"
                             toggleable="true"

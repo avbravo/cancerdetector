@@ -43,12 +43,12 @@ public class AnalisisServicesImpl implements AnalisisServices {
     @Override
     public Optional<Analisis> findByIdanalisis(String id) {
         try {
-            Analisis result = analisisRestClient.findByIdanalisis(id);
-            if (result == null || result.getId() == null) {
-
-            } else {
-                return Optional.of(result);
-            }
+//            Analisis result = analisisRestClient.findByIdanalisis(id);
+//            if (result == null || result.getId() == null) {
+//
+//            } else {
+//                return Optional.of(result);
+//            }
         } catch (Exception e) {
             FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
         }
@@ -57,16 +57,16 @@ public class AnalisisServicesImpl implements AnalisisServices {
     
     @Override
     public Optional<Analisis> findByNhc(String nhc) {
-        try {
-            Analisis result = analisisRestClient.findByNhc(nhc);
-            if (result == null || result.getId() == null) {
-
-            } else {
-                return Optional.of(result);
-            }
-        } catch (Exception e) {
-            FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
-        }
+//        try {
+//            Analisis result = analisisRestClient.findByNhc(nhc);
+//            if (result == null || result.getId() == null) {
+//
+//            } else {
+//                return Optional.of(result);
+//            }
+//        } catch (Exception e) {
+//            FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+//        }
         return Optional.empty();
     }
 
@@ -122,17 +122,17 @@ public class AnalisisServicesImpl implements AnalisisServices {
     @Override
     public Boolean delete(String id) {
         Boolean result = Boolean.FALSE;
-        try {
-
-            Integer status = analisisRestClient.delete(id).getStatus();
-
-            if (status == 201) {
-                result = Boolean.TRUE;
-            }
-
-        } catch (Exception e) {
-            FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
-        }
+//        try {
+//
+//            Integer status = analisisRestClient.delete(id).getStatus();
+//
+//            if (status == 201) {
+//                result = Boolean.TRUE;
+//            }
+//
+//        } catch (Exception e) {
+//            FacesUtil.errorMessage(FacesUtil.nameOfClassAndMethod() + " " + e.getLocalizedMessage());
+//        }
         return result;
     }
     // </editor-fold>

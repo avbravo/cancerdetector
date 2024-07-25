@@ -71,19 +71,19 @@ public interface AnalisisRestClient {
 // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Analisis findByIdanalisis">
-    @GET
-    @Path("{idanalisis}")
-   
-    public Analisis findByIdanalisis(
-            @Parameter(description = "El idanalisis", required = true, example = "1", schema = @Schema(type = SchemaType.STRING)) @PathParam("id") String id) ;
+//    @GET
+//    @Path("{idanalisis}")
+//   
+//    public Analisis findByIdanalisis(
+//            @Parameter(description = "El idanalisis", required = true, example = "1", schema = @Schema(type = SchemaType.STRING)) @PathParam("id") String id) ;
 
      
 // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Analisis findByNhc">
 
-    @GET
-   @Path("nhc")
-    public Analisis findByNhc(@Parameter(description = "El analisis", required = true, example = "1", schema = @Schema(type = SchemaType.STRING)) @QueryParam("analisis") final String analisis);
+//    @GET
+//   @Path("nhc")
+//    public Analisis findByNhc(@Parameter(description = "El analisis", required = true, example = "1", schema = @Schema(type = SchemaType.STRING)) @QueryParam("analisis") final String analisis);
 //// </editor-fold>
 
 // <editor-fold defaultstate="collapsed" desc="List<Analisis> lookup(@QueryParam("filter") String filter, @QueryParam("sort") String sort, @QueryParam("page") Integer page, @QueryParam("size") Integer size)">
@@ -107,12 +107,12 @@ public interface AnalisisRestClient {
 // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Response delete">
-    @DELETE
- 
-    @Path("{idanalisis}")
- 
-    public Response delete(
-            @Parameter(description = "El elemento idanalisis", required = true, example = "1", schema = @Schema(type = SchemaType.STRING)) @PathParam("id") String id) ;
+//    @DELETE
+// 
+//    @Path("{idanalisis}")
+// 
+//    public Response delete(
+//            @Parameter(description = "El elemento idanalisis", required = true, example = "1", schema = @Schema(type = SchemaType.STRING)) @PathParam("id") String id) ;
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Long count(@QueryParam("filter") String filter, @QueryParam("sort") String sort, @QueryParam("page") Integer page, @QueryParam("size") Integer size)">

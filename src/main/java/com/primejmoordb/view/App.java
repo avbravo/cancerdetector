@@ -37,8 +37,8 @@ public class App implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="fields">
     private final boolean productionEnvironment = FacesContext.getCurrentInstance().isProjectStage(ProjectStage.Production);
-    // private String theme = "saga";
-    private String theme = "vela";
+      private String theme = "saga";
+  //  private String theme = "vela";
 //    private String theme = "arya";
     private boolean darkMode = false;
     private String inputStyle = "outlined";

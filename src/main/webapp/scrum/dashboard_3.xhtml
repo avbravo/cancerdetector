@@ -1,0 +1,796 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jmoordbcorejsf="http://xmlns.jcp.org/jsf/composite/jmoordbcorejsf"
+                xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/dashboard"
+                xmlns:scrum="http://xmlns.jcp.org/jsf/composite/scrum"
+                xmlns:pb="http://xmlns.jcp.org/jsf/composite/primeblocks"
+                xmlns:jsf="jakarta.faces"
+                xmlns:scrumdialogo="jakarta.faces.composite/scrumdialogo"
+                xmlns:f="jakarta.faces.core">
+
+    <ui:define name="title">#{conf['application.title']}</ui:define>
+
+    <ui:define name="breadcrumb">
+
+        <!--<i class="pi pi-angle-right"></i>-->
+        <p:commandLink action="dashboard" value="#{msg['breadcrumb.dashboard']}" >
+
+        </p:commandLink>
+
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+            <!--<h:form id="form" enctype="multipart/form-data" prependId="false"  >-->
+            <p:growl id="growl"/>
+            <p:remoteCommand name="remoteCommandWebSocketProyecto" action="#{dashboardFaces.refreshFromWebsocket()}"
+                             update="#{dashboardFaces.updateForRemoteWebsocket()}" 
+                             oncomplete="#{dashboardFaces.onCompleteWebSocket()}" 
+
+                             />
+
+
+            <!--<div class="block-category-title">#{msg['form.dashboard']}</div>-->
+            <!--<div class="jmoordbcore-block-category-title">#{msg['form.dashboard']} 1</div>-->
+
+            <!--<pb:blockViewerCore header="Sidebar" >-->
+            <div class="min-h-screen flex relative lg:static surface-ground">
+                <dashboard:configleftmenu/>
+
+                <div class="min-h-screen flex flex-column relative flex-auto">
+                    <!--<dashboard:top/>-->
+                    <div class="flex flex-column flex-auto">
+                        <scrum:profile/>
+
+<!--                        <div class="col-12 md:col-4" jsf:rendered="#{dashboardFaces.contadorNotificacionesWebsocket gt 0}">
+                            <p:staticMessage severity="warn" summary="#{core['warning.warning']}" detail="#{msg['warning.haynuevoscambiosactualiceformulario']}" style="width: 100%"/>
+                        </div>-->
+
+
+                        <div class="p-5 flex flex-column flex-auto">
+                            <div class="grid">
+                                <div class="col-12">
+                                    <div class="grid">
+                                        <div class="col-12 md:col-6 lg:col-3 p-3">
+                                            <div class="p-3 text-center bg-blue-500" style="border-radius: 12px">
+                                                <span class="inline-flex justify-content-center align-items-center bg-blue-600 border-circle mb-3" style="width:49px; height: 49px">
+                                                    <i class="pi pi-bookmark text-xl text-white"></i>
+                                                </span>
+
+                                                <div>
+                                                    <p:commandLink class="text-2xl font-medium text-white mb-2"
+                                                                   value="#{dashboardFaces.totalesTarjetasEstadistica.totalTarjetasPendiente}" 
+                                                                   oncomplete="PF('overlayPanelTarjetaView').show('#{component.clientId}')"
+                                                                   update=":form, ouputPanelTarjetaView"
+                                                                   action="#{dashboardFaces.showTarjetas('pendiente')}"
+                                                                   />
+
+
+                                                </div>
+                                                <span class="text-blue-100 font-medium">#{msg['label.pendiente']}</span>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-12 md:col-6 lg:col-3 p-3">
+                                            <div class="p-3 text-center bg-purple-500" style="border-radius: 12px">
+                                                <span class="inline-flex justify-content-center align-items-center bg-purple-600 border-circle mb-3" style="width:49px; height: 49px">
+                                                    <i class="pi pi-truck text-xl text-white"></i>
+                                                </span>
+
+
+                                                <div>
+                                                    <p:commandLink class="text-2xl font-medium text-white mb-2"
+                                                                   value="#{dashboardFaces.totalesTarjetasEstadistica.totalTarjetasProgreso}" 
+                                                                   oncomplete="PF('overlayPanelTarjetaView').show('#{component.clientId}')"
+                                                                   update=":form, ouputPanelTarjetaView"
+                                                                   action="#{dashboardFaces.showTarjetas('progreso')}"
+                                                                   />
+
+
+                                                </div>
+                                                <span class="text-purple-100 font-medium">#{msg['label.progreso']}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 md:col-6 lg:col-3 p-3">
+                                            <div class="p-3 text-center bg-indigo-500" style="border-radius: 12px">
+                                                <span class="inline-flex justify-content-center align-items-center bg-indigo-600 border-circle mb-3" style="width:49px; height: 49px">
+                                                    <i class="pi pi-compass text-xl text-white"></i>
+                                                </span>
+
+
+                                                <div>
+                                                    <p:commandLink class="text-2xl font-medium text-white mb-2"
+                                                                   value="#{dashboardFaces.totalesTarjetasEstadistica.totalTarjetasFinalizado}" 
+                                                                   oncomplete="PF('overlayPanelTarjetaView').show('#{component.clientId}')"
+                                                                   update=":form, ouputPanelTarjetaView"
+                                                                   action="#{dashboardFaces.showTarjetas('finalizado')}"
+                                                                   />
+
+
+                                                </div>
+
+
+                                                <span class="text-indigo-100 font-medium">#{msg['label.finalizado']}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 md:col-6 lg:col-3 p-3">
+                                            <div class="p-3 text-center bg-orange-500" style="border-radius: 12px">
+                                                <span class="inline-flex justify-content-center align-items-center bg-orange-600 border-circle mb-3" style="width:49px; height: 49px">
+                                                    <i class="pi pi-fw pi-server text-xl text-white"></i>
+                                                </span>
+
+
+
+                                                <div>
+                                                    <p:commandLink class="text-2xl font-medium text-white mb-2"
+                                                                   value="#{dashboardFaces.totalesTarjetasEstadistica.totalTarjetasBacklog}" 
+                                                                   oncomplete="PF('overlayPanelTarjetaView').show('#{component.clientId}')"
+                                                                   update=":form, ouputPanelTarjetaView"
+                                                                   action="#{dashboardFaces.showTarjetas('backlog')}"
+                                                                   />
+
+
+                                                </div>
+
+                                                <span class="text-orange-100 font-medium">#{msg['label.backlog']}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>  
+
+
+
+
+                        <!--<pb:blockViewer header="#{msg['blockviewer.iavaginal']}" containerClass="px-4 py-8 md:px-6 lg:px-8">-->
+                        <div>
+                            <div class="text-900 font-medium text-xl mb-3">Proyecto IA Vaginal - Imágenes</div>
+                            <!--                                <p class="m-0 mb-4 p-0 text-600 line-height-3 mr-3">Odio euismod lacinia at quis risus sed vulputate odio. Non nisi est sit amet.
+                                                                Egestas integer eget aliquet nibh praesent tristique magna.</p>-->
+                            <div class="surface-card p-4 shadow-2 border-round">
+                                <div class="grid formgrid ui-fluid">
+                                    <div class="field mb-4 col-6">
+                                        <i class="pi pi-calendar"/> <label for="fecha" class="font-medium">Fecha</label>
+                                        <p:datePicker value="#{analisisFaces.analisisSelected.fecha}" placeholder="Fecha"
+                                                      pattern="dd/MM/yyyy HH:mm a"
+                                                      timeInput="true"
+                                                      hourFormat="12"
+                                                      showTime="true"
+                                                      locale="es"
+                                                      size="15"
+                                                      id="fecha"
+                                                      />
+                                    </div>
+                                    <div class="field mb-4 col-6">
+                                        <label for="nhc" class="font-medium">NHC*</label>
+                                        <p:inputText  value="#{analisisFaces.analisisSelected.nhc}" id="nhc"  placeholder="#" size="4"/>
+                                    </div>
+                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+
+                                    <div class="field mb-4 col-6">
+                                        <label for="numeromuestra" class="font-medium">Número de muestra</label>
+                                        <p:inputText value="#{analisisFaces.analisisSelected.numeromuestra}" id="numeromuestra"
+                                                     placeholder="#" size="4"/>
+                                    </div>
+                                    <div class="field mb-4 col-6">
+                                        <label for="edad" class="font-medium">Edad</label>
+                                        <p:inputText value="#{analisisFaces.analisisSelected.edad}" id="edad"  placeholder="#" size="4"/>
+                                    </div>
+
+
+                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+
+                                    <div class="field mb-4 col-6">
+                                        <label for="motivo" class="font-medium">Motivo de petición</label>
+                                        <p:selectOneRadio   id="motivo" value="#{analisisFaces.motivoSelectedString}" layout="responsive" columns="2" styleClass="grid-radio">
+
+                                            <f:selectItems value="#{analisisFaces.motivos}" var="motivo" itemLabel="#{motivo.motivo}" itemValue="#{motivo.motivo}"/>
+                                        </p:selectOneRadio>
+                                        <p:inputText value="#{analisisFaces.otroMotivo}" required="#{analisisFaces.motivoSelected.motivo eq 'Other'}"
+                                                     size="35"
+                                                     />
+                                    </div>
+
+                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+
+                                    <div class="field mb-4 col-6">
+                                        <label for="diagnostico" class="font-medium">Diagnostico</label>
+                                        <p:selectOneRadio id="diagnostico" value="#{analisisFaces.diagnosticoSelectedString}" layout="responsive" columns="2" styleClass="grid-radio">
+                                            <f:selectItems value="#{analisisFaces.diagnosticos}" var="diagnostico" 
+                                                           itemLabel="#{diagnostico.diagnostico}" itemValue="#{diagnostico.diagnostico}"/>
+                                        </p:selectOneRadio>
+                                    </div>
+
+                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+
+                                    <div class="field mb-4 col-6">
+                                        <label for="motivo" class="font-medium">Pcrits</label>
+                                        <p:selectManyCheckbox id="pcrits" value="#{analisisFaces.pcritssSelectedString}" layout="responsive" columns="2" styleClass="grid-checkbox"
+                                                              >
+                                            <f:selectItems value="#{analisisFaces.pcritss}" var="pcrits"
+                                                           itemLabel="#{pcrits.pcrits}" itemValue="#{pcrits.pcrits}"/>
+                                        </p:selectManyCheckbox>
+                                    </div>
+                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+
+                                    <div class="field mb-4 col-6">
+                                        <label for="diagnostico" class="font-medium">CT PCR positiva</label>
+                                        <p:inputText  value="#{analisisFaces.analisisSelected.ctpcrpositiva}" id="ctpcrpositiva" placeholder="#" size="4"/>
+                                    </div>
+
+
+                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+                                    <p:outputLabel value="Etiquetado imagen GRAM observador"/>  
+                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+                                    <div class="field mb-12 col-12">
+                                        <label for="motivo" class="font-medium">Datos referidos a IMG 1</label>
+                                        <p:selectManyCheckbox id="etiquetadoimagen" value="#{analisisFaces.etiquetadoimagenSelectedString}"
+                                                              layout="responsive" columns="3" styleClass="grid-checkbox"
+                                                              >
+                                            <f:selectItems value="#{analisisFaces.etiquetadoimagens}" var="etiquetadoimagen"
+                                                           itemLabel="#{etiquetadoimagen.etiquetadoimagen}" itemValue="#{etiquetadoimagen.etiquetadoimagen}"/>
+                                        </p:selectManyCheckbox>
+
+                                    </div>
+                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+
+                                    <div class="field mb-4 col-6">
+                                        <label for="diagnostico" class="font-medium">Presencia leucocitos (Imagen 1)</label>
+                                        <p:inputText  value="#{analisisFaces.analisisSelected.presenciaLeucocitos.valor}" 
+                                                      id="presencialeucocitos" placeholder="#" size="5">  
+                                            <p:ajax event="keyup" listener="#{analisisFaces.inputTextLeucocitos}"
+                                                    update="selectOneRadioLeucocitos"
+                                                    />
+                                        </p:inputText>
+
+                                        <p:selectOneRadio id="selectOneRadioLeucocitos" value="#{analisisFaces.selectOneRadioLeucocitos}"   layout="responsive"
+                                                          columns="1">
+
+                                            <f:selectItem itemLabel="0" itemValue="0"/>
+                                            <f:selectItem itemLabel="1" itemValue="1"/>
+                                            <f:selectItem itemLabel="5-29" itemValue="5-29"/>
+                                            <f:selectItem itemLabel=">30" itemValue=">30"/>
+
+                                            <p:ajax event="change" listener="#{analisisFaces.changeSelectOneRadioLeucocitos}"
+                                                    update="presencialeucocitos"
+                                                    />
+                                        </p:selectOneRadio>
+                                    </div>
+
+
+
+
+
+                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+
+
+                                    <div class="field mb-4 col-6">
+                                        <label for="motivo" class="font-medium">Presencia levaduras (Imagen 1)</label>
+                                        <p:inputText  value="#{analisisFaces.analisisSelected.presenciaLevaduras.valor}"
+                                                      id="presencialevaduras" placeholder="#" size="5">  
+                                            <p:ajax event="keyup" listener="#{analisisFaces.inputTextLevaduras}"
+                                                    update="selectOneRadioLevaduras"
+                                                    />
+                                        </p:inputText>
+                                        <p:selectOneRadio id="selectOneRadioLevaduras" value="#{analisisFaces.selectOneRadioLevaduras}" 
+                                                          layout="responsive"
+                                                          columns="1">
+
+                                            <f:selectItem itemLabel="0" itemValue="0"/>
+                                            <f:selectItem itemLabel="1" itemValue="1"/>
+                                            <f:selectItem itemLabel="5-29" itemValue="5-29"/>
+                                            <f:selectItem itemLabel=">30" itemValue=">30"/>
+
+                                            <p:ajax event="change" listener="#{analisisFaces.changeSelectOneRadioLevaduras}"
+                                                    update="presencialevaduras"
+                                                    />
+                                        </p:selectOneRadio>
+                                    </div>
+
+                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+
+                                    <div class="field mb-4 col-6
+                                         ">
+                                        <label for="diagnostico" class="font-medium">Presencia epiteliales(Imagen 1</label>
+                                        <p:inputText  value="#{analisisFaces.analisisSelected.presenciaEpitales.valor}"
+                                                      id="presenciaepiteliales" placeholder="#" size="5">  
+                                            <p:ajax event="keyup" listener="#{analisisFaces.inputTextEpitales}"
+                                                    update="selectOneRadioEpitales"
+                                                    />
+                                        </p:inputText>
+
+                                        <p:selectOneRadio id="selectOneRadioEpitales" value="#{analisisFaces.selectOneRadioEpitales}" 
+                                                          layout="responsive"
+                                                          columns="1">
+
+                                            <f:selectItem itemLabel="0" itemValue="0"/>
+
+                                            <f:selectItem itemLabel="1" itemValue="1"/>
+                                            <f:selectItem itemLabel="5-29" itemValue="5-29"/>
+                                            <f:selectItem itemLabel=">30" itemValue=">30"/>
+
+                                            <p:ajax event="change" listener="#{analisisFaces.changeSelectOneRadioEpitales}"
+                                                    update="presenciaepiteliales"
+                                                    />
+                                        </p:selectOneRadio>
+                                    </div>
+
+
+
+                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+
+
+
+
+                                    <div class="field mb-4 col-3">
+                                        <label for="motivo" class="font-medium">Escala Nugget observador</label>
+                                        <div class="surface-border border-top-1 opacity-50 mb-3 col-34"></div>
+
+
+                                        <p:spinner id="escalanuggetobservador" value="#{analisisFaces.analisisSelected.escalanuggetobservador}"
+                                                   min="1" max="10" stepFactor="1"
+                                                   valueChangeListener="#{analisisFaces.onInputChanged}"
+                                                   >
+                                            <p:ajax process="@this" update="growl"/>
+                                        </p:spinner>
+                                        <p:slider for="escalanuggetobservador" minValue="1" maxValue="10" step="1" range="max" >
+
+                                        </p:slider>
+                                        <p:outputLabel value=" &#62; 7 Vaginosis bacteriana ; 4-6 mixto &#60; Normal"/>
+                                    </div>
+
+                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+
+                                    <div class="field mb-4 col-6">
+                                        <label for="diagnostico" class="font-medium">Resultado cultivo</label>
+                                        <p:selectManyCheckbox id="resultadocultivo" value="#{analisisFaces.resultadocultivoSelectedString}" layout="responsive" columns="2" styleClass="grid-checkbox"
+                                                              >
+                                            <f:selectItems value="#{analisisFaces.resultadocultivos}" var="resultadocultivo"
+                                                           itemLabel="#{resultadocultivo.resultadocultivo}" itemValue="#{resultadocultivo.resultadocultivo}"/>
+                                        </p:selectManyCheckbox>
+                                    </div>
+
+
+
+                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+
+
+
+                                    <div class="field mb-4 col-12 md:col-6">
+                                        <label class="font-medium">Imagen Tinción Gram 1</label>
+                                        <div class="flex align-items-center">
+                                            <p:graphicImage value="#{imageView1.image}"
+                                                            style="width:200px;width:200px;display: block;  border-radius: 10px;"
+                                                            cache="false"
+                                                            styleClass="mr-4"
+                                                            id="file1"/>
+                                            <p:fileUpload listener="#{analisisFaces.fileUploadListener1}"
+
+                                                          skinSimple="true"
+                                                          mode="simple"
+                                                          title="#{msg['fileupload.extension']}"
+                                                          uploadIcon="pi pi-fw pi-upload"
+                                                          label="#{core['button.file']}"
+                                                          uploadLabel="#{core['button.upload']}"
+                                                          cancelLabel="#{core['button.uploadcancell']}"
+                                                          sizeLimit="12800000"
+                                                          allowTypes="/(\.|\/)(gif|jpe?g|png|docx?|pdf|txt|json|xml|xls|xlsx|txt|cvs|dot)$/"
+                                                          validateContentType="true"
+                                                          invalidFileMessage="#{core['fileupload.filetypeinvalido']}"
+                                                          invalidSizeMessage="#{core['fileupload.tamanoinvalido']}"
+                                                          auto="true"
+                                                          update=":form:growl, file1"/>
+                                        </div>
+                                    </div> 
+                                    <div class="field mb-4 col-12 md:col-6">
+                                        <label class="font-medium">Imagen Tinción Gram 2</label>
+                                        <div class="flex align-items-center">
+                                            <p:graphicImage value="#{imageView2.image}"
+                                                            style="width:200px;width:200px;display: block;  border-radius: 10px;"
+                                                            cache="false"
+                                                            styleClass="mr-4"
+                                                            id="file2"/>
+                                            <p:fileUpload listener="#{analisisFaces.fileUploadListener2}"
+
+                                                          skinSimple="true"
+                                                          mode="simple"
+                                                          title="#{msg['fileupload.extension']}"
+                                                          uploadIcon="pi pi-fw pi-upload"
+                                                          label="#{core['button.file']}"
+                                                          uploadLabel="#{core['button.upload']}"
+                                                          cancelLabel="#{core['button.uploadcancell']}"
+                                                          sizeLimit="12800000"
+                                                          allowTypes="/(\.|\/)(gif|jpe?g|png|docx?|pdf|txt|json|xml|xls|xlsx|txt|cvs|dot)$/"
+                                                          validateContentType="true"
+                                                          invalidFileMessage="#{core['fileupload.filetypeinvalido']}"
+                                                          invalidSizeMessage="#{core['fileupload.tamanoinvalido']}"
+                                                          auto="true"
+                                                          update=":form:growl, file2"/>
+                                        </div>
+                                    </div> 
+
+                                    <div class="field mb-4 col-12 md:col-6">
+                                        <label class="font-medium">Imagen Tinción Gram 3</label>
+                                        <div class="flex align-items-center">
+                                            <p:graphicImage value="#{imageView3.image}"
+                                                            style="width:200px;width:200px;display: block;  border-radius: 10px;"
+                                                            cache="false"
+                                                            styleClass="mr-4" 
+                                                            id="file3"/>
+                                            <p:fileUpload listener="#{analisisFaces.fileUploadListener3}"
+
+                                                          skinSimple="true"
+                                                          mode="simple"
+                                                          title="#{msg['fileupload.extension']}"
+                                                          uploadIcon="pi pi-fw pi-upload"
+                                                          label="#{core['button.file']}"
+                                                          uploadLabel="#{core['button.upload']}"
+                                                          cancelLabel="#{core['button.uploadcancell']}"
+                                                          sizeLimit="12800000"
+                                                          allowTypes="/(\.|\/)(gif|jpe?g|png|docx?|pdf|txt|json|xml|xls|xlsx|txt|cvs|dot)$/"
+                                                          validateContentType="true"
+                                                          invalidFileMessage="#{core['fileupload.filetypeinvalido']}"
+                                                          invalidSizeMessage="#{core['fileupload.tamanoinvalido']}"
+                                                          auto="true"
+                                                          update=":form:growl, file3"/>
+                                        </div>
+                                    </div> 
+
+                                    <div class="field mb-4 col-12 md:col-6">
+                                        <label class="font-medium">Imagen Tinción Gram 4</label>
+                                        <div class="flex align-items-center">
+                                            <p:graphicImage value="#{imageView4.image}"
+                                                            style="width:200px;width:200px;display: block;  border-radius: 10px;"
+                                                            cache="false"
+                                                            styleClass="mr-4"
+                                                            id="file4"/>
+                                            <p:fileUpload listener="#{analisisFaces.fileUploadListener4}"
+
+                                                          skinSimple="true"
+                                                          mode="simple"
+                                                          title="#{msg['fileupload.extension']}"
+                                                          uploadIcon="pi pi-fw pi-upload"
+                                                          label="#{core['button.file']}"
+                                                          uploadLabel="#{core['button.upload']}"
+                                                          cancelLabel="#{core['button.uploadcancell']}"
+                                                          sizeLimit="12800000"
+                                                          allowTypes="/(\.|\/)(gif|jpe?g|png|docx?|pdf|txt|json|xml|xls|xlsx|txt|cvs|dot)$/"
+                                                          validateContentType="true"
+                                                          invalidFileMessage="#{core['fileupload.filetypeinvalido']}"
+                                                          invalidSizeMessage="#{core['fileupload.tamanoinvalido']}"
+                                                          auto="true"
+                                                          update=":form:growl, file4"/>
+                                        </div>
+                                    </div> 
+
+
+
+                                    <div class="field mb-4 col-12 md:col-6">
+                                        <label class="font-medium">Imagen Tinción Gram 5</label>
+                                        <div class="flex align-items-center">
+                                            <p:graphicImage value="#{imageView5.image}"
+                                                            style="width:200px;width:200px;display: block;  border-radius: 10px;"
+                                                            cache="false"
+                                                            styleClass="mr-4"
+                                                            id="file5"/>
+                                            <p:fileUpload listener="#{analisisFaces.fileUploadListener5}"
+
+                                                          skinSimple="true"
+                                                          mode="simple"
+                                                          title="#{msg['fileupload.extension']}"
+                                                          uploadIcon="pi pi-fw pi-upload"
+                                                          label="#{core['button.file']}"
+                                                          uploadLabel="#{core['button.upload']}"
+                                                          cancelLabel="#{core['button.uploadcancell']}"
+                                                          sizeLimit="12800000"
+                                                          allowTypes="/(\.|\/)(gif|jpe?g|png|docx?|pdf|txt|json|xml|xls|xlsx|txt|cvs|dot)$/"
+                                                          validateContentType="true"
+                                                          invalidFileMessage="#{core['fileupload.filetypeinvalido']}"
+                                                          invalidSizeMessage="#{core['fileupload.tamanoinvalido']}"
+                                                          auto="true"
+                                                          update=":form:growl, file5"/>
+                                        </div>
+                                    </div> 
+
+
+                                    <div class="field mb-4 col-12 md:col-6">
+                                        <label class="font-medium">Imagen Tinción Gram 6</label>
+                                        <div class="flex align-items-center">
+                                            <p:graphicImage value="#{imageView6.image}"
+                                                            style="width:200px;width:200px;display: block;  border-radius: 10px;"
+                                                            cache="false"
+                                                            styleClass="mr-4"
+                                                            id="file6"/>
+                                            <p:fileUpload listener="#{analisisFaces.fileUploadListener6}"
+
+                                                          skinSimple="true"
+                                                          mode="simple"
+                                                          title="#{msg['fileupload.extension']}"
+                                                          uploadIcon="pi pi-fw pi-upload"
+                                                          label="#{core['button.file']}"
+                                                          uploadLabel="#{core['button.upload']}"
+                                                          cancelLabel="#{core['button.uploadcancell']}"
+                                                          sizeLimit="12800000"
+                                                          allowTypes="/(\.|\/)(gif|jpe?g|png|docx?|pdf|txt|json|xml|xls|xlsx|txt|cvs|dot)$/"
+                                                          validateContentType="true"
+                                                          invalidFileMessage="#{core['fileupload.filetypeinvalido']}"
+                                                          invalidSizeMessage="#{core['fileupload.tamanoinvalido']}"
+                                                          auto="true"
+                                                          update=":form:growl, file6"/>
+                                        </div>
+                                    </div> 
+
+                                    <div class="field mb-4 col-12 md:col-6">
+                                        <label class="font-medium">Imagen Tinción Gram 7</label>
+                                        <div class="flex align-items-center">
+                                            <p:graphicImage value="#{imageView7.image}"
+                                                            style="width:200px;width:200px;display: block;  border-radius: 10px;"
+                                                            cache="false"
+                                                            styleClass="mr-4"
+                                                            id="file7"/>
+                                            <p:fileUpload listener="#{analisisFaces.fileUploadListener7}"
+
+                                                          skinSimple="true"
+                                                          mode="simple"
+                                                          title="#{msg['fileupload.extension']}"
+                                                          uploadIcon="pi pi-fw pi-upload"
+                                                          label="#{core['button.file']}"
+                                                          uploadLabel="#{core['button.upload']}"
+                                                          cancelLabel="#{core['button.uploadcancell']}"
+                                                          sizeLimit="12800000"
+                                                          allowTypes="/(\.|\/)(gif|jpe?g|png|docx?|pdf|txt|json|xml|xls|xlsx|txt|cvs|dot)$/"
+                                                          validateContentType="true"
+                                                          invalidFileMessage="#{core['fileupload.filetypeinvalido']}"
+                                                          invalidSizeMessage="#{core['fileupload.tamanoinvalido']}"
+                                                          auto="true"
+                                                          update=":form:growl, file7"/>
+                                        </div>
+                                    </div> 
+
+
+                                    <div class="field mb-4 col-12 md:col-6">
+                                        <label class="font-medium">Imagen Tinción Gram 8</label>
+                                        <div class="flex align-items-center">
+                                            <p:graphicImage value="#{imageView8.image}"
+                                                            style="width:200px;width:200px;display: block;  border-radius: 10px;"
+                                                            cache="false"
+                                                            styleClass="mr-4"
+                                                            id="file8"/>
+                                            <p:fileUpload listener="#{analisisFaces.fileUploadListener8}"
+
+                                                          skinSimple="true"
+                                                          mode="simple"
+                                                          title="#{msg['fileupload.extension']}"
+                                                          uploadIcon="pi pi-fw pi-upload"
+                                                          label="#{core['button.file']}"
+                                                          uploadLabel="#{core['button.upload']}"
+                                                          cancelLabel="#{core['button.uploadcancell']}"
+                                                          sizeLimit="12800000"
+                                                          allowTypes="/(\.|\/)(gif|jpe?g|png|docx?|pdf|txt|json|xml|xls|xlsx|txt|cvs|dot)$/"
+                                                          validateContentType="true"
+                                                          invalidFileMessage="#{core['fileupload.filetypeinvalido']}"
+                                                          invalidSizeMessage="#{core['fileupload.tamanoinvalido']}"
+                                                          auto="true"
+                                                          update=":form:growl, file8"/>
+                                        </div>
+                                    </div> 
+
+                                    <div class="field mb-4 col-12 md:col-6">
+                                        <label class="font-medium">Imagen Tinción Gram 9</label>
+                                        <div class="flex align-items-center">
+                                            <p:graphicImage value="#{imageView9.image}"
+                                                            style="width:200px;width:200px;display: block;  border-radius: 10px;"
+                                                            cache="false"
+                                                            styleClass="mr-4"
+                                                            id="file9"/>
+                                            <p:fileUpload listener="#{analisisFaces.fileUploadListener9}"
+
+                                                          skinSimple="true"
+                                                          mode="simple"
+                                                          title="#{msg['fileupload.extension']}"
+                                                          uploadIcon="pi pi-fw pi-upload"
+                                                          label="#{core['button.file']}"
+                                                          uploadLabel="#{core['button.upload']}"
+                                                          cancelLabel="#{core['button.uploadcancell']}"
+                                                          sizeLimit="12800000"
+                                                          allowTypes="/(\.|\/)(gif|jpe?g|png|docx?|pdf|txt|json|xml|xls|xlsx|txt|cvs|dot)$/"
+                                                          validateContentType="true"
+                                                          invalidFileMessage="#{core['fileupload.filetypeinvalido']}"
+                                                          invalidSizeMessage="#{core['fileupload.tamanoinvalido']}"
+                                                          auto="true"
+                                                          update=":form:growl, file9"/>
+                                        </div>
+                                    </div> 
+                                    <div class="field mb-4 col-12 md:col-6">
+                                        <label class="font-medium">Imagen Tinción Gram 10</label>
+                                        <div class="flex align-items-center">
+                                            <p:graphicImage value="#{imageView10.image}"
+                                                            style="width:200px;width:200px;display: block;  border-radius: 10px;"
+                                                            cache="false"
+                                                            styleClass="mr-4"
+                                                            id="file10"/>
+                                            <p:fileUpload listener="#{analisisFaces.fileUploadListener10}"
+
+                                                          skinSimple="true"
+                                                          mode="simple"
+                                                          title="#{msg['fileupload.extension']}"
+                                                          uploadIcon="pi pi-fw pi-upload"
+                                                          label="#{core['button.file']}"
+                                                          uploadLabel="#{core['button.upload']}"
+                                                          cancelLabel="#{core['button.uploadcancell']}"
+                                                          sizeLimit="12800000"
+                                                          allowTypes="/(\.|\/)(gif|jpe?g|png|docx?|pdf|txt|json|xml|xls|xlsx|txt|cvs|dot)$/"
+                                                          validateContentType="true"
+                                                          invalidFileMessage="#{core['fileupload.filetypeinvalido']}"
+                                                          invalidSizeMessage="#{core['fileupload.tamanoinvalido']}"
+                                                          auto="true"
+                                                          update=":form:growl, file10"/>
+                                        </div>
+                                    </div> 
+
+
+
+
+
+
+
+                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+
+
+
+                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+
+                                    <div class="field mb-4 col-12 md:col-6">
+                                        <label class="font-medium">¿Imagen 11 cultivo?</label>
+                                        <p:toggleSwitch value="#{analisisFaces.analisisSelected.imagen11cultivo}" itemLabel="Si"/>
+                                    </div>
+
+
+
+                                    <div class="field mb-4 col-12 md:col-6">
+                                        <label class="font-medium">Imagen PLACA recuento levaduras</label>
+                                        <div class="flex align-items-center">
+                                            <p:graphicImage value="#{imageView11.image}"
+                                                            style="width:200px;width:200px;display: block;  border-radius: 10px;"
+                                                            cache="false"
+                                                            styleClass="mr-4"
+                                                            id="file11"/>
+
+                                            <p:fileUpload listener="#{analisisFaces.fileUploadListener11}"
+
+                                                          skinSimple="true"
+                                                          mode="simple"
+                                                          title="#{msg['fileupload.extension']}"
+                                                          uploadIcon="pi pi-fw pi-upload"
+                                                          label="#{core['button.file']}"
+                                                          uploadLabel="#{core['button.upload']}"
+                                                          cancelLabel="#{core['button.uploadcancell']}"
+                                                          sizeLimit="12800000"
+                                                          allowTypes="/(\.|\/)(gif|jpe?g|png|docx?|pdf|txt|json|xml|xls|xlsx|txt|cvs|dot)$/"
+                                                          validateContentType="true"
+                                                          invalidFileMessage="#{core['fileupload.filetypeinvalido']}"
+                                                          invalidSizeMessage="#{core['fileupload.tamanoinvalido']}"
+                                                          auto="true"
+                                                          update=":form:growl, file11"/>
+                                        </div>
+                                    </div> 
+
+
+
+
+
+                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+                                    <p:outputLabel value="Recuento crecimiento de la placa de hongos"/>  
+                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+
+                                    <div class="field mb-4 col-12 md:col-6">
+                                        <label class="font-medium">Información proporcionada por el observador</label>
+
+                                        <p:selectOneRadio id="ecuentocrecimientoplacahongos" value="#{analisisFaces.analisisSelected.recuentocrecimientoplacahongos}"
+                                                          layout="pageDirection">
+
+                                            <f:selectItem itemLabel="No crecimiento" itemValue="No crecimiento"/>
+                                            <f:selectItem itemLabel="10^1" itemValue="10^1"/>
+                                            <f:selectItem itemLabel="10^2" itemValue="10^2"/>
+                                            <f:selectItem itemLabel="10^3" itemValue="10^3"/>
+                                            <f:selectItem itemLabel="10^4" itemValue="10^4"/>
+                                            <f:selectItem itemLabel="10^5" itemValue="10^5"/>
+                                        </p:selectOneRadio>
+                                    </div>
+                                    <div class="field mb-4 col-12 md:col-6">
+                                        <label class="font-medium">Calidad de Tinción</label>
+
+                                        <p:selectOneMenu filter="true" filterMatchMode="startsWith" value="#{analisisFaces.analisisSelected.calidadtincion}">
+                                            <f:selectItem itemLabel="Seleccione" itemValue=""/>
+                                            <f:selectItem itemLabel="Buena" itemValue="Buena"/>
+                                            <f:selectItem itemLabel="Regular" itemValue="Regular"/>
+                                            <f:selectItem itemLabel="Mala" itemValue="Mala"/>
+
+
+
+                                        </p:selectOneMenu>
+                                    </div>
+
+
+
+                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+
+                                    <div class="field mb-4 col-12 md:col-6">
+                                        <label class="font-medium">Cultivo orina</label>
+                                        <p:selectOneMenu filter="true" filterMatchMode="startsWith" value="#{analisisFaces.analisisSelected.cultivoorina}" >
+                                            <f:selectItem itemLabel="Seleccione" itemValue=""/>
+                                            <f:selectItem itemLabel="No pedido" itemValue="No pedido"/>
+                                            <f:selectItem itemLabel="Negativo" itemValue="Negativo"/>
+                                            <f:selectItem itemLabel="Contaminada" itemValue="Contaminada"/>
+                                            <f:selectItem itemLabel="Positivo" itemValue="Positivo"/>
+
+
+                                        </p:selectOneMenu>
+                                    </div>
+
+
+                                    <div class="field mb-4 col-12 md:col-6">
+                                        <p:outputLabel value="Imagen con potencial discrepancia observador"/> 
+                                        <label class="font-medium">Indicar si existe discrepancia con el informe realizado por los técnicos en SERVOLAB</label>
+                                        <p:selectOneMenu filter="true" filterMatchMode="startsWith" value="#{analisisFaces.analisisSelected.imagencondiscrepancia}">
+                                            <f:selectItem itemLabel="Seleccione" itemValue=""/>
+                                            <f:selectItem itemLabel="No" itemValue="No"/>
+                                            <f:selectItem itemLabel="Si" itemValue="Si"/>
+
+
+                                        </p:selectOneMenu>
+                                    </div>
+
+
+
+
+
+
+
+                                    <div class="surface-border border-top-1 opacity-50 mb-3 col-12"></div>
+                                    <div class="col-12">
+                                        <p:commandButton action="#{analisisFaces.save(analisisFaces.analisisSelected)}" value="Save Changes" 
+                                                         update=":form:growl"
+                                                         styleClass="w-auto mt-3"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--</pb:blockViewer>-->
+
+
+
+                        <!--                        <scrum:proyectosprivados/>
+
+                        <scrum:proyectosforeanos/>-->
+
+                        <!--<scrum:teammenberstimeline/>-->
+
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+        </h:form>
+        <h:form id="formaccessdenied" prependId="false"    
+                rendered="!#{p:ifAnyGranted('COLABORADOR,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
+
+            <jmoordbcorejsf:accessdenied/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -664,39 +664,39 @@ public class DashboardFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagi
             dialogVisibleAddWebSocket = Boolean.FALSE;
             userViewList = new ArrayList<>();
             timelineList = new ArrayList<>();
-
-            proyectoSprintOpenList = proyectoServices.cargarProyectosPrivadosConSprintAbierto(userLogged);
-            proyectoSprintOpenForaneoList = proyectoServices.cargarProyectosPublicosNoAsignadosConSprintAbierto(userLogged);
+//
+//            proyectoSprintOpenList = proyectoServices.cargarProyectosPrivadosConSprintAbierto(userLogged);
+//            proyectoSprintOpenForaneoList = proyectoServices.cargarProyectosPublicosNoAsignadosConSprintAbierto(userLogged);
 
 //            sprintSelected = new Sprint();
             message = "";
-            if (showMiembrosEquipoDashboardPrincipal.get()) {
-                if (proyectoSprintOpenList == null || proyectoSprintOpenList.isEmpty()) {
-                } else {
-                    userViewList = userViewServices.generateUserViewAllListSprintOpen(proyectoSprintOpenList, userViewList);
-                }
-            }
+//            if (showMiembrosEquipoDashboardPrincipal.get()) {
+//                if (proyectoSprintOpenList == null || proyectoSprintOpenList.isEmpty()) {
+//                } else {
+//                    userViewList = userViewServices.generateUserViewAllListSprintOpen(proyectoSprintOpenList, userViewList);
+//                }
+//            }
 
-            if (showEstadisticasProyectoDashboardPrincipal.get()) {
-                proyectoEstadisticaList = proyectoServices.cargarProyectoEstadisticaSprintOpen(proyectoSprintOpenList);
+//            if (showEstadisticasProyectoDashboardPrincipal.get()) {
+//                proyectoEstadisticaList = proyectoServices.cargarProyectoEstadisticaSprintOpen(proyectoSprintOpenList);
+//
+//                totalesTarjetasEstadistica = tarjetaServices.calcularTotalesTarjetasEstadistica(userLogged.getIduser(), proyectoSprintOpenList);
+//            }
 
-                totalesTarjetasEstadistica = tarjetaServices.calcularTotalesTarjetasEstadistica(userLogged.getIduser(), proyectoSprintOpenList);
-            }
-
-            if (showNotificacionesDashboardPrincipal.get()) {
-                /**
-                 * Cargar la lista de notificaciones
-                 */
-                notificacionProyectoList = notificacionProyectoServices.findByUserAndVisto(userLogged, false);
-            }
-
-            if (showTimelineDashboardPrincipal.get()) {
-                /**
-                 * Carga el timeline el ultimo evento de cada proyecto
-                 */
-                timelineList = timelineServices.findByProyectoAndActiveSprintOpen(proyectoSprintOpenList, Boolean.TRUE);
-
-            }
+//            if (showNotificacionesDashboardPrincipal.get()) {
+//                /**
+//                 * Cargar la lista de notificaciones
+//                 */
+//                notificacionProyectoList = notificacionProyectoServices.findByUserAndVisto(userLogged, false);
+//            }
+//
+//            if (showTimelineDashboardPrincipal.get()) {
+//                /**
+//                 * Carga el timeline el ultimo evento de cada proyecto
+//                 */
+//                timelineList = timelineServices.findByProyectoAndActiveSprintOpen(proyectoSprintOpenList, Boolean.TRUE);
+//
+//            }
 
             PrimeFaces.current().ajax().update("form");
         } catch (Exception e) {
