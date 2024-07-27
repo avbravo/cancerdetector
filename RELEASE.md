@@ -5,7 +5,10 @@
 - [] Eliminar los rest que no se usan
 
 
-
+- [] Usar Helidon
+- [] Quarkus
+- [] Imagen nativa
+- [] Pruebas de rendimiento
 
 ---
 
