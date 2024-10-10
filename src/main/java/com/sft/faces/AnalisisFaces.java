@@ -486,32 +486,32 @@ public class AnalisisFaces implements Serializable, JmoordbCoreXHTMLUtil, IPagin
         try {
            
             if(analisis.getNhc()== null){
-                FacesUtil.warningDialog(rf.fromMessage("warning.warning"), rf.fromCore("warning.ingresenhc"));
+                FacesUtil.warningDialog(rf.fromMessage("warning.warning"), rf.fromMessage("warning.ingresenhc"));
                 return "";
             }
             if(analisis.getNumeromuestra()== null){
-                FacesUtil.warningDialog(rf.fromMessage("warning.warning"), rf.fromCore("warning.ingresenumeromuestra"));
+                FacesUtil.warningDialog(rf.fromMessage("warning.warning"), rf.fromMessage("warning.ingresenumeromuestra"));
                 return "";
             }
             if(analisis.getEdad()== null){
-                FacesUtil.warningDialog(rf.fromMessage("warning.warning"), rf.fromCore("warning.ingreseedad"));
+                FacesUtil.warningDialog(rf.fromMessage("warning.warning"), rf.fromMessage("warning.ingreseedad"));
                 return "";
             }
             if(motivoSelectedString == null || motivoSelectedString.equals("")){
-                FacesUtil.warningDialog(rf.fromMessage("warning.warning"), rf.fromCore("warning.seleccionemotivo"));
+                FacesUtil.warningDialog(rf.fromMessage("warning.warning"), rf.fromMessage("warning.seleccionemotivo"));
                 return "";
             }
             if(diagnosticoSelectedString == null || diagnosticoSelectedString.equals("")){
-                FacesUtil.warningDialog(rf.fromMessage("warning.warning"), rf.fromCore("warning.seleccionediagnostico"));
+                FacesUtil.warningDialog(rf.fromMessage("warning.warning"), rf.fromMessage("warning.seleccionediagnostico"));
                 return "";
             }
             if(analisis.getCultivoorina() == null || analisis.getCultivoorina().equals("")){
-                FacesUtil.warningDialog(rf.fromMessage("warning.warning"), rf.fromCore("warning.seleccionecultivoorina"));
+                FacesUtil.warningDialog(rf.fromMessage("warning.warning"), rf.fromMessage("warning.seleccionecultivoorina"));
                 return "";
             }
            
             if(analisis.getImagencondiscrepancia()== null || analisis.getImagencondiscrepancia().equals("")){
-                FacesUtil.warningDialog(rf.fromMessage("warning.warning"), rf.fromCore("warning.seleccioneimagencondiscrepancia"));
+                FacesUtil.warningDialog(rf.fromMessage("warning.warning"), rf.fromMessage("warning.seleccioneimagencondiscrepancia"));
                 return "";
             }
             

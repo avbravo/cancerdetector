@@ -16,7 +16,7 @@
         <primefaces.version>14.0.0</primefaces.version>
         
         <primefaces-extensions.version>13.0.2</primefaces-extensions.version>
-         <version.payara>6.2024.7</version.payara>
+         <version.payara>6.2024.9</version.payara>
         <microprofile.version>6.1</microprofile.version>
         <!--<microprofile.version>6.0</microprofile.version>-->
        <microprofile-config-api.version>3.1</microprofile-config-api.version>

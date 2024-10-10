@@ -27,11 +27,11 @@
         <h:form id="form" enctype="multipart/form-data" prependId="false"  rendered="#{p:ifAnyGranted('COLABORADOR,BIOTECNOLOGO,MEDICO,COORDINADOR-FACULTAD, DEVELOPERS,SUPER-USER,DIRECTOR,JEFE-UNIDAD,SUBDIRECTOR-ADMINISTRATIVO, SUBDIRECTOR-INVESTIGACION, SUBDIRECTOR-VIDA-UNIVERSITARIA')}">
             <!--<h:form id="form" enctype="multipart/form-data" prependId="false"  >-->
             <p:growl id="growl"/>
-            <p:remoteCommand name="remoteCommandWebSocketProyecto" action="#{dashboardFaces.refreshFromWebsocket()}"
+<!--            <p:remoteCommand name="remoteCommandWebSocketProyecto" action="#{dashboardFaces.refreshFromWebsocket()}"
                              update="#{dashboardFaces.updateForRemoteWebsocket()}" 
                              oncomplete="#{dashboardFaces.onCompleteWebSocket()}" 
 
-                             />
+                             />-->
 
 
             <!--<div class="block-category-title">#{msg['form.dashboard']}</div>-->
@@ -46,9 +46,6 @@
                     <div class="flex flex-column flex-auto">
                         <scrum:profile/>
 
-<!--                        <div class="col-12 md:col-4" jsf:rendered="#{dashboardFaces.contadorNotificacionesWebsocket gt 0}">
-                            <p:staticMessage severity="warn" summary="#{core['warning.warning']}" detail="#{msg['warning.haynuevoscambiosactualiceformulario']}" style="width: 100%"/>
-                        </div>-->
 
 
                         <div class="p-5 flex flex-column flex-auto">
@@ -62,12 +59,12 @@
                                                 </span>
 
                                                 <div>
-                                                    <p:commandLink class="text-2xl font-medium text-white mb-2"
+<!--                                                    <p:commandLink class="text-2xl font-medium text-white mb-2"
                                                                    value="#{dashboardFaces.totalesTarjetasEstadistica.totalTarjetasPendiente}" 
                                                                    oncomplete="PF('overlayPanelTarjetaView').show('#{component.clientId}')"
                                                                    update=":form, ouputPanelTarjetaView"
                                                                    action="#{dashboardFaces.showTarjetas('pendiente')}"
-                                                                   />
+                                                                   />-->
 
 
                                                 </div>
@@ -84,12 +81,12 @@
 
 
                                                 <div>
-                                                    <p:commandLink class="text-2xl font-medium text-white mb-2"
+<!--                                                    <p:commandLink class="text-2xl font-medium text-white mb-2"
                                                                    value="#{dashboardFaces.totalesTarjetasEstadistica.totalTarjetasProgreso}" 
                                                                    oncomplete="PF('overlayPanelTarjetaView').show('#{component.clientId}')"
                                                                    update=":form, ouputPanelTarjetaView"
                                                                    action="#{dashboardFaces.showTarjetas('progreso')}"
-                                                                   />
+                                                                   />-->
 
 
                                                 </div>
@@ -104,12 +101,12 @@
 
 
                                                 <div>
-                                                    <p:commandLink class="text-2xl font-medium text-white mb-2"
+<!--                                                    <p:commandLink class="text-2xl font-medium text-white mb-2"
                                                                    value="#{dashboardFaces.totalesTarjetasEstadistica.totalTarjetasFinalizado}" 
                                                                    oncomplete="PF('overlayPanelTarjetaView').show('#{component.clientId}')"
                                                                    update=":form, ouputPanelTarjetaView"
                                                                    action="#{dashboardFaces.showTarjetas('finalizado')}"
-                                                                   />
+                                                                   />-->
 
 
                                                 </div>
@@ -127,12 +124,12 @@
 
 
                                                 <div>
-                                                    <p:commandLink class="text-2xl font-medium text-white mb-2"
+<!--                                                    <p:commandLink class="text-2xl font-medium text-white mb-2"
                                                                    value="#{dashboardFaces.totalesTarjetasEstadistica.totalTarjetasBacklog}" 
                                                                    oncomplete="PF('overlayPanelTarjetaView').show('#{component.clientId}')"
                                                                    update=":form, ouputPanelTarjetaView"
                                                                    action="#{dashboardFaces.showTarjetas('backlog')}"
-                                                                   />
+                                                                   />-->
 
 
                                                 </div>
