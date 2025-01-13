@@ -31,7 +31,7 @@
         <version.jmoordbfaces>1.5.1</version.jmoordbfaces>
         <version.jmoordbutilfaces>3.4</version.jmoordbutilfaces>
         <version.jmoordbencripter>2.0</version.jmoordbencripter>
-        <version.jmoordb-core-annotations>2.0.0</version.jmoordb-core-annotations>
+        <version.jmoordb-core-annotations>2.0.2</version.jmoordb-core-annotations>
     
         
       
