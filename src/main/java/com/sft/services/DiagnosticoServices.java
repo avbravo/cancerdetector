@@ -15,31 +15,21 @@ import org.bson.conversions.Bson;
  * @author avbravo
  */
 public interface DiagnosticoServices {
-        public List<Diagnostico> findAll();
-        public Optional<Diagnostico> findByIddiagnostico( Long iddiagnostico);
-       public Optional<Diagnostico> findByDiagnostico(String diagnostico) ;
-  
-    public Optional<Diagnostico> save( Diagnostico diagnostico);
 
-   
+    public List<Diagnostico> findAll();
+
+    public Optional<Diagnostico> findByIddiagnostico(Long iddiagnostico);
+
+    public Optional<Diagnostico> findByDiagnostico(String diagnostico);
+
+    public Optional<Diagnostico> save(Diagnostico diagnostico);
 
     public Boolean update(Diagnostico diagnostico);
 
-
-   
-
     public Boolean delete(Long iddiagnostico);
 
-   
-    public List<Diagnostico> lookup( Bson filter, Document sort, Integer page, Integer size);
+    public List<Diagnostico> lookup(Bson filter, Document sort, Integer page, Integer size);
+
     public Long count(Bson filter, Document sort, Integer page, Integer size);
-    
-//    
-//     public Long countLikeByDiagnostico(String diagnostico);
-//    
-//    // <editor-fold defaultstate="collapsed" desc="List<Diagnostico> likeByDiagnostico( String diagnosticoview)">
-//    public List<Diagnostico> likeByDiagnostico( String diagnostico);
-//    // </editor-fold>
-//    
-//      public Boolean existsDiagnostico(Diagnostico diagnostico);
+
 }

@@ -15,31 +15,21 @@ import org.bson.conversions.Bson;
  * @author avbravo
  */
 public interface EtiquetadoimagenServices {
-        public List<Etiquetadoimagen> findAll();
-        public Optional<Etiquetadoimagen> findByIdetiquetadoimagen( Long idetiquetadoimagen);
-       public Optional<Etiquetadoimagen> findByEtiquetadoimagen(String etiquetadoimagen) ;
-  
-    public Optional<Etiquetadoimagen> save( Etiquetadoimagen etiquetadoimagen);
 
-   
+    public List<Etiquetadoimagen> findAll();
+
+    public Optional<Etiquetadoimagen> findByIdetiquetadoimagen(Long idetiquetadoimagen);
+
+    public Optional<Etiquetadoimagen> findByEtiquetadoimagen(String etiquetadoimagen);
+
+    public Optional<Etiquetadoimagen> save(Etiquetadoimagen etiquetadoimagen);
 
     public Boolean update(Etiquetadoimagen etiquetadoimagen);
 
-
-   
-
     public Boolean delete(Long idetiquetadoimagen);
 
-   
-    public List<Etiquetadoimagen> lookup( Bson filter, Document sort, Integer page, Integer size);
+    public List<Etiquetadoimagen> lookup(Bson filter, Document sort, Integer page, Integer size);
+
     public Long count(Bson filter, Document sort, Integer page, Integer size);
-    
-//    
-//     public Long countLikeByEtiquetadoimagen(String etiquetadoimagen);
-//    
-//    // <editor-fold defaultstate="collapsed" desc="List<Etiquetadoimagen> likeByEtiquetadoimagen( String etiquetadoimagenview)">
-//    public List<Etiquetadoimagen> likeByEtiquetadoimagen( String etiquetadoimagen);
-//    // </editor-fold>
-//    
-//      public Boolean existsEtiquetadoimagen(Etiquetadoimagen etiquetadoimagen);
+
 }

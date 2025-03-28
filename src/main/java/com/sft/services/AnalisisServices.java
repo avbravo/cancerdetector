@@ -34,12 +34,5 @@ public interface AnalisisServices {
     public List<Analisis> lookup( Bson filter, Document sort, Integer page, Integer size);
     public Long count(Bson filter, Document sort, Integer page, Integer size);
     
-//    
-//     public Long countLikeByAnalisis(String analisis);
-//    
-//    // <editor-fold defaultstate="collapsed" desc="List<Analisis> likeByAnalisis( String analisisview)">
-//    public List<Analisis> likeByAnalisis( String analisis);
-//    // </editor-fold>
-//    
-//      public Boolean existsAnalisis(Analisis analisis);
+
 }

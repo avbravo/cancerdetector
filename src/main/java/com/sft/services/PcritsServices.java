@@ -15,31 +15,21 @@ import org.bson.conversions.Bson;
  * @author avbravo
  */
 public interface PcritsServices {
-        public List<Pcrits> findAll();
-        public Optional<Pcrits> findByIdpcrits( Long idpcrits);
-       public Optional<Pcrits> findByPcrits(String pcrits) ;
-  
-    public Optional<Pcrits> save( Pcrits pcrits);
 
-   
+    public List<Pcrits> findAll();
+
+    public Optional<Pcrits> findByIdpcrits(Long idpcrits);
+
+    public Optional<Pcrits> findByPcrits(String pcrits);
+
+    public Optional<Pcrits> save(Pcrits pcrits);
 
     public Boolean update(Pcrits pcrits);
 
-
-   
-
     public Boolean delete(Long idpcrits);
 
-   
-    public List<Pcrits> lookup( Bson filter, Document sort, Integer page, Integer size);
+    public List<Pcrits> lookup(Bson filter, Document sort, Integer page, Integer size);
+
     public Long count(Bson filter, Document sort, Integer page, Integer size);
-    
-//    
-//     public Long countLikeByPcrits(String pcrits);
-//    
-//    // <editor-fold defaultstate="collapsed" desc="List<Pcrits> likeByPcrits( String pcritsview)">
-//    public List<Pcrits> likeByPcrits( String pcrits);
-//    // </editor-fold>
-//    
-//      public Boolean existsPcrits(Pcrits pcrits);
+
 }
