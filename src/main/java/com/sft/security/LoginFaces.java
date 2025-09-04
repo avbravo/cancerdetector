@@ -221,7 +221,22 @@ public class LoginFaces implements Serializable, LoginValidateServices, JmoordbC
     private FacesContext facesContext;
 // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="metodo()">
+
+    public User getUserLogged() {
+        return userLogged;
+    }
+
+    public void setUserLogged(User userLogged) {
+        this.userLogged = userLogged;
+    }
+    
+    
+// </editor-fold>
+    
     /**
+     * c
+     * 
      * Creates a new instance of LoginFaces
      */
     public LoginFaces() {

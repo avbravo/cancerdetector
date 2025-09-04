@@ -188,6 +188,22 @@ public class PerfilFaces implements Serializable, JmoordbCoreXHTMLUtil, IPaginat
     }
 
     // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="set/get()">
+    public User getUserLogged() {
+        return userLogged;
+    }
+
+    public void setUserLogged(User userLogged) {
+        this.userLogged = userLogged;
+    }
+// </editor-fold>
+
+    
+    
+    
+    
+    
     // <editor-fold defaultstate="collapsed" desc="@Inject">
     
     @Inject
@@ -200,6 +216,10 @@ public class PerfilFaces implements Serializable, JmoordbCoreXHTMLUtil, IPaginat
     JmoordbCoreMediaContext jmoordbCoreMediaContext;
 
 // </editor-fold>
+    
+    
+    
+    
 // <editor-fold defaultstate="collapsed" desc="Services">
     @Inject
     CentralViewServices centralViewServices;

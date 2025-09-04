@@ -13,7 +13,7 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <jakartaee>10.0.0</jakartaee>
         <!--<primefaces.version>13.0.3</primefaces.version>-->
-        <primefaces.version>14.0.0</primefaces.version>
+        <primefaces.version>14.0.0</primefaces.version> 
         
         <primefaces-extensions.version>13.0.2</primefaces-extensions.version>
          <version.payara>6.2025.9</version.payara>
